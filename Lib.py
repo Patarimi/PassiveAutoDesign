@@ -27,12 +27,12 @@ def Cc_geo(W, n, di, eps_r, d):
 def StdDev(Mes, Target):
     Ml = Mes.size
     if(Ml==Target.size):
-        D = np.zeros([Ml-1, 1])
+        D = np.zeros((Ml, 1))
         for t in range(Ml):
             D[t] = ((Mes[t]-Target[t])/(Mes[t]+Target[t]))**2
-            return np.sqrt(np.sum(D))
+        return np.sqrt(np.sum(D))
     else:
-        return 0
+        return 100
     
 def borne(a, Max, Min):
     return np.max([Min, np.min([a, Max])])
