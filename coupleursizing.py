@@ -6,7 +6,7 @@ Created on Thu Apr 25 15:04:53 2019
 """
 
 import numpy as np
-from scipy.optimize import dual_annealing, Bounds
+from scipy.optimize import dual_annealing
 import matplotlib.pyplot as plt
 import Lib as li
 
@@ -22,6 +22,7 @@ k=0.9           #couplage des inductances
 x_max = (12e-6,                 4,              2*do_targ,          12e-6)
 x_min = (2e-6,                  1,              2e-6,               2.1e-6)
 
+#constantes physiques
 eps_r = 4.3 #permitivité relative du silicium
 d = 1.35e-6 #distance entre les deux inductances
 
