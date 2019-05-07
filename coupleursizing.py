@@ -48,7 +48,7 @@ res = minimize(Cost, x0, method='nelder-mead', options={'xtol': 1e-8, 'disp': Tr
 
 W = res.x[0]
 G = 2.1e-6
-n = res.x[1]
+n = np.round(res.x[1])
 di= res.x[2]
 L = li.L_geo(W, G, n, di)
 Cc = li.Cc_geo(W, n, di, eps_r, d)
