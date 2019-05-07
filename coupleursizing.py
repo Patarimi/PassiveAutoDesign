@@ -14,31 +14,24 @@ import Lib as li
 F_targ = 40e9     #fréquence de fonctionnement souhaitée
 Z_targ = 50.0        #impédance caractéristique
 do_targ = 300e-6 #diamètre externe maximum des bobines
-W_min = 2e-6
-W_max = 12e-6
-n_min = 1
-n_max=4         #nombre de tours maximum des bobines
-di_min = 2e-6
-di_max = 2*do_targ
 
 k=0.9           #couplage des inductances
 
 #initialisation
-x0 = [W_min + np.random.random()*(W_max-W_min),     #largeur de la piste
-      np.random.randint(n_min, n_max),              #nombre de tour
-      di_min + np.random.random()*(di_max-di_min)]  #diamètre interne
+#x0 = [#largeur de la piste, #nombre de tour, #diamètre interne]
+x_max = np.array([12e-6, 4, 2*do_targ]) #limite haute des paramètres
+x_min = np.array([2e-6, 1, 2e-6])       #limite basse
+x0 = x_min + np.random.random((1,3))*(x_max-x_min)
 
 eps_r = 4.3 #permitivité relative du silicium
 G = 2.1e-6  #espace inter-tour
 d = 1.35e-6 #distance entre les deux inductances
 
 def Cost(x):
-    W = x[0]
-    G = 2.1e-6
-    n = np.round(x[1])
-    di=x[2]
-    L = li.L_geo(W, G, n, di)
-    Cc = li.Cc_geo(W, n, di, eps_r, d)
+    x = li.borne(x, x_max, x_min)
+    x[1] = np.round(x[1])
+    L = li.L_geo(x[0], G, x[1], x[2])
+    Cc = li.Cc_geo(x[0], x[1], x[2], eps_r, d)
     F_eff = li.F_c(L, Cc, k)
     Z_eff = li.Z_c(L, Cc)
     return li.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
