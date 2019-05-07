@@ -18,17 +18,16 @@ do_targ = 300e-6 #diamètre externe maximum des bobines
 k=0.9           #couplage des inductances
 
 #limites
-#x0 = (#largeur de la piste, #nombre de tour, #diamètre interne)
-x_max = (12e-6,                 4,              2*do_targ)
-x_min = (2e-6,                  1,              2e-6)
+#x0 = (#largeur de la piste, #nombre de tour, #diamètre interne, #écart inter-tour)
+x_max = (12e-6,                 4,              2*do_targ,          12e-6)
+x_min = (2e-6,                  1,              2e-6,               2.1e-6)
 
 eps_r = 4.3 #permitivité relative du silicium
-G = 2.1e-6  #espace inter-tour
 d = 1.35e-6 #distance entre les deux inductances
 
 def Cost(x):
     x[1] = np.round(x[1])
-    L = li.L_geo(x[0], G, x[1], x[2])
+    L = li.L_geo(x[0], x[3], x[1], x[2])
     Cc = li.Cc_geo(x[0], x[1], x[2], eps_r, d)
     F_eff = li.F_c(L, Cc, k)
     Z_eff = li.Z_c(L, Cc)
