@@ -42,9 +42,9 @@ def Cost(x):
     Cc = li.Cc_geo(W, n, di, eps_r, d)
     F_eff = li.F_c(L, Cc, k)
     Z_eff = li.Z_c(L, Cc)
-    return li.StdDev(np.array([F_eff, 2*Z_eff]), np.array([F_targ, 2*Z_targ]))
+    return li.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
 
-res = minimize(Cost, x0, method='nelder-mead', options={'xtol': 1e-8, 'disp': True})
+res = minimize(Cost, x0, method='nelder-mead', options={'xtol': 1e-15, 'disp': True})
 
 W = res.x[0]
 G = 2.1e-6
@@ -55,3 +55,4 @@ Cc = li.Cc_geo(W, n, di, eps_r, d)
 do = di + 2*n*W+2*(n-1)*G
 F_eff = li.F_c(L, Cc, k)
 Z_eff = li.Z_c(L, Cc)
+print(Cost(res.x))
