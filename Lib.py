@@ -35,6 +35,10 @@ def StdDev(Mes, Target):
         return 100
     
 def borne(a, Max, Min):
-    return np.max([Min, np.min([a, Max])])
+    al = a.size
+    b = np.zeros((al, 1))
+    for t in range(al):
+        b[t] = np.max([Min[t], np.min([a[t], Max[t]])])
+    return b
     
     
