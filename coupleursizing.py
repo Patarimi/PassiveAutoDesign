@@ -6,7 +6,7 @@ Created on Thu Apr 25 15:04:53 2019
 """
 
 import numpy as np
-from scipy.optimize import minimize
+from scipy.optimize import dual_annealing, Bounds
 import matplotlib.pyplot as plt
 import Lib as li
 
@@ -28,7 +28,6 @@ G = 2.1e-6  #espace inter-tour
 d = 1.35e-6 #distance entre les deux inductances
 
 def Cost(x):
-    x = li.borne(x, x_max, x_min)
     x[1] = np.round(x[1])
     L = li.L_geo(x[0], G, x[1], x[2])
     Cc = li.Cc_geo(x[0], x[1], x[2], eps_r, d)
@@ -36,7 +35,7 @@ def Cost(x):
     Z_eff = li.Z_c(L, Cc)
     return li.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
 
-res = minimize(Cost, x0, method='nelder-mead', options={'xtol': 1e-15, 'disp': True})
+res = dual_annealing(Cost, list(zip(x_min, x_max)))
 
 W = res.x[0]
 G = 2.1e-6
