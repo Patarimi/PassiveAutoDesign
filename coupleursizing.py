@@ -25,8 +25,8 @@ N=10            #nombre maximum d'intération de l'algorithme
 k=0.9           #couplage des inductances
 
 #initialisation
-x0 = [W_min + np.random.random()*(W_max-W_min), 
-      np.random.randint(n_min, n_max),         #nombre de tour
+x0 = [W_min + np.random.random()*(W_max-W_min),     #largeur de la piste
+      np.random.randint(n_min, n_max),              #nombre de tour
       di_min + np.random.random()*(di_max-di_min)]  #diamètre interne
 
 eps_r = 4.3 #permitivité relative du silicium
