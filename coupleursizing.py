@@ -17,11 +17,10 @@ do_targ = 300e-6 #diamètre externe maximum des bobines
 
 k=0.9           #couplage des inductances
 
-#initialisation
-#x0 = [#largeur de la piste, #nombre de tour, #diamètre interne]
-x_max = np.array([12e-6, 4, 2*do_targ]) #limite haute des paramètres
-x_min = np.array([2e-6, 1, 2e-6])       #limite basse
-x0 = x_min + np.random.random((1,3))*(x_max-x_min)
+#limites
+#x0 = (#largeur de la piste, #nombre de tour, #diamètre interne)
+x_max = (12e-6,                 4,              2*do_targ)
+x_min = (2e-6,                  1,              2e-6)
 
 eps_r = 4.3 #permitivité relative du silicium
 G = 2.1e-6  #espace inter-tour
