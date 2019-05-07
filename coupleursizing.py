@@ -21,7 +21,6 @@ n_max=4         #nombre de tours maximum des bobines
 di_min = 2e-6
 di_max = 2*do_targ
 
-N=10            #nombre maximum d'intération de l'algorithme
 k=0.9           #couplage des inductances
 
 #initialisation
