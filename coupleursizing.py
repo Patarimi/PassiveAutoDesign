@@ -34,6 +34,7 @@ def Cost(x):
     return li.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
 
 res = dual_annealing(Cost, list(zip(x_min, x_max)))
+print(res.fun)
 
 print(x_min)
 print("(", end='')
@@ -41,4 +42,3 @@ for num in res.x:
     print("%.2g"%(num), end=' ')
 print(")")
 print(x_max)
-print(Cost(res.x))
