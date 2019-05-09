@@ -36,10 +36,13 @@ def Cost(x):
 
 res = dual_annealing(Cost, list(zip(x_min, x_max)))
 print(res.fun)
+print(res.message)
 
-print(x_min)
-print("(", end='')
-for num in res.x:
-    print("%.2g"%(num), end=' ')
-print(")")
-print(x_max)
+print(f'lower bound : ({x_min[0]:.2e}, {x_min[1]:.2g}, {x_min[2]:.2e}, {x_min[3]:.2e})')
+print(f'best point  : ({res.x[0]:.2e}, {res.x[1]:.2g}, {res.x[2]:.2e}, {res.x[3]:.2e})')
+print(f'lower bound : ({x_max[0]:.2e}, {x_max[1]:.2g}, {x_max[2]:.2e}, {x_max[3]:.2e})')
+
+L = pad.L_geo(res.x[0], res.x[3], res.x[1], res.x[2])
+Cc = pad.Cc_geo(res.x[0], res.x[1], res.x[2], eps_r, d)
+F_eff = pad.F_c(L, Cc, k)
+Z_eff = pad.Z_c(L, Cc)
