@@ -40,12 +40,5 @@ def StdDev(Mes, Target):
         return np.sqrt(np.sum(D))
     else:
         return 100
-    
-def borne(a, Max, Min):
-    al = a.size
-    b = np.zeros((al, 1))
-    for t in range(al):
-        b[t] = np.max([Min[t], np.min([a[t], Max[t]])])
-    return b
 
     
