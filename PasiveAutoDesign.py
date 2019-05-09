@@ -47,5 +47,5 @@ def borne(a, Max, Min):
     for t in range(al):
         b[t] = np.max([Min[t], np.min([a[t], Max[t]])])
     return b
-    
+
     
