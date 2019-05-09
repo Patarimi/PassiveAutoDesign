@@ -25,15 +25,7 @@ eps_r = 4.3#permitivité relative du silicium
 d = 1.5e-6 #distance entre les deux inductances
 k=0.9      #couplage des inductances
 
-def Cost(x):
-    x[1] = np.round(x[1])
-    L = pad.L_geo(x[0], x[3], x[1], x[2])
-    Cc = pad.Cc_geo(x[0], x[1], x[2], eps_r, d)
-    return pad.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
-
-res = dual_annealing(Cost, list(zip(x_min, x_max)), maxiter=2000)
-    F_eff = pad.Coupleur_F_c(L, Cc, k)
-    Z_eff = pad.coupleur_Z_c(L, Cc)
+res = dual_annealing(pad.Coupleur_Cost, list(zip(x_min, x_max)), maxiter=2000, args=(d, eps_r, k, F_targ, Z_targ))
 print(res.fun)
 print(res.message)
 
@@ -43,5 +35,5 @@ print(f'lower bound : ({x_max[0]:.2e}, {x_max[1]:.2g}, {x_max[2]:.2e}, {x_max[3]
 
 L = pad.L_geo(res.x[0], res.x[3], res.x[1], res.x[2])
 Cc = pad.Cc_geo(res.x[0], res.x[1], res.x[2], eps_r, d)
-F_eff = pad.F_c(L, Cc, k)
-Z_eff = pad.Z_c(L, Cc)
+F_eff = pad.Coupleur_F_c(L, Cc, k)
+Z_eff = pad.Coupleur_Z_c(L, Cc)

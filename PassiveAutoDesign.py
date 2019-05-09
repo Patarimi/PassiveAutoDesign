@@ -18,6 +18,14 @@ def Coupleur_Z_c(L, Cc):
     else:
         return np.sqrt(L/Cc)
 
+def Coupleur_Cost(x, d, eps_r, k, F_targ, Z_targ):
+    x[1] = np.round(x[1])
+    L = L_geo(x[0], x[3], x[1], x[2])
+    Cc = Cc_geo(x[0], x[1], x[2], eps_r, d)
+    F_eff = Coupleur_F_c(L, Cc, k)
+    Z_eff = Coupleur_Z_c(L, Cc)
+    return StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
+
 def L_geo(W, G, n, di):
     K1 = 2.25   #constante1 empirique pour inductance
     K2 = 3.55   #constante2 empirique pour inductance
