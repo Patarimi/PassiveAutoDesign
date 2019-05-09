@@ -8,7 +8,7 @@ Created on Thu Apr 25 15:04:53 2019
 import numpy as np
 from scipy.optimize import dual_annealing
 import matplotlib.pyplot as plt
-import Lib as li
+import PassiveAutoDesign as pad
 
 # consignes
 F_targ = 40e9     #fréquence de fonctionnement souhaitée
@@ -28,11 +28,11 @@ d = 1.5e-6 #distance entre les deux inductances
 
 def Cost(x):
     x[1] = np.round(x[1])
-    L = li.L_geo(x[0], x[3], x[1], x[2])
-    Cc = li.Cc_geo(x[0], x[1], x[2], eps_r, d)
-    F_eff = li.F_c(L, Cc, k)
-    Z_eff = li.Z_c(L, Cc)
-    return li.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
+    L = pad.L_geo(x[0], x[3], x[1], x[2])
+    Cc = pad.Cc_geo(x[0], x[1], x[2], eps_r, d)
+    F_eff = pad.F_c(L, Cc, k)
+    Z_eff = pad.Z_c(L, Cc)
+    return pad.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
 
 res = dual_annealing(Cost, list(zip(x_min, x_max)))
 print(res.fun)
