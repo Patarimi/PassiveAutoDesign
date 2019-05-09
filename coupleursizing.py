@@ -34,7 +34,7 @@ def Cost(x):
     Z_eff = pad.Z_c(L, Cc)
     return pad.StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
 
-res = dual_annealing(Cost, list(zip(x_min, x_max)))
+res = dual_annealing(Cost, list(zip(x_min, x_max)), maxiter=2000)
 print(res.fun)
 print(res.message)
 
