@@ -5,7 +5,6 @@ Created on Thu Apr 25 15:04:53 2019
 @author: mpoterea
 """
 
-import numpy as np
 from scipy.optimize import dual_annealing
 import matplotlib.pyplot as plt
 import PassiveAutoDesign as pad
