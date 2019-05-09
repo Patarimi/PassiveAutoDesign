@@ -12,19 +12,18 @@ import PassiveAutoDesign as pad
 
 # consignes
 F_targ = 40e9     #fréquence de fonctionnement souhaitée
-Z_targ = 50.0        #impédance caractéristique
-do_targ = 300e-6 #diamètre externe maximum des bobines
-
-k=0.9           #couplage des inductances
+Z_targ = 50.0     #impédance caractéristique
+do_targ = 300e-6  #diamètre externe maximum des bobines
 
 #limites
 #x0 = (#largeur de la piste, #nombre de tour, #diamètre interne, #écart inter-tour)
-x_max = (12e-6,                 4,              2*do_targ,          12e-6)
+x_max = (20e-6,                 4,              2*do_targ,          12e-6)
 x_min = (2e-6,                  1,              2e-6,               2.1e-6)
 
 #constantes physiques
-eps_r = 4.3 #permitivité relative du silicium
+eps_r = 4.3#permitivité relative du silicium
 d = 1.5e-6 #distance entre les deux inductances
+k=0.9      #couplage des inductances
 
 def Cost(x):
     x[1] = np.round(x[1])
