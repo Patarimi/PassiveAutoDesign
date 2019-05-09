@@ -24,7 +24,7 @@ x_min = (2e-6,                  1,              2e-6,               2.1e-6)
 
 #constantes physiques
 eps_r = 4.3 #permitivité relative du silicium
-d = 1.35e-6 #distance entre les deux inductances
+d = 1.5e-6 #distance entre les deux inductances
 
 def Cost(x):
     x[1] = np.round(x[1])
