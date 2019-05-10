@@ -50,7 +50,7 @@ def StdDev(Mes, Target):
     if(Ml==Target.size):
         D = np.zeros((Ml, 1))
         for t in range(Ml):
-            D[t] = ((Mes[t]-Target[t])/(Mes[t]+Target[t]))**2
+            D[t] = np.abs((Mes[t]-Target[t])/(Mes[t]+Target[t]))**2
         return np.sqrt(np.sum(D))
     else:
         return 100
