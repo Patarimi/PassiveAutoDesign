@@ -25,12 +25,13 @@ d = 1.5e-6 #distance entre les deux inductances
 k=0.9      #couplage des inductances
 
 res = dual_annealing(pad.Coupleur_Cost, list(zip(x_min, x_max)), maxiter=2000, args=(d, eps_r, k, F_targ, Z_targ))
-print(res.fun)
-print(res.message)
 
-print(f'lower bound : ({x_min[0]:.2e}, {x_min[1]:.2g}, {x_min[2]:.2e}, {x_min[3]:.2e})')
-print(f'best point  : ({res.x[0]:.2e}, {res.x[1]:.2g}, {res.x[2]:.2e}, {res.x[3]:.2e})')
-print(f'lower bound : ({x_max[0]:.2e}, {x_max[1]:.2g}, {x_max[2]:.2e}, {x_max[3]:.2e})')
+print(f'Solution funds with remaining error of: {res.fun:.2e}')
+print('Termination message of algorithm: '+str(res.message))
+print(f'\t\tW\t\tn\tdi\t\tG')
+print(f'lower bound :\t{x_min[0]:.2e}\t{x_min[1]:.2g}\t{x_min[2]:.2e}\t{x_min[3]:.2e}')
+print(f'best point  :\t{res.x[0]:.2e}\t{res.x[1]:.2g}\t{res.x[2]:.2e}\t{res.x[3]:.2e}')
+print(f'lower bound :\t{x_max[0]:.2e}\t{x_max[1]:.2g}\t{x_max[2]:.2e}\t{x_max[3]:.2e}')
 
 L = pad.L_geo(res.x[0], res.x[3], res.x[1], res.x[2])
 Cc = pad.Cc_geo(res.x[0], res.x[1], res.x[2], eps_r, d)
