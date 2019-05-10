@@ -40,10 +40,10 @@ def L_geo(W, G, n, di):
     return 0.5*A*(di+do)/(1+K2*((do-di)/(do+di)))
 
 def Cc_geo(W, n, di, eps_r, d):
-    c1 = 2.32   #constante1 empirique pour capacité
-    c2 = 3.3    #constante2 empirique pour capacité  
-    eps_0 = 8.854e-12
-    return W*(eps_0*eps_r*(c1+c2*(n-1))*di)/d
+    c1 = 5.8   #constante1 empirique pour capacité
+    c2 = 5    #constante2 empirique pour capacité  
+    eps_0 = 8.85418782e-12
+    return W*eps_0*eps_r*(c1+c2*(n-1))*di/d
 
 def StdDev(Mes, Target):
     Ml = Mes.size
