@@ -7,11 +7,12 @@ Created on Fri Apr 26 14:12:17 2019
 import numpy as np
 from scipy.optimize import dual_annealing
 
+#Coupler Specific Function
 def Coupleur_F_c(L, Cc, k):
     if(L<=0)or(Cc<=0)or(k==1):
         return -1
     else:
-        return 1/(2*np.pi*np.sqrt(L*Cc*(1-k**2)))
+        return (2-k)/(2*np.pi*np.sqrt(L*Cc))
 
 def Coupleur_Z_c(L, Cc):
     if(L<=0)or(Cc<=0):
