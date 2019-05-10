@@ -5,6 +5,7 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
+from scipy.optimize import dual_annealing
 
 def Coupleur_F_c(L, Cc, k):
     if(L<=0)or(Cc<=0)or(k==1):
@@ -25,6 +26,10 @@ def Coupleur_Cost(x, d, eps_r, k, F_targ, Z_targ):
     F_eff = Coupleur_F_c(L, Cc, k)
     Z_eff = Coupleur_Z_c(L, Cc)
     return StdDev(np.array([F_eff, Z_eff]), np.array([F_targ, Z_targ]))
+
+def Coupleur_Design(F_targ, Z_targ, bounds, d, eps_r, k):
+    res = dual_annealing(Coupleur_Cost, bounds, maxiter=2000, args=(d, eps_r, k, F_targ, Z_targ))
+    return res
 
 def L_geo(W, G, n, di):
     K1 = 2.25   #constante1 empirique pour inductance

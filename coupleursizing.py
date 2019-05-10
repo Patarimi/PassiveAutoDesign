@@ -5,8 +5,6 @@ Created on Thu Apr 25 15:04:53 2019
 @author: mpoterea
 """
 
-from scipy.optimize import dual_annealing
-import matplotlib.pyplot as plt
 import PassiveAutoDesign as pad
 
 # consignes
@@ -24,7 +22,7 @@ eps_r = 4.3#permitivité relative du silicium
 d = 1.5e-6 #distance entre les deux inductances
 k=0.9      #couplage des inductances
 
-res = dual_annealing(pad.Coupleur_Cost, list(zip(x_min, x_max)), maxiter=2000, args=(d, eps_r, k, F_targ, Z_targ))
+res = pad.Coupleur_Design(F_targ, Z_targ, list(zip(x_min, x_max)), d, eps_r, k)
 
 print(f'Solution funds with remaining error of: {res.fun:.2e}')
 print('Termination message of algorithm: '+str(res.message))
