@@ -7,23 +7,14 @@ Created on Thu Apr 25 15:04:53 2019
 
 import PassiveAutoDesign as pad
 
-# consignes
-F_targ = 40e9     #fréquence de fonctionnement souhaitée
-Z_targ = 50.0     #impédance caractéristique
-do_targ = 300e-6  #diamètre externe maximum des bobines
-
 #limites
+do_targ = 500e-6  #diamètre externe maximum des bobines
 #x0 = (#largeur de la piste, #nombre de tour, #diamètre interne, #écart inter-tour)
-x_max = (20e-6,                 4,              2*do_targ,          12e-6)
-x_min = (2e-6,                  1,              2e-6,               2.1e-6)
+x_max = (20e-6,                 2.5,              2*do_targ,          2.15e-6)
+x_min = (2e-6,                  1.5,              50e-6,              2.1e-6)
 
-#constantes physiques
-eps_r = 4.3#permitivité relative du silicium
-d = 1.5e-6 #distance entre les deux inductances
-k=0.9      #couplage des inductances
-
-res = pad.Coupleur_Design(F_targ, Z_targ, list(zip(x_min, x_max)), d, eps_r, k)
-
+#                         F_targ, Z_targ, bounds                   d,      eps_r, k 
+res = pad.Coupleur_Design(5e9,   50.0,   list(zip(x_min, x_max)), 1.35e-6, 4.3,   0.9)
 print(f'Solution funds with remaining error of: {res.fun:.2e}')
 print('Termination message of algorithm: '+str(res.message))
 print(f'\t\tW\t\tn\tdi\t\tG')
