@@ -46,6 +46,19 @@ def coupleur_design(f_targ, z_targ, bounds, dist, eps_r, k):
     res = dual_annealing(coupleur_cost, bounds, maxiter=2000, args=(dist, eps_r, k, f_targ, z_targ))
     return res
 
+def coupleur_print(res, bounds):
+    """
+        print a summary of the solution (res)
+        with a comparison to the boundaries
+    """
+    sol = res.x*1e6
+    bds = np.array(bounds)*1e6
+    print(f'Solution funds with remaining error of: {res.fun:.2e}')
+    print('Termination message of algorithm: '+str(res.message))
+    print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
+    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
+    print(f'best point  :\t{sol[0]:.2g}\t{res.x[1]:.2g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
+    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 
 
 
