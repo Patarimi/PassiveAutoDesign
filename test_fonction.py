@@ -11,10 +11,9 @@ import matplotlib.pyplot as plt
 import PassiveAutoDesign as pad
 import csv
 
-Cost = list()   #contains deviation between calculation and validated values
-f = list()      #reference frequency (for investigation, plot drawing purpose)
-z = list()      #reference impedanc (id.)
+Output = list()   #contains list of truples (cost, param sweep for plotting)
 
+# importation of reference data and cost calculation
 with open('./test_set/coupleur_data.csv', newline='') as data_file:
     data_raw = csv.reader(data_file, delimiter='\t')
     for row in data_raw:
@@ -23,23 +22,22 @@ with open('./test_set/coupleur_data.csv', newline='') as data_file:
             d = float(row[4])
             eps_r = float(row[5])
             k = float(row[6])
-            f.append(float(row[7]))
-            z.append(complex(float(row[8]), float(row[9])))
-            Cost.append(pad.Coupleur_Cost(x, d, eps_r, k, float(row[7]), complex(float(row[8]), float(row[9]))))
+            f = float(row[7])
+            z = complex(float(row[8]), float(row[9]))
+            # calculation of deviation between calculation and validated values
+            Cost = pad.Coupleur_Cost(x, d, eps_r, k, f, z)
+            # output creation Cost and sweept variables
+            Output.append((Cost, x[2], x[1]))
         except:
+            #importation error gestion
             print('line skip :'+str(row))
-Cost_res = np.array(Cost)
-f_ref = np.array(f)
-z_ref = np.array(z)
+Cost_res = np.array(Output)
 
-plt.subplot(121)
-plt.plot(f_ref*1e-9, 100*Cost_res, 'rx')
+plt.plot(Cost_res[0:5,1]*1e6, 100*Cost_res[0:5,0], 'rx')
+plt.plot(Cost_res[5:9,1]*1e6, 100*Cost_res[5:9,0], 'b+')
+plt.legend(['n=2', 'n=1'])
 plt.ylabel("Error (%)")
-plt.xlabel("Frequency (GHz)")
-plt.grid(True)
-
-plt.subplot(122)
-plt.plot(np.abs(z_ref), 100*Cost_res, 'rx')
-plt.ylabel("Error (%)")
-plt.xlabel('Impedance (Omega)')
+plt.xlabel("Inner Diameter (µm)")
+plt.ylim(bottom=0)
+plt.xlim(left=0)
 plt.grid(True)
