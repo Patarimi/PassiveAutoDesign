@@ -16,10 +16,13 @@ X_MAX = (20e-6, 4, 2*OUTER_DIAM_TARG, 2.15e-6)
 X_MIN = (2e-6, 1, 50e-6, 2.1e-6)
 
 #                         F_targ, Z_targ, bounds                   d,      eps_r, k
-RES = pad.coupleur_design(5e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
-pad.coupleur_print(RES, list(zip(X_MIN, X_MAX)))
+RES = pad.coupler_design(5e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
+pad.coupler_print(RES, list(zip(X_MIN, X_MAX)))
+L_SYNTH = pad.l_geo(RES.x[0], RES.x[3], RES.x[1], RES.x[2])
+CG_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 4.3, 9.54e-6)
+CM_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 4.3, 1.35e-6)
 
-#design transformateur d'impedances
+# %%design transformateur d'impedances
 ZS_TARG = 20+1j*40
 ZL_TARG = 50 + 1j*0
 K_COEFF = 0.9
@@ -35,8 +38,8 @@ LS = np.real(ZS_TARG)*Z_T/((1-K_COEFF**2)*(2*np.pi*F_TARG))
 LL = np.real(ZL_TARG)*Z_T*(1+Q_L**2)/(ALPHA*(1+(Q_S-Z_T)**2)*(2*np.pi*F_TARG))
 
 BOUNDS = list(zip(X_MIN+X_MIN, X_MAX+X_MAX))
-RES = pad.balun_design(F_TARG, ZL_TARG, ZS_TARG, BOUNDS, K_COEFF)
-pad.balun_print(RES, BOUNDS)
+RES2 = pad.balun_design(F_TARG, ZL_TARG, ZS_TARG, BOUNDS, K_COEFF)
+pad.balun_print(RES2, BOUNDS)
 
-LS_SYNTH = pad.l_geo(RES.x[0], RES.x[3], RES.x[1], RES.x[2])
-LL_SYNTH = pad.l_geo(RES.x[4], RES.x[7], RES.x[5], RES.x[6])
+LS_SYNTH = pad.l_geo(RES2.x[0], RES2.x[3], RES2.x[1], RES2.x[2])
+LL_SYNTH = pad.l_geo(RES2.x[4], RES2.x[7], RES2.x[5], RES2.x[6])

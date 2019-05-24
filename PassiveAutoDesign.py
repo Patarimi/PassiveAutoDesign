@@ -6,47 +6,30 @@ Created on Fri Apr 26 14:12:17 2019
 """
 import numpy as np
 from scipy.optimize import dual_annealing
+import ngspice_warper as ng
 
 #Coupler Specific Function
-def coupleur_f_c(l_c, c_c, k):
-    """
-        return the central frequency of an hybrid coupler with l inductance,
-        c capacitance and k coupling
-    """
-    if(l_c <= 0)or(c_c <= 0)or(k == 1):
-        return -1
-    return (2-k)/(2*np.pi*np.sqrt(l_c*c_c))
-
-def coupleur_z_c(l_c, c_c):
-    """
-        return the characteristic impedance of an hybrid coupler
-        with l inductance and c capacitance
-    """
-    if(l_c <= 0)or(c_c <= 0):
-        return -1
-    return np.sqrt(l_c/c_c)
-
-def coupleur_cost(solution, dist, eps_r, k, f_targ, z_targ):
+def coupler_cost(solution, dist, eps_r, k, f_targ, z_targ):
     """
         return the cost (standard deviation)
         between the proposed solution and the targeted specifications
     """
     solution[1] = np.round(solution[1])
     l_c = l_geo(solution[0], solution[3], solution[1], solution[2])
-    c_c = cc_geo(solution[0], solution[1], solution[2], eps_r, dist)
-    f_eff = coupleur_f_c(l_c, c_c, k)
-    z_eff = coupleur_z_c(l_c, c_c)
-    return std_dev(np.array([f_eff, z_eff]), np.array([f_targ, z_targ]))
+    c_m = cc_geo(solution[0], solution[1], solution[2], eps_r, dist)
+    c_g = cc_geo(solution[0], solution[1], solution[2], eps_r, 9.54e-6)
+    z_eff, ihsr = ng.get_results(ng.generate_model_transfo(l_c, c_g, c_m, k, f_targ))
+    return std_dev(np.array([z_eff]), np.array([z_targ]))+(26.7-ihsr)/(26.7+ihsr)
 
-def coupleur_design(f_targ, z_targ, bounds, dist, eps_r, k):
+def coupler_design(f_targ, z_targ, bounds, dist, eps_r, k):
     """
         design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
         return an optimization results (res)
     """
-    res = dual_annealing(coupleur_cost, bounds, maxiter=2000, args=(dist, eps_r, k, f_targ, z_targ))
+    res = dual_annealing(coupler_cost, bounds, maxiter=200, args=(dist, eps_r, k, f_targ, z_targ))
     return res
 
-def coupleur_print(res, bounds):
+def coupler_print(res, bounds):
     """
         print a summary of the solution (res)
         with a comparison to the boundaries
@@ -56,9 +39,11 @@ def coupleur_print(res, bounds):
     print(f'Solution funds with remaining error of: {res.fun:.2e}')
     print('Termination message of algorithm: '+str(res.message))
     print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
-    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
+    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t\
+{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
     print(f'best point  :\t{sol[0]:.2g}\t{res.x[1]:.2g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
-    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
+    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
+{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 
 #Impendance Transformer Specific Function
 def balun_cost(sol, k, zl_targ, zs_targ, f_targ):
@@ -95,10 +80,12 @@ def balun_print(res, bounds):
     print(f'Solution funds with remaining error of: {res.fun:.2e}')
     print('Termination message of algorithm: '+str(res.message))
     print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
-    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
+    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t\
+{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
     print(f'primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.2g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
     print(f'secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.2g}\t{sol[6]:.3g}\t{sol[7]:.2g}')
-    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
+    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
+{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 
 #General Purpose Function
 def l_geo(width, gap, n_turn, inner_diam):
@@ -132,4 +119,3 @@ def std_dev(mesured, targeted):
             std_d[t_i] = np.abs((mesured[t_i]-targeted[t_i])/(mesured[t_i]+targeted[t_i]))**2
         return np.sqrt(np.sum(std_d))
     return 100
-    
