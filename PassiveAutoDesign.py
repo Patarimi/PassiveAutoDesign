@@ -39,11 +39,11 @@ def coupler_print(res, bounds):
     print(f'Solution funds with remaining error of: {res.fun:.2e}')
     print('Termination message of algorithm: '+str(res.message))
     print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
-    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t \
-                            {(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
+    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t\
+{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
     print(f'best point  :\t{sol[0]:.2g}\t{res.x[1]:.2g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
-    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t \
-                            {(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
+    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
+{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 
 #Impendance Transformer Specific Function
 def balun_cost(sol, k, zl_targ, zs_targ, f_targ):
@@ -80,12 +80,12 @@ def balun_print(res, bounds):
     print(f'Solution funds with remaining error of: {res.fun:.2e}')
     print('Termination message of algorithm: '+str(res.message))
     print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
-    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t \
-                            {(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
+    print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t\
+{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
     print(f'primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.2g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
     print(f'secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.2g}\t{sol[6]:.3g}\t{sol[7]:.2g}')
-    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t \
-                            {(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
+    print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
+{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 
 #General Purpose Function
 def l_geo(width, gap, n_turn, inner_diam):
@@ -119,4 +119,3 @@ def std_dev(mesured, targeted):
             std_d[t_i] = np.abs((mesured[t_i]-targeted[t_i])/(mesured[t_i]+targeted[t_i]))**2
         return np.sqrt(np.sum(std_d))
     return 100
-    
