@@ -71,7 +71,7 @@ def get_results(spice_bytes):
     s_21 = data[2]
     s_31 = data[3]
     z_c = 50*(1-s_11)/(s_11+1)
-    ihsr = dB(s_21-1j*s_31)-dB(s_21+1j*s_31)
+    ihsr = -dB(s_21-1j*s_31)-dB(s_21+1j*s_31)
     return z_c, ihsr
 
 def dB(cmplx):
