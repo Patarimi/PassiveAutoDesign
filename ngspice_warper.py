@@ -16,7 +16,7 @@ def generate_model_transfo(l_c, c_g, c_m, k_ind, f_targ):
     """
         Generate a equivalent circuit of a transformer with the given values
     """
-    return bytes(f'Hybrid Coupler\n\n\
+    return f'Hybrid Coupler\n\n\
 VIN		3	0	DC	0	AC	1\n\
 RIN		3	IN	50\n\
 ROUT	OUT	0	50\n\
@@ -36,7 +36,7 @@ CM2		ISO	OUT	{c_m:.3e}\n\n\
 .AC LIN	1	{f_targ:.3e}	{f_targ:.3e}\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL)\n\n\
 .OPTION ELTOL=1e-12\n\
-.END\n', encoding='UTF-8')
+.END\n'
 
 def convert(t_bytes):
     """
