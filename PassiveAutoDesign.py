@@ -8,24 +8,6 @@ import numpy as np
 from scipy.optimize import dual_annealing
 
 #Coupler Specific Function
-def coupleur_f_c(l_c, c_c, k):
-    """
-        return the central frequency of an hybrid coupler with l inductance,
-        c capacitance and k coupling
-    """
-    if(l_c <= 0)or(c_c <= 0)or(k == 1):
-        return -1
-    return (2-k)/(2*np.pi*np.sqrt(l_c*c_c))
-
-def coupleur_z_c(l_c, c_c):
-    """
-        return the characteristic impedance of an hybrid coupler
-        with l inductance and c capacitance
-    """
-    if(l_c <= 0)or(c_c <= 0):
-        return -1
-    return np.sqrt(l_c/c_c)
-
 def coupleur_cost(solution, dist, eps_r, k, f_targ, z_targ):
     """
         return the cost (standard deviation)
@@ -33,10 +15,10 @@ def coupleur_cost(solution, dist, eps_r, k, f_targ, z_targ):
     """
     solution[1] = np.round(solution[1])
     l_c = l_geo(solution[0], solution[3], solution[1], solution[2])
-    c_c = cc_geo(solution[0], solution[1], solution[2], eps_r, dist)
-    f_eff = coupleur_f_c(l_c, c_c, k)
-    z_eff = coupleur_z_c(l_c, c_c)
-    return std_dev(np.array([f_eff, z_eff]), np.array([f_targ, z_targ]))
+    c_m = cc_geo(solution[0], solution[1], solution[2], eps_r, dist)
+    c_g = cc_geo(solution[0], solution[1], solution[2], eps_r, 9.54e-6)
+    z_eff, ihsr = ng.get_results(ng.generate_model_transfo(l_c, c_g, c_m, k, f_targ))
+    return std_dev(np.array([z_eff]), np.array([z_targ]))+(26.7-ihsr)/(26.7+ihsr)
 
 def coupleur_design(f_targ, z_targ, bounds, dist, eps_r, k):
     """
