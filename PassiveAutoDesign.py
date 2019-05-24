@@ -6,6 +6,7 @@ Created on Fri Apr 26 14:12:17 2019
 """
 import numpy as np
 from scipy.optimize import dual_annealing
+import ngspice_warper as ng
 
 #Coupler Specific Function
 def coupleur_cost(solution, dist, eps_r, k, f_targ, z_targ):
