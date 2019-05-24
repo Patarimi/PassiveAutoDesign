@@ -55,8 +55,8 @@ def get_results(spice_bytes):
     """
         run the simulation and return the Z_c and IHSR
     """
-    p = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
-    ret,_ = p.communicate(input=spice_bytes)
+    pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
+    ret, _ = pipe.communicate(input=spice_bytes)
     table = ret.decode().splitlines()
     data = list()
     for line in table:
