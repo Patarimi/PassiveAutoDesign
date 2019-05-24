@@ -7,6 +7,7 @@ Created on Thu Apr 25 15:04:53 2019
 
 import numpy as np
 import PassiveAutoDesign as pad
+import ngspice_warper as ng
 
 #design coupleur hybride
 #limites
@@ -18,9 +19,13 @@ X_MIN = (2e-6, 1, 50e-6, 2.1e-6)
 #                         F_targ, Z_targ, bounds                   d,      eps_r, k
 RES = pad.coupler_design(5e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
 pad.coupler_print(RES, list(zip(X_MIN, X_MAX)))
+
+#ecriture du model spice solution de l'optim
 L_SYNTH = pad.l_geo(RES.x[0], RES.x[3], RES.x[1], RES.x[2])
 CG_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 4.3, 9.54e-6)
 CM_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 4.3, 1.35e-6)
+with open('./cache/model_ind.cir', 'w') as file:
+    file.write(ng.generate_model_transfo(L_SYNTH, CG_SYNTH, CM_SYNTH, 0.9, 5e9))
 
 # %%design transformateur d'impedances
 ZS_TARG = 20+1j*40
