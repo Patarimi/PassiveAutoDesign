@@ -16,10 +16,8 @@ X_MAX = (20e-6, 4, 2*OUTER_DIAM_TARG, 2.15e-6)
 X_MIN = (2e-6, 1, 50e-6, 2.1e-6)
 
 #                         F_targ, Z_targ, bounds                   d,      eps_r, k
-RES = pad.coupleur_design(5e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
-pad.coupleur_print(RES, list(zip(X_MIN, X_MAX)))
-
-#design transformateur d'impedances
+RES = pad.coupler_design(5e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
+pad.coupler_print(RES, list(zip(X_MIN, X_MAX)))
 ZS_TARG = 20+1j*40
 ZL_TARG = 50 + 1j*0
 K_COEFF = 0.9

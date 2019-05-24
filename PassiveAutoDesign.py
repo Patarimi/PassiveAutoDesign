@@ -9,7 +9,7 @@ from scipy.optimize import dual_annealing
 import ngspice_warper as ng
 
 #Coupler Specific Function
-def coupleur_cost(solution, dist, eps_r, k, f_targ, z_targ):
+def coupler_cost(solution, dist, eps_r, k, f_targ, z_targ):
     """
         return the cost (standard deviation)
         between the proposed solution and the targeted specifications
@@ -21,15 +21,15 @@ def coupleur_cost(solution, dist, eps_r, k, f_targ, z_targ):
     z_eff, ihsr = ng.get_results(ng.generate_model_transfo(l_c, c_g, c_m, k, f_targ))
     return std_dev(np.array([z_eff]), np.array([z_targ]))+(26.7-ihsr)/(26.7+ihsr)
 
-def coupleur_design(f_targ, z_targ, bounds, dist, eps_r, k):
+def coupler_design(f_targ, z_targ, bounds, dist, eps_r, k):
     """
         design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
         return an optimization results (res)
     """
-    res = dual_annealing(coupleur_cost, bounds, maxiter=2000, args=(dist, eps_r, k, f_targ, z_targ))
+    res = dual_annealing(coupler_cost, bounds, maxiter=200, args=(dist, eps_r, k, f_targ, z_targ))
     return res
 
-def coupleur_print(res, bounds):
+def coupler_print(res, bounds):
     """
         print a summary of the solution (res)
         with a comparison to the boundaries
