@@ -10,7 +10,7 @@ import numpy as np
 
 PATH = "C:/Users/mpoterea/Documents/PassiveAutoDesign/"
 FILE_NAME = "cache/model_ind.cir"
-EXE_NAME = "tierce_parts/Spice64/bin/ngspice_con.exe"
+EXE_NAME = "tierce_parts/ngspice_con.exe"
 
 def generate_model_transfo(l_c, c_g, c_m, k_ind, f_targ):
     """
