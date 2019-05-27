@@ -25,7 +25,7 @@ L_SYNTH = pad.l_geo(RES.x[0], RES.x[3], RES.x[1], RES.x[2])
 CG_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 4.3, 9.54e-6)
 CM_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 4.3, 1.35e-6)
 with open('./cache/model_ind.cir', 'w') as file:
-    file.write(ng.generate_model_transfo(L_SYNTH, CG_SYNTH, CM_SYNTH, 0.9, 5e9))
+    file.write(ng.generate_model_transfo(L_SYNTH, CG_SYNTH, CM_SYNTH, 0.9))
 
 # %%design transformateur d'impedances
 ZS_TARG = 20+1j*40

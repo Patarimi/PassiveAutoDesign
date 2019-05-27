@@ -12,7 +12,7 @@ PATH = "C:/Users/mpoterea/Documents/PassiveAutoDesign/"
 FILE_NAME = "cache/model_ind.cir"
 EXE_NAME = "tierce_parts/ngspice_con.exe"
 
-def generate_model_transfo(l_c, c_g, c_m, k_ind, f_targ):
+def generate_model_transfo(l_c, c_g, c_m, k_ind):
     """
         Generate a equivalent circuit of a transformer with the given values
     """
@@ -32,8 +32,13 @@ CG2		OUT	0	{c_g:.3e}\n\
 CG3		ISO	0	{c_g:.3e}\n\
 CG4		CPL	0	{c_g:.3e}\n\
 CM1		IN	CPL	{c_m:.3e}\n\
-CM2		ISO	OUT	{c_m:.3e}\n\n\
-.AC LIN	1	{f_targ:.3e}	{f_targ:.3e}\n\
+CM2		ISO	OUT	{c_m:.3e}\n\n'
+
+def generate_ac_simulation(f_start, f_stop, n_step):
+    """
+        generate an AC simulation with n_step linear steps between f_start and f_stop
+    """
+    return f'.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL)\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
