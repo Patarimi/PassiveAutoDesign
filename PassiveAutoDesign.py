@@ -16,8 +16,8 @@ def coupler_cost(solution, dist, eps_r, k, f_targ, z_targ):
     """
     solution[1] = np.round(solution[1])
     l_c = l_geo(solution[0], solution[3], solution[1], solution[2])
-    c_m = cc_geo(solution[0], solution[1], solution[2], eps_r, dist)
-    c_g = cc_geo(solution[0], solution[1], solution[2], eps_r, 9.54e-6)
+    c_m = cc_geo(solution[0], solution[1], solution[2], dist, eps_r)
+    c_g = cc_geo(solution[0], solution[1], solution[2], 9.54e-6, eps_r)
     b_model = bytes(ng.generate_model_transfo(l_c, c_g, c_m, k), encoding='UTF-8')
     b_simulation = bytes(ng.generate_ac_simulation(f_targ, f_targ, 1), encoding='UTF-8')
     z_eff, ihsr = ng.get_results(b_model+b_simulation)
@@ -101,7 +101,7 @@ def l_geo(width, gap, n_turn, inner_diam):
     density = (outer_diam-inner_diam)/(outer_diam+inner_diam)
     return k_1*4*np.pi*1e-7*n_turn**2*rho/(1+k_2*density)
 
-def cc_geo(width, n_turn, inner_diam, eps_r, dist):
+def cc_geo(width, n_turn, inner_diam, dist, eps_r):
     """
         return the value of the distributed capacitance of the described transformer
     """
