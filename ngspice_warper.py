@@ -27,12 +27,12 @@ R1		1	OUT	{r_p:.3e}\n\
 L2		CPL	2	{l_c:.3e}\n\
 R2		2	ISO	{r_p:.3e}\n\
 K		L1	L2	{k_ind:.3n}\n\
-CG1		IN	0	{c_g:.3e}\n\
-CG2		OUT	0	{c_g:.3e}\n\
-CG3		ISO	0	{c_g:.3e}\n\
-CG4		CPL	0	{c_g:.3e}\n\
-CM1		IN	CPL	{c_m:.3e}\n\
-CM2		ISO	OUT	{c_m:.3e}\n\n'
+CG1		IN	0	{c_g/4:.3e}\n\
+CG2		OUT	0	{c_g/4:.3e}\n\
+CG3		ISO	0	{c_g/4:.3e}\n\
+CG4		CPL	0	{c_g/4:.3e}\n\
+CM1		IN	CPL	{c_m/2:.3e}\n\
+CM2		ISO	OUT	{c_m/2:.3e}\n\n'
 
 def generate_ac_simulation(f_start, f_stop, n_step):
     """
