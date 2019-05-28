@@ -62,7 +62,7 @@ def balun_cost(sol, k, zl_targ, zs_targ, f_targ):
     z_load = 1j*l_source*(k**2)*2*np.pi*f_targ
     zs_r = alpha*z_load + z_load*(n_turn**2)*zl_targ/(z_load+zl_targ*(n_turn**2))
     zl_r = ((np.conj(zs_targ)+alpha*z_load)*z_load/(np.conj(zs_targ)+z_load+alpha*z_load))/n_turn**2
-    return std_dev(np.array([zs_r, zl_r]), np.array([zs_targ, zl_targ]))
+    return std_dev(zs_r, zs_targ) + std_dev(zl_r, zl_targ)
 
 def balun_design(f_targ, zl_targ, zs_targ, bounds, k):
     """
