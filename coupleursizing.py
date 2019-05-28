@@ -24,8 +24,9 @@ pad.coupler_print(RES, list(zip(X_MIN, X_MAX)))
 L_SYNTH = pad.l_geo(RES.x[0], RES.x[3], RES.x[1], RES.x[2])
 CG_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 9.54e-6, 4.3)
 CM_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 1.35e-6, 4.3)
+R_SYNTH = pad.r_geo(RES.x[0], RES.x[1], RES.x[2], 3e-6, 17e-9)
 with open('./cache/model_ind.cir', 'w') as file:
-    file.write(ng.generate_model_transfo(L_SYNTH, CG_SYNTH, CM_SYNTH, 0.9))
+    file.write(ng.generate_model_transfo(L_SYNTH, CG_SYNTH, CM_SYNTH, 0.9, R_SYNTH))
 
 # %%design transformateur d'impedances
 # consignes

@@ -12,7 +12,7 @@ PATH = "C:/Users/mpoterea/Documents/PassiveAutoDesign/"
 FILE_NAME = "cache/model_ind.cir"
 EXE_NAME = "tierce_parts/ngspice_con.exe"
 
-def generate_model_transfo(l_c, c_g, c_m, k_ind):
+def generate_model_transfo(l_c, c_g, c_m, k_ind, r_p=0.1e-6):
     """
         Generate a equivalent circuit of a transformer with the given values
     """
@@ -23,9 +23,9 @@ ROUT	OUT	0	50\n\
 RCPL	CPL	0	50\n\
 RISO	ISO	0	50\n\n\
 L1		IN	1	{l_c:.3e}\n\
-R1		1	OUT	0.1u\n\
+R1		1	OUT	{r_p:.3e}\n\
 L2		CPL	2	{l_c:.3e}\n\
-R2		2	ISO	0.1u\n\
+R2		2	ISO	{r_p:.3e}\n\
 K		L1	L2	{k_ind:.3n}\n\
 CG1		IN	0	{c_g:.3e}\n\
 CG2		OUT	0	{c_g:.3e}\n\

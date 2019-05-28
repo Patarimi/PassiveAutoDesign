@@ -18,7 +18,8 @@ def coupler_cost(solution, dist, eps_r, k, f_targ, z_targ):
     l_c = l_geo(solution[0], solution[3], solution[1], solution[2])
     c_m = cc_geo(solution[0], solution[1], solution[2], dist, eps_r)
     c_g = cc_geo(solution[0], solution[1], solution[2], 9.54e-6, eps_r)
-    b_model = bytes(ng.generate_model_transfo(l_c, c_g, c_m, k), encoding='UTF-8')
+    r_p = r_geo(solution[0], solution[1], solution[2], 3e-6, 17e-9)
+    b_model = bytes(ng.generate_model_transfo(l_c, c_g, c_m, k, r_p), encoding='UTF-8')
     b_simulation = bytes(ng.generate_ac_simulation(f_targ, f_targ, 1), encoding='UTF-8')
     z_eff, ihsr = ng.get_results(b_model+b_simulation)
     return std_dev(np.array([z_eff]), np.array([z_targ]))+(26.7-ihsr)/(26.7+ihsr)
@@ -109,6 +110,14 @@ def cc_geo(width, n_turn, inner_diam, dist, eps_r):
     c_2 = 5.24903708   #constante2 empirique pour capacité
     eps_0 = 8.85418782e-12
     return width*eps_0*eps_r*(c_1+c_2*(n_turn-1))*inner_diam/dist
+
+def r_geo(width, n_turn, inner_diam, height, rho=17e-10):
+    """
+        return the value of the resistance of the described transformer
+    """
+    c_1 = 6.86344013   #constante1 empirique pour capacité
+    c_2 = 5.24903708   #constante2 empirique pour capacité
+    return rho*(c_1+c_2*(n_turn-1))*inner_diam/(width*height)
 
 def std_dev(mesured, targeted):
     """
