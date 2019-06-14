@@ -15,11 +15,11 @@ def coupler_cost(solution, dist, eps_r, k, f_targ, z_targ):
         between the proposed solution and the targeted specifications
     """
     solution[1] = np.round(solution[1])
-    l_c = l_geo(solution[0], solution[3], solution[1], solution[2])
+    l_p = l_geo(solution[0], solution[3], solution[1], solution[2])
     c_m = cc_geo(solution[0], solution[1], solution[2], dist, eps_r)
     c_g = cc_geo(solution[0], solution[1], solution[2], 9.54e-6, eps_r)
     r_p = r_geo(solution[0], solution[1], solution[2], 3e-6, 17e-9)
-    b_model = bytes(ng.generate_model_transfo(l_c, c_g, c_m, k, r_p), encoding='UTF-8')
+    b_model = bytes(ng.generate_model_transfo(l_p, c_g, c_m, k, r_p), encoding='UTF-8')
     b_simulation = bytes(ng.generate_ac_simulation(f_targ, f_targ, 1), encoding='UTF-8')
     z_eff, ihsr = ng.get_results(b_model+b_simulation)
     return std_dev(np.array([z_eff]), np.array([z_targ]))+(26.7-ihsr)/(26.7+ihsr)
