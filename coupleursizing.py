@@ -17,7 +17,7 @@ X_MAX = (20e-6, 4, 2*OUTER_DIAM_TARG, 2.15e-6)
 X_MIN = (2e-6, 1, 50e-6, 2.1e-6)
 
 #                         F_targ, Z_targ, bounds                   d,      eps_r, k
-CPL_TST = pad.coupler(4)
+CPL_TST = pad.Coupler(4)
 RES = CPL_TST.design(49.8e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
 CPL_TST.print(RES, list(zip(X_MIN, X_MAX)))
 
@@ -48,7 +48,7 @@ LL = np.real(ZL_TARG)*Z_T*(1+Q_L**2)/(ALPHA*(1+(Q_S-Z_T)**2)*(2*np.pi*F_TARG))
 #limites
 BOUNDS = list(zip(X_MIN+X_MIN, X_MAX+X_MAX))
 #optimisation
-BALUN_TST = pad.balun()
+BALUN_TST = pad.Balun(4)
 RES2 = BALUN_TST.design(F_TARG, ZL_TARG, ZS_TARG, BOUNDS, K_COEFF)
 BALUN_TST.print(RES2, BOUNDS)
 

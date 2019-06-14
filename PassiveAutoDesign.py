@@ -9,11 +9,16 @@ from scipy.optimize import dual_annealing
 import ngspice_warper as ng
 
 #Coupler Specific Function
-class coupler:
-    def __init__(self, _substrate):
+class Coupler:
+    """
+        Create a coupler object
+    """
+    def __init__(self, _substrate, _fc=1e9, _zc=50):
         self.substrate = _substrate
         self.geometry = [0, 0, 0, 0]
-    def cost(self, solution, dist, eps_r, k, f_targ, z_targ):
+        self.f_c = _fc
+        self.z_c = _zc
+    def cost(self, solution, dist, eps_r, k):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
@@ -24,17 +29,19 @@ class coupler:
         c_g = cc_geo(solution[0], solution[1], solution[2], 9.54e-6, eps_r)
         r_p = r_geo(solution[0], solution[1], solution[2], 3e-6, 17e-9)
         b_model = bytes(ng.generate_model_transfo(l_p, c_g, c_m, k, r_p), encoding='UTF-8')
-        b_simulation = bytes(ng.generate_ac_simulation(f_targ, f_targ, 1), encoding='UTF-8')
+        b_simulation = bytes(ng.generate_ac_simulation(self.z_c, self.f_c, 1), encoding='UTF-8')
         z_eff, ihsr = ng.get_results(b_model+b_simulation)
         if ihsr > 26.7:
-            return std_dev(np.array([z_eff]), np.array([z_targ]))
-        return std_dev(np.array([z_eff, ihsr]), np.array([z_targ, 26.7]))
+            return std_dev(np.array([z_eff]), np.array([self.z_c]))
+        return std_dev(np.array([z_eff, ihsr]), np.array([self.z_c, 26.7]))
     def design(self, f_targ, z_targ, bounds, dist, eps_r, k):
         """
             design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
             return an optimization results (res)
         """
-        res = dual_annealing(self.cost, bounds, maxiter=200, args=(dist, eps_r, k, f_targ, z_targ))
+        self.f_c = f_targ
+        self.z_c = z_targ
+        res = dual_annealing(self.cost, bounds, maxiter=200, args=(dist, eps_r, k))
         return res
     def print(self, res, bounds):
         """
@@ -53,8 +60,17 @@ class coupler:
     {(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 
 #Impendance Transformer Specific Function
-class balun:
-    def cost(self, sol, k, zl_targ, zs_targ, f_targ):
+class Balun:
+    """
+        Create a balun object
+    """
+    def __init__(self, _substrate, _fc=1e9, _z_source=50, _z_load=50):
+        self.substrate = _substrate
+        self.geometry = [0, 0, 0, 0]
+        self.f_c = _fc
+        self.z_src = _z_source
+        self.z_ld = _z_load
+    def cost(self, sol, k):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
@@ -65,16 +81,19 @@ class balun:
         l_load = l_geo(sol[4], sol[7], sol[5], sol[6])
         alpha = (1-k**2)/k**2
         n_turn = k*np.sqrt(l_source/l_load)
-        z_load = 1j*l_source*(k**2)*2*np.pi*f_targ
-        zs_r = alpha*z_load + z_load*(n_turn**2)*zl_targ/(z_load+zl_targ*(n_turn**2))
-        zl_r = ((np.conj(zs_targ)+alpha*z_load)*z_load/(np.conj(zs_targ)+z_load+alpha*z_load))/n_turn**2
-        return std_dev(zs_r, zs_targ) + std_dev(zl_r, zl_targ)
-    def design(self, f_targ, zl_targ, zs_targ, bounds, k):
+        z_l = 1j*l_source*(k**2)*2*np.pi*self.f_c
+        zs_r = alpha*z_l + z_l*(n_turn**2)*self.z_ld/(z_l+self.z_ld*(n_turn**2))
+        zl_r = ((np.conj(self.z_src)+alpha*z_l)*z_l/(np.conj(self.z_src)+z_l+alpha*z_l))/n_turn**2
+        return std_dev(zs_r, self.z_src) + std_dev(zl_r, self.z_ld)
+    def design(self, _f_targ, _zl_targ, _zs_targ, _bounds, _k):
         """
             design an impedance transformer with the targeted specifications (f_targ, zl_targ, zs_targ)
             return an optimization results (res)
         """
-        res = dual_annealing(self.cost, bounds, maxiter=1000, args=(k, zl_targ, zs_targ, f_targ))
+        self.f_c = _f_targ
+        self.z_src = _zs_targ
+        self.z_ld = _zl_targ
+        res = dual_annealing(self.cost, _bounds, maxiter=1000, args=(_k))
         return res
     def print(self, res, bounds):
         """
