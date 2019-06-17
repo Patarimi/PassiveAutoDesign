@@ -87,7 +87,8 @@ class Balun:
         return std_dev(zs_r, self.z_src) + std_dev(zl_r, self.z_ld)
     def design(self, _f_targ, _zl_targ, _zs_targ, _bounds, _k):
         """
-            design an impedance transformer with the targeted specifications (f_targ, zl_targ, zs_targ)
+            design an impedance transformer
+            with the targeted specifications (f_targ, zl_targ, zs_targ)
             return an optimization results (res)
         """
         self.f_c = _f_targ

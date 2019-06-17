@@ -5,7 +5,7 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 
 @author: mpoterea
 """
-
+# Comparison between EM simulation results and coupler_cost function results
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
