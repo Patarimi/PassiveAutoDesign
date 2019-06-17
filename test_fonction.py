@@ -9,6 +9,8 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 import PassiveAutoDesign as pad
 
 OUTPUT = list()   #contains list of tuples (cost, param sweep for plotting)
@@ -42,3 +44,21 @@ plt.xlabel("Inner Diameter (µm)")
 plt.ylim(bottom=0)
 plt.xlim(left=0)
 plt.grid(True)
+
+# %% drawing of the cost function versus di and W
+
+W_TABLE = np.arange(3e-6, 10e-6, 0.1e-6)
+DI_TABLE = np.arange(450e-6, 800e-6, 10e-6)
+DI, W = np.meshgrid(DI_TABLE, W_TABLE)
+
+COST_TOT = list()
+for w in W_TABLE:
+    COST_VS_DI = list()
+    for di in DI_TABLE:
+        CPL = pad.Coupler(4, 5e9, 50)
+        COST_VS_DI.append(CPL.cost([w, 1, di, 2.1e-6], 1.35e-6, 4.3, 0.9))
+    COST_TOT.append(COST_VS_DI)
+
+FIG = plt.figure()
+AX = FIG.add_subplot(111, projection='3d')
+AX.plot_surface(DI*1e6, W*1e6, -np.array(COST_TOT), cmap=cm.coolwarm)
