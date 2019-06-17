@@ -61,4 +61,7 @@ for w in W_TABLE:
 
 FIG = plt.figure()
 AX = FIG.add_subplot(111, projection='3d')
-AX.plot_surface(DI*1e6, W*1e6, -np.array(COST_TOT), cmap=cm.coolwarm)
+AX.plot_surface(DI*1e6, W*1e6, 100*(1-np.array(COST_TOT)), cmap=cm.coolwarm)
+AX.set_zlabel("Ideality (%)")
+AX.set_ylabel("Width (µm)")
+AX.set_xlabel("Inner Diameter (µm)")
