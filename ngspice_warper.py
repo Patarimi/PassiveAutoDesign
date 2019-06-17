@@ -84,7 +84,20 @@ def dB(cmplx):
         Return the decibel value of the given imaginary number.
     """
     return 20*np.log10(np.abs(cmplx))
-#test fonctions
-s_model = generate_model_transfo(1e-9, 1e-15, 1e-15, 0.9, 0.5)
-s_ctrl = generate_ac_simulation(1e9, 1e9, 1)
-print(get_results(bytes(s_model+s_ctrl, encoding='UTF-8')))
+if __name__ == '__main__':
+    #test fonctions
+    S_MODEL = generate_model_transfo(1e-9, 1e-15, 1e-15, 0.9, 0.5)
+    REF_MODEL = 'Hybrid Coupler\n\nVIN\t\t3\t0\tDC\t0\tAC\t1\nRIN\t\t3\tIN\t50\nROUT\tOUT\t0\t50\nRCPL\tCPL\t0\t50\nRISO\tISO\t0\t50\n\nL1\t\tIN\t1\t1.000e-09\nR1\t\t1\tOUT\t5.000e-01\nL2\t\tCPL\t2\t1.000e-09\nR2\t\t2\tISO\t5.000e-01\nK\t\tL1\tL2\t0.9\nCG1\t\tIN\t0\t2.500e-16\nCG2\t\tOUT\t0\t2.500e-16\nCG3\t\tISO\t0\t2.500e-16\nCG4\t\tCPL\t0\t2.500e-16\nCM1\t\tIN\tCPL\t5.000e-16\nCM2\t\tISO\tOUT\t5.000e-16\n\n'
+    if S_MODEL != REF_MODEL:
+        raise ValueError
+    S_CTRL = generate_ac_simulation(1e9, 1e9, 1)
+    REF_CTRL = '.AC LIN\t1\t1.000e+09\t1.000e+09\n.PRINT AC V(IN) I(VIN) V(OUT) V(CPL)\n\n.OPTION ELTOL=1e-12\n.END\n'
+    if S_CTRL != REF_CTRL:
+        raise ValueError
+    ZC, IHSR = get_results(bytes(S_MODEL+S_CTRL, encoding='UTF-8'))
+    if np.real(ZC) > 50.82 or np.real(ZC) < 50.81:
+        raise ValueError(f'real(z) = {np.real(ZC)}')
+    if np.imag(ZC) > 6.24 or np.imag(ZC) < 6.23:
+        raise ValueError(f'imag(z) = {np.imag(ZC)}')
+    if IHSR > 12.25 or IHSR < 12.24:
+        raise ValueError(f'ihsr = {IHSR}')
