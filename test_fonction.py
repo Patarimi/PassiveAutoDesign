@@ -25,7 +25,8 @@ with open('./test_set/coupleur_data.csv', newline='') as data_file:
             f = float(row[7])
             z = complex(float(row[8]), float(row[9]))
             # calculation of deviation between calculation and validated values
-            Cost = pad.coupler_cost(x, d, eps_r, k, f, z)
+            CPL = pad.Coupler(4, f, z)
+            Cost = CPL.cost(x, d, eps_r, k)
             # output creation Cost and sweept variables
             OUTPUT.append((Cost, x[2], x[1]))
         except ValueError:
