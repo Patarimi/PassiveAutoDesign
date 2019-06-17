@@ -29,7 +29,7 @@ class Coupler:
         c_g = cc_geo(solution[0], solution[1], solution[2], 9.54e-6, eps_r)
         r_p = r_geo(solution[0], solution[1], solution[2], 3e-6, 17e-9)
         b_model = bytes(ng.generate_model_transfo(l_p, c_g, c_m, k, r_p), encoding='UTF-8')
-        b_simulation = bytes(ng.generate_ac_simulation(self.z_c, self.f_c, 1), encoding='UTF-8')
+        b_simulation = bytes(ng.generate_ac_simulation(self.f_c, self.f_c, 1), encoding='UTF-8')
         z_eff, ihsr = ng.get_results(b_model+b_simulation)
         if ihsr > 26.7:
             return std_dev(np.array([z_eff]), np.array([self.z_c]))
