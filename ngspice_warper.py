@@ -84,3 +84,7 @@ def dB(cmplx):
         Return the decibel value of the given imaginary number.
     """
     return 20*np.log10(np.abs(cmplx))
+#test fonctions
+s_model = generate_model_transfo(1e-9, 1e-15, 1e-15, 0.9, 0.5)
+s_ctrl = generate_ac_simulation(1e9, 1e9, 1)
+print(get_results(bytes(s_model+s_ctrl, encoding='UTF-8')))
