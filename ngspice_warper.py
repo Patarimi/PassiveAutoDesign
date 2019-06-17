@@ -71,7 +71,7 @@ def get_results(spice_bytes):
             data.append(convert(line))
     if len(data) == 0:
         print(table)
-        return -1
+        return -1, -1
     s_11 = -data[0]-50*data[1]
     s_21 = data[2]
     s_31 = data[3]
