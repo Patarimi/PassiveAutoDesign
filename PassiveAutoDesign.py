@@ -93,7 +93,9 @@ class Balun:
         self.f_c = _f_targ
         self.z_src = _zs_targ
         self.z_ld = _zl_targ
-        res = dual_annealing(self.cost, _bounds, maxiter=1000, args=(_k))
+        arg = list()
+        arg.append(_k)
+        res = dual_annealing(self.cost, _bounds, maxiter=1000, args=arg)
         return res
     def print(self, res, bounds):
         """
