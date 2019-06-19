@@ -7,27 +7,31 @@ Created on Thu Apr 25 15:04:53 2019
 
 import numpy as np
 import PassiveAutoDesign as pad
-import ngspice_warper as ng
+import substrate as sub
 
-#design coupleur hybride
-#limites
+#Hybrid Coupleur Design
+#Limits
 OUTER_DIAM_TARG = 490e-6  #diamètre externe maximum des bobines
 #x0 = (#largeur de la piste, #nombre de tour, #diamètre interne, #écart inter-tour)
 X_MAX = (20e-6, 4, 2*OUTER_DIAM_TARG, 2.15e-6)
 X_MIN = (2e-6, 1, 50e-6, 2.1e-6)
 
-#                         F_targ, Z_targ, bounds                   d,      eps_r, k
-CPL_TST = pad.Coupler(4)
-RES = CPL_TST.design(49.8e9, 50.0, list(zip(X_MIN, X_MAX)), 1.35e-6, 4.3, 0.9)
+#Definition of the substrate different layers
+BEOL = sub.Substrate()
+BEOL.add_layer(sub.Layer('M6', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.add_layer(sub.Layer('Via5', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.add_layer(sub.Layer('M5', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.add_layer(sub.Layer('Inter', 9.54e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.add_layer(sub.Layer('gnd_plane', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+
+#Creation of a coupleur in the BEOL substrate at 49.8 GHz and with 50 impendance
+CPL_TST = pad.Coupler(BEOL)
+RES = CPL_TST.design(49.8e9, 50.0, list(zip(X_MIN, X_MAX)))
 CPL_TST.print(RES, list(zip(X_MIN, X_MAX)))
 
-#ecriture du model spice solution de l'optim
-L_SYNTH = pad.l_geo(RES.x[0], RES.x[3], RES.x[1], RES.x[2])
-CG_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 9.54e-6, 4.3)
-CM_SYNTH = pad.cc_geo(RES.x[0], RES.x[1], RES.x[2], 1.35e-6, 4.3)
-R_SYNTH = pad.r_geo(RES.x[0], RES.x[1], RES.x[2], 3e-6, 17e-9)
+#Write the spice model of the optimal design found
 with open('./cache/model_ind.cir', 'w') as file:
-    file.write(ng.generate_model_transfo(L_SYNTH, CG_SYNTH, CM_SYNTH, 0.9, R_SYNTH))
+    file.write(CPL_TST.transfo.generate_spice_model(0.9))
 
 # %%design transformateur d'impedances
 # consignes
@@ -48,10 +52,10 @@ LL = np.real(ZL_TARG)*Z_T*(1+Q_L**2)/(ALPHA*(1+(Q_S-Z_T)**2)*(2*np.pi*F_TARG))
 #limites
 BOUNDS = list(zip(X_MIN+X_MIN, X_MAX+X_MAX))
 #optimisation
-BALUN_TST = pad.Balun(4)
-RES2 = BALUN_TST.design(F_TARG, ZL_TARG, ZS_TARG, BOUNDS, K_COEFF)
+BALUN_TST = pad.Balun(BEOL)
+RES2 = BALUN_TST.design(F_TARG, ZL_TARG, ZS_TARG, BOUNDS)
 BALUN_TST.print(RES2, BOUNDS)
 
 #valeurs LS et LL synthetisées par l'optimisation
-LS_SYNTH = pad.l_geo(RES2.x[0], RES2.x[3], RES2.x[1], RES2.x[2])
-LL_SYNTH = pad.l_geo(RES2.x[4], RES2.x[7], RES2.x[5], RES2.x[6])
+LS_SYNTH = BALUN_TST.transfo.model['ls']
+LL_SYNTH = BALUN_TST.transfo.model['lp']

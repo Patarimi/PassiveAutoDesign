@@ -12,28 +12,6 @@ PATH = "C:/Users/mpoterea/Documents/PassiveAutoDesign/"
 FILE_NAME = "cache/model_ind.cir"
 EXE_NAME = "tierce_parts/ngspice_con.exe"
 
-def generate_model_transfo(l_c, c_g, c_m, k_ind, r_p=0.1e-6):
-    """
-        Generate a equivalent circuit of a transformer with the given values
-    """
-    return f'Hybrid Coupler\n\n\
-VIN		3	0	DC	0	AC	1\n\
-RIN		3	IN	50\n\
-ROUT	OUT	0	50\n\
-RCPL	CPL	0	50\n\
-RISO	ISO	0	50\n\n\
-L1		IN	1	{l_c:.3e}\n\
-R1		1	OUT	{r_p:.3e}\n\
-L2		CPL	2	{l_c:.3e}\n\
-R2		2	ISO	{r_p:.3e}\n\
-K		L1	L2	{k_ind:.3n}\n\
-CG1		IN	0	{c_g/4:.3e}\n\
-CG2		OUT	0	{c_g/4:.3e}\n\
-CG3		ISO	0	{c_g/4:.3e}\n\
-CG4		CPL	0	{c_g/4:.3e}\n\
-CM1		IN	CPL	{c_m/2:.3e}\n\
-CM2		ISO	OUT	{c_m/2:.3e}\n\n'
-
 def generate_ac_simulation(f_start, f_stop, n_step):
     """
         generate an AC simulation with n_step linear steps between f_start and f_stop
