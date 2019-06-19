@@ -10,14 +10,14 @@ class Metal:
     """
         define the metal property of a layer
     """
-    def __init__(self, _rho, _rougthness):
+    def __init__(self, _rho, _rougthness=0):
         self.rho = _rho
         self.rougthness = _rougthness
 class Dielectric:
     """
         define the dielectric property of a layer
     """
-    def __init__(self, _epsilon, _tand, _rougthness):
+    def __init__(self, _epsilon, _tand=0, _rougthness=0):
         self.epsilon = _epsilon
         self.tand = _tand
         self.rougthness = _rougthness
