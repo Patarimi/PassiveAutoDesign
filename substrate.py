@@ -72,6 +72,7 @@ COPPER = Metal(5.8e8, 0.4e-3)
 AIR = Dielectric(1, 0, 0)
 D5880 = Dielectric(2.2, 0.0009, 0.4e-3)
 D6002 = Dielectric(2.94, 0.0012, 0.4e-3)
+SILICON_OXYDE = Dielectric(4.2)
 # unity test section
 if __name__ == '__main__':
     SUB = Substrate()
