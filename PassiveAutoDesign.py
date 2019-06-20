@@ -153,7 +153,7 @@ class Transformer:
         """
         self.prim = _primary
         self.model['lp'] = self.l_geo(True)
-        self.model['rp'] = self.r_geo(3e-6, 17e-9)
+        self.model['rp'] = self.r_geo(True, 17e-9)
         self.model['cg'] = self.cc_geo(False)
         self.model['cm'] = self.cc_geo(True)
     def set_secondary(self, _secondary):
@@ -162,7 +162,7 @@ class Transformer:
         """
         self.second = _secondary
         self.model['ls'] = self.l_geo(False)
-        self.model['rs'] = self.r_geo(3e-6, 17e-9)
+        self.model['rs'] = self.r_geo(False, 17e-9)
         self.model['cg'] = self.cc_geo(False)
         self.model['cm'] = self.cc_geo(True)
     def l_geo(self, _of_primary=True):
@@ -196,13 +196,19 @@ class Transformer:
         eps_0 = 8.85418782e-12
         n_t = self.prim['n_turn']
         return self.prim['width']*eps_0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
-    def r_geo(self, height, rho=17e-10):
+    def r_geo(self, _of_primary=True, rho=17e-10):
         """
             return the value of the resistance of the described transformer
         """
         c_1 = 6.86344013   #constante1 empirique pour capacité
         c_2 = 5.24903708   #constante2 empirique pour capacité
-        return rho*(c_1+c_2*(self.prim['n_turn']-1))*self.prim['di']/(self.prim['width']*height)
+        if _of_primary:
+            geo = self.prim
+            height = self.height_prim
+        else:
+            geo = self.second
+            height = self.height_sec
+        return rho*(c_1+c_2*(geo['n_turn']-1))*geo['di']/(geo['width']*height)
     def generate_spice_model(self, k_ind):
         """
             Generate a equivalent circuit of a transformer with the given values
