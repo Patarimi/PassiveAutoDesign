@@ -13,9 +13,9 @@ class Coupler:
         Create a coupler object
     """
     def __init__(self, _substrate, _fc=1e9, _zc=50, _k=0.9):
-        esp_r = _substrate.sub[2].dielectric.epsilon
-        h_int = _substrate.sub[2].height
-        h_sub = _substrate.sub[0].height
+        esp_r = _substrate.sub[1].dielectric.epsilon
+        h_int = _substrate.sub[1].height
+        h_sub = _substrate.sub[3].height
         self.f_c = _fc
         self.z_c = _zc
         self.k = _k
@@ -68,9 +68,9 @@ class Balun:
         Create a balun object
     """
     def __init__(self, _substrate, _fc=1e9, _z_source=50, _z_load=50, _k=0.9):
-        eps_r = _substrate.sub[2].dielectric.epsilon
-        h_int = _substrate.sub[2].height
-        h_sub = _substrate.sub[0].height
+        eps_r = _substrate.sub[1].dielectric.epsilon
+        h_int = _substrate.sub[1].height
+        h_sub = _substrate.sub[3].height
         self.f_c = _fc
         self.z_src = _z_source
         self.z_ld = _z_load
