@@ -19,6 +19,10 @@ class Coupler:
         self.f_c = _fc
         self.z_c = _zc
         self.k = _k
+        self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
+                       (1, 4),
+                       (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
+                       (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
         geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
         self.transfo = Transformer(geo, geo, esp_r, h_int, h_sub)
     def cost(self, sol):
@@ -35,29 +39,29 @@ class Coupler:
         if ihsr > 26.7:
             return std_dev(np.array([z_eff]), np.array([self.z_c]))
         return std_dev(np.array([z_eff, ihsr]), np.array([self.z_c, 26.7]))
-    def design(self, f_targ, z_targ, bounds):
+    def design(self, f_targ, z_targ):
         """
             design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
             return an optimization results (res)
         """
         self.f_c = f_targ
         self.z_c = z_targ
-        res = dual_annealing(self.cost, bounds, maxiter=200)
+        res = dual_annealing(self.cost, self.bounds, maxiter=200)
         return res
-    def print(self, res, bounds):
+    def print(self, res):
         """
             print a summary of the solution (res)
             with a comparison to the boundaries
         """
         sol = res.x*1e6
-        bds = np.array(bounds)*1e6
+        bds = np.array(self.bounds)*1e6
         print(f'Solution funds with remaining error of: {res.fun:.2e}')
         print('Termination message of algorithm: '+str(res.message))
         print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
-        print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t\
+        print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
 {(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
         print(f'best point  :\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
-        print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
+        print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(self.bounds[1])[1]:.2g}\t\
 {(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 class Balun:
     """
@@ -71,6 +75,14 @@ class Balun:
         self.z_src = _z_source
         self.z_ld = _z_load
         self.k = _k
+        self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
+                       (1, 4),
+                       (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
+                       (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap),
+                       (_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
+                       (1, 4),
+                       (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
+                       (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
         geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
         self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
     def cost(self, sol):
@@ -89,7 +101,7 @@ class Balun:
         zs_r = alpha*z_l + z_l*(n_turn**2)*self.z_ld/(z_l+self.z_ld*(n_turn**2))
         zl_r = ((np.conj(self.z_src)+alpha*z_l)*z_l/(np.conj(self.z_src)+z_l+alpha*z_l))/n_turn**2
         return std_dev(zs_r, self.z_src) + std_dev(zl_r, self.z_ld)
-    def design(self, _f_targ, _zl_targ, _zs_targ, _bounds):
+    def design(self, _f_targ, _zl_targ, _zs_targ):
         """
             design an impedance transformer
             with the targeted specifications (f_targ, zl_targ, zs_targ)
@@ -98,23 +110,23 @@ class Balun:
         self.f_c = _f_targ
         self.z_src = _zs_targ
         self.z_ld = _zl_targ
-        res = dual_annealing(self.cost, _bounds, maxiter=500)
+        res = dual_annealing(self.cost, self.bounds, maxiter=500)
         return res
-    def print(self, res, bounds):
+    def print(self, res):
         """
             print a summary of the solution (res)
             with a comparison to the boundaries
         """
         sol = res.x*1e6
-        bds = np.array(bounds)*1e6
+        bds = np.array(self.bounds)*1e6
         print(f'Solution funds with remaining error of: {res.fun:.2e}')
         print('Termination message of algorithm: '+str(res.message))
         print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
-        print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(bounds[1])[0]:.2g}\t\
+        print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
 {(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
         print(f'primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
         print(f'secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.0g}\t{sol[6]:.3g}\t{sol[7]:.2g}')
-        print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
+        print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(self.bounds[1])[1]:.2g}\t\
 {(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
 class Transformer:
     """
