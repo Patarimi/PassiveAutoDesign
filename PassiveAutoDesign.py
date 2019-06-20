@@ -20,7 +20,7 @@ class Coupler:
         self.z_c = _zc
         self.k = _k
         geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
-        self.transfo = Transformator(geo, geo, esp_r, h_int, h_sub)
+        self.transfo = Transformer(geo, geo, esp_r, h_int, h_sub)
     def cost(self, sol):
         """
             return the cost (standard deviation)
@@ -72,7 +72,7 @@ class Balun:
         self.z_ld = _z_load
         self.k = _k
         geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
-        self.transfo = Transformator(geo, geo, eps_r, h_int, h_sub)
+        self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
     def cost(self, sol):
         """
             return the cost (standard deviation)
@@ -116,7 +116,7 @@ class Balun:
         print(f'secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.0g}\t{sol[6]:.3g}\t{sol[7]:.2g}')
         print(f'upper bound :\t{(bds[0])[1]:.2g}\t{(bounds[1])[1]:.2g}\t\
 {(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}')
-class Transformator:
+class Transformer:
     """
         Create a transformator object with the specified geometry
         _primary and _secondary={'di':_di, 'n_turn':_n_turn, 'width':_width, 'gap':_gap}
