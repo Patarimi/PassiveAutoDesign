@@ -22,8 +22,10 @@ X_MIN = (2e-6, 1, 50e-6, 2.1e-6)
 #Definition of the substrate different layers
 BEOL = sub.Substrate()
 BEOL.add_layer(sub.Layer('M6', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.sub[BEOL.get_index_of('M6')].set_rules(2e-6, 20e-6, 2.1e-6)
 BEOL.add_layer(sub.Layer('Via5', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
 BEOL.add_layer(sub.Layer('M5', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.sub[BEOL.get_index_of('M5')].set_rules(2e-6, 20e-6, 2.1e-6)
 BEOL.add_layer(sub.Layer('Inter', 9.54e-6, sub.COPPER, sub.SILICON_OXYDE))
 BEOL.add_layer(sub.Layer('gnd_plane', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
 

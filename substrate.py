@@ -53,6 +53,18 @@ class Substrate:
             add a layer on top of the last layer
         """
         self.sub.append(_layer)
+    def get_index_of(self, _layer_name):
+        """
+            return the index of the first layer with the _layer_name name
+        """
+        index = -1
+        for layer in self.sub:
+            index = index+1
+            if layer.name == _layer_name:
+                break
+        if index == -1:
+            raise ValueError(f'No layer find with name: {_layer_name}')
+        return index
     def dump(self, _path):
         """
             save the subtrate as an yaml file
