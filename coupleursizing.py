@@ -12,17 +12,17 @@ import numpy as np
 import PassiveAutoDesign as pad
 import substrate as sub
 
-#%% Hybrid Coupleur Design
 #Definition of the substrate different layers
 BEOL = sub.Substrate()
-BEOL.add_layer(sub.Layer('M6', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.sub[BEOL.get_index_of('M6')].set_rules(2e-6, 20e-6, 2.1e-6)
-BEOL.add_layer(sub.Layer('Via5', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.add_layer(sub.Layer('M5', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.sub[BEOL.get_index_of('M5')].set_rules(2e-6, 20e-6, 2.1e-6)
+BEOL.add_layer(sub.Layer('M_top', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.sub[BEOL.get_index_of('M_top')].set_rules(2e-6, 20e-6, 2.1e-6)
+BEOL.add_layer(sub.Layer('Via', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.add_layer(sub.Layer('M_bot', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
+BEOL.sub[BEOL.get_index_of('M_bot')].set_rules(2e-6, 20e-6, 2.1e-6)
 BEOL.add_layer(sub.Layer('Inter', 9.54e-6, sub.COPPER, sub.SILICON_OXYDE))
 BEOL.add_layer(sub.Layer('gnd_plane', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
 
+#%% Hybrid Coupleur Design
 #Creation of a coupler in the BEOL substrate at 49.8 GHz and with 50 impendance
 CPL_TST = pad.Coupler(BEOL)
 RES = CPL_TST.design(49.8e9, 50.0)
@@ -34,9 +34,9 @@ with open('./cache/model_ind.cir', 'w') as file:
 
 #%% Balun Design
 # Desing inputs
-ZS_TARG = np.array([20+1j*40, 20+1j*40])
-ZL_TARG = np.array([50 + 1j*0, 0.1])
-F_TARG = np.array([4e9, 8e9])
+ZS_TARG = np.array([20+1j*40])
+ZL_TARG = np.array([50 + 1j*0])
+F_TARG = np.array([4e9])
 K_COEFF = 0.9
 # Creation of an impedance tranformer from ZS_TARG to ZL_TARG af F_TARG
 BALUN_TST = pad.Balun(BEOL)
