@@ -134,16 +134,18 @@ class Transformer:
         _primary and _secondary={'di':_di, 'n_turn':_n_turn, 'width':_width, 'gap':_gap}
         and calculated the associated electrical model
     """
-    def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9):
+    def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _height_prim=4e-6, _height_sec=4e-6):
         self.prim = _primary
         self.second = _secondary
         self.dist = _dist
         self.dist_sub = _dist_sub
         self.eps_r = _eps_r
+        self.height_prim = _height_prim
+        self.height_sec = _height_sec
         self.model = {'lp':self.l_geo(True),
-                      'rp':self.r_geo(3e-6, 17e-9),
+                      'rp':self.r_geo(True, 17e-9),
                       'ls':self.l_geo(False),
-                      'rs':self.r_geo(3e-6, 17e-9),
+                      'rs':self.r_geo(False, 17e-9),
                       'cg':self.cc_geo(False),
                       'cm':self.cc_geo(True),
                       }
