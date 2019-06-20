@@ -12,25 +12,26 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 import PassiveAutoDesign as pad
+import substrate as sub
 
 OUTPUT = list()   #contains list of tuples (cost, param sweep for plotting)
-
 # importation of reference data and cost calculation
 with open('./test_set/coupleur_data.csv', newline='') as data_file:
     DATA_RAW = csv.reader(data_file, delimiter='\t')
     for row in DATA_RAW:
         try:
-            x = np.array((float(row[0]), float(row[1]), float(row[2]), float(row[3])))
-            d = float(row[4])
-            eps_r = float(row[5])
-            k = float(row[6])
-            f = float(row[7])
-            z = complex(float(row[8]), float(row[9]))
-            # calculation of deviation between calculation and validated values
-            CPL = pad.Coupler(4, f, z)
-            Cost = CPL.cost(x, d, eps_r, k)
-            # output creation Cost and sweept variables
-            OUTPUT.append((Cost, x[2], x[1]))
+            if row[0]=='with':
+                BEOL = sub.Substrate(row[1])
+            else:
+                x = np.array((float(row[0]), float(row[1]), float(row[2]), float(row[3])))
+                k = float(row[4])
+                f = float(row[5])
+                z = complex(float(row[6]), float(row[7]))
+                # calculation of deviation between calculation and validated values
+                CPL = pad.Coupler(BEOL, f, z)
+                Cost = CPL.cost(x)
+                # output creation Cost and sweept variables
+                OUTPUT.append((Cost, x[2], x[1]))
         except ValueError:
             #importation error gestion
             print('line skip :'+str(row))
@@ -55,8 +56,8 @@ COST_TOT = list()
 for w in W_TABLE:
     COST_VS_DI = list()
     for di in DI_TABLE:
-        CPL = pad.Coupler(4, 5e9, 50)
-        COST_VS_DI.append(CPL.cost([w, 1, di, 2.1e-6], 1.35e-6, 4.3, 0.9))
+        CPL = pad.Coupler(BEOL, 5e9, 50)
+        COST_VS_DI.append(CPL.cost([w, 1, di, 2.1e-6]))
     COST_TOT.append(COST_VS_DI)
 
 FIG = plt.figure()
