@@ -45,7 +45,7 @@ class Substrate:
     """
     def __init__(self, _path=''):
         if _path != '':
-            self.dump(_path)
+            self.load(_path)
         else:
             self.sub = list()
     def add_layer(self, _layer):
