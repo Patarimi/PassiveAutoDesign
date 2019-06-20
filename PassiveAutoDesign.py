@@ -20,9 +20,9 @@ class Coupler:
         self.z_c = _zc
         self.k = _k
         self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
-                       (1, 4),
-                       (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
-                       (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
+                                (1, 4),
+                                (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
+                                (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
         geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
         self.transfo = Transformer(geo, geo, esp_r, h_int, h_sub)
     def cost(self, sol):
@@ -76,13 +76,13 @@ class Balun:
         self.z_ld = _z_load
         self.k = _k
         self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
-                       (1, 4),
-                       (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
-                       (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap),
-                       (_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
-                       (1, 4),
-                       (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
-                       (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
+                                (1, 4),
+                                (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
+                                (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap),
+                                (_substrate.sub[2].width['min'], _substrate.sub[2].width['max']),
+                                (1, 4),
+                                (_substrate.sub[2].width['max'], 20*_substrate.sub[2].width['max']),
+                                (_substrate.sub[2].gap, 1.01*_substrate.sub[2].gap)])
         geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
         self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
     def cost(self, sol):
