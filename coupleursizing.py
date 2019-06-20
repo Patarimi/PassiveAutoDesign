@@ -38,12 +38,11 @@ CPL_TST.print(RES, list(zip(X_MIN, X_MAX)))
 with open('./cache/model_ind.cir', 'w') as file:
     file.write(CPL_TST.transfo.generate_spice_model(0.9))
 
+#%% Balun Design
+# Desing inputs
 ZS_TARG = np.array([20+1j*40, 20+1j*40])
 ZL_TARG = np.array([50 + 1j*0, 0.1])
 F_TARG = np.array([4e9, 8e9])
-
-#%% Balun Design
-# Desing inputs
 K_COEFF = 0.9
 # Technological/geometrical constraints
 BOUNDS = list(zip(X_MIN+X_MIN, X_MAX+X_MAX))
