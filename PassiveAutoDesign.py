@@ -193,8 +193,8 @@ class Transformer:
             dist = self.dist
         else:
             dist = self.dist_sub
-        c_1 = 6.86344013   #constante1 empirique pour capacité
-        c_2 = 5.24903708   #constante2 empirique pour capacité
+        c_1 = 6.86   #constante1 empirique pour capacité
+        c_2 = 5.25   #constante2 empirique pour capacité
         eps_0 = 8.85418782e-12
         n_t = self.prim['n_turn']
         return self.prim['width']*eps_0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
@@ -221,17 +221,17 @@ RIN		3	IN	50\n\
 ROUT	OUT	0	50\n\
 RCPL	CPL	0	50\n\
 RISO	ISO	0	50\n\n\
-L1		IN	1	{self.model["lp"]:.3e}\n\
-R1		1	OUT	{self.model["rp"]:.3e}\n\
-L2		CPL	2	{self.model["ls"]:.3e}\n\
-R2		2	ISO	{self.model["rs"]:.3e}\n\
+L1		IN	1	{self.model["lp"]*1e12:.1f}p\n\
+R1		1	OUT	{self.model["rp"]*1e3:.1f}m\n\
+L2		CPL	2	{self.model["ls"]*1e12:.1f}p\n\
+R2		2	ISO	{self.model["rs"]*1e3:.1f}m\n\
 K		L1	L2	{k_ind:.3n}\n\
-CG1		IN	0	{self.model["cg"]/4:.3e}\n\
-CG2		OUT	0	{self.model["cg"]/4:.3e}\n\
-CG3		ISO	0	{self.model["cg"]/4:.3e}\n\
-CG4		CPL	0	{self.model["cg"]/4:.3e}\n\
-CM1		IN	CPL	{self.model["cm"]/2:.3e}\n\
-CM2		ISO	OUT	{self.model["cm"]/2:.3e}\n\n'
+CG1		IN	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CG2		OUT	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CG3		ISO	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CG4		CPL	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CM1		IN	CPL	{self.model["cm"]*1e15/2:.1f}f\n\
+CM2		ISO	OUT	{self.model["cm"]*1e15/2:.1f}f\n\n'
 # Other functions
 def std_dev(mesured, targeted):
     """

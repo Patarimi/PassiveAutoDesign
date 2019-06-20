@@ -4,14 +4,13 @@ Created on Thu Apr 25 15:04:53 2019
 
 @author: mpoterea
 
-This Script is given as an example. First, it describes the subtrate BOEL.
+This Script is given as an example.
+First, it describes the subtrate BOEL.
 Then, it designs an hybrid coupler and an impendance tranformer.
 """
-
 import numpy as np
 import PassiveAutoDesign as pad
 import substrate as sub
-
 #Definition of the substrate different layers
 BEOL = sub.Substrate()
 BEOL.add_layer(sub.Layer('M_top', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
@@ -27,9 +26,8 @@ BEOL.add_layer(sub.Layer('gnd_plane', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
 CPL_TST = pad.Coupler(BEOL)
 RES = CPL_TST.design(49.8e9, 50.0)
 CPL_TST.print(RES)
-
 #Write the spice model of the optimal design found
-with open('./cache/model_ind.cir', 'w') as file:
+with open('./cache/model_coupler.cir', 'w') as file:
     file.write(CPL_TST.transfo.generate_spice_model(0.9))
 
 #%% Balun Design
@@ -45,3 +43,6 @@ BALUN_TST.print(RES2)
 # Inductance of the primary and secondary inductors
 LS_SYNTH = BALUN_TST.transfo.model['ls']
 LL_SYNTH = BALUN_TST.transfo.model['lp']
+#Write the spice model of the optimal design found
+with open('./cache/model_balun.cir', 'w') as file:
+    file.write(BALUN_TST.transfo.generate_spice_model(0.9))
