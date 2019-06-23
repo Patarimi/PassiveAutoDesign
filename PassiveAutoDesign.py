@@ -7,6 +7,7 @@ Created on Fri Apr 26 14:12:17 2019
 import numpy as np
 from scipy.optimize import dual_annealing
 import ngspice_warper as ng
+u0 = 4*np.pi*1e-7 #H/m
 
 class Coupler:
     """
@@ -23,14 +24,22 @@ class Coupler:
                                 (1, 4),
                                 (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
                                 (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
-        geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
-        self.transfo = Transformer(geo, geo, esp_r, h_int, h_sub)
+        geo = {'di':20,
+               'n_turn':1,
+               'width':2e-6,
+               'gap':2e-6,
+               'height':_substrate.sub[0].height}
+        self.transfo = Transformer(geo, geo, esp_r, h_int, h_sub, _fc)
     def cost(self, sol):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
         """
-        geo = {'di':sol[2], 'n_turn':np.round(sol[1]), 'width':sol[0], 'gap':sol[3]}
+        geo = {'di':sol[2],
+               'n_turn':np.round(sol[1]),
+               'width':sol[0],
+               'gap':sol[3],
+               'height':self.transfo.prim['height']}
         self.transfo.set_primary(geo)
         self.transfo.set_secondary(geo)
         b_model = bytes(self.transfo.generate_spice_model(self.k), encoding='UTF-8')
@@ -83,15 +92,27 @@ class Balun:
                                 (1, 4),
                                 (_substrate.sub[2].width['max'], 20*_substrate.sub[2].width['max']),
                                 (_substrate.sub[2].gap, 1.01*_substrate.sub[2].gap)])
-        geo = {'di':20, 'n_turn':1, 'width':2e-6, 'gap':2e-6}
+        geo = {'di':20,
+               'n_turn':1,
+               'width':2e-6,
+               'gap':2e-6,
+               'height':_substrate.sub[0].height}
         self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
     def cost(self, sol):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
         """
-        self.transfo.set_primary({'di':sol[2], 'n_turn':np.round(sol[1]), 'width':sol[0], 'gap':sol[3]})
-        self.transfo.set_secondary({'di':sol[6], 'n_turn':np.round(sol[5]), 'width':sol[4], 'gap':sol[7]})
+        self.transfo.set_primary({'di':sol[2],
+                                  'n_turn':np.round(sol[1]),
+                                  'width':sol[0],
+                                  'gap':sol[3],
+                                  'height':self.transfo.prim['height']})
+        self.transfo.set_secondary({'di':sol[6],
+                                    'n_turn':np.round(sol[5]),
+                                    'width':sol[4],
+                                    'gap':sol[7],
+                                    'height':self.transfo.prim['height']})
         l_source = self.transfo.model['ls']
         l_load = self.transfo.model['lp']
         k = self.k
@@ -131,17 +152,16 @@ class Balun:
 class Transformer:
     """
         Create a transformator object with the specified geometry
-        _primary and _secondary={'di':_di, 'n_turn':_n_turn, 'width':_width, 'gap':_gap}
+        _primary and _secondary={'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height}
         and calculated the associated electrical model
     """
-    def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _height_prim=4e-6, _height_sec=4e-6):
+    def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _freq=1e9):
         self.prim = _primary
         self.second = _secondary
         self.dist = _dist
         self.dist_sub = _dist_sub
+        self.freq = _freq
         self.eps_r = _eps_r
-        self.height_prim = _height_prim
-        self.height_sec = _height_sec
         self.model = {'lp':self.l_geo(True),
                       'rp':self.r_geo(True, 17e-9),
                       'ls':self.l_geo(False),
@@ -202,15 +222,17 @@ class Transformer:
         """
             return the value of the resistance of the described transformer
         """
-        c_1 = 6.86344013   #constante1 empirique pour capacité
-        c_2 = 5.24903708   #constante2 empirique pour capacité
         if _of_primary:
             geo = self.prim
-            height = self.height_prim
         else:
             geo = self.second
-            height = self.height_sec
-        return rho*(c_1+c_2*(geo['n_turn']-1))*geo['di']/(geo['width']*height)
+        n_t = geo['n_turn']
+        height = geo['height']
+        l_tot = 8*np.tan(np.pi/8)*n_t*(geo['di']+geo['width']+(n_t-1)*(geo['width']+geo['gap']))
+        r_dc = rho*l_tot/(geo['width']*height)
+        skin_d = np.sqrt(rho/(u0*self.freq*np.pi))
+        r_ac = rho*l_tot/((1+height/geo['width'])*skin_d*(1-np.exp(-height/skin_d)))
+        return r_dc + r_ac
     def generate_spice_model(self, k_ind):
         """
             Generate a equivalent circuit of a transformer with the given values
