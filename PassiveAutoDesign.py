@@ -215,7 +215,7 @@ class Transformer:
         """
             Generate a equivalent circuit of a transformer with the given values
         """
-        return f'Hybrid Coupler\n\n\
+        return f'Transformer Model\n\n\
 VIN		3	0	DC	0	AC	1\n\
 RIN		3	IN	50\n\
 ROUT	OUT	0	50\n\
