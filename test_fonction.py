@@ -45,6 +45,8 @@ plt.xlabel("Inner Diameter (µm)")
 plt.ylim(bottom=0)
 plt.xlim(left=0)
 plt.grid(True)
+TMP = 100*COST_RES[:,0]
+print(f'Typical Error\nmin:\t{np.min(TMP):2.1f}\nmed:\t{np.median(TMP):2.1f}\nmax:\t{np.max(TMP):2.1f}')
 
 # %% drawing of the cost function versus di and W
 
