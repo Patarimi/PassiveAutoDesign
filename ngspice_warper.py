@@ -17,7 +17,7 @@ def generate_ac_simulation(f_start, f_stop, n_step):
         generate an AC simulation with n_step linear steps between f_start and f_stop
     """
     return f'.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
-.PRINT AC V(IN) I(VIN) V(OUT) V(CPL)\n\n\
+.PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     #test fonctions
     REF_MODEL = 'Hybrid Coupler\n\nVIN\t\t3\t0\tDC\t0\tAC\t1\nRIN\t\t3\tIN\t50\nROUT\tOUT\t0\t50\nRCPL\tCPL\t0\t50\nRISO\tISO\t0\t50\n\nL1\t\tIN\t1\t1.000e-09\nR1\t\t1\tOUT\t5.000e-01\nL2\t\tCPL\t2\t1.000e-09\nR2\t\t2\tISO\t5.000e-01\nK\t\tL1\tL2\t0.9\nCG1\t\tIN\t0\t2.500e-16\nCG2\t\tOUT\t0\t2.500e-16\nCG3\t\tISO\t0\t2.500e-16\nCG4\t\tCPL\t0\t2.500e-16\nCM1\t\tIN\tCPL\t5.000e-16\nCM2\t\tISO\tOUT\t5.000e-16\n\n'
     S_CTRL = generate_ac_simulation(1e9, 1e9, 1)
-    REF_CTRL = '.AC LIN\t1\t1.000e+09\t1.000e+09\n.PRINT AC V(IN) I(VIN) V(OUT) V(CPL)\n\n.OPTION ELTOL=1e-12\n.END\n'
+    REF_CTRL = '.AC LIN\t1\t1.000e+09\t1.000e+09\n.PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n.OPTION ELTOL=1e-12\n.END\n'
     if S_CTRL != REF_CTRL:
         raise ValueError
     ZC, IHSR = get_results(bytes(REF_MODEL+S_CTRL, encoding='UTF-8'))
