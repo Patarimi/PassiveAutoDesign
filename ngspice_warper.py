@@ -50,13 +50,13 @@ def get_results(spice_bytes):
     if len(data) == 0:
         print(table)
         return -1, -1
-    s_11 = -data[0]-50*data[1]
-    s_21 = data[2]
-    s_31 = data[3]
-    z_c = 50*(1-s_11)/(s_11+1)
-    ihsr = -dB(s_21-1j*s_31)-dB(s_21+1j*s_31)
-    return z_c, ihsr
-
+        raise ValueError(table)
+    data = np.array(data)
+    S = np.array((-data[0]-50*data[1],
+                  data[2],
+                  data[3],
+                  data[4]))
+    return S
 if __name__ == '__main__':
     #test fonctions
     REF_MODEL = 'Hybrid Coupler\n\nVIN\t\t3\t0\tDC\t0\tAC\t1\nRIN\t\t3\tIN\t50\nROUT\tOUT\t0\t50\nRCPL\tCPL\t0\t50\nRISO\tISO\t0\t50\n\nL1\t\tIN\t1\t1.000e-09\nR1\t\t1\tOUT\t5.000e-01\nL2\t\tCPL\t2\t1.000e-09\nR2\t\t2\tISO\t5.000e-01\nK\t\tL1\tL2\t0.9\nCG1\t\tIN\t0\t2.500e-16\nCG2\t\tOUT\t0\t2.500e-16\nCG3\t\tISO\t0\t2.500e-16\nCG4\t\tCPL\t0\t2.500e-16\nCM1\t\tIN\tCPL\t5.000e-16\nCM2\t\tISO\tOUT\t5.000e-16\n\n'
