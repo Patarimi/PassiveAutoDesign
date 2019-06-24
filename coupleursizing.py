@@ -22,22 +22,25 @@ BEOL.add_layer(sub.Layer('Inter', 9.54e-6, sub.COPPER, sub.SILICON_OXYDE))
 BEOL.add_layer(sub.Layer('gnd_plane', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
 
 #%% Hybrid Coupler Design
-#Creation of a coupler in the BEOL substrate at 49.8 GHz and with 50 impendance
-CPL_TST = pad.Coupler(BEOL)
-RES = CPL_TST.design(49.8e9, 50.0)
+# Design inputs
+F_TARG = 18e9
+ZC_TARG = 50
+K_COEFF = 0.99
+#Creation of a coupler in the BEOL substrate at F_TARG and with ZC_TARG characteristic impedance
+CPL_TST = pad.Coupler(BEOL, _k=K_COEFF)
+RES = CPL_TST.design(F_TARG, ZC_TARG)
 CPL_TST.print(RES)
 #Write the spice model of the optimal design found
 with open('./cache/model_coupler.cir', 'w') as file:
-    file.write(CPL_TST.transfo.generate_spice_model(0.9))
+    file.write(CPL_TST.transfo.generate_spice_model(K_COEFF))
 
 #%% Balun Design
 # Design inputs
 ZS_TARG = np.array([20+1j*40])
 ZL_TARG = np.array([50 + 1j*0])
 F_TARG = np.array([4e9])
-K_COEFF = 0.9
-# Creation of an impedance tranformer from ZS_TARG to ZL_TARG af F_TARG
-BALUN_TST = pad.Balun(BEOL)
+# Creation of an impedance tranformer from ZS_TARG to ZL_TARG at F_TARG
+BALUN_TST = pad.Balun(BEOL, _k=K_COEFF)
 RES2 = BALUN_TST.design(F_TARG, ZL_TARG, ZS_TARG)
 BALUN_TST.print(RES2)
 # Inductance of the primary and secondary inductors
@@ -45,4 +48,4 @@ LS_SYNTH = BALUN_TST.transfo.model['ls']
 LL_SYNTH = BALUN_TST.transfo.model['lp']
 #Write the spice model of the optimal design found
 with open('./cache/model_balun.cir', 'w') as file:
-    file.write(BALUN_TST.transfo.generate_spice_model(0.9))
+    file.write(BALUN_TST.transfo.generate_spice_model(K_COEFF))
