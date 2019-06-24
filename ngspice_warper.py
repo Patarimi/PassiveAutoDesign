@@ -34,13 +34,17 @@ def convert(t_bytes):
             pass
     return complex(ret[2], ret[3])
 
-def get_results(spice_bytes):
+def get_results(spice_bytes, _dump_results=False):
     """
         run the simulation and return the Z_c and IHSR
     """
     pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
     ret, _ = pipe.communicate(input=spice_bytes)
     table = ret.decode().splitlines()
+    if _dump_results:
+        with open('./cache/dump.res', 'w') as file:
+            for line in table:
+                file.write(line+'\n')
     data = list()
     for line in table:
         if len(line) == 0:
