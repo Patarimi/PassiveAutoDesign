@@ -46,14 +46,22 @@ def get_results(spice_bytes, _dump_results=False):
             for line in table:
                 file.write(line+'\n')
     data = list()
+    param = list()
+    new_param = False
     for line in table:
         if len(line) == 0:
+            new_param = False
             continue
         if line[0] == '0':
-            data.append(convert(line))
+            new_param = True
+            if len(param) != 0:
+                data.append(param)
+                param = list()
+        if new_param:
+            param.append(convert(line))
+    if len(param) != 0: # getting the last parameter !!
+        data.append(param)
     if len(data) == 0:
-        print(table)
-        return -1, -1
         raise ValueError(table)
     data = np.array(data)
     S = np.array((-data[0]-50*data[1],
