@@ -34,7 +34,8 @@ with open('./test_set/coupleur_data.csv', newline='') as data_file:
                 OUTPUT.append((Cost, x[2], x[1]))
         except ValueError:
             #importation error gestion
-            print('line skip :'+str(row))
+            if row[0]!='#W':
+                print('line skip :'+str(row))
 COST_RES = np.array(OUTPUT)
 
 plt.plot(COST_RES[0:5, 1]*1e6, 100*COST_RES[0:5, 0], 'rx')
