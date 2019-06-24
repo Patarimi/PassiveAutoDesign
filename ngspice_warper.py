@@ -64,10 +64,10 @@ if __name__ == '__main__':
     REF_CTRL = '.AC LIN\t1\t1.000e+09\t1.000e+09\n.PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n.OPTION ELTOL=1e-12\n.END\n'
     if S_CTRL != REF_CTRL:
         raise ValueError
-    ZC, IHSR = get_results(bytes(REF_MODEL+S_CTRL, encoding='UTF-8'))
-    if np.real(ZC) > 50.82 or np.real(ZC) < 50.81:
-        raise ValueError(f'real(z) = {np.real(ZC)}')
-    if np.imag(ZC) > 6.24 or np.imag(ZC) < 6.23:
-        raise ValueError(f'imag(z) = {np.imag(ZC)}')
-    if IHSR > 12.25 or IHSR < 12.24:
+    S = get_results(bytes(REF_MODEL+S_CTRL, encoding='UTF-8'))
+    IRL = -10*np.log10(np.abs(S[0]))
+    if IRL < 12:
+        raise ValueError(f'IRL = {IRL}')
+    IHSR = -10*np.log10(np.abs(S[1]+1j*S[2]))
+    if IHSR < 3:
         raise ValueError(f'ihsr = {IHSR}')
