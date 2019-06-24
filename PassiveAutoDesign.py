@@ -8,12 +8,13 @@ import numpy as np
 from scipy.optimize import dual_annealing
 import ngspice_warper as ng
 u0 = 4*np.pi*1e-7 #H/m
+eps0 = 8.8541878128e-12 #F/m
 
 class Coupler:
     """
         Create a coupler object
     """
-    def __init__(self, _substrate, _fc=1e9, _zc=50, _k=0.9):
+    def __init__(self, _substrate, _fc=1e9, _zc=50, _k=0.99):
         esp_r = _substrate.sub[1].dielectric.epsilon
         h_int = _substrate.sub[1].height
         h_sub = _substrate.sub[3].height
@@ -64,7 +65,7 @@ class Coupler:
         """
         sol = res.x*1e6
         bds = np.array(self.bounds)*1e6
-        print(f'Solution funds with remaining error of: {res.fun:.2e}')
+        print(f'Solution funds with remaining error of: {float(res.fun):.2e}')
         print('Termination message of algorithm: '+str(res.message))
         print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
         print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
