@@ -83,3 +83,6 @@ if __name__ == '__main__':
     IHSR = -10*np.log10(np.abs(S[1]+1j*S[2]))
     if IHSR < 3:
         raise ValueError(f'ihsr = {IHSR}')
+    N_STEP = 54
+    S_CTRL = generate_ac_simulation(1e9, 20e9, N_STEP)
+    S = get_results(bytes(REF_MODEL+S_CTRL, encoding='UTF-8'), True)
