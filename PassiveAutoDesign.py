@@ -24,11 +24,11 @@ class Coupler:
         self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
                                 (1, 4),
                                 (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
-                                (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap)])
+                                (_substrate.sub[0].gap, 3*_substrate.sub[0].gap)])
         geo = {'di':20,
-               'n_turn':1,
-               'width':2e-6,
-               'gap':2e-6,
+               'n_turn':2,
+               'width':self.bounds[0, 0],
+               'gap':self.bounds[3, 0],
                'height':_substrate.sub[0].height}
         self.transfo = Transformer(geo, geo, esp_r, h_int, h_sub, _fc)
     def cost(self, sol):
