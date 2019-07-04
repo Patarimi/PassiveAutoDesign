@@ -45,10 +45,10 @@ class Coupler:
         self.transfo.set_secondary(geo)
         b_model = bytes(self.transfo.generate_spice_model(self.k), encoding='UTF-8')
         b_simulation = bytes(ng.generate_ac_simulation(self.f_c, self.f_c, 1), encoding='UTF-8')
-        S = ng.get_results(b_model+b_simulation)
-        if ihsr(S[1], S[2]) > 26.7:
-            return np.abs(S[0])
-        return np.abs(S[0])+26.7-ihsr(S[1], S[2])
+        s_p = ng.get_results(b_model+b_simulation)
+        if ihsr(s_p[1], s_p[2]) > 26.7:
+            return np.abs(s_p[0])
+        return np.abs(s_p[0])+26.7-ihsr(s_p[1], s_p[2])
     def design(self, f_targ, z_targ):
         """
             design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
