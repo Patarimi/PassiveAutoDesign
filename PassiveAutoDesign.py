@@ -5,7 +5,7 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
-from scipy.optimize import dual_annealing
+from scipy.optimize import dual_annealing, minimize_scalar
 import ngspice_warper as ng
 u0 = 4*np.pi*1e-7 #H/m
 eps0 = 8.8541878128e-12 #F/m
@@ -49,6 +49,12 @@ class Coupler:
         if ihsr(s_p[1], s_p[2]) > 26.7:
             return np.abs(s_p[0])
         return np.abs(s_p[0])+26.7-ihsr(s_p[1], s_p[2])
+    def __cost_est_inductance(self, _di):
+        self.transfo.prim['di'] = _di
+        return np.abs(self.transfo.l_geo()-self.z_c/(2*np.pi*self.f_c))
+    def __cost_est_capacitance(self, _width):
+        self.transfo.prim['width'] = _width
+        return np.abs(self.transfo.cc_geo()+self.transfo.cc_geo(False)-1/(self.z_c*2*np.pi*self.f_c))
     def design(self, f_targ, z_targ):
         """
             design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
@@ -56,7 +62,13 @@ class Coupler:
         """
         self.f_c = f_targ
         self.z_c = z_targ
-        res = dual_annealing(self.cost, self.bounds, maxiter=200)
+        #finding the inner diameter that give the correct inductance
+        minimize_scalar(self.__cost_est_inductance, bounds=self.bounds[2])
+        #finding the path width that give the correct capacitor
+        minimize_scalar(self.__cost_est_capacitance, bounds=self.bounds[0])
+        geo = self.transfo.prim
+        x_0 = np.array([geo['width'], geo['n_turn'], geo['di'], geo['gap']])
+        res = dual_annealing(self.cost, self.bounds, x0=x_0)
         return res
     def print(self, res):
         """
