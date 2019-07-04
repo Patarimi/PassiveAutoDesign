@@ -60,21 +60,22 @@ print(f'Typical Error\nmin:\t{np.min(TMP):2.1f}\nmed:\t{np.median(TMP):2.1f}\nma
 
 # %% drawing of the cost function versus di and W
 
-W_TABLE = np.arange(3e-6, 10e-6, 0.1e-6)
+W_TABLE = np.arange(3e-6, 10e-6, 0.2e-6)
 DI_TABLE = np.arange(450e-6, 800e-6, 10e-6)
 DI, W = np.meshgrid(DI_TABLE, W_TABLE)
 
-COST_TOT = list()
+COST = np.zeros(DI.shape)
+i=0
 for w in W_TABLE:
-    COST_VS_DI = list()
+    j=0
     for di in DI_TABLE:
         CPL = pad.Coupler(BEOL, 5e9, 50)
-        COST_VS_DI.append(CPL.cost([w, 1, di, 2.1e-6]))
-    COST_TOT.append(COST_VS_DI)
-
+        COST[i, j] = CPL.cost([w, 1, di, 2.1e-6])
+        j +=1
+    i +=1
 FIG = plt.figure()
 AX = FIG.add_subplot(111, projection='3d')
-AX.plot_surface(DI*1e6, W*1e6, 100*(1-np.array(COST_TOT)), cmap=cm.coolwarm)
-AX.set_zlabel("Ideality (%)")
+AX.plot_surface(DI*1e6, W*1e6, -COST, cmap=cm.coolwarm)
+AX.set_zlabel("Cost")
 AX.set_ylabel("Width (µm)")
 AX.set_xlabel("Inner Diameter (µm)")
