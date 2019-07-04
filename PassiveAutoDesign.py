@@ -65,7 +65,7 @@ class Coupler:
         """
         sol = res.x*1e6
         bds = np.array(self.bounds)*1e6
-        print(f'Solution funds with remaining error of: {float(res.fun):.2e}')
+        print(f'Solution funds with remaining error of: {float(res.fun):.2f}')
         print('Termination message of algorithm: '+str(res.message))
         print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
         print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
@@ -273,4 +273,7 @@ def dB(cmplx):
     """
     return 20*np.log10(np.abs(cmplx))
 def ihsr(_s31, _s21):
-    return -np.min((dB(_s21-1j*_s31),dB(_s21+1j*_s31)))    
+    """
+        Return the IHSR (Ideal Hybrid Splitting Ratio) for the given gains
+    """
+    return -np.min((dB(_s21-1j*_s31), dB(_s21+1j*_s31)))
