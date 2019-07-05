@@ -8,7 +8,7 @@ Created on Mon May 20 14:30:07 2019
 from subprocess import Popen, PIPE
 import numpy as np
 
-PATH = "C:/Users/mpoterea/Documents/PassiveAutoDesign/"
+PATH = "./"
 FILE_NAME = "cache/model_ind.cir"
 EXE_NAME = "tierce_parts/ngspice_con.exe"
 
