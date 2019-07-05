@@ -5,6 +5,7 @@ Created on Fri Jun  7 15:35:05 2019
 @author: mpoterea
 """
 import yaml
+import os
 
 class Metal:
     """
@@ -69,7 +70,12 @@ class Substrate:
         """
             save the subtrate as an yaml file
         """
-        with open(_path, 'w') as file:
+        save_dir = _path.rsplit('/', 1)
+        if len(save_dir)>2:
+            raise ValueError('incorrect path')
+        if len(save_dir)==2:
+            os.makedirs(save_dir[0], exist_ok=True)
+        with open(_path, 'w+') as file:
             yaml.dump(self.sub, file)
     def load(self, _path):
         """
