@@ -38,7 +38,10 @@ def get_results(spice_bytes, _dump_results=False):
     """
         run the simulation and return the Z_c and IHSR
     """
-    pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
+    try:
+        pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
+    except:
+        raise EnvironmentError('ngspice is not installed !')
     ret, _ = pipe.communicate(input=spice_bytes)
     table = ret.decode().splitlines()
     if _dump_results:
