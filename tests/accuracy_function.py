@@ -17,7 +17,7 @@ import ngspice_warper as ng
 
 OUTPUT = list()   #contains list of tuples (cost, param sweep for plotting)
 # importation of reference data and cost calculation
-with open('./test_set/coupleur_data.csv', newline='') as data_file:
+with open('tests/coupleur_data.csv', newline='') as data_file:
     DATA_RAW = csv.reader(data_file, delimiter='\t')
     for row in DATA_RAW:
         try:
