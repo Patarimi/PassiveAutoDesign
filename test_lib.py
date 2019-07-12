@@ -30,3 +30,17 @@ CM2\t\tISO\tOUT\t5.000e-16\n\n'
         assert ng.generate_ac_simulation(1e9, 1e9, 1) == REF_CTRL
         S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
         assert (S == [-0.011917  -0.06115071j, 0.4940414 -0.030811j, 0.00345157+0.02766141j, -0.0034515 -0.0275043j]).all
+
+import substrate as sb
+def test_substrate():
+    SUB = sb.Substrate()
+    M_LYR = sb.Layer('m_bott', 0.1e-3, sb.COPPER, sb.AIR)
+    M_LYR.set_rules(0.508e-3, 10e-3, 0.508e-3)
+    D_LYR = sb.Layer('core', 0.8e-3, sb.COPPER, sb.D5880)
+    D_LYR.set_rules(0.508e-3, 10e-3, 0.508e-3)
+    SUB.add_layer(M_LYR)
+    SUB.add_layer(D_LYR)
+    SUB.add_layer(M_LYR)
+    SUB.dump('cache/tech.yml')
+    SUB.load('cache/tech.yml')
+    assert SUB.get_index_of('m_bott') == 0
