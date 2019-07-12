@@ -4,6 +4,12 @@ This script is in an early stage of development. For now, it only works with Win
 
 Getting started
 ---
-The library required numpy, scipy and matplotlib (for plotting results). The versions can be find in _requirements.txt_.\
-The _couplingsizing.py_ file is an example for coupler and balun design based on transformer.\
-The _AF-SIW_sizing.py_ file is an example for Substrate Integrated Waveguide (SIW) design.
+The library required numpy, scipy and matplotlib (for plotting results). The required versions can be find in _requirements.txt_.\
+Examples are given in the _examples_ directory.
+
+Library Architecture
+---
+
+The _substrate.py_ file describes the substrate used (or Back End Of Line).\
+The _structure.py_ file describes the rf-structure implemented in a susbtrate (SIW, AF-SIW, Transformers).\
+The _passive_component.py_ describes the rf-component (hybrid coupler, impedance transformers, and (soon ?) filters). It also enables rough geometry design/estimation from given rf specifications.
