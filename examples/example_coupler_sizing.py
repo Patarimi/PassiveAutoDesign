@@ -9,7 +9,7 @@ First, it describes the subtrate BOEL.
 Then, it designs an hybrid coupler and an impendance tranformer.
 """
 import numpy as np
-import PassiveAutoDesign as pad
+import passive_component as pad
 import substrate as sub
 #Definition of the substrate different layers
 BEOL = sub.Substrate()
