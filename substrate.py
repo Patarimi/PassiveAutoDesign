@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jun  7 15:35:05 2019
-
-@author: mpoterea
+Define all the object use to describe the substrate in which the structures are created.
 """
-import yaml
 import os
+import yaml
 
 class Metal:
     """
@@ -71,7 +69,7 @@ class Substrate:
             save the subtrate as an yaml file
         """
         save_dir = _path.rsplit('/', 1)
-        if len(save_dir)>2:
+        if len(save_dir) > 2:
             raise ValueError('incorrect path')
         if len(save_dir)==2:
             os.makedirs(save_dir[0], exist_ok=True)
