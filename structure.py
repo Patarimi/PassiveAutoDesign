@@ -1,0 +1,278 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  7 16:10:47 2019
+
+@author: mpoterea
+"""
+import numpy as np
+from scipy.optimize import minimize_scalar
+import warnings
+
+u0 = 4*np.pi*1e-7 #H/m
+c0 = 299792458 #m/s
+eps0 = 8.8541878128e-12 #F/m
+eta0 = np.sqrt(u0/eps0) #Ohm
+NmtodBcm = 8.686/100
+
+class SIW:
+    """
+        Create an SIW object with a given geometry
+    """
+    def __init__(self, _metal, _diel, _height):
+        self.metal = _metal
+        self.diel = _diel
+        self.height = _height
+        self.width = 0
+        self.f_c = 0
+        self.eta = np.sqrt(u0/(self.diel.epsilon*eps0))
+    def set_width(self, _width):
+        """
+            set the width of the wave-guide and update the cut-off frequency
+        """
+        self.width = _width
+        self.f_c = self.calc_fc(1, 0)
+    def set_fc(self, _fc):
+        """
+            set the cut-off frequency of the wave-guide and update the width
+        """
+        self.f_c = _fc
+        self.width = c0/(_fc*2*np.sqrt(self.diel.epsilon))
+    def calc_fc(self, _m, _n):
+        """
+            return the value of the cut-off frequency of the TEM mode _m, _n
+        """
+        eps = self.diel.epsilon
+        return c0*np.sqrt((_m*np.pi/self.width)**2+(_n*np.pi/self.height)**2)/(2*np.pi*np.sqrt(eps))
+    def calc_k(self, _freq):
+        """
+            convert the freq in pulsation in the given substrate
+        """
+        return np.sqrt(self.diel.epsilon)*2*np.pi*_freq/c0
+    def calc_beta(self, _freq):
+        """
+            return the value of the velocity (beta)
+        """
+        return np.sqrt(self.calc_k(_freq)**2-(np.pi/self.width)**2)
+    def calc_a_d(self, _freq):
+        """
+            return the value of the dielectric loss in dB/m at the frequency freq (array-like)
+        """
+        k = self.calc_k(_freq)
+        tand = self.diel.tand
+        beta = self.calc_beta(_freq)
+        return NmtodBcm*k**2*tand/(2*beta)
+    def calc_a_c(self, _freq):
+        """
+            return the value of the conductor loss in dB/m at the frequency freq (array-like)
+        """
+        r_s = np.sqrt(2*np.pi*_freq*u0/(2*self.metal.rho))
+        eta = self.eta
+        k = self.calc_k(_freq)
+        beta = self.calc_beta(_freq)
+        height = self.height
+        width = self.width
+        return NmtodBcm*r_s*(2*height*np.pi**2+width**3*k**2)/((width**3)*height*beta*k*eta)
+    def calc_ksr(self, _freq):
+        """
+            return the coefficient of the added conductor loss introduce by surface rougthness
+        """
+        rho = self.metal.rho
+        skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
+        rougth = self.diel.rougthness
+        return 2*np.arctan(1.4*(rougth/skin_d)**2)/np.pi
+    def calc_pphc(self, _freq, _e_0):
+        """
+            return the peak power handling capability in watt
+        """
+        width = self.width
+        height = self.height
+        f_c = self.f_c
+        eps = self.diel.epsilon
+        return 0.25*np.sqrt(eps)*np.sqrt(1-(f_c/_freq)**2)*width*height*_e_0**2/eta0
+    def print_info(self):
+        """
+            output the size and the upper mode cut-off frequency
+        """
+        fc_01 = self.calc_fc(0, 1)
+        print(f'Width: {self.width*1e3:.2f} mm\tfc01: {fc_01*1e-9:.2f} GHz')
+    def get_sparam(self, _freq, _length):
+        """
+            return the 4 scattering parameters of a wave-guide section
+            of the given length for the given frequency
+        """
+        s11 = 0
+        alpha = self.calc_a_c(_freq)+(1+self.calc_ksr(_freq))*self.calc_a_d(_freq)
+        s21 = (1-s11)*np.exp(-(alpha+1j*self.calc_beta(_freq))*_length)
+        return s21
+class AF_SIW(SIW):
+    """
+        Create an AF-SIW object with a given geometry
+    """
+    def __init__(self, _metal, _diel, _height, _slab):
+        SIW.__init__(self, _metal, _diel, _height)
+        if _slab == 0:
+            warnings.warn("Slab size null, please use SIW class", RuntimeWarning)
+        self.slab = _slab
+    def set_width(self, _width):
+        """
+            set the width of the wave-guide and update the cut-off frequency
+        """
+        self.width = _width
+        self.f_c = self.__even_fc()
+    def set_fc(self, _fc):
+        """
+            set the cut-off frequency of the wave-guide and update the width
+        """
+        self.f_c = _fc
+        slb = self.slab
+        sqr_eps = np.sqrt(self.diel.epsilon)
+        tan = np.tan(2*slb*np.pi*_fc/c0)*sqr_eps
+        self.width = 2*slb+np.arctan(1/tan)*c0/(sqr_eps*np.pi*_fc)
+    def __even_fc(self, _fc):
+        width = self.slab
+        sqr_eps = np.sqrt(self.diel.epsilon)
+        return sqr_eps*np.tan(-2*np.pi*_fc*width/c0)+np.tan(-sqr_eps*2*np.pi*_fc*width/c0)
+    def __odd_fc(self, _fc):
+        width = self.slab
+        sqr_eps = np.sqrt(self.diel.epsilon)
+        return sqr_eps*np.tan(-2*np.pi*_fc*width/c0)+np.tan(-sqr_eps*2*np.pi*_fc*width/c0)
+    def calc_a_d(self, _freq):
+        return 0
+    def calc_ksr(self, _freq):
+        rho = self.metal.rho
+        skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
+        rougth = self.metal.rougthness
+        return 2*np.arctan(1.4*(rougth/skin_d)**2)/np.pi
+    def print_info(self):
+        """
+            output the size and the upper mode cut-off frequency
+        """
+        sol = minimize_scalar(self.__odd_fc)
+        print(f'Width: {self.width*1e3:.2f} mm\tfc01: {sol.x*1e-9:.2f} GHz')
+class Transformer:
+    """
+        Create a transformator object with the specified geometry
+        _primary and _secondary={'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height}
+        and calculated the associated electrical model
+    """
+    def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _freq=1e9):
+        self.prim = _primary
+        self.second = _secondary
+        self.dist = _dist
+        self.dist_sub = _dist_sub
+        self.freq = _freq
+        self.eps_r = _eps_r
+        self.model = {'lp':self.l_geo(True),
+                      'rp':self.r_geo(True, 17e-9),
+                      'ls':self.l_geo(False),
+                      'rs':self.r_geo(False, 17e-9),
+                      'cg':self.cc_geo(False),
+                      'cm':self.cc_geo(True),
+                      }
+    def set_primary(self, _primary):
+        """
+            modify the top inductor and refresh the related model parameters
+        """
+        self.prim = _primary
+        self.model['lp'] = self.l_geo(True)
+        self.model['rp'] = self.r_geo(True, 17e-9)
+        self.model['cg'] = self.cc_geo(False)
+        self.model['cm'] = self.cc_geo(True)
+    def set_secondary(self, _secondary):
+        """
+            modify the bottom inductor and refresh the related model parameters
+        """
+        self.second = _secondary
+        self.model['ls'] = self.l_geo(False)
+        self.model['rs'] = self.r_geo(False, 17e-9)
+        self.model['cg'] = self.cc_geo(False)
+        self.model['cm'] = self.cc_geo(True)
+    def l_geo(self, _of_primary=True):
+        """
+            return the value of the distributed inductance of the described transformer
+            if _of_primary, return the value of the top inductor
+            else, return the value of the bottom inductor
+        """
+        k_1 = 2.25   #constante1 empirique pour inductance
+        k_2 = 3.55   #constante2 empirique pour inductance
+        if _of_primary:
+            geo = self.prim
+        else:
+            geo = self.second
+        outer_diam = geo['di']+2*geo['n_turn']*geo['width']+2*(geo['n_turn']-1)*geo['gap']
+        rho = (geo['di']+outer_diam)/2
+        density = (outer_diam-geo['di'])/(outer_diam+geo['di'])
+        return k_1*4*np.pi*1e-7*geo['n_turn']**2*rho/(1+k_2*density)
+    def cc_geo(self, _mutual=True):
+        """
+            return the value of the distributed capacitance of the described transformer
+            if _mutual, return the capacitance between primary and secondary
+            else, return the capacitance to the ground plane
+        """
+        if _mutual:
+            dist = self.dist
+        else:
+            dist = self.dist_sub
+        c_1 = 6.86   #constante1 empirique pour capacité
+        c_2 = 5.25   #constante2 empirique pour capacité
+        eps_0 = 8.85418782e-12
+        n_t = self.prim['n_turn']
+        return self.prim['width']*eps_0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
+    def r_geo(self, _of_primary=True, rho=17e-10):
+        """
+            return the value of the resistance of the described transformer
+        """
+        if _of_primary:
+            geo = self.prim
+        else:
+            geo = self.second
+        n_t = geo['n_turn']
+        height = geo['height']
+        l_tot = 8*np.tan(np.pi/8)*n_t*(geo['di']+geo['width']+(n_t-1)*(geo['width']+geo['gap']))
+        r_dc = rho*l_tot/(geo['width']*height)
+        skin_d = np.sqrt(rho/(u0*self.freq*np.pi))
+        r_ac = rho*l_tot/((1+height/geo['width'])*skin_d*(1-np.exp(-height/skin_d)))
+        return r_dc + r_ac
+    def generate_spice_model(self, k_ind):
+        """
+            Generate a equivalent circuit of a transformer with the given values
+        """
+        return f'Transformer Model\n\n\
+VIN		3	0	DC	0	AC	1\n\
+RIN		3	IN	50\n\
+ROUT	OUT	0	50\n\
+RCPL	CPL	0	50\n\
+RISO	ISO	0	50\n\n\
+L1		IN	1	{self.model["lp"]*1e12:.1f}p\n\
+R1		1	OUT	{self.model["rp"]*1e3:.1f}m\n\
+L2		CPL	2	{self.model["ls"]*1e12:.1f}p\n\
+R2		2	ISO	{self.model["rs"]*1e3:.1f}m\n\
+K		L1	L2	{k_ind:.3n}\n\
+CG1		IN	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CG2		OUT	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CG3		ISO	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CG4		CPL	0	{self.model["cg"]*1e15/4:.1f}f\n\
+CM1		IN	CPL	{self.model["cm"]*1e15/2:.1f}f\n\
+CM2		ISO	OUT	{self.model["cm"]*1e15/2:.1f}f\n\n'
+# Other functions
+def std_dev(mesured, targeted):
+    """
+        return the standard deviation bewteen an array_like of results and their references.
+    """
+    m_l = mesured.size
+    if m_l == targeted.size:
+        std_d = np.zeros((m_l, 1))
+        for t_i in range(m_l):
+            std_d[t_i] = np.abs((mesured[t_i]-targeted[t_i])/(mesured[t_i]+targeted[t_i]))**2
+        return np.sqrt(np.sum(std_d))
+    return 100
+def dB(cmplx):
+    """
+        Return the decibel value of the given imaginary number.
+    """
+    return 20*np.log10(np.abs(cmplx))
+def ihsr(_s31, _s21):
+    """
+        Return the IHSR (Ideal Hybrid Splitting Ratio) for the given gains
+    """
+    return -np.min((dB(_s21-1j*_s31), dB(_s21+1j*_s31)))
