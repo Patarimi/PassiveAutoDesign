@@ -5,23 +5,16 @@ Created on Thu Apr 25 15:04:53 2019
 @author: mpoterea
 
 This Script is given as an example.
-First, it describes the subtrate BOEL.
+First, it loads a subtrate BEOL.
 Then, it designs an hybrid coupler and an impendance tranformer.
 """
 import numpy as np
 import passive_component as pad
 import substrate as sub
-#Definition of the substrate different layers
-BEOL = sub.Substrate()
-BEOL.add_layer(sub.Layer('M_top', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.sub[BEOL.get_index_of('M_top')].set_rules(2e-6, 20e-6, 2.1e-6)
-BEOL.add_layer(sub.Layer('Via', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.add_layer(sub.Layer('M_bot', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.sub[BEOL.get_index_of('M_bot')].set_rules(2e-6, 20e-6, 2.1e-6)
-BEOL.add_layer(sub.Layer('Inter', 9.54e-6, sub.COPPER, sub.SILICON_OXYDE))
-BEOL.add_layer(sub.Layer('gnd_plane', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
 
-#%% Hybrid Coupler Design
+#Loading the tech.yml file (see example_susbtrate.py)
+BEOL = sub.Substrate('examples/tech.yml')
+#%% Coupler Design
 # Design inputs
 F_TARG = 18e9
 ZC_TARG = 50
