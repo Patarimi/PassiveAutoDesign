@@ -4,9 +4,9 @@ Created on Fri Jun  7 16:10:47 2019
 
 @author: mpoterea
 """
+import warnings
 import numpy as np
 from scipy.optimize import minimize_scalar
-import warnings
 
 u0 = 4*np.pi*1e-7 #H/m
 c0 = 299792458 #m/s
@@ -152,7 +152,7 @@ class AF_SIW(SIW):
 class Transformer:
     """
         Create a transformator object with the specified geometry
-        _primary and _secondary={'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height}
+        _primary & _secondary={'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height}
         and calculated the associated electrical model
     """
     def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _freq=1e9):
@@ -254,25 +254,3 @@ CG3		ISO	0	{self.model["cg"]*1e15/4:.1f}f\n\
 CG4		CPL	0	{self.model["cg"]*1e15/4:.1f}f\n\
 CM1		IN	CPL	{self.model["cm"]*1e15/2:.1f}f\n\
 CM2		ISO	OUT	{self.model["cm"]*1e15/2:.1f}f\n\n'
-# Other functions
-def std_dev(mesured, targeted):
-    """
-        return the standard deviation bewteen an array_like of results and their references.
-    """
-    m_l = mesured.size
-    if m_l == targeted.size:
-        std_d = np.zeros((m_l, 1))
-        for t_i in range(m_l):
-            std_d[t_i] = np.abs((mesured[t_i]-targeted[t_i])/(mesured[t_i]+targeted[t_i]))**2
-        return np.sqrt(np.sum(std_d))
-    return 100
-def dB(cmplx):
-    """
-        Return the decibel value of the given imaginary number.
-    """
-    return 20*np.log10(np.abs(cmplx))
-def ihsr(_s31, _s21):
-    """
-        Return the IHSR (Ideal Hybrid Splitting Ratio) for the given gains
-    """
-    return -np.min((dB(_s21-1j*_s31), dB(_s21+1j*_s31)))
