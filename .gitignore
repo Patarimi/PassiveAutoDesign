@@ -1,5 +1,4 @@
 *.pyc
 *.cir
 *.tmp
-cache/*
 tierce_parts/Spice64/*
