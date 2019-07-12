@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
-import PassiveAutoDesign as pad
+import passive_component as pad
 import substrate as sub
 import ngspice_warper as ng
 
