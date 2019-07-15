@@ -14,6 +14,6 @@ def test_substrate():
     SUB.add_layer(M_LYR)
     SUB.add_layer(D_LYR)
     SUB.add_layer(M_LYR)
-    SUB.dump('cache/tech.yml')
-    SUB.load('cache/tech.yml')
+    SUB.dump('tests/tech.yml')
+    SUB.load('tests/tech.yml')
     assert SUB.get_index_of('m_bott') == 0
