@@ -10,7 +10,7 @@ import numpy as np
 
 PATH = "./"
 FILE_NAME = "cache/model_ind.cir"
-EXE_NAME = "tierce_parts/ngspice_con.exe"
+EXE_NAME = "simulation/ngspice_con.exe"
 
 def generate_ac_simulation(f_start, f_stop, n_step):
     """

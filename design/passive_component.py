@@ -6,8 +6,8 @@ Created on Fri Apr 26 14:12:17 2019
 """
 import numpy as np
 from scipy.optimize import dual_annealing, minimize_scalar
-import ngspice_warper as ng
-from structure import Transformer
+import simulation.ngspice_warper as ng
+from design.structure import Transformer
 
 class Coupler:
     """
