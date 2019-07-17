@@ -8,7 +8,7 @@ This Script is given as an example.
 It describes how to define a substrate (or Back End Of Line)
 and dump it in a .yml file
 """
-import substrate as sub
+import design.substrate as sub
 #Definition of the substrate different layers
 BEOL = sub.Substrate()
 BEOL.add_layer(sub.Layer('M_top', 3e-6, sub.COPPER, sub.SILICON_OXYDE))
