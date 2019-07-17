@@ -1,50 +1,27 @@
-- !!python/object:substrate.Layer
-  dielectric: &id001 !!python/object:substrate.Dielectric
-    epsilon: 4.2
+- &id002 !!python/object:design.substrate.Layer
+  dielectric: !!python/object:design.substrate.Dielectric
+    epsilon: 1
     rougthness: 0
     tand: 0
-  gap: 2.1e-06
-  height: 3.0e-06
-  metal: &id002 !!python/object:substrate.Metal
+  gap: 0.000508
+  height: 0.0001
+  metal: &id001 !!python/object:design.substrate.Metal
     rho: 580000000.0
     rougthness: 0.0004
-  name: M6
+  name: m_bott
   width:
-    max: 2.0e-05
-    min: 2.0e-06
-- !!python/object:substrate.Layer
-  dielectric: *id001
-  gap: 0.001
-  height: 3.0e-06
-  metal: *id002
-  name: Via5
+    max: 0.01
+    min: 0.000508
+- !!python/object:design.substrate.Layer
+  dielectric: !!python/object:design.substrate.Dielectric
+    epsilon: 2.2
+    rougthness: 0.0004
+    tand: 0.0009
+  gap: 0.000508
+  height: 0.0008
+  metal: *id001
+  name: core
   width:
-    max: 0.001
-    min: 0.001
-- !!python/object:substrate.Layer
-  dielectric: *id001
-  gap: 2.1e-06
-  height: 3.0e-06
-  metal: *id002
-  name: M5
-  width:
-    max: 2.0e-05
-    min: 2.0e-06
-- !!python/object:substrate.Layer
-  dielectric: *id001
-  gap: 0.001
-  height: 9.54e-06
-  metal: *id002
-  name: Inter
-  width:
-    max: 0.001
-    min: 0.001
-- !!python/object:substrate.Layer
-  dielectric: *id001
-  gap: 0.001
-  height: 3.0e-06
-  metal: *id002
-  name: gnd_plane
-  width:
-    max: 0.001
-    min: 0.001
+    max: 0.01
+    min: 0.000508
+- *id002

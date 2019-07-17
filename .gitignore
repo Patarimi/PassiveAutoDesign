@@ -1,5 +1,4 @@
 *.pyc
 *.cir
 *.tmp
-tests/tech.yml
-tierce_parts/Spice64/*
+*/Spice64/*

@@ -5,7 +5,7 @@ Created on Fri Jul 12 09:30:00 2019
 @author: mpoterea
 """
 import os
-import ngspice_warper as ng
+import simulation.ngspice_warper as ng
 
 REF_MODEL = 'Hybrid Coupler\n\n\
 VIN\t\t3\t0\tDC\t0\tAC\t1\n\

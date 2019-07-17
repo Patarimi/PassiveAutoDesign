@@ -9,8 +9,8 @@ First, it loads a subtrate BEOL.
 Then, it designs an hybrid coupler and an impendance tranformer.
 """
 import numpy as np
-import passive_component as pad
-import substrate as sub
+import design.passive_component as pad
+import design.substrate as sub
 
 #Loading the tech.yml file (see example_susbtrate.py)
 BEOL = sub.Substrate('examples/tech.yml')

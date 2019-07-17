@@ -1,18 +1,18 @@
-- !!python/object:substrate.Layer
-  dielectric: &id001 !!python/object:substrate.Dielectric
+- !!python/object:design.substrate.Layer
+  dielectric: &id001 !!python/object:design.substrate.Dielectric
     epsilon: 4.2
     rougthness: 0
     tand: 0
   gap: 2.1e-06
   height: 3.0e-06
-  metal: &id002 !!python/object:substrate.Metal
+  metal: &id002 !!python/object:design.substrate.Metal
     rho: 580000000.0
     rougthness: 0.0004
   name: M_top
   width:
     max: 2.0e-05
     min: 2.0e-06
-- !!python/object:substrate.Layer
+- !!python/object:design.substrate.Layer
   dielectric: *id001
   gap: 0.001
   height: 3.0e-06
@@ -21,7 +21,7 @@
   width:
     max: 0.001
     min: 0.001
-- !!python/object:substrate.Layer
+- !!python/object:design.substrate.Layer
   dielectric: *id001
   gap: 2.1e-06
   height: 3.0e-06
@@ -30,7 +30,7 @@
   width:
     max: 2.0e-05
     min: 2.0e-06
-- !!python/object:substrate.Layer
+- !!python/object:design.substrate.Layer
   dielectric: *id001
   gap: 0.001
   height: 9.54e-06
@@ -39,7 +39,7 @@
   width:
     max: 0.001
     min: 0.001
-- !!python/object:substrate.Layer
+- !!python/object:design.substrate.Layer
   dielectric: *id001
   gap: 0.001
   height: 3.0e-06

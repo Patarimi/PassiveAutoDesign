@@ -4,7 +4,7 @@ Created on Fri Jul 12 09:30:00 2019
 
 @author: mpoterea
 """
-import substrate as sb
+import design.substrate as sb
 def test_substrate():
     SUB = sb.Substrate()
     M_LYR = sb.Layer('m_bott', 0.1e-3, sb.COPPER, sb.AIR)
