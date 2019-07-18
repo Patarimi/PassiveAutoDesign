@@ -11,9 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
-import passive_component as pad
-import substrate as sub
-import ngspice_warper as ng
+import design.passive_component as pad
+import design.substrate as sub
+import simulation.ngspice_warper as ng
 
 OUTPUT = list()   #contains list of tuples (cost, param sweep for plotting)
 # importation of reference data and cost calculation
@@ -34,7 +34,7 @@ with open('tests/coupleur_data.csv', newline='') as data_file:
                 CPL.transfo.set_secondary(x)
                 b_model = bytes(CPL.transfo.generate_spice_model(k), encoding='UTF-8')
                 b_simulation = bytes(ng.generate_ac_simulation(f, f, 1), encoding='UTF-8')
-                with open('./cache/model_coupler.cir', 'w') as file:
+                with open('tests/model_coupler.cir', 'w') as file:
                     file.write(CPL.transfo.generate_spice_model(k))
                 S = ng.get_results(b_model+b_simulation)
                 Cost = np.abs(S[0]-(50-z)/(z+50))
