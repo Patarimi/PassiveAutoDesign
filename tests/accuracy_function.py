@@ -60,8 +60,8 @@ print(f'Typical Error\nmin:\t{np.min(TMP):2.1f}\nmed:\t{np.median(TMP):2.1f}\nma
 
 # %% drawing of the cost function versus di and W
 
-W_TABLE = np.arange(3e-6, 10e-6, 0.2e-6)
-DI_TABLE = np.arange(450e-6, 800e-6, 10e-6)
+W_TABLE = np.arange(3e-6, 10e-6, 1e-6)
+DI_TABLE = np.arange(450e-6, 800e-6, 50e-6)
 DI, W = np.meshgrid(DI_TABLE, W_TABLE)
 
 COST = np.zeros(DI.shape)
