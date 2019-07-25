@@ -215,9 +215,8 @@ class Transformer:
             dist = self.dist_sub
         c_1 = 6.86   #constante1 empirique pour capacité
         c_2 = 5.25   #constante2 empirique pour capacité
-        eps_0 = 8.85418782e-12
         n_t = self.prim['n_turn']
-        return self.prim['width']*eps_0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
+        return self.prim['width']*eps0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
     def r_geo(self, _of_primary=True, rho=17e-10):
         """
             return the value of the resistance of the described transformer
