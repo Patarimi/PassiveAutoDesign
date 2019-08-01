@@ -83,6 +83,7 @@ class SIW:
     def calc_pphc(self, _freq, _e_0):
         """
             return the peak power handling capability in watt
+            at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)
         """
         width = self.width
         height = self.height
