@@ -86,6 +86,8 @@ class SIW:
             at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)
         """
         width = self.width
+        if width <= 0:
+            raise ValueError("Width must be above zero. Value can be set using set_width() or set_f_c()")
         height = self.height
         f_c = self.f_c
         eps = self.diel.epsilon
