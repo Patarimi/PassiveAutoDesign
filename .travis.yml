@@ -8,4 +8,4 @@ install:
 # command to run tests
 script:
   - python -m pytest
-  - pytest --cov=PAD tests/
+  - python -m pytest --cov=PAD tests/
