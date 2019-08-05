@@ -13,9 +13,9 @@ The Library is composed of two modules:
 
 Module *Design*
 ---
-*Design* is composed of three sub-modules:\
-- The _substrate.py_ file describes the substrate used (or Back End Of Line).\
-- The _structure.py_ file describes the rf-structure implemented in a susbtrate (SIW, AF-SIW, Transformers).\
+*Design* is composed of three sub-modules:
+- The _substrate.py_ file describes the substrate used (or Back End Of Line).
+- The _structure.py_ file describes the rf-structure implemented in a susbtrate (SIW, AF-SIW, Transformers).
 - The _passive_component.py_ describes the rf-component (hybrid coupler, impedance transformers, and (soon ?) filters). It also enables rough geometry design/estimation from given rf specifications.
 
 Module *Simulation*
