@@ -1,4 +1,5 @@
 *.pyc
 *.cir
 *.tmp
+.coverage
 */Spice64/*
