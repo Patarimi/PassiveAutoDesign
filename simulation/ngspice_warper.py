@@ -4,7 +4,6 @@ Created on Mon May 20 14:30:07 2019
 
 @author: mpoterea
 """
-
 from subprocess import Popen, PIPE
 import numpy as np
 
@@ -36,7 +35,7 @@ def convert(t_bytes):
 
 def get_results(spice_bytes, _dump_results=False):
     """
-        run the simulation and return the Z_c and IHSR
+        run the simulation and return gain and reflection coefficient (s-parameters simulation)
     """
     try:
         pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
@@ -45,7 +44,7 @@ def get_results(spice_bytes, _dump_results=False):
     ret, _ = pipe.communicate(input=spice_bytes)
     table = ret.decode().splitlines()
     if _dump_results:
-        with open('./cache/dump.res', 'w') as file:
+        with open('./tests/dump.res', 'w') as file:
             for line in table:
                 file.write(line+'\n')
     data = list()
