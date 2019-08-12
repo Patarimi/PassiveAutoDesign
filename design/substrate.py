@@ -60,16 +60,14 @@ class Substrate:
         for layer in self.sub:
             index = index+1
             if layer.name == _layer_name:
-                break
-        if index == -1:
-            raise ValueError(f'No layer find with name: {_layer_name}')
-        return index
+                return index
+        raise ValueError(f'No layer find with name: {_layer_name}')
     def dump(self, _path):
         """
             save the subtrate as an yaml file
         """
         save_dir = _path.rsplit('/', 1)
-        if len(save_dir) > 2:
+        if len(save_dir) < 2:
             raise ValueError('incorrect path')
         if len(save_dir)==2:
             os.makedirs(save_dir[0], exist_ok=True)
