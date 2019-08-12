@@ -172,7 +172,7 @@ def std_dev(mesured, targeted):
         for t_i in range(m_l):
             std_d[t_i] = np.abs((mesured[t_i]-targeted[t_i])/(mesured[t_i]+targeted[t_i]))**2
         return np.sqrt(np.sum(std_d))
-    return 100
+    raise ValueError("mesured and targeted must be the same size")
 def dB(cmplx):
     """
         Return the decibel value of the given imaginary number.
