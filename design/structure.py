@@ -79,6 +79,8 @@ class SIW:
         rho = self.metal.rho
         skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
         rougth = self.diel.rougthness
+        if rougth <= 0:
+            raise ValueError("Rougthness must be above zero. Value can be set through /self.diel.rougthness/")
         return 2*np.arctan(1.4*(rougth/skin_d)**2)/np.pi
     def calc_pphc(self, _freq, _e_0):
         """
