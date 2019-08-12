@@ -4,7 +4,6 @@ Created on Fri Jun  7 16:10:47 2019
 
 @author: mpoterea
 """
-import warnings
 import numpy as np
 from scipy.optimize import minimize_scalar
 
@@ -115,8 +114,8 @@ class AF_SIW(SIW):
     """
     def __init__(self, _metal, _diel, _height, _slab):
         SIW.__init__(self, _metal, _diel, _height)
-        if _slab == 0:
-            warnings.warn("Slab size null, please use SIW class", RuntimeWarning)
+        if _slab <= 0:
+            raise ValueError("Slab must be above zero. Please use SIW class")
         self.slab = _slab
     def set_width(self, _width):
         """
