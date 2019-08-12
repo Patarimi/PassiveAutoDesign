@@ -4,6 +4,7 @@ Created on Fri Jul 12 09:30:00 2019
 
 @author: mpoterea
 """
+import pytest
 import design.substrate as sb
 def test_substrate():
     SUB = sb.Substrate()
@@ -14,6 +15,10 @@ def test_substrate():
     SUB.add_layer(M_LYR)
     SUB.add_layer(D_LYR)
     SUB.add_layer(M_LYR)
+    with pytest.raises(ValueError):
+        SUB.dump('tests')
     SUB.dump('tests/tech.yml')
     SUB.load('tests/tech.yml')
     assert SUB.get_index_of('m_bott') == 0
+    with pytest.raises(ValueError):
+        SUB.get_index_of('foo')

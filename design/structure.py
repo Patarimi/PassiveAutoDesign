@@ -4,7 +4,6 @@ Created on Fri Jun  7 16:10:47 2019
 
 @author: mpoterea
 """
-import warnings
 import numpy as np
 from scipy.optimize import minimize_scalar
 
@@ -79,6 +78,8 @@ class SIW:
         rho = self.metal.rho
         skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
         rougth = self.diel.rougthness
+        if rougth <= 0:
+            raise ValueError("Rougthness must be above zero. Value can be set through /self.diel.rougthness/")
         return 2*np.arctan(1.4*(rougth/skin_d)**2)/np.pi
     def calc_pphc(self, _freq, _e_0):
         """
@@ -113,8 +114,8 @@ class AF_SIW(SIW):
     """
     def __init__(self, _metal, _diel, _height, _slab):
         SIW.__init__(self, _metal, _diel, _height)
-        if _slab == 0:
-            warnings.warn("Slab size null, please use SIW class", RuntimeWarning)
+        if _slab <= 0:
+            raise ValueError("Slab must be above zero. Please use SIW class")
         self.slab = _slab
     def set_width(self, _width):
         """

@@ -54,7 +54,7 @@ class Coupler:
     def __cost_est_capacitance(self, _width):
         self.transfo.prim['width'] = _width
         return np.abs(self.transfo.cc_geo()+self.transfo.cc_geo(False)-1/(self.z_c*2*np.pi*self.f_c))
-    def design(self, f_targ, z_targ):
+    def design(self, f_targ, z_targ, _maxiter=500):
         """
             design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
             return an optimization results (res)
@@ -67,7 +67,7 @@ class Coupler:
         minimize_scalar(self.__cost_est_capacitance, bounds=self.bounds[0])
         geo = self.transfo.prim
         x_0 = np.array([geo['width'], geo['n_turn'], geo['di'], geo['gap']])
-        res = dual_annealing(self.cost, self.bounds, x0=x_0)
+        res = dual_annealing(self.cost, self.bounds, x0=x_0, maxiter=_maxiter)
         return res
     def print(self, res):
         """
@@ -134,7 +134,7 @@ class Balun:
         zs_r = alpha*z_l + z_l*(n_turn**2)*self.z_ld/(z_l+self.z_ld*(n_turn**2))
         zl_r = ((np.conj(self.z_src)+alpha*z_l)*z_l/(np.conj(self.z_src)+z_l+alpha*z_l))/n_turn**2
         return std_dev(zs_r, self.z_src) + std_dev(zl_r, self.z_ld)
-    def design(self, _f_targ, _zl_targ, _zs_targ):
+    def design(self, _f_targ, _zl_targ, _zs_targ, _maxiter=500):
         """
             design an impedance transformer
             with the targeted specifications (f_targ, zl_targ, zs_targ)
@@ -143,7 +143,7 @@ class Balun:
         self.f_c = _f_targ
         self.z_src = _zs_targ
         self.z_ld = _zl_targ
-        res = dual_annealing(self.cost, self.bounds, maxiter=500)
+        res = dual_annealing(self.cost, self.bounds, maxiter=_maxiter)
         return res
     def print(self, res):
         """
@@ -172,7 +172,7 @@ def std_dev(mesured, targeted):
         for t_i in range(m_l):
             std_d[t_i] = np.abs((mesured[t_i]-targeted[t_i])/(mesured[t_i]+targeted[t_i]))**2
         return np.sqrt(np.sum(std_d))
-    return 100
+    raise ValueError("mesured and targeted must be the same size")
 def dB(cmplx):
     """
         Return the decibel value of the given imaginary number.
