@@ -1,18 +1,14 @@
 language: python
 python:
-  - "3.6"
-# command to install dependencies
+- '3.6'
 install:
-  - pip install -r requirements.txt
-  - pip install pytest-cov
-# command to run tests
+- pip install -r requirements.txt
+- pip install pytest-cov
 script:
-# command to run tests
 - python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
-
 deploy:
   provider: pypi
   user: Patarimi
   skip_cleanup: true
   password:
-    secure: wyR9cRZ+LiBoIi4GPOhvwaYxU6ZmBwJfCyQ1y4LcI+b7VOc7CFplCpBBAqyqzTfWW7USAb8jyqki4S/UJr380cd6f8yrqZvTwJQSAzQTIlNKczFPnohcKbQmgPevFz8RT6SUpEPY3SpcksLTZKFbYg64ma5pMXwRqtxNkyXIU4F0iHIxmC24TH1hYfxvQDhftqZHXaZ5tjDakSyUZJTfRSs9uBCCGfD7JkHTJH/LtoHPxyI0Pkj79C4vT20gf+cKy9zulCkBxJjVdpMX+2Ov7a/JGlrXE37cVXQRXAMoiTzEykiEYpZ8wOZ1Uu9Giggb4k0GTSosQ1kswJ+Ci8029TUrP6TuPFlUBKootQYMQ3DCJozzIZX6uUh6CYyK78Uc/kqat43fOt3uQXEH/KVNFU2pD04/zMAO05L2ncZgm/SOBFAkLuCkFLnd0QYW/aM5G5iuTPpKCiRLyY6dLskFd5LTs3JCzAjxNlmmnI7Jhgq2tg6O2cUL913j6i/yy/ZLp8C6bTmOlRV/KQnRJy1ZOqd9YXO0mByiI3j6TjksKtGk6y+TqyHIgIjIbFc6psVQa2NJG7tn3z6OZaAiBebIrMDHnn7BDmz5tKLFEWBcPsYRDE+tlm64Ta73edVlebkrkV/rRf3q1jk/5kFvfRnqL+KHWzR568k7UFU3w/wEMB4=
+    secure: HIU1Ngy5ViW2ScKmGw9PpAs0Xqe/YSwX3rLZNqCLy0MfRUuqxdPeDrJW4k5zGVyTKvUzMmLFqEyHdmJSOYGhnKdPsXU7Ni6LAFZIUl4ckZyx/IV9BtyJbtMvyJTLjaW3UCdLMcxow5jkaW3SqOdzNv5wmUUHo5SaqZTkUY7FHMwyJ9+Pg9FG7cD0BwjvijMZXepaAccec48lZ/mcH7s+9yWRNCIdIX7sFjHH1ZmFCCy4BQ5QKoGaMbH4xvmSkAXrihqO/xsy+ZKL0tJwu4SnT5+V50M8nPn1O+2kKkBgr6Wzev+AmleQkq+TNDuYapsqoxQz8Y+76J9GgLI091ERtv40D37s0v2V6cKAyP0uyzzD12VzeEnbIOeogDxnLo3NjT5cHxf3UZVEg9HqkXRDYW16v3qH6rVoRhWiRvQBhvj9eMTG2ZEqYIOUIdYA21W37mNcANyx4Y0142uPWmXNcBx/iL2iT7nFpm+vIN8YKwNN6JF4ioLzcc88HBe+DnOwWMMFNo4Pla8dygH1QCwCWWyk5SUg4m726lugHwr1FritbUbaZwjo/Ay2SIsHa3azve0UZ3TjMwEXLkoNj8V9xmFyoT1IAcgqf2V+j6sBxEM1DU3ZRDVba9ZlzEAGzzSwUyT9Hd8mf3aUpGas/SJ71PLotrKatcrP631ojHgqYxU=
