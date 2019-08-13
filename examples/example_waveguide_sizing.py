@@ -7,8 +7,8 @@ Created on Mon Jun  3 16:47:26 2019
 
 import numpy as np
 import matplotlib.pyplot as plt
-from design.substrate import AIR, COPPER, D5880, D6002
-import design.structure as wg
+from passive_auto_design.substrate import AIR, COPPER, D5880, D6002
+import passive_auto_design.structure as wg
 
 #Specifications
 F_MIN = 27e9      #Hz

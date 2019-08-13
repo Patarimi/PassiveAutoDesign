@@ -1,21 +1,21 @@
-- &id002 !!python/object:design.substrate.Layer
-  dielectric: !!python/object:design.substrate.Dielectric
+- &id002 !!python/object:passive_auto_design.substrate.Layer
+  dielectric: !!python/object:passive_auto_design.substrate.Dielectric
     epsilon: 1
     rougthness: 0
     tand: 0
   gap: 0.000508
   height: 0.0001
-  metal: &id001 !!python/object:design.substrate.Metal
+  metal: &id001 !!python/object:passive_auto_design.substrate.Metal
     rho: 580000000.0
     rougthness: 0.0004
   name: m_bott
   width:
     max: 0.01
     min: 0.000508
-- !!python/object:design.substrate.Layer
-  dielectric: !!python/object:design.substrate.Dielectric
+- !!python/object:passive_auto_design.substrate.Layer
+  dielectric: !!python/object:passive_auto_design.substrate.Dielectric
     epsilon: 2.2
-    rougthness: 0.0004
+    rougthness: 0.0009
     tand: 0.0009
   gap: 0.000508
   height: 0.0008

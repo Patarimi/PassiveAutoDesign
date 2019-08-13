@@ -7,8 +7,8 @@ Created on Fri Jul 12 15:07:03 2019
 import numpy as np
 import pytest
 import os
-import design.passive_component as pac
-import design.substrate as sub
+import passive_auto_design.passive_component as pac
+import passive_auto_design.substrate as sub
 
 SUB = sub.Substrate('tests/passive_component_tech.yml')
 def test_coupler():
