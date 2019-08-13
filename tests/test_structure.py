@@ -5,8 +5,8 @@ Created on Fri Jul 12 09:30:00 2019
 @author: mpoterea
 """
 import pytest
-import design.structure as st
-from design.substrate import COPPER, D5880
+import passive_auto_design.structure as st
+from passive_auto_design.substrate import COPPER, D5880
 
 def test_siw():
     """

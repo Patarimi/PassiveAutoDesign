@@ -9,11 +9,15 @@ First, it loads a subtrate BEOL.
 Then, it designs an hybrid coupler and an impendance tranformer.
 """
 import numpy as np
-import design.passive_component as pad
-import design.substrate as sub
+import passive_auto_design.passive_component as pad
+import passive_auto_design.substrate as sub
+from passive_auto_design.ngspice_warper import set_path
+
+#setting the installation directory of the ngspice software (to be install separately)
+set_path('../../ng_spice/')
 
 #Loading the tech.yml file (see example_susbtrate.py)
-BEOL = sub.Substrate('examples/tech.yml')
+BEOL = sub.Substrate('tech.yml')
 #%% Coupler Design
 # Design inputs
 F_TARG = 18e9
@@ -24,7 +28,7 @@ CPL_TST = pad.Coupler(BEOL, _k=K_COEFF)
 RES = CPL_TST.design(F_TARG, ZC_TARG)
 CPL_TST.print(RES)
 #Write the spice model of the optimal design found
-with open('./cache/model_coupler.cir', 'w') as file:
+with open('model_coupler.cir', 'w') as file:
     file.write(CPL_TST.transfo.generate_spice_model(K_COEFF))
 
 #%% Balun Design
@@ -40,5 +44,5 @@ BALUN_TST.print(RES2)
 LS_SYNTH = BALUN_TST.transfo.model['ls']
 LL_SYNTH = BALUN_TST.transfo.model['lp']
 #Write the spice model of the optimal design found
-with open('./cache/model_balun.cir', 'w') as file:
+with open('model_balun.cir', 'w') as file:
     file.write(BALUN_TST.transfo.generate_spice_model(K_COEFF))

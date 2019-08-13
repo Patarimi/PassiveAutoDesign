@@ -6,7 +6,7 @@ Created on Fri Jul 12 09:30:00 2019
 """
 import os
 import pytest
-import simulation.ngspice_warper as ng
+import passive_auto_design.ngspice_warper as ng
 
 REF_MODEL = 'Hybrid Coupler\n\n\
 VIN\t\t3\t0\tDC\t0\tAC\t1\n\
@@ -31,6 +31,8 @@ def test_ngspice_warper():
     if os.name == 'nt':
         S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
         assert (S == [-0.011917  -0.06115071j, 0.4940414 -0.030811j, 0.00345157+0.02766141j, -0.0034515 -0.0275043j]).all
+        Tmp = ng.EXE_NAME
         ng.EXE_NAME=""
         with pytest.raises(EnvironmentError):
             S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
+        ng.EXE_NAME = Tmp
