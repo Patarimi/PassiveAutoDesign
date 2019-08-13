@@ -7,4 +7,11 @@ install:
   - pip install pytest-cov
 # command to run tests
 script:
-  - python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
+# command to run tests
+- python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
+
+deploy:
+  provider: pypi
+  user: Patarimi
+  password:
+    secure: W6z7qvbZw4XwwEXkvVOWuXL1iyWnlj6tCYcxPOhtcSPZuzDfKYFZHIswWpTl+KfKfhjkCKcbNZGdl3OVE+E9+3tgdJ/2SDpFEf+LBg1E8wRLKRnCyJNrN/BBILfmXyAyAz7/aOa6tQWmaZ2dop+HyqW23ZibQFXmIwGhyqJbuBlaHf2dTX7ERXySVOoAjWPFh9ZIhzstc8wzCHCO19nAngWVvaVRlNiH6aRixj0otbfY2QRWXq5GnXAbpd/CRbwDxUg/KGuTtpX8a/SfZfCsBL80qQWb/Ss/6bQfLTAai7igGdfTvvVzQomBH57HK+Be9gtorqgz6rdDjmJcYJojGHkT9VwvATdudpDiqxTQ4uonSzx8p/sZ9hKsKth2K+gwKXv86elWPCQZTMlPwTjXoGUXQPEryWGeeBsWuL5glKoyrKtboyTr2H+BOevPj6iV/LzQdiXDze7/6XV2+MnkbRfWgBkJc/aJcAYxSNE1e36M3loiNsbidWpOeEt30npV45Iu2OOw5n7clXR1wAx8ja7M3YACU2HwPxDgJaTIgPWA/g3pGbZH3xK9EPk2QPf0aygpNXP1QCq6uTOXwPAtUiiqMO2nQHnFRkLFyhsWRsODf11N5qX/ZFBDyFUFbxlJFoDaH7EP1m0lXXg9Pya5kkoWrd4KNwEhHr69DTnSmsE=
