@@ -79,7 +79,8 @@ class SIW:
         skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
         rougth = self.diel.rougthness
         if rougth <= 0:
-            raise ValueError("Rougthness must be above zero. Value can be set through /self.diel.rougthness/")
+            raise ValueError("Rougthness must be above zero. \
+Value can be set through /self.diel.rougthness/")
         return 2*np.arctan(1.4*(rougth/skin_d)**2)/np.pi
     def calc_pphc(self, _freq, _e_0):
         """
@@ -88,7 +89,8 @@ class SIW:
         """
         width = self.width
         if width <= 0:
-            raise ValueError("Width must be above zero. Value can be set using set_width() or set_f_c()")
+            raise ValueError("Width must be above zero. \
+Value can be set using set_width() or set_f_c()")
         height = self.height
         f_c = self.f_c
         eps = self.diel.epsilon
@@ -159,9 +161,10 @@ class AF_SIW(SIW):
         print(f'Width: {self.width*1e3:.2f} mm\tfc01: {sol.x*1e-9:.2f} GHz')
 class Transformer:
     """
-        Create a transformator object with the specified geometry
-        _primary & _secondary={'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height}
-        and calculated the associated electrical model
+        Create a transformator object with the specified geometry _primary & _secondary
+        (which are dict defined as :
+            {'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height})
+        and calculate the associated electrical model
     """
     def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _freq=1e9):
         self.prim = _primary
