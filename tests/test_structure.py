@@ -38,6 +38,8 @@ def test_af_siw():
     with pytest.raises(ValueError):
         af1 = st.AF_SIW(COPPER, D5880, 2.4e-3, 0)
     af1 = st.AF_SIW(COPPER, D5880, 2.4e-3, 0.2e-3)
+    af1.set_width(7.04e-3)
+    assert round(af1.f_c) == 21288216858
     af1.set_fc(17e9)
     assert round(1000*af1.width) == 6.0
     assert af1.calc_a_d(15e9) == 0

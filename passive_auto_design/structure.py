@@ -122,7 +122,8 @@ class AF_SIW(SIW):
             set the width of the wave-guide and update the cut-off frequency
         """
         self.width = _width
-        self.f_c = self.__even_fc()
+        res = minimize_scalar(self.__even_fc)
+        self.f_c = res.x
     def set_fc(self, _fc):
         """
             set the cut-off frequency of the wave-guide and update the width
@@ -133,9 +134,12 @@ class AF_SIW(SIW):
         tan = np.tan(2*slb*np.pi*_fc/c0)*sqr_eps
         self.width = 2*slb+np.arctan(1/tan)*c0/(sqr_eps*np.pi*_fc)
     def __even_fc(self, _fc):
-        width = self.slab
+        if _fc <=0: #frequency must be stricly positive
+            return 1e12
+        slb = self.slab
+        width = self.width
         sqr_eps = np.sqrt(self.diel.epsilon)
-        return sqr_eps*np.tan(-2*np.pi*_fc*width/c0)+np.tan(-sqr_eps*2*np.pi*_fc*width/c0)
+        return np.abs(np.tan(sqr_eps*np.pi*_fc*2*slb/c0)-sqr_eps/np.tan(np.pi*_fc*(width-2*slb)/c0))
     def __odd_fc(self, _fc):
         width = self.slab
         sqr_eps = np.sqrt(self.diel.epsilon)
