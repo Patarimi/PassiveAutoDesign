@@ -124,7 +124,7 @@ class AF_SIW(SIW):
             set the width of the wave-guide and update the cut-off frequency
         """
         self.width = _width
-        res = minimize_scalar(self.__even_fc)
+        res = minimize_scalar(self.__odd_fc)
         self.f_c = res.x
     def set_fc(self, _fc):
         """
@@ -157,8 +157,8 @@ class AF_SIW(SIW):
         """
             output the size and the upper mode cut-off frequency
         """
-        sol = minimize_scalar(self.__odd_fc)
-        print(f'Width: {self.width*1e3:.2f} mm\tfc01: {sol.x*1e-9:.2f} GHz')
+        sol = minimize_scalar(self.__even_fc)
+        print(f'Width: {self.width*1e3:.2f} mm\tfc20: {sol.x*1e-9:.2f} GHz')
 class Transformer:
     """
         Create a transformator object with the specified geometry _primary & _secondary
