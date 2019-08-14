@@ -5,6 +5,11 @@ This script is in an early stage of development. For now, it only works with Win
 Getting started
 ----
 The library required numpy, scipy and matplotlib (for plotting results). The required versions can be find in _requirements.txt_.\
+Install the library using
+```
+pip install passive-auto-design
+```
+Then install [ngspice](http://ngspice.sourceforge.net/download.html).\
 Examples are given in the _examples_ directory.
 
 Library Architecture
