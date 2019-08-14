@@ -135,17 +135,18 @@ class AF_SIW(SIW):
         sqr_eps = np.sqrt(self.diel.epsilon)
         tan = np.tan(2*slb*np.pi*_fc/c0)*sqr_eps
         self.width = 2*slb+np.arctan(1/tan)*c0/(sqr_eps*np.pi*_fc)
-    def __even_fc(self, _fc):
-        if _fc <=0: #frequency must be stricly positive
+    def __odd_fc(self, _fc):
+        if _fc <= 0: #frequency must be stricly positive
             return 1e12
         slb = self.slab
-        width = self.width
+        wth = self.width
         sqr_eps = np.sqrt(self.diel.epsilon)
-        return np.abs(np.tan(sqr_eps*np.pi*_fc*2*slb/c0)-sqr_eps/np.tan(np.pi*_fc*(width-2*slb)/c0))
-    def __odd_fc(self, _fc):
-        width = self.slab
+        return np.abs(sqr_eps*np.tan(2*np.pi*_fc*slb/c0)-1/np.tan(sqr_eps*np.pi*_fc*(wth-2*slb)/c0))
+    def __even_fc(self, _fc):
+        slb = self.slab
+        wth = self.width
         sqr_eps = np.sqrt(self.diel.epsilon)
-        return sqr_eps*np.tan(-2*np.pi*_fc*width/c0)+np.tan(-sqr_eps*2*np.pi*_fc*width/c0)
+        return np.abs(sqr_eps*np.tan(2*np.pi*_fc*slb/c0)+np.tan(sqr_eps*np.pi*_fc*(wth-2*slb)/c0))
     def calc_a_d(self, _freq):
         return 0
     def calc_ksr(self, _freq):
@@ -157,7 +158,9 @@ class AF_SIW(SIW):
         """
             output the size and the upper mode cut-off frequency
         """
-        sol = minimize_scalar(self.__even_fc)
+        # The equation admit several solutions, the correct one is between 2fc and 4.4fc (eps < 25)
+        # The bounds are set accordingly (see "Propagaion in dielectric slab loaded rectangulr waveguide" P.H. Vartanian)
+        sol = minimize_scalar(self.__even_fc, bounds=(1.5*self.f_c, 5*self.f_c), method='bounded')
         print(f'Width: {self.width*1e3:.2f} mm\tfc20: {sol.x*1e-9:.2f} GHz')
 class Transformer:
     """
