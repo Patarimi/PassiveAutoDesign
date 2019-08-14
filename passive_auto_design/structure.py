@@ -119,13 +119,6 @@ class AF_SIW(SIW):
         if _slab <= 0:
             raise ValueError("Slab must be above zero. Please use SIW class")
         self.slab = _slab
-    def set_width(self, _width):
-        """
-            set the width of the wave-guide and update the cut-off frequency
-        """
-        self.width = _width
-        res = minimize_scalar(self.__odd_fc)
-        self.f_c = res.x
     def set_fc(self, _fc):
         """
             set the cut-off frequency of the wave-guide and update the width
@@ -135,6 +128,19 @@ class AF_SIW(SIW):
         sqr_eps = np.sqrt(self.diel.epsilon)
         tan = np.tan(2*slb*np.pi*_fc/c0)*sqr_eps
         self.width = 2*slb+np.arctan(1/tan)*c0/(sqr_eps*np.pi*_fc)
+    def calc_fc(self, _m, _n=0):
+        """
+            return the value of the cut-off frequency of the TEM mode _m, _n
+        """
+        if _n > 0:
+            raise ValueError("Value of _n greater than 0 are not supported")
+        if _m%2==1:
+            res = minimize_scalar(self.__odd_fc)
+        else:
+            if self.f_c <= 0:
+                self.f_c = self.calc_fc(1, 0)
+            res = minimize_scalar(self.__even_fc, bounds=(1.5*self.f_c, 5*self.f_c), method='bounded')
+        return res.x
     def __odd_fc(self, _fc):
         if _fc <= 0: #frequency must be stricly positive
             return 1e12
@@ -158,10 +164,8 @@ class AF_SIW(SIW):
         """
             output the size and the upper mode cut-off frequency
         """
-        # The equation admit several solutions, the correct one is between 2fc and 4.4fc (eps < 25)
-        # The bounds are set accordingly (see "Propagaion in dielectric slab loaded rectangulr waveguide" P.H. Vartanian)
-        sol = minimize_scalar(self.__even_fc, bounds=(1.5*self.f_c, 5*self.f_c), method='bounded')
-        print(f'Width: {self.width*1e3:.2f} mm\tfc20: {sol.x*1e-9:.2f} GHz')
+        fc_20 = self.calc_fc(2, 0)
+        print(f'Width: {self.width*1e3:.2f} mm\tfc20: {fc_20*1e-9:.2f} GHz')
 class Transformer:
     """
         Create a transformator object with the specified geometry _primary & _secondary

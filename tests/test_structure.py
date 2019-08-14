@@ -44,7 +44,10 @@ def test_af_siw():
     assert round(1000*af1.width, 1) == 5.9
     assert af1.calc_a_d(15e9) == 0
     assert round(af1.calc_ksr(20e9), 6) == 1
+    af1.f_c = 0
     af1.print_info()
+    with pytest.raises(ValueError):
+        af1.calc_fc(0, 1)
 
 def test_transformer():
     """
