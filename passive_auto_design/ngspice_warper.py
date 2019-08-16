@@ -63,8 +63,6 @@ def get_results(spice_bytes, _dump_results=False):
             param.append(convert(line))
     if len(param) != 0: # getting the last parameter !!
         data.append(param)
-    if len(data) == 0:
-        raise ValueError(table)
     data = np.array(data)
     _s = np.array((-data[0]-50*data[1],
                    data[2],
