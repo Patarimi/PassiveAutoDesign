@@ -44,42 +44,39 @@ if os.name == 'nt':
                     OUTPUT.append((Cost, x['di'], x['n_turn']))
             except ValueError:
                 #importation error gestion
-                if row[0]!='#W':
-                    print('line skip :'+str(row))
+                if row[0]=='#W':
+                    pass
     COST_RES = np.array(OUTPUT)
-    TMP = list(100*COST_RES[:,0])
+    ERROR = list(100*COST_RES[:,0])
     
-    if __name__ == '__main__':
-        plt.figure()
-        plt.plot(COST_RES[0:5, 1]*1e6, 100*COST_RES[0:5, 0], 'rx')
-        plt.plot(COST_RES[5:9, 1]*1e6, 100*COST_RES[5:9, 0], 'b+')
-        plt.legend(['n=2', 'n=1'])
-        plt.ylabel("Error (%)")
-        plt.xlabel("Inner Diameter (µm)")
-        plt.ylim(bottom=0)
-        plt.xlim(left=0)
-        plt.grid(True)
-        print(f'Typical Error\nmin:\t{np.min(TMP):2.1f}\nmed:\t{np.median(TMP):2.1f}\nmax:\t{np.max(TMP):2.1f}')
-    else:
-        assert np.median(TMP) <= 14.7
+    plt.figure()
+    plt.plot(COST_RES[0:5, 1]*1e6, 100*COST_RES[0:5, 0], 'rx')
+    plt.plot(COST_RES[5:9, 1]*1e6, 100*COST_RES[5:9, 0], 'b+')
+    plt.legend(['n=2', 'n=1'])
+    plt.ylabel("Error (%)")
+    plt.xlabel("Inner Diameter (µm)")
+    plt.ylim(bottom=0)
+    plt.xlim(left=0)
+    plt.grid(True)
+    print(f'Typical Error\nmin:\t{np.min(ERROR):2.1f}\nmed:\t{np.median(ERROR):2.1f}\nmax:\t{np.max(ERROR):2.1f}')
+    assert np.median(ERROR) <= 14.7
     # %% drawing of the cost function versus di and W
-    if __name__ == '__main__':
-        W_TABLE = np.arange(3e-6, 10e-6, 1e-6)
-        DI_TABLE = np.arange(450e-6, 800e-6, 50e-6)
-        DI, W = np.meshgrid(DI_TABLE, W_TABLE)
-        
-        COST = np.zeros(DI.shape)
-        i=0
-        for w in W_TABLE:
-            j=0
-            for di in DI_TABLE:
-                CPL = pad.Coupler(BEOL, 5e9, 50)
-                COST[i, j] = CPL.cost([w, 1, di, 2.1e-6])
-                j +=1
-            i +=1
-        FIG = plt.figure()
-        AX = FIG.add_subplot(111, projection='3d')
-        AX.plot_surface(DI*1e6, W*1e6, -COST, cmap=cm.coolwarm)
-        AX.set_zlabel("Cost")
-        AX.set_ylabel("Width (µm)")
-        AX.set_xlabel("Inner Diameter (µm)")
+    W_TABLE = np.arange(3e-6, 10e-6, 1e-6)
+    DI_TABLE = np.arange(450e-6, 800e-6, 50e-6)
+    DI, W = np.meshgrid(DI_TABLE, W_TABLE)
+    
+    COST = np.zeros(DI.shape)
+    i=0
+    for w in W_TABLE:
+        j=0
+        for di in DI_TABLE:
+            CPL = pad.Coupler(BEOL, 5e9, 50)
+            COST[i, j] = CPL.cost([w, 1, di, 2.1e-6])
+            j +=1
+        i +=1
+    FIG = plt.figure()
+    AX = FIG.add_subplot(111, projection='3d')
+    AX.plot_surface(DI*1e6, W*1e6, -COST, cmap=cm.coolwarm)
+    AX.set_zlabel("Cost")
+    AX.set_ylabel("Width (µm)")
+    AX.set_xlabel("Inner Diameter (µm)")
