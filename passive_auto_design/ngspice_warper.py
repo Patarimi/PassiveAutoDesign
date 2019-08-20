@@ -6,17 +6,21 @@ Created on Mon May 20 14:30:07 2019
 """
 from subprocess import Popen, PIPE
 import numpy as np
+import os
 
-PATH = "/"
-DUMP_NAME = './tests/dump.res'
-EXE_NAME = "ngspice_con.exe"
+dump_name = './tests/dump.res'
+exe_name = "ngspice_con.exe"
+path = "/"
 
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory
     """
-    global PATH
-    PATH = _path
+    global path
+    if os.path.exists(_path):
+        path = _path
+    else:
+        raise FileNotFoundError(_path+': not reachable')
 def generate_ac_simulation(f_start, f_stop, n_step):
     """
         generate an AC simulation with n_step linear steps between f_start and f_stop
@@ -44,13 +48,15 @@ def get_results(spice_bytes, _dump_results=False):
         run the simulation and return gain and reflection coefficient (s-parameters simulation)
     """
     try:
-        pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE)
-    except:
+        pipe = Popen([path+exe_name, '-b'], stdin=PIPE, stdout=PIPE)
+    except FileNotFoundError:
         raise EnvironmentError('ngspice is not installed !')
+    except:
+        raise
     ret, _ = pipe.communicate(input=spice_bytes)
     table = ret.decode().splitlines()
     if _dump_results:
-        with open(DUMP_NAME, 'w') as file:
+        with open(dump_name, 'w') as file:
             for line in table:
                 file.write(line+'\n')
     data = list()
