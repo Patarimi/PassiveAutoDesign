@@ -7,10 +7,16 @@ Created on Mon May 20 14:30:07 2019
 from subprocess import Popen, PIPE
 import numpy as np
 
-PATH = "../ng_spice/"
+PATH = "/"
 DUMP_NAME = './tests/dump.res'
 EXE_NAME = "ngspice_con.exe"
 
+def set_path(_path):
+    """
+    set the path (absolute or relative) to the ng_spice directory
+    """
+    global PATH
+    PATH = _path
 def generate_ac_simulation(f_start, f_stop, n_step):
     """
         generate an AC simulation with n_step linear steps between f_start and f_stop

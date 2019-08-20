@@ -8,6 +8,9 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 # Comparison between EM simulation results and coupler_cost function results
 import csv
 import os
+from passive_auto_design.ngspice_warper import set_path
+set_path('../ng_spice/')
+
 if os.name == 'nt':
     import numpy as np
     import matplotlib.pyplot as plt
