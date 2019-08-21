@@ -37,6 +37,7 @@ if os.name == 'nt':
                     CPL = pad.Coupler(BEOL, f, z, k)
                     CPL.transfo.set_primary(x)
                     CPL.transfo.set_secondary(x)
+                    ng.set_ports(['in', 'out', 'cpl', 'iso'])
                     b_model = bytes(CPL.transfo.generate_spice_model(k), encoding='UTF-8')
                     b_simulation = bytes(ng.generate_ac_simulation(f, f, 1), encoding='UTF-8')
                     with open('tests/model_coupler.cir', 'w') as file:

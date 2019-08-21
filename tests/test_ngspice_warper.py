@@ -27,6 +27,7 @@ REF_CTRL = '.AC LIN\t1\t1.000e+09\t1.000e+09\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
 .OPTION ELTOL=1e-12\n.END\n'
 def test_ngspice_warper():
+    ng.set_ports(['IN', 'OUT', 'CPL', 'ISO'])
     assert ng.generate_ac_simulation(1e9, 1e9, 1) == REF_CTRL
     if os.name == 'nt':
         S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
