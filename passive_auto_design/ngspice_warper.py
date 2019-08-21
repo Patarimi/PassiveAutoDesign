@@ -11,6 +11,7 @@ import numpy as np
 dump_name = './tests/dump.res'
 exe_name = "ngspice_con.exe"
 path = "/"
+port = list()
 
 def set_path(_path):
     """
@@ -21,12 +22,25 @@ def set_path(_path):
         path = _path
     else:
         raise FileNotFoundError(_path+': not reachable')
+def set_ports(_ports_names):
+    """
+    set ports name of the simulations
+    """
+    global port
+    port = _ports_names
 def generate_ac_simulation(f_start, f_stop, n_step):
     """
         generate an AC simulation with n_step linear steps between f_start and f_stop
     """
-    return f'.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
-.PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
+    global port
+    str_in = f'V{port[0]}\t\t3\t0\tDC\t0\tAC\t1\n\
+R{port[0]}\t\t3\t{port[0]}\t50\n'
+    str_out = ""
+    for i in range(len(port)-1):
+        str_in += f'R{port[i+1]}\t{port[i+1]}\t0\t50\n'
+        str_out += f' V({port[i+1]})'
+    return str_in+f'\n.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
+.PRINT AC V({port[0]}) I(V{port[0]}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
 

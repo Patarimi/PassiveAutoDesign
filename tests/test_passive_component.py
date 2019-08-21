@@ -9,11 +9,13 @@ import pytest
 import os
 import passive_auto_design.passive_component as pac
 import passive_auto_design.substrate as sub
+from passive_auto_design.ngspice_warper import set_path
 
 SUB = sub.Substrate('tests/passive_component_tech.yml')
 def test_coupler():
     CPL = pac.Coupler(SUB)
     if os.name == 'nt':
+        set_path('../ng_spice/')
         res = CPL.design(1e9, 50, 1)
         assert np.round(1000*res.x[0], 3) == 2.20e-02
         assert np.round(res.x[1], 3) == 2
