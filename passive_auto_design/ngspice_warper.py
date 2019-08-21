@@ -33,10 +33,13 @@ def generate_ac_simulation(f_start, f_stop, n_step):
         generate an AC simulation with n_step linear steps between f_start and f_stop
     """
     global port
+    str_in = f'V{port[0]}\t\t3\t0\tDC\t0\tAC\t1\n\
+R{port[0]}\t\t3\t{port[0]}\t50\n'
     str_out = ""
     for i in range(len(port)-1):
+        str_in += f'R{port[i+1]}\t{port[i+1]}\t0\t50\n'
         str_out += f' V({port[i+1]})'
-    return f'.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
+    return str_in+f'\n.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
 .PRINT AC V({port[0]}) I(V{port[0]}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'

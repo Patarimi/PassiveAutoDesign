@@ -255,11 +255,6 @@ class Transformer:
             Generate a equivalent circuit of a transformer with the given values
         """
         return f'Transformer Model\n\n\
-VIN		3	0	DC	0	AC	1\n\
-RIN		3	IN	50\n\
-ROUT	OUT	0	50\n\
-RCPL	CPL	0	50\n\
-RISO	ISO	0	50\n\n\
 L1		IN	1	{self.model["lp"]*1e12:.1f}p\n\
 R1		1	OUT	{self.model["rp"]*1e3:.1f}m\n\
 L2		CPL	2	{self.model["ls"]*1e12:.1f}p\n\

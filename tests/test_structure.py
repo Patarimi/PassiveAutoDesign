@@ -62,11 +62,6 @@ def test_transformer():
     transfo.set_primary(geo)
     transfo.set_secondary(geo)
     assert transfo.generate_spice_model(0.99) == 'Transformer Model\n\n\
-VIN\t\t3\t0\tDC\t0\tAC\t1\n\
-RIN\t\t3\tIN\t50\n\
-ROUT\tOUT\t0\t50\n\
-RCPL\tCPL\t0\t50\n\
-RISO\tISO\t0\t50\n\n\
 L1\t\tIN\t1\t226079425.7p\n\
 R1\t\t1\tOUT\t2256609.9m\n\
 L2\t\tCPL\t2\t226079425.7p\n\
