@@ -31,7 +31,8 @@ def test_ngspice_warper():
     if os.name == 'nt':
         S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
         assert (S == [-0.011917  -0.06115071j, 0.4940414 -0.030811j, 0.00345157+0.02766141j, -0.0034515 -0.0275043j]).all
+        with pytest.raises(FileNotFoundError):
+            ng.set_path("foo")
         ng.set_path("../")
-        with pytest.raises(EnvironmentError):
+        with pytest.raises(FileNotFoundError):
             S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
-        ng.set_path('../ng_spice/')

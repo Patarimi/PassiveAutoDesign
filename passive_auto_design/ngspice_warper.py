@@ -49,11 +49,10 @@ def get_results(spice_bytes, _dump_results=False):
     """
     try:
         pipe = Popen([path+exe_name, '-b'], stdin=PIPE, stdout=PIPE)
+        ret, _ = pipe.communicate(input=spice_bytes)
     except FileNotFoundError:
-        raise EnvironmentError('ngspice is not installed !')
-    except:
-        raise
-    ret, _ = pipe.communicate(input=spice_bytes)
+        raise FileNotFoundError('ngspice not found at: '+path+exe_name+'\n\
+Please set the correct folder using set_path')
     table = ret.decode().splitlines()
     if _dump_results:
         with open(dump_name, 'w') as file:
