@@ -5,8 +5,8 @@ Created on Mon May 20 14:30:07 2019
 @author: mpoterea
 """
 from subprocess import Popen, PIPE
-import numpy as np
 import os
+import numpy as np
 
 dump_name = './tests/dump.res'
 exe_name = "ngspice_con.exe"
@@ -17,7 +17,7 @@ def set_path(_path):
     set the path (absolute or relative) to the ng_spice directory
     """
     global path
-    if os.path.exists(_path):
+    if os.path.exists(_path) or os.name != 'nt':
         path = _path
     else:
         raise FileNotFoundError(_path+': not reachable')
