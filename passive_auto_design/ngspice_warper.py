@@ -89,8 +89,5 @@ Please set the correct folder using set_path')
     if len(param) != 0: # getting the last parameter !!
         data.append(param)
     data = np.array(data)
-    _s = np.array((-data[0]-50*data[1],
-                   data[2],
-                   data[3],
-                   data[4]))
+    _s = np.insert(data[2:], 0, (-data[0]-50*data[1]))
     return _s
