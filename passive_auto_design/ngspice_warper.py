@@ -62,7 +62,7 @@ def get_results(spice_bytes, _dump_results=False):
         run the simulation and return gain and reflection coefficient (s-parameters simulation)
     """
     try:
-        pipe = Popen([path+exe_name, '-b'], stdin=PIPE, stdout=PIPE)
+        pipe = Popen([path+exe_name, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
         ret, _ = pipe.communicate(input=spice_bytes)
     except FileNotFoundError:
         raise FileNotFoundError('ngspice not found at: '+path+exe_name+'\n\
