@@ -31,10 +31,11 @@ def test_ngspice_warper():
     ng.set_ports(['IN', 'OUT', 'CPL', 'ISO'])
     assert ng.generate_ac_simulation(1e9, 1e9, 1) == REF_CTRL
     if os.name == 'nt':
-        S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
+        ng.set_path("../ng_spice/")
+        S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
         assert (S == [-0.011917  -0.06115071j, 0.4940414 -0.030811j, 0.00345157+0.02766141j, -0.0034515 -0.0275043j]).all
         with pytest.raises(FileNotFoundError):
             ng.set_path("foo")
         ng.set_path("../")
         with pytest.raises(FileNotFoundError):
-            S = ng.get_results(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
+            S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))

@@ -57,9 +57,9 @@ def convert(t_bytes):
             pass
     return complex(ret[2], ret[3])
 
-def get_results(spice_bytes, _dump_results=False):
+def run_ac_sim(spice_bytes, _dump_results=False):
     """
-        run the simulation and return gain and reflection coefficient (s-parameters simulation)
+        run an ac simulation and return gains and input reflection coefficient.
     """
     try:
         pipe = Popen([path+exe_name, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)

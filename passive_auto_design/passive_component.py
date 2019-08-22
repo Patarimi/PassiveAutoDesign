@@ -45,7 +45,7 @@ class Coupler:
         b_model = bytes(self.transfo.generate_spice_model(self.k), encoding='UTF-8')
         ng.set_ports(['IN', 'OUT', 'CPL', 'ISO'])
         b_simulation = bytes(ng.generate_ac_simulation(self.f_c, self.f_c, 1), encoding='UTF-8')
-        s_p = ng.get_results(b_model+b_simulation)
+        s_p = ng.run_ac_sim(b_model+b_simulation)
         return np.abs(s_p[0])+np.max([26.7-ihsr(s_p[1], s_p[2]), 0])
     def __cost_est_inductance(self, _di):
         self.transfo.prim['di'] = _di

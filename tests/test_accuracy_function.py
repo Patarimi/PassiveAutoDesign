@@ -42,7 +42,7 @@ if os.name == 'nt':
                     b_simulation = bytes(ng.generate_ac_simulation(f, f, 1), encoding='UTF-8')
                     with open('tests/model_coupler.cir', 'w') as file:
                         file.write(CPL.transfo.generate_spice_model(k))
-                    S = ng.get_results(b_model+b_simulation)
+                    S = ng.run_ac_sim(b_model+b_simulation)
                     Cost = np.abs(S[0]-(50-z)/(z+50))
                     # output creation Cost and sweept variables
                     OUTPUT.append((Cost, x['di'], x['n_turn']))
