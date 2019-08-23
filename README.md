@@ -1,4 +1,4 @@
-# PassiveAutoDesign [WIP] [![Build Status](https://travis-ci.org/Patarimi/PassiveAutoDesign.svg?branch=master)](https://travis-ci.org/Patarimi/PassiveAutoDesign)
+# PassiveAutoDesign [WIP] [![Build Status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva/branch/master)](https://ci.appveyor.com/project/Patarimi/passiveautodesign)
 Python Script for Fast Design of RF-Passive Components.\
 This script is in an early stage of development. For now, it only works with Windows OS.
 
