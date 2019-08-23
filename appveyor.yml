@@ -1,6 +1,8 @@
 # appveyor.yml
 ---
-environment: py36
+environment:
+  matrix:
+    - PYTHONVERS: py36
 
 build: off
 
