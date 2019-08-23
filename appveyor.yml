@@ -13,10 +13,9 @@ install:
 - pip install -qr requirements.txt --no-warn-script-location
 - pip install -q pytest-cov --no-warn-script-location
 - cd ..
+- mkdir ng_spice
 - ps: Start-FileDownload https://netix.dl.sourceforge.net/project/ngspice/ng-spice-rework/30/ngspice-30_64.zip
 - 7z e ngspice-30_64.zip -aoa
-- dir /b
-- Rename ngspice-30_64 ngspice
 
 test_script:
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
