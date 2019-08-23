@@ -10,11 +10,11 @@ build: off
 
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
-- pip install -r requirements.txt
-- pip install pytest-cov
+- pip install -qr requirements.txt
+- pip install -q pytest-cov
 - cd ..
 - ps: Start-FileDownload https://netix.dl.sourceforge.net/project/ngspice/ng-spice-rework/30/ngspice-30_64.zip
-- 7z e ngspice-30_64.zip
+- 7z e ngspice-30_64.zip -aoa
 - ran ngspice-30_64 ngspice
 
 test_script:
