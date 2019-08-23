@@ -32,7 +32,6 @@ def generate_ac_simulation(f_start, f_stop, n_step):
     """
         generate an AC simulation with n_step linear steps between f_start and f_stop
     """
-    global port
     str_in = f'V{port[0]}\t\t3\t0\tDC\t0\tAC\t1\n\
 R{port[0]}\t\t3\t{port[0]}\t50\n'
     str_out = ""
