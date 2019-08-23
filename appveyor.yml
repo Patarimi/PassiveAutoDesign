@@ -1,12 +1,9 @@
 # appveyor.yml
 ---
-environment:
-  matrix:
-    - PYTHONVERS: py36
-
 build: off
 
 install:
+- python -m pip install --upgrade pip
 - pip install -r requirements.txt
 - pip install pytest-cov
 
