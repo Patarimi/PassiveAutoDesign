@@ -1,0 +1,23 @@
+# appveyor.yml
+---
+environment:
+  global:
+    PYTHON: "C:\\Python37-x64"
+    PYTHON_VERSION: "3.7.x"
+    PYTHON_ARCH: "64"
+
+build: off
+
+install:
+- set PATH=%PYTHON%\\scripts;%PATH%
+- pip install -qr requirements.txt --no-warn-script-location
+- pip install -q pytest-cov --no-warn-script-location
+- cd ..
+- mkdir ng_spice
+- cd ng_spice
+- ps: Start-FileDownload https://netix.dl.sourceforge.net/project/ngspice/ng-spice-rework/30/ngspice-30_64.zip
+- 7z e ngspice-30_64.zip -aoa
+
+test_script:
+- cd C:\projects\passiveautodesign
+- "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
