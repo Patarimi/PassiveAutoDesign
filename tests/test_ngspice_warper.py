@@ -4,7 +4,6 @@ Created on Fri Jul 12 09:30:00 2019
 
 @author: mpoterea
 """
-import os
 import pytest
 import passive_auto_design.ngspice_warper as ng
 
@@ -32,14 +31,13 @@ S_ref_sp = [S_ref, S_ref, S_ref, S_ref[:-1]]
 def test_ngspice_warper():
     ng.set_ports(['IN', 'OUT', 'CPL', 'ISO'])
     assert ng.generate_ac_simulation(1e9, 1e9, 1) == REF_CTRL
-    if os.name == 'nt':
-        ng.set_path("../ng_spice/")
-        S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
-        assert (S == S_ref).all
-        S = ng.run_sp_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
-        assert (S == S_ref_sp).all
-        with pytest.raises(FileNotFoundError):
-            ng.set_path("foo")
-        ng.set_path("../")
-        with pytest.raises(FileNotFoundError):
-            S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
+    ng.set_path("../ng_spice/")
+    S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'), True)
+    assert (S == S_ref).all
+    S = ng.run_sp_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
+    assert (S == S_ref_sp).all
+    with pytest.raises(FileNotFoundError):
+        ng.set_path("foo")
+    ng.set_path("../")
+    with pytest.raises(FileNotFoundError):
+        S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))

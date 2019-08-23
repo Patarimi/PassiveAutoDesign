@@ -6,6 +6,8 @@ Created on Mon May 20 14:30:07 2019
 """
 from subprocess import Popen, PIPE
 import os
+if os.name != 'nt':
+    raise EnvironmentError('ngspice_warper Only Supported on Windows (nt) Operating System')
 import numpy as np
 
 dump_name = './tests/dump.res'
@@ -18,7 +20,7 @@ def set_path(_path):
     set the path (absolute or relative) to the ng_spice directory
     """
     global path
-    if os.path.exists(_path) or os.name != 'nt':
+    if os.path.exists(_path):
         path = _path
     else:
         raise FileNotFoundError(_path+': not reachable')
