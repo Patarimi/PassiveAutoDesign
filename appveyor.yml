@@ -2,14 +2,14 @@
 ---
 environment:
   global:
-    PYTHON: "C:\\Python36-x64"
+    PYTHON: "C:\\Python37-x64"
     PYTHON_VERSION: "3.7.x"
     PYTHON_ARCH: "64"
 
 build: off
 
 install:
-- "%PYTHON%\\python.exe -m pip install --upgrade pip"
+- set PATH=%PYTHON%\\scripts;%PATH%
 - pip install -r requirements.txt
 - pip install pytest-cov
 
