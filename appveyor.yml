@@ -1,0 +1,12 @@
+# appveyor.yml
+---
+environment: py36
+
+build: off
+
+install:
+- pip install -r requirements.txt
+- pip install pytest-cov
+
+test_script:
+- python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
