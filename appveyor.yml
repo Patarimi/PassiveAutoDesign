@@ -2,14 +2,14 @@
 ---
 environment:
   global:
-    PYTHON_VERSION: "3.6"
+    PYTHON: "C:\\Python36-x64"
 
 build: off
 
 install:
-- python -m pip install --upgrade pip
+- "%PYTHON%\\python.exe -m pip install --upgrade pip"
 - pip install -r requirements.txt
 - pip install pytest-cov
 
 test_script:
-- python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
+- "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
