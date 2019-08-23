@@ -89,5 +89,24 @@ Please set the correct folder using set_path')
     if len(param) != 0: # getting the last parameter !!
         data.append(param)
     data = np.array(data)
-    _s = np.insert(data[2:], 0, (-data[0]-50*data[1]))
+    _s = np.insert(data[2:], 0, (-data[0]-50*data[1]), axis=0)
     return _s
+
+def run_sp_sim(spice_bytes, _dump_results=False):
+    """
+        run a sp simulation and return all gains and reflection coefficients.
+    """
+    global dump_name
+    nb_ports = len(port)-1
+    if nb_ports == -1:
+        raise ValueError('port name not set.\nPlease use set_ports')
+    sparam = list()
+    for i in range(nb_ports+1):
+        dump_name = dump_name[:12]+'_'+port[0]+dump_name[-4:]
+        out = run_ac_sim(spice_bytes, _dump_results)
+        #print(np.round(out, 3))
+        out = np.insert(out[1:], i, out[0], axis=0)
+        sparam.append(out)
+    #put the simulated port in the end of the list
+        set_ports(port[1:]+[port[0]])
+    return np.array(sparam)
