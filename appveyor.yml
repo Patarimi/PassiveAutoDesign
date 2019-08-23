@@ -12,9 +12,10 @@ install:
 - set PATH=%PYTHON%\\scripts;%PATH%
 - pip install -r requirements.txt
 - pip install pytest-cov
-- cd
+- cd ..
 - ps: Start-FileDownload https://netix.dl.sourceforge.net/project/ngspice/ng-spice-rework/30/ngspice-30_64.zip
-- 7z x ngspice-30_64.zip
+- 7z e ngspice-30_64.zip
+- ran ngspice-30_64 ngspice
 
 test_script:
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
