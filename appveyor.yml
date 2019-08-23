@@ -10,8 +10,8 @@ build: off
 
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
-- pip install -qr --no-warn-script-location requirements.txt
-- pip install -q  --no-warn-script-location pytest-cov
+- pip install -qr requirements.txt --no-warn-script-location
+- pip install -q pytest-cov --no-warn-script-location
 - cd ..
 - ps: Start-FileDownload https://netix.dl.sourceforge.net/project/ngspice/ng-spice-rework/30/ngspice-30_64.zip
 - 7z e ngspice-30_64.zip -aoa
