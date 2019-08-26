@@ -66,6 +66,8 @@ class Coupler:
         minimize_scalar(self.__cost_est_capacitance, bounds=self.bounds[0])
         geo = self.transfo.prim
         x_0 = np.array([geo['width'], geo['n_turn'], geo['di'], geo['gap']])
+        if _maxiter == 0: #just get the first guess
+            return x_0
         res = dual_annealing(self.cost, self.bounds, x0=x_0, maxiter=_maxiter)
         return res
     def print(self, res):
