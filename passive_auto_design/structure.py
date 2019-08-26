@@ -211,8 +211,8 @@ class Transformer:
             if _of_primary, return the value of the top inductor
             else, return the value of the bottom inductor
         """
-        k_1 = 2.25   #constante1 empirique pour inductance
-        k_2 = 3.55   #constante2 empirique pour inductance
+        k_1 = 1.265   #constante1 empirique pour inductance
+        k_2 = 2.093   #constante2 empirique pour inductance
         if _of_primary:
             geo = self.prim
         else:
@@ -231,8 +231,8 @@ class Transformer:
             dist = self.dist
         else:
             dist = self.dist_sub
-        c_1 = 6.86   #constante1 empirique pour capacité
-        c_2 = 5.25   #constante2 empirique pour capacité
+        c_1 = 8.275   #constante1 empirique pour capacité
+        c_2 = 5.250   #constante2 empirique pour capacité
         n_t = self.prim['n_turn']
         return self.prim['width']*eps0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
     def r_geo(self, _of_primary=True, rho=17e-10):
