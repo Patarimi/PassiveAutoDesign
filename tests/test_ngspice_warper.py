@@ -41,3 +41,6 @@ def test_ngspice_warper():
     ng.set_path("../")
     with pytest.raises(FileNotFoundError):
         S = ng.run_ac_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))
+    ng.set_ports([])
+    with pytest.raises(ValueError):
+        ng.run_sp_sim(bytes(REF_MODEL+REF_CTRL, encoding='UTF-8'))

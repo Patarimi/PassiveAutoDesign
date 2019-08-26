@@ -100,7 +100,7 @@ def run_sp_sim(spice_bytes, _dump_results=False):
     global dump_name
     nb_ports = len(port)-1
     if nb_ports == -1:
-        raise ValueError('port name not set.\nPlease use set_ports')
+        raise ValueError('Port name not set.\nPlease use set_ports')
     sparam = list()
     for i in range(nb_ports+1):
         dump_name = dump_name[:12]+'_'+port[0]+dump_name[-4:]
