@@ -5,7 +5,7 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
-from scipy.optimize import dual_annealing, minimize_scalar
+from scipy.optimize import dual_annealing, minimize_scalar, OptimizeResult
 import passive_auto_design.ngspice_warper as ng
 from passive_auto_design.structure import Transformer
 
@@ -63,9 +63,15 @@ class Coupler:
         #finding the inner diameter that give the correct inductance
         minimize_scalar(self.__cost_est_inductance, bounds=self.bounds[2])
         #finding the path width that give the correct capacitor
-        minimize_scalar(self.__cost_est_capacitance, bounds=self.bounds[0])
+        res_int = minimize_scalar(self.__cost_est_capacitance, bounds=self.bounds[0])
         geo = self.transfo.prim
         x_0 = np.array([geo['width'], geo['n_turn'], geo['di'], geo['gap']])
+        if _maxiter == 0: #just get the first guess
+            res = OptimizeResult()
+            res.x=x_0
+            res.fun=res_int.fun
+            res.message='First Guess'
+            return res
         res = dual_annealing(self.cost, self.bounds, x0=x_0, maxiter=_maxiter)
         return res
     def print(self, res):
