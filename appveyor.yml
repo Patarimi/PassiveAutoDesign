@@ -26,7 +26,6 @@ test_script:
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
 
 deploy_script:
-      - master
     # Specify account details for PyPI
       - echo [distutils]                                  > %USERPROFILE%\\.pypirc
       - echo index-servers =                             >> %USERPROFILE%\\.pypirc
