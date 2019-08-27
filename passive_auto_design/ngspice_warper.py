@@ -6,22 +6,23 @@ Created on Mon May 20 14:30:07 2019
 """
 from subprocess import Popen, PIPE
 import os
-if os.name != 'nt':
-    raise EnvironmentError('ngspice_warper Only Supported on Windows (nt) Operating System')
 import numpy as np
 
-dump_name = './tests/dump.res'
-exe_name = "ngspice_con.exe"
-path = "/"
+if os.name != 'nt':
+    raise EnvironmentError('ngspice_warper Only Supported on Windows (nt) Operating System')
+
 port = list()
+DUMP_NAME = './tests/dump.res'
+EXE_NAME = "ngspice_con.exe"
+PATH = "/"
 
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory
     """
-    global path
+    global PATH
     if os.path.exists(_path):
-        path = _path
+        PATH = _path
     else:
         raise FileNotFoundError(_path+': not reachable')
 def set_ports(_ports_names):
@@ -63,14 +64,14 @@ def run_ac_sim(spice_bytes, _dump_results=False):
         run an ac simulation and return gains and input reflection coefficient.
     """
     try:
-        pipe = Popen([path+exe_name, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
+        pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
         ret, _ = pipe.communicate(input=spice_bytes)
     except FileNotFoundError:
-        raise FileNotFoundError('ngspice not found at: '+path+exe_name+'\n\
+        raise FileNotFoundError('ngspice not found at: '+PATH+EXE_NAME+'\n\
 Please set the correct folder using set_path')
     table = ret.decode().splitlines()
     if _dump_results:
-        with open(dump_name, 'w') as file:
+        with open(DUMP_NAME, 'w') as file:
             for line in table:
                 file.write(line+'\n')
     data = list()
@@ -97,14 +98,14 @@ def run_sp_sim(spice_bytes, _dump_results=False):
     """
         run a sp simulation and return all gains and reflection coefficients.
     """
-    global dump_name
-    nb_ports = len(port)-1
+    global DUMP_NAME
+    nb_ports = len(ports)-1
     if nb_ports == -1:
         raise ValueError('Port name not set.\nPlease use set_ports')
     sparam = list()
     for i in range(nb_ports+1):
-        dump_name = dump_name[:12]+'_'+port[0]+dump_name[-4:]
-        out = run_ac_sim(spice_bytes, _dump_results)
+        DUMP_NAME = DUMP_NAME[:12]+'_'+ports[0]+DUMP_NAME[-4:]
+        out = run_ac_sim(spice_bytes, freq_ctrl, ports, _dump_results)
         #print(np.round(out, 3))
         out = np.insert(out[1:], i, out[0], axis=0)
         sparam.append(out)
