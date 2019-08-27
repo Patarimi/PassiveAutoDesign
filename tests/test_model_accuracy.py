@@ -22,7 +22,7 @@ OUTPUT = list()   #contains list of tuples (cost, param sweep for plotting)
 with open('tests/coupleur_data.csv', newline='') as data_file:
     DATA_RAW = csv.reader(data_file, delimiter='\t')
     for row in DATA_RAW:
-        ng.set_ports(['in', 'out', 'cpl', 'iso'])
+        ports = ['in', 'out', 'cpl', 'iso']
         try:
             if row[0]=='with':
                 BEOL = sub.Substrate(row[1])
@@ -35,9 +35,9 @@ with open('tests/coupleur_data.csv', newline='') as data_file:
                 CPL = pad.Coupler(BEOL, f, z, k)
                 CPL.transfo.set_primary(x)
                 CPL.transfo.set_secondary(x)
-                b_model = bytes(CPL.transfo.generate_spice_model(k), encoding='UTF-8')
-                b_simulation = bytes(ng.generate_ac_simulation(f, f, 1), encoding='UTF-8')
-                S = ng.run_ac_sim(b_model+b_simulation)
+                S = ng.run_ac_sim(CPL.transfo.generate_spice_model(k),
+                                  ports = ports,
+                                  freq_ctrl = (f, f, 1))
                 Cost = np.abs(S[0]-(50-z)/(z+50))
                 # output creation Cost and sweept variables
                 OUTPUT.append((Cost, x['di'], x['n_turn']))

@@ -11,7 +11,6 @@ import numpy as np
 if os.name != 'nt':
     raise EnvironmentError('ngspice_warper Only Supported on Windows (nt) Operating System')
 
-port = list()
 DUMP_NAME = './tests/dump.res'
 EXE_NAME = "ngspice_con.exe"
 PATH = "/"
@@ -25,13 +24,8 @@ def set_path(_path):
         PATH = _path
     else:
         raise FileNotFoundError(_path+': not reachable')
-def set_ports(_ports_names):
-    """
-    set ports name of the simulations
-    """
-    global port
-    port = _ports_names
-def generate_ac_simulation(f_start, f_stop, n_step):
+
+def generate_ac_simulation(freq_ctrl, port):
     """
         generate an AC simulation with n_step linear steps between f_start and f_stop
     """
@@ -41,7 +35,7 @@ R{port[0]}\t\t3\t{port[0]}\t50\n'
     for i in range(len(port)-1):
         str_in += f'R{port[i+1]}\t{port[i+1]}\t0\t50\n'
         str_out += f' V({port[i+1]})'
-    return str_in+f'\n.AC LIN	{n_step}	{f_start:.3e}	{f_stop:.3e}\n\
+    return str_in+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
 .PRINT AC V({port[0]}) I(V{port[0]}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
@@ -59,12 +53,13 @@ def convert(t_bytes):
             pass
     return complex(ret[2], ret[3])
 
-def run_ac_sim(spice_bytes, _dump_results=False):
+def run_ac_sim(spice_circuit, freq_ctrl=(1e9, 10e9, 10), ports=['1', '2'], _dump_results=False):
     """
         run an ac simulation and return gains and input reflection coefficient.
     """
     try:
         pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
+        spice_bytes = bytes(spice_circuit+generate_ac_simulation(freq_ctrl, ports), encoding='UTF-8')
         ret, _ = pipe.communicate(input=spice_bytes)
     except FileNotFoundError:
         raise FileNotFoundError('ngspice not found at: '+PATH+EXE_NAME+'\n\
@@ -94,7 +89,7 @@ Please set the correct folder using set_path')
     _s = np.insert(data[2:], 0, (-data[0]-50*data[1]), axis=0)
     return _s
 
-def run_sp_sim(spice_bytes, _dump_results=False):
+def run_sp_sim(spice_bytes, freq_ctrl=(1e9, 10e9, 10), ports=['1', '2'], _dump_results=False):
     """
         run a sp simulation and return all gains and reflection coefficients.
     """
@@ -110,5 +105,5 @@ def run_sp_sim(spice_bytes, _dump_results=False):
         out = np.insert(out[1:], i, out[0], axis=0)
         sparam.append(out)
     #put the simulated port in the end of the list
-        set_ports(port[1:]+[port[0]])
+        ports = ports[1:]+[ports[0]]
     return np.array(sparam)
