@@ -1,6 +1,9 @@
 # appveyor.yml
 ---
 environment:
+  PYPIPASSWORD:
+    secure: Z5wNxGEgsd3z+VoLXHUDkA==
+
   global:
     PYTHON: "C:\\Python37-x64"
     PYTHON_VERSION: "3.7.x"
@@ -21,3 +24,19 @@ install:
 test_script:
 - cd C:\projects\passiveautodesign
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
+
+on_success:
+  # Specify account details for PyPI
+  - echo [distutils]                                  > %USERPROFILE%\\.pypirc
+  - echo index-servers =                             >> %USERPROFILE%\\.pypirc
+  - echo     pypi                                    >> %USERPROFILE%\\.pypirc
+  - echo [pypi]                                      >> %USERPROFILE%\\.pypirc
+  - echo repository=https://pypi.python.org/pypi >> %USERPROFILE%\\.pypirc
+  - echo username=Patarimi                            >> %USERPROFILE%\\.pypirc
+  - echo password=%PYPIPASSWORD%                     >> %USERPROFILE%\\.pypirc
+  
+  # Workaround required to ensure setup.py finds the .pypirc under Windows
+  - set HOME=%USERPROFILE%
+
+  - "%PYTHON%\\python.exe -m pip install wheel"
+  - "%PYTHON%\\python.exe setup.py bdist_wheel upload"
