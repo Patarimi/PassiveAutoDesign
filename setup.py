@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="passive-auto-design",
-    version="0.0.2",
+    version="0.0.4",
     author="Patarimi",
     author_email="mpqqch@gmail.com",
     description="Tools for fast prototyping of radio-frequence passive components",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/Patarimi/PassiveAutoDesign",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
