@@ -25,10 +25,7 @@ test_script:
 - cd C:\projects\passiveautodesign
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
 
-for:
--
-  branches:
-    only:
+deploy_script:
       - master
     # Specify account details for PyPI
       - echo [distutils]                                  > %USERPROFILE%\\.pypirc
