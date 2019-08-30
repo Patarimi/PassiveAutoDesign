@@ -8,7 +8,10 @@ import numpy as np
 from scipy.optimize import dual_annealing, minimize_scalar, OptimizeResult
 import passive_auto_design.ngspice_warper as ng
 from passive_auto_design.structure import Transformer
-
+PORTS = (ng.Ports('IN', name='IN'),
+         ng.Ports('OUT', name='OUT'),
+         ng.Ports('CPL', name='CPL'),
+         ng.Ports('ISO', name='ISO'))
 class Coupler:
     """
         Create a coupler object
@@ -43,7 +46,7 @@ class Coupler:
         self.transfo.set_primary(geo)
         self.transfo.set_secondary(geo)
         s_p = ng.run_ac_sim(self.transfo.generate_spice_model(self.k),
-                            ports = ['IN', 'OUT', 'CPL', 'ISO'],
+                            ports = PORTS,
                             freq_ctrl = (self.f_c, self.f_c, 1))
         return np.abs(s_p[0])+np.max([26.7-ihsr(s_p[1], s_p[2]), 0])
     def __cost_est_inductance(self, _di):

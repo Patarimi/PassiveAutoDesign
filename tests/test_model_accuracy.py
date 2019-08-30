@@ -22,7 +22,10 @@ OUTPUT = list()   #contains list of tuples (cost, param sweep for plotting)
 with open('tests/coupleur_data.csv', newline='') as data_file:
     DATA_RAW = csv.reader(data_file, delimiter='\t')
     for row in DATA_RAW:
-        ports = ['in', 'out', 'cpl', 'iso']
+        ports = (ng.Ports('IN', name='IN'),
+                 ng.Ports('OUT', name='OUT'),
+                 ng.Ports('CPL', name='CPL'),
+                 ng.Ports('ISO', name='ISO'))
         try:
             if row[0]=='with':
                 BEOL = sub.Substrate(row[1])

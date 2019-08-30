@@ -31,7 +31,10 @@ S_REF_AC = [-0.011917  -0.06115071j,
             0.00345157+0.02766141j,
             -0.0034515 -0.0275043j]
 S_REF_SP = [S_REF_AC, S_REF_AC, S_REF_AC, S_REF_AC]
-PORTS = ['IN', 'OUT', 'CPL', 'ISO']
+PORTS = (ng.Ports('IN', name='IN'),
+         ng.Ports('OUT', name='OUT'),
+         ng.Ports('CPL', name='CPL'),
+         ng.Ports('ISO', name='ISO'))
 FREQ_CTRL = (1e9, 1e9, 1)
 def test_ngspice_warper():
     assert ng.generate_ac_simulation(FREQ_CTRL, PORTS) == REF_CTRL
