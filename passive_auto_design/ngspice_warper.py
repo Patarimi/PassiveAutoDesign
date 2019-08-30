@@ -57,18 +57,24 @@ def set_path(_path):
     else:
         raise FileNotFoundError(_path+': not reachable')
 
-def generate_ac_simulation(freq_ctrl, port):
+def generate_ac_simulation(freq_ctrl, ports_list):
     """
-        generate an AC simulation with n_step linear steps between f_start and f_stop
+        generate an AC simulation with
+        n_step linear steps between f_start and f_stop
+        and for each ports of the ports_list
     """
-    str_in = f'V{port[0]}\t\t3\t0\tDC\t0\tAC\t1\n\
-R{port[0]}\t\t3\t{port[0]}\t50\n'
+    prt = ports_list
+    str_in = 'V'+prt[0].get_name()+'\t\t3\t'+prt[0].get_term_neg()+'\tDC\t0\tAC\t1\n'\
+    +'R'+prt[0].get_name()+'\t\t3\t'+prt[0].get_term_pos()+'\t'+prt[0].get_impedance()+'\n'
     str_out = ""
-    for i in range(len(port)-1):
-        str_in += f'R{port[i+1]}\t{port[i+1]}\t0\t50\n'
-        str_out += f' V({port[i+1]})'
+    for i in range(len(prt)-1):
+        str_in += 'R'+prt[i+1].get_name()+'\t'\
+        +prt[i+1].get_term_pos()+'\t'\
+        +prt[i+1].get_term_neg()+'\t'\
+        +prt[i+1].get_impedance()+'\n'
+        str_out += f' V({prt[i+1].get_name()})'
     return str_in+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
-.PRINT AC V({port[0]}) I(V{port[0]}){str_out}\n\n\
+.PRINT AC V({prt[0].get_name()}) I(V{prt[0].get_name()}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
 
