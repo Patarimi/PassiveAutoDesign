@@ -91,7 +91,7 @@ def convert(t_bytes):
             pass
     return complex(ret[2], ret[3])
 
-def run_ac_sim(spice_circuit, freq_ctrl=(1e9, 10e9, 10), ports=['1', '2'], _dump_results=False):
+def run_ac_sim(spice_circuit, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=False):
     """
         run an ac simulation and return gains and input reflection coefficient.
     """
@@ -127,7 +127,7 @@ Please set the correct folder using set_path')
     _s = np.insert(data[2:], 0, (-data[0]-50*data[1]), axis=0)
     return _s
 
-def run_sp_sim(spice_bytes, freq_ctrl=(1e9, 10e9, 10), ports=['1', '2'], _dump_results=False):
+def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=False):
     """
         run a sp simulation and return all gains and reflection coefficients.
     """
@@ -137,11 +137,11 @@ def run_sp_sim(spice_bytes, freq_ctrl=(1e9, 10e9, 10), ports=['1', '2'], _dump_r
         raise ValueError('Port name not set.\nPlease use set_ports')
     sparam = list()
     for i in range(nb_ports+1):
-        DUMP_NAME = DUMP_NAME[:12]+'_'+ports[0]+DUMP_NAME[-4:]
-        out = run_ac_sim(spice_bytes, freq_ctrl, ports, _dump_results)
+        DUMP_NAME = DUMP_NAME[:12]+'_'+ports[0].get_name()+DUMP_NAME[-4:]
+        out = run_ac_sim(spice_bytes, ports, freq_ctrl, _dump_results)
         #print(np.round(out, 3))
         out = np.insert(out[1:], i, out[0], axis=0)
         sparam.append(out)
     #put the simulated port in the end of the list
-        ports = ports[1:]+[ports[0]]
+        ports = ports[1:]+(ports[0],)
     return np.array(sparam)
