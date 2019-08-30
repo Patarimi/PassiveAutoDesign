@@ -59,8 +59,8 @@ def run_ac_sim(spice_circuit, freq_ctrl=(1e9, 10e9, 10), ports=['1', '2'], _dump
     """
     try:
         pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
-        spice_bytes = bytes(spice_circuit+generate_ac_simulation(freq_ctrl, ports), encoding='UTF-8')
-        ret, _ = pipe.communicate(input=spice_bytes)
+        spice_b = bytes(spice_circuit+generate_ac_simulation(freq_ctrl, ports), encoding='UTF-8')
+        ret, _ = pipe.communicate(input=spice_b)
     except FileNotFoundError:
         raise FileNotFoundError('ngspice not found at: '+PATH+EXE_NAME+'\n\
 Please set the correct folder using set_path')
