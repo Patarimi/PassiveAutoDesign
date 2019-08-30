@@ -15,6 +15,38 @@ DUMP_NAME = './tests/dump.res'
 EXE_NAME = "ngspice_con.exe"
 PATH = "/"
 
+class Ports:
+    """
+    class for ports declaration in sp and ac simulation
+    """
+    def __init__(self, term_pos, term_neg='0', impedance='50', name=''):
+        self.t_plus = term_pos
+        self.t_minus = term_neg
+        self.imp = impedance
+        if name == '':
+            self.name = term_pos+"_"+term_neg
+        self.name = name
+    def get_term_pos(self):
+        """
+        return a string representing the name of the positive terminal
+        """
+        return self.t_plus
+    def get_term_neg(self):
+        """
+        return a string representing the name of the negative terminal
+        """
+        return self.t_minus
+    def get_impedance(self):
+        """
+        return a string representing the impedance of the port
+        """
+        return self.imp
+    def get_name(self):
+        """
+        return a string representing the name of the port
+        """
+        return self.name
+
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory
