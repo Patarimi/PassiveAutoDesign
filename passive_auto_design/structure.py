@@ -220,7 +220,7 @@ class Transformer:
         outer_diam = geo['di']+2*geo['n_turn']*geo['width']+2*(geo['n_turn']-1)*geo['gap']
         rho = (geo['di']+outer_diam)/2
         density = (outer_diam-geo['di'])/(outer_diam+geo['di'])
-        return k_1*4*np.pi*1e-7*geo['n_turn']**2*rho/(1+k_2*density)
+        return k_1*u0*geo['n_turn']**2*rho/(1+k_2*density)
     def cc_geo(self, _mutual=True):
         """
             return the value of the distributed capacitance of the described transformer
