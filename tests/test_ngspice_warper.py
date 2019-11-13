@@ -6,6 +6,7 @@ Created on Fri Jul 12 09:30:00 2019
 """
 import pytest
 import passive_auto_design.ngspice_warper as ng
+import numpy as np
 
 REF_MODEL = 'Hybrid Coupler\n\n\
 L1\t\tIN\t1\t1.000e-09\n\
@@ -26,11 +27,11 @@ RISO\tISO\t0\t50\n\n\
 .AC LIN\t1\t1.000e+09\t1.000e+09\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
 .OPTION ELTOL=1e-12\n.END\n'
-S_REF_AC = [-0.011917  -0.06115071j,
-            0.4940414 -0.030811j,
-            0.00345157+0.02766141j,
-            -0.0034515 -0.0275043j]
-S_REF_SP = [S_REF_AC, S_REF_AC, S_REF_AC, S_REF_AC]
+S_REF_AC = [[-0.011917  -0.06115071j],[ 0.4940414 -0.030811j  ],[ 0.00345157+0.02766141j],[-0.0034515 -0.0275043j ]]
+S_REF_SP = [[S_REF_AC[0], S_REF_AC[1], S_REF_AC[2], S_REF_AC[3]],
+            [S_REF_AC[3], S_REF_AC[0], S_REF_AC[2], S_REF_AC[1]],
+		    [S_REF_AC[1], S_REF_AC[2], S_REF_AC[0], S_REF_AC[3]],
+		    [S_REF_AC[3], S_REF_AC[2], S_REF_AC[1], S_REF_AC[0]]]
 PORTS = (ng.Ports('IN', name='IN'),
          ng.Ports('OUT', name='OUT'),
          ng.Ports('CPL', name='CPL'),
@@ -43,11 +44,11 @@ def test_ngspice_warper():
                            ports=PORTS,
                            freq_ctrl=FREQ_CTRL,
                            _dump_results=True)
-    assert (ac_res == S_REF_AC).all
+    assert (np.round(ac_res, 8) == S_REF_AC).all()
     sp_res = ng.run_sp_sim(REF_MODEL,
                            ports=PORTS,
                            freq_ctrl=FREQ_CTRL)
-    assert (sp_res == S_REF_SP).all
+    assert (np.round(sp_res, 8) == S_REF_SP).all()
     with pytest.raises(FileNotFoundError):
         ng.set_path("foo")
     ng.set_path("../")
