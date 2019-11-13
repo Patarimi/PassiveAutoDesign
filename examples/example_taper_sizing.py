@@ -7,7 +7,7 @@ Ceci est un script temporaire.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.passive_component.taper as tap
+import passive_auto_design.passive_component.Taper as tap
 from passive_auto_design.special import dB
 
 N_STEP = 61
@@ -18,7 +18,7 @@ C_0 = 2.988e8 #m/s
 TOT_LENGTH = 10e-3 #m
 
 Z_LINEAR = tap.linear_taper(Z_START, Z_STOP, N_STEP) #Ohm
-Z_KLOPF = tap.klopfenstein_tapper(Z_START, Z_STOP, N_STEP) #Ohm
+Z_KLOPF = tap.klopfenstein_taper(Z_START, Z_STOP, N_STEP) #Ohm
 DELAI = np.sqrt(E)*TOT_LENGTH/(C_0*(N_STEP)) #s
 
 F_SWEEP = np.arange(0, 50e9, 0.1e9)
