@@ -28,7 +28,7 @@ def linear_taper(_z_start, _z_stop, _n_step):
     """
     return np.linspace(_z_start, _z_stop, _n_step)
 
-def klopfenstein_tapper(_z_start, _z_stop, _n_step, _rhomax=0.01):
+def klopfenstein_taper(_z_start, _z_stop, _n_step, _rhomax=0.01):
     """
     return the _n_step profile of impedance for a transition from
     _z_start to _z_stop
