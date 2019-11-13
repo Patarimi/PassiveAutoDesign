@@ -5,14 +5,15 @@ Created on Fri Jul 12 09:30:00 2019
 @author: mpoterea
 """
 import pytest
-import passive_auto_design.structure as st
+import passive_auto_design.structure.Waveguide as wg
+import passive_auto_design.structure.Transformer as tf
 from passive_auto_design.substrate import COPPER, D5880
 
 def test_siw():
     """
     unity test for SIW object
     """
-    wr1 = st.SIW(COPPER, D5880, 2.4e-3)
+    wr1 = wg.SIW(COPPER, D5880, 2.4e-3)
 #width not set, pphc should return an error
     with pytest.raises(ValueError):
         wr1.calc_pphc(29e9, 35e5)
@@ -36,8 +37,8 @@ def test_af_siw():
     unity test for AF-SIW object
     """
     with pytest.raises(ValueError):
-        af1 = st.AF_SIW(COPPER, D5880, 2.4e-3, 0)
-    af1 = st.AF_SIW(COPPER, D5880, 2.4e-3, 0.2e-3)
+        af1 = wg.AF_SIW(COPPER, D5880, 2.4e-3, 0)
+    af1 = wg.AF_SIW(COPPER, D5880, 2.4e-3, 0.2e-3)
     af1.set_width(6.94e-3)
     assert round(af1.f_c*1e-9, 1) == 14.6
     af1.set_fc(17e9)
@@ -58,7 +59,7 @@ def test_transformer():
            'width':1e-3,
            'gap':2e-3,
            'height':1e-6}
-    transfo = st.Transformer(geo, geo)
+    transfo = tf.Transformer(geo, geo)
     transfo.set_primary(geo)
     transfo.set_secondary(geo)
     assert transfo.generate_spice_model(0.99) == 'Transformer Model\n\n\

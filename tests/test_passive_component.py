@@ -7,13 +7,15 @@ Created on Fri Jul 12 15:07:03 2019
 import numpy as np
 import pytest
 import os
-import passive_auto_design.passive_component as pac
+import passive_auto_design.passive_component.Coupler as cpl
+import passive_auto_design.passive_component.Balun as bln
 import passive_auto_design.substrate as sub
 from passive_auto_design.ngspice_warper import set_path
+from passive_auto_design.special import std_dev
 
 SUB = sub.Substrate('tests/passive_component_tech.yml')
 def test_coupler():
-    CPL = pac.Coupler(SUB)
+    CPL = cpl.Coupler(SUB)
     if os.name == 'nt':
         set_path('../ng_spice/')
         res = CPL.design(1e9, 50, _maxiter=0)
@@ -25,7 +27,7 @@ def test_coupler():
         CPL.print(res)
    
 def test_balun():
-    BLN = pac.Balun(SUB)
+    BLN = bln.Balun(SUB)
     ZS_TARG = np.array([20+1j*40])
     ZL_TARG = np.array([50 + 1j*0])
     F_TARG = np.array([4e9])
@@ -35,4 +37,4 @@ def test_balun():
 
 def test_special():
     with pytest.raises(ValueError):
-        assert pac.std_dev(np.array([20+1j*40]), np.array([20+1j*40, 50]))
+        assert std_dev(np.array([20+1j*40]), np.array([20+1j*40, 50]))
