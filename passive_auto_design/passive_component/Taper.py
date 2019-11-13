@@ -21,6 +21,13 @@ def calc_RL_tot(_z_steps, _phi_step):
         z_tot = z_0*(z_tot+1j*z_0*np.tan(_phi_step))/(z_0+1j*z_tot*np.tan(_phi_step))
     return __gamma(_z_steps[0], z_tot)
 
+def linear_taper(_z_start, _z_stop, _n_step):
+    """
+    return the _n_step profile of impedance for a transition from
+    _z_start to _z_stop
+    """
+    return np.linspace(_z_start, _z_stop, _n_step)
+
 def klopfenstein_tapper(_z_start, _z_stop, _n_step, _rhomax=0.01):
     """
     return the _n_step profile of impedance for a transition from

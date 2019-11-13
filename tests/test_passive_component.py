@@ -38,3 +38,6 @@ def test_taper():
     z_res = tpr.klopfenstein_tapper(25, 50, 3)
     assert all(np.round(z_res,1) == [25.8, 35.7, 49.3])
     assert np.round(np.abs(tpr.calc_RL_tot(z_res, 45)),3) == 0.17
+    z_res = tpr.linear_taper(25, 50, 3)
+    z_ref = [25, 37.5, 50]
+    assert all(np.round(z_res,2) == z_ref)
