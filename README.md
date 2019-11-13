@@ -12,11 +12,12 @@ pip install passive-auto-design
 Then install [ngspice](http://ngspice.sourceforge.net/download.html).\
 Examples are given in the _examples_ directory.
 
-Library Architecture
+Package Structure
 ----
-The Library is composed of four modules:
+The Package is composed of five modules:
 
-- The _substrate.py_ file describes the substrate used (or Back End Of Line).
-- The _structure.py_ file describes the rf-structure implemented in a susbtrate (SIW, AF-SIW, Transformers).
-- The _passive_component.py_ describes the rf-component (hybrid coupler, impedance transformers, and (soon ?) filters). It also enables rough geometry design/estimation from given rf specifications.
+- The _substrate.py_ file which describes the substrate used (or Back End Of Line).
+- The _structure_ directory which contains RF-structures to be implemented in a susbtrate (SIW, AF-SIW, Transformers, ...).
+- The _passive_component_ which contains RF-components (such as hybrid coupler, impedance transformers, and (soon ?) filters). It also enables rough geometry design/estimation from given rf specifications.
 - _ng_spice_warper.py_ which eased the use of the ng-spice program.
+- _special.py_ which contains physical constants and special functions (dB, NmtodBcm, ...)
