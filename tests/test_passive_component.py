@@ -9,6 +9,7 @@ import pytest
 import os
 import passive_auto_design.passive_component.Coupler as cpl
 import passive_auto_design.passive_component.Balun as bln
+import passive_auto_design.passive_component.Taper as tpr
 import passive_auto_design.substrate as sub
 from passive_auto_design.ngspice_warper import set_path
 from passive_auto_design.special import std_dev
@@ -38,3 +39,9 @@ def test_balun():
 def test_special():
     with pytest.raises(ValueError):
         assert std_dev(np.array([20+1j*40]), np.array([20+1j*40, 50]))
+def test_taper():
+    z_res = tpr.klopfenstein_tapper(25, 50, 3)
+    assert np.round(z_res[0],1) == 25.8
+    assert np.round(z_res[1],1) == 35.7
+    assert np.round(z_res[2],1) == 49.3
+    assert np.round(np.abs(tpr.calc_RL_tot(z_res, 45)),3) == 0.17
