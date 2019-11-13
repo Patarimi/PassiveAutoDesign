@@ -8,7 +8,7 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 #%% Comparison between EM simulation results and coupler_cost function results
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.passive_component as pad
+import passive_auto_design.passive_component.Coupler as pad
 import passive_auto_design.substrate as sub
 from passive_auto_design.ngspice_warper import set_path
 
@@ -21,14 +21,14 @@ DI_TABLE = np.arange(100e-6, 400e-6, 50e-6)
 DI, W = np.meshgrid(DI_TABLE, W_TABLE)
 
 COST = np.zeros(DI.shape)
-i=0
+i = 0
 for w in W_TABLE:
-    j=0
+    j = 0
     for di in DI_TABLE:
         CPL = pad.Coupler(BEOL, 5e9, 50)
         COST[i, j] = CPL.cost([w, 2, di, 2.1e-6])
-        j +=1
-    i +=1
+        j += 1
+    i += 1
 FIG = plt.figure()
 plt.grid(True)
 CS = plt.contour(DI*1e6, W*1e6, -COST)

@@ -14,10 +14,10 @@ import passive_auto_design.substrate as sub
 from passive_auto_design.ngspice_warper import set_path
 
 #setting the installation directory of the ngspice software (to be install separately)
-set_path('../../ng_spice/')
+set_path('../Spice64/bin/')
 
 #Loading the tech.yml file (see example_susbtrate.py)
-BEOL = sub.Substrate('tech.yml')
+BEOL = sub.Substrate('./tech.yml')
 #%% Coupler Design
 # Design inputs
 F_TARG = 18e9
@@ -33,8 +33,8 @@ with open('model_coupler.cir', 'w') as file:
 
 #%% Balun Design
 # Design inputs
-ZS_TARG = np.array([20+1j*40])
-ZL_TARG = np.array([50 + 1j*0])
+ZS_TARG = np.array([18 - 1j*30])
+ZL_TARG = np.array([2 - 1j*11])
 F_TARG = np.array([4e9])
 # Creation of an impedance tranformer from ZS_TARG to ZL_TARG at F_TARG
 BALUN_TST = pad.Balun(BEOL, _k=K_COEFF)

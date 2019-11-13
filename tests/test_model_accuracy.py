@@ -35,7 +35,7 @@ with open('tests/coupleur_data.csv', newline='') as data_file:
                 f = float(row[5])
                 z = complex(float(row[6]), float(row[7]))
                 # calculation of deviation between calculation and validated values
-                CPL = pad.Coupler(BEOL, f, z, k)
+                CPL = pad.Coupler.Coupler(BEOL, f, z, k)
                 CPL.transfo.set_primary(x)
                 CPL.transfo.set_secondary(x)
                 S = ng.run_ac_sim(CPL.transfo.generate_spice_model(k),
