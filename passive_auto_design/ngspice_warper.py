@@ -137,11 +137,11 @@ def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fals
         raise ValueError('Port name not set.\nPlease use set_ports')
     sparam = list()
     for i in range(nb_ports+1):
+        #put the simulated port in the beginning of the list
+        port_tmp = (ports[i],)+ports[0:i]+ports[i+1:]
         DUMP_NAME = DUMP_NAME[:12]+'_'+ports[0].get_name()+DUMP_NAME[-4:]
-        out = run_ac_sim(spice_bytes, ports, freq_ctrl, _dump_results)
-        #print(np.round(out, 3))
-        out = np.insert(out[1:], i, out[0], axis=0)
+        out = run_ac_sim(spice_bytes, port_tmp, freq_ctrl, _dump_results)
+        #put the first result at the right place
+        out = np.insert(out[1:], i, out[0])
         sparam.append(out)
-    #put the simulated port in the end of the list
-        ports = ports[1:]+(ports[0],)
-    return np.array(sparam)
+    return sparam
