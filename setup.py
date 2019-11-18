@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="passive-auto-design",
-    version="0.0.5",
+    version="0.0.6",
     author="Patarimi",
     author_email="mpqqch@gmail.com",
     description="Tools for fast prototyping of radio-frequence passive components",
