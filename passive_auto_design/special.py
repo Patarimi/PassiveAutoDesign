@@ -35,3 +35,9 @@ def ihsr(_s31, _s21):
         Return the IHSR (Ideal Hybrid Splitting Ratio) for the given gains
     """
     return -np.min((dB(_s21-1j*_s31), dB(_s21+1j*_s31)))
+
+def qual_f(_z):
+    """
+    return the quality factor of a components
+    """
+    return np.imag(_z)/np.real(_z)
