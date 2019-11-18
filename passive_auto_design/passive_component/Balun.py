@@ -51,9 +51,10 @@ class Balun:
                                     'gap':sol[7],
                                     'height':self.transfo.second['height']})
         l_sol = np.array((self.transfo.model['lp'], self.transfo.model['ls']))
+        r_sol = np.array((self.transfo.model['rp'], self.transfo.model['rs']))
         l_targ = np.array((_l1, _l2))
-        return std_dev(l_sol, l_targ)/np.sqrt(_l1*_l2)
-    def design(self, _f_targ, _zl_targ, _zs_targ, _maxiter=500):
+        return std_dev(l_sol, l_targ)+np.sum(r_sol)/100
+    def design(self, _f_targ, _zl_targ, _zs_targ, _maxiter=1000):
         """
             design an impedance transformer
             with the targeted specifications (f_targ, zl_targ, zs_targ)
