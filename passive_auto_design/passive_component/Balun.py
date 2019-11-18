@@ -5,9 +5,9 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
-from scipy.optimize import dual_annealing, minimize_scalar, OptimizeResult
+from scipy.optimize import dual_annealing
 from ..structure.Transformer import Transformer
-from ..special import std_dev
+from ..special import std_dev, qual_f
 
 class Balun:
     """
@@ -35,7 +35,7 @@ class Balun:
                'gap':2e-6,
                'height':_substrate.sub[0].height}
         self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
-    def cost(self, sol):
+    def cost(self, sol, _l1, _l2):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
@@ -49,16 +49,10 @@ class Balun:
                                     'n_turn':np.round(sol[5]),
                                     'width':sol[4],
                                     'gap':sol[7],
-                                    'height':self.transfo.prim['height']})
-        l_source = self.transfo.model['ls']
-        l_load = self.transfo.model['lp']
-        k = self.k
-        alpha = (1-k**2)/k**2
-        n_turn = k*np.sqrt(l_source/l_load)
-        z_l = 1j*l_source*(k**2)*2*np.pi*self.f_c
-        zs_r = alpha*z_l + z_l*(n_turn**2)*self.z_ld/(z_l+self.z_ld*(n_turn**2))
-        zl_r = ((np.conj(self.z_src)+alpha*z_l)*z_l/(np.conj(self.z_src)+z_l+alpha*z_l))/n_turn**2
-        return std_dev(zs_r, self.z_src) + std_dev(zl_r, self.z_ld)
+                                    'height':self.transfo.second['height']})
+        l_sol = np.array((self.transfo.model['lp'], self.transfo.model['ls']))
+        l_targ = np.array((_l1, _l2))
+        return std_dev(l_sol, l_targ)/np.sqrt(_l1*_l2)
     def design(self, _f_targ, _zl_targ, _zs_targ, _maxiter=500):
         """
             design an impedance transformer
@@ -68,7 +62,30 @@ class Balun:
         self.f_c = _f_targ
         self.z_src = _zs_targ
         self.z_ld = _zl_targ
-        res = dual_annealing(self.cost, self.bounds, maxiter=_maxiter)
+        alpha = (1-self.k**2)/self.k
+        q_s = -qual_f(_zs_targ)
+        q_l = -qual_f(_zl_targ)
+        b_coeff = (2*alpha*q_s+q_s+q_l)
+        discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s**2)
+        if discr < 0:
+            ValueError("Negative value in square root,\
+try to increase the coupling factor or the load quality factor\
+or try to lower the source quality factor")
+        z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
+                          (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
+        qxl1 = z_sol/(1-self.k**2)
+        qxl2 = z_sol*(1+q_l**2)/(alpha*(1+(q_s-z_sol)**2))
+        l_sol1 = qxl1*np.real(_zs_targ)/(2*np.pi*_f_targ)
+        l_sol2 = qxl2*np.real(_zl_targ)/(2*np.pi*_f_targ)
+        if l_sol1[0]*l_sol2[0] > l_sol1[1]*l_sol2[1]:
+            #selecting the solution giving the smallest inductors
+            l_1 = l_sol1[1]
+            l_2 = l_sol2[1]
+        else:
+            l_1 = l_sol1[0]
+            l_2 = l_sol2[0]
+        #find the inductor geometry that give the desired inductances
+        res = dual_annealing(self.cost, self.bounds, args=(l_1, l_2), maxiter=_maxiter)
         return res
     def print(self, res):
         """
