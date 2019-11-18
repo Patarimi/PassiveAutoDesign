@@ -66,27 +66,36 @@ class Balun:
         alpha = (1-self.k**2)/self.k
         q_s = -qual_f(_zs_targ)
         q_l = -qual_f(_zl_targ)
-        b_coeff = (2*alpha*q_s+q_s+q_l)
-        discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s**2)
-        if discr < 0:
-            ValueError("Negative value in square root,\
-try to increase the coupling factor or the load quality factor\
-or try to lower the source quality factor")
-        z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
-                          (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
-        qxl1 = z_sol/(1-self.k**2)
-        qxl2 = z_sol*(1+q_l**2)/(alpha*(1+(q_s-z_sol)**2))
-        l_sol1 = qxl1*np.real(_zs_targ)/(2*np.pi*_f_targ)
-        l_sol2 = qxl2*np.real(_zl_targ)/(2*np.pi*_f_targ)
-        if l_sol1[0]*l_sol2[0] > l_sol1[1]*l_sol2[1]:
-            #selecting the solution giving the smallest inductors
-            l_1 = l_sol1[1]
-            l_2 = l_sol2[1]
-        else:
-            l_1 = l_sol1[0]
-            l_2 = l_sol2[0]
-        #find the inductor geometry that give the desired inductances
-        res = dual_annealing(self.cost, self.bounds, args=(l_1, l_2), maxiter=_maxiter)
+        #assuming perfect inductor for first calculation
+        r_l1 = 0
+        r_l2 = 0
+        for i in range(3):
+            q_s_prime = q_s * np.real(_zs_targ)/(np.real(_zs_targ)+r_l1)
+            q_l_prime = q_l * np.real(_zl_targ)/(np.real(_zl_targ)+r_l2)
+            b_coeff = (2*alpha*q_s_prime+q_s_prime+q_l_prime)
+            discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s_prime**2)
+            if discr < 0:
+                ValueError("Negative value in square root,\
+    try to increase the coupling factor or the load quality factor\
+    or try to lower the source quality factor")
+            z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
+                              (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
+            qxl1 = z_sol/(1-self.k**2)
+            qxl2 = z_sol*(1+q_l_prime**2)/(alpha*(1+(q_s_prime-z_sol)**2))
+            l_sol1 = qxl1*np.real(_zs_targ)/(2*np.pi*_f_targ)
+            l_sol2 = qxl2*np.real(_zl_targ)/(2*np.pi*_f_targ)
+            if l_sol1[0]*l_sol2[0] > l_sol1[1]*l_sol2[1]:
+                #selecting the solution giving the smallest inductors
+                l_1 = l_sol1[1]
+                l_2 = l_sol2[1]
+            else:
+                l_1 = l_sol1[0]
+                l_2 = l_sol2[0]
+            #find the inductor geometry that give the desired inductances
+            res = dual_annealing(self.cost, self.bounds, args=(l_1, l_2), maxiter=_maxiter)
+            r_l1 = self.transfo.model['rs']
+            r_l2 = self.transfo.model['rp']
+            print(f"${q_s_prime}\t${q_l_prime}")
         return res
     def print(self, res):
         """
