@@ -6,7 +6,7 @@ Created on Fri Jun  7 16:10:47 2019
 """
 import numpy as np
 from scipy.optimize import minimize_scalar
-from ..special import *
+from ..special import u0, eps0
 
 class Transformer:
     """
