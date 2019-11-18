@@ -95,7 +95,7 @@ or try to lower the source quality factor")
         """
         sol = res.x*1e6
         bds = np.array(self.bounds)*1e6
-        print(f'Solution funds with remaining error of: {float(res.fun):5.2f}')
+        print(f'Solution funds with remaining error of: {float(res.fun):.2e}')
         print('Termination message of algorithm: '+str(res.message))
         print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
         print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
