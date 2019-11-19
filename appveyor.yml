@@ -38,5 +38,5 @@ deploy_script:
       - set HOME=%USERPROFILE%
 
       - pip install -q --user --upgrade setuptools wheel twine --no-warn-script-location
-      - "%PYTHON%\\python.exe setup.py sdist bdist_wheel"
-      - "%PYTHON%\\python.exe -m twine upload dist/* --skip-existing"
+      - "%PYTHON%\\python.exe setup.py -q sdist bdist_wheel"
+      - "%PYTHON%\\python.exe -qm twine upload dist/* --skip-existing"
