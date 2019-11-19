@@ -69,15 +69,15 @@ class Balun:
         #assuming perfect inductor for first calculation
         r_l1 = 0
         r_l2 = 0
-        for i in range(3):
+        for i in range(2):
             q_s_prime = q_s * np.real(_zs_targ)/(np.real(_zs_targ)+r_l1)
             q_l_prime = q_l * np.real(_zl_targ)/(np.real(_zl_targ)+r_l2)
             b_coeff = (2*alpha*q_s_prime+q_s_prime+q_l_prime)
             discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s_prime**2)
             if discr < 0:
                 ValueError("Negative value in square root,\
-    try to increase the coupling factor or the load quality factor\
-    or try to lower the source quality factor")
+try to increase the coupling factor or the load quality factor\
+or try to lower the source quality factor")
             z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
                               (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
             qxl1 = z_sol/(1-self.k**2)
