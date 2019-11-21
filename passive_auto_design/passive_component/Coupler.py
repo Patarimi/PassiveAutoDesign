@@ -70,9 +70,9 @@ class Coupler:
         x_0 = np.array([geo['width'], geo['n_turn'], geo['di'], geo['gap']])
         if _maxiter == 0: #just get the first guess
             res = OptimizeResult()
-            res.x=x_0
-            res.fun=res_int.fun
-            res.message='First Guess'
+            res.x = x_0
+            res.fun = res_int.fun
+            res.message = 'First Guess'
             return res
         res = dual_annealing(self.cost, self.bounds, x0=x_0, maxiter=_maxiter)
         return res

@@ -16,6 +16,10 @@ def std_dev(mesured, targeted):
     """
         return the standard deviation bewteen an array_like of results and their references.
     """
+    if type(mesured) is not(np.ndarray):
+        mesured = np.array((mesured,))
+    if type(targeted) is not(np.ndarray):
+        targeted = np.array((targeted,))
     m_l = mesured.size
     if m_l == targeted.size:
         std_d = np.zeros((m_l, 1))
