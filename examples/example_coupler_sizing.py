@@ -37,10 +37,11 @@ BALUN_TST = bln.Balun(BEOL)
 # Design inputs
 BALUN_TST.f_c = np.array([18e9])
 BALUN_TST.z_ld = np.array([2 - 1j*11])
-BALUN_TST.z_src = np.array([18 - 1j*30])
+BALUN_TST.z_src = np.array([50 - 1j*0.1])
 BALUN_TST.k = 0.8
 
 # Creation of an impedance tranformer from ZS_TARG to ZL_TARG at F_TARG
+BALUN_TST.enforce_symmetrical(False)
 RES2 = BALUN_TST.design()
 BALUN_TST.print(RES2)
 
