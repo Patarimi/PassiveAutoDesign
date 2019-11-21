@@ -57,13 +57,11 @@ class Coupler:
     def __cost_est_capacitance(self, _width):
         self.transfo.prim['width'] = _width
         return np.abs(self.transfo.cc_geo()+self.transfo.cc_geo(False)-1/(self.z_c*2*np.pi*self.f_c))
-    def design(self, f_targ, z_targ, _maxiter=500):
+    def design(self, _maxiter=500):
         """
             design an hybrid coupleur with the targeted specifications (f_targ, z_targ)
             return an optimization results (res)
         """
-        self.f_c = f_targ
-        self.z_c = z_targ
         #finding the inner diameter that give the correct inductance
         minimize_scalar(self.__cost_est_inductance, bounds=self.bounds[2])
         #finding the path width that give the correct capacitor

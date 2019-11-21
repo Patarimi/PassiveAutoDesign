@@ -37,5 +37,5 @@ plt.title("-Cost (dB)")
 plt.ylabel("Width (µm)")
 plt.xlabel("Inner Diameter (µm)")
 #calculation of the first guess
-CPL.design(5e9, 50, _maxiter=0)
+CPL.design(_maxiter=0)
 plt.plot(CPL.transfo.prim['di']*1e6, CPL.transfo.prim['width']*1e6, 'rx')

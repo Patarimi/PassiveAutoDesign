@@ -21,17 +21,16 @@ set_path('../ng_spice/')
 BEOL = sub.Substrate('./tech.yml')
 
 #%% Coupler Design
-# Design inputs
-F_TARG = 18e9
-ZC_TARG = 50
-K_COEFF = 0.99
 #Creation of a coupler in the BEOL substrate at F_TARG and with ZC_TARG characteristic impedance
-CPL_TST = cpl.Coupler(BEOL, _k=K_COEFF)
-RES = CPL_TST.design(F_TARG, ZC_TARG)
+CPL_TST = cpl.Coupler(BEOL, _k=0.99)
+# Design inputs
+CPL_TST.f_c = 18e9
+CPL_TST.z_c = 50
+RES = CPL_TST.design()
 CPL_TST.print(RES)
 #Write the spice model of the optimal design found
 with open('model_coupler.cir', 'w') as file:
-    file.write(CPL_TST.transfo.generate_spice_model(K_COEFF))
+    file.write(CPL_TST.transfo.generate_spice_model(CPL_TST.k))
 
 #%% Balun Design
 BALUN_TST = bln.Balun(BEOL)
