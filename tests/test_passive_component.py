@@ -26,11 +26,13 @@ def test_coupler():
         res = CPL.design(_maxiter=1)
    
 def test_balun():
-    ZS_TARG = np.array([20+1j*40])
-    ZL_TARG = np.array([50 + 1j*0])
+    ZS_TARG = np.array([20 + 1j*40])
+    ZL_TARG = np.array([50 + 1j*0.1])
     F_TARG = np.array([4e9])
     BLN = bln.Balun(SUB, F_TARG, ZL_TARG, ZS_TARG)
     if os.name == 'nt':
+        BLN.enforce_symmetrical()
+        BLN.enforce_symmetrical(False)
         res = BLN.design(1)
         BLN.print(res)
 
