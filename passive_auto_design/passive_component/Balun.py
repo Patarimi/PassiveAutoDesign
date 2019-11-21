@@ -5,7 +5,7 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
-from scipy.optimize import dual_annealing
+from scipy.optimize import dual_annealing, OptimizeResult
 from ..structure.Transformer import Transformer
 from ..special import std_dev, qual_f
 
