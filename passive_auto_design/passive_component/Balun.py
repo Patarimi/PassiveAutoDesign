@@ -35,25 +35,28 @@ class Balun:
                'gap':2e-6,
                'height':_substrate.sub[0].height}
         self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
-    def __cost(self, sol, _l1, _l2):
+    def __cost_geo_vs_targ(self, geo, _l_targ, _is_primary=True):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
         """
-        self.transfo.set_primary({'di':sol[2],
-                                  'n_turn':np.round(sol[1]),
-                                  'width':sol[0],
-                                  'gap':sol[3],
-                                  'height':self.transfo.prim['height']})
-        self.transfo.set_secondary({'di':sol[6],
-                                    'n_turn':np.round(sol[5]),
-                                    'width':sol[4],
-                                    'gap':sol[7],
-                                    'height':self.transfo.second['height']})
-        l_sol = np.array((self.transfo.model['lp'], self.transfo.model['ls']))
-        r_sol = np.array((self.transfo.model['rp'], self.transfo.model['rs']))
-        l_targ = np.array((_l1, _l2))
-        return std_dev(l_sol, l_targ)+np.sum(r_sol)/100
+        if _is_primary:
+            self.transfo.set_primary({'di':geo[2],
+                                      'n_turn':np.round(geo[1]),
+                                      'width':geo[0],
+                                      'gap':geo[3],
+                                      'height':self.transfo.prim['height']})
+            l_sol = self.transfo.model['lp']
+            r_sol = self.transfo.model['rp']
+        else:
+            self.transfo.set_secondary({'di':geo[2],
+                                        'n_turn':np.round(geo[1]),
+                                        'width':geo[0],
+                                        'gap':geo[3],
+                                        'height':self.transfo.second['height']})
+            l_sol = self.transfo.model['lp']
+            r_sol = self.transfo.model['rp']
+        return std_dev(l_sol, _l_targ)+np.sum(r_sol)/100
     def design(self, _maxiter=1000):
         """
             design an impedance transformer
@@ -89,9 +92,14 @@ or try to lower the source quality factor")
                 l_1 = l_sol1[0]
                 l_2 = l_sol2[0]
             #find the inductor geometry that give the desired inductances
-            res = dual_annealing(self.__cost, self.bounds, args=(l_1, l_2), maxiter=_maxiter)
+            res1 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[0:4], args=(l_1), maxiter=_maxiter)
+            res2 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[4:], args=(l_2, False), maxiter=_maxiter)
             r_l1 = self.transfo.model['rs']
             r_l2 = self.transfo.model['rp']
+        res = OptimizeResult()
+        res.x = np.concatenate((res1.x, res2.x))
+        res.fun = (res1.fun + res2.fun)/2
+        res.message = res1.message
         return res
     def print(self, res):
         """
