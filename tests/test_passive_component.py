@@ -22,6 +22,7 @@ def test_coupler():
         assert np.round(res.x[1], 3) == 2
         assert np.round(1000*res.x[2], 3) == 1.258
         assert np.round(1000*res.x[3], 3) == 2.00e-03
+        CPL.print(res)
         res = CPL.design(_maxiter=1)
    
 def test_balun():
@@ -30,7 +31,8 @@ def test_balun():
     F_TARG = np.array([4e9])
     BLN = bln.Balun(SUB, F_TARG, ZL_TARG, ZS_TARG)
     if os.name == 'nt':
-        BLN.design(1)
+        res = BLN.design(1)
+        BLN.print(res)
 
 def test_taper():
     z_res = tpr.klopfenstein_taper(25, 50, 3)
