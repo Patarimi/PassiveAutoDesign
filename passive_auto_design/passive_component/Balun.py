@@ -35,7 +35,7 @@ class Balun:
                'gap':2e-6,
                'height':_substrate.sub[0].height}
         self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
-    def cost(self, sol, _l1, _l2):
+    def __cost(self, sol, _l1, _l2):
         """
             return the cost (standard deviation)
             between the proposed solution and the targeted specifications
@@ -54,24 +54,21 @@ class Balun:
         r_sol = np.array((self.transfo.model['rp'], self.transfo.model['rs']))
         l_targ = np.array((_l1, _l2))
         return std_dev(l_sol, l_targ)+np.sum(r_sol)/100
-    def design(self, _f_targ, _zl_targ, _zs_targ, _maxiter=1000):
+    def design(self, _maxiter=1000):
         """
             design an impedance transformer
             with the targeted specifications (f_targ, zl_targ, zs_targ)
             return an optimization results (res)
         """
-        self.f_c = _f_targ
-        self.z_src = _zs_targ
-        self.z_ld = _zl_targ
         alpha = (1-self.k**2)/self.k
-        q_s = -qual_f(_zs_targ)
-        q_l = -qual_f(_zl_targ)
+        q_s = -qual_f(self.z_src)
+        q_l = -qual_f(self.z_ld)
         #assuming perfect inductor for first calculation
         r_l1 = 0
         r_l2 = 0
         for i in range(2):
-            q_s_prime = q_s * np.real(_zs_targ)/(np.real(_zs_targ)+r_l1)
-            q_l_prime = q_l * np.real(_zl_targ)/(np.real(_zl_targ)+r_l2)
+            q_s_prime = q_s * np.real(self.z_src)/(np.real(self.z_src)+r_l1)
+            q_l_prime = q_l * np.real(self.z_ld)/(np.real(self.z_ld)+r_l2)
             b_coeff = (2*alpha*q_s_prime+q_s_prime+q_l_prime)
             discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s_prime**2)
             if discr < 0:
@@ -82,8 +79,8 @@ or try to lower the source quality factor")
                               (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
             qxl1 = z_sol/(1-self.k**2)
             qxl2 = z_sol*(1+q_l_prime**2)/(alpha*(1+(q_s_prime-z_sol)**2))
-            l_sol1 = qxl1*np.real(_zs_targ)/(2*np.pi*_f_targ)
-            l_sol2 = qxl2*np.real(_zl_targ)/(2*np.pi*_f_targ)
+            l_sol1 = qxl1*np.real(self.z_src)/(2*np.pi*self.f_c)
+            l_sol2 = qxl2*np.real(self.z_ld)/(2*np.pi*self.f_c)
             if l_sol1[0]*l_sol2[0] > l_sol1[1]*l_sol2[1]:
                 #selecting the solution giving the smallest inductors
                 l_1 = l_sol1[1]
@@ -92,10 +89,9 @@ or try to lower the source quality factor")
                 l_1 = l_sol1[0]
                 l_2 = l_sol2[0]
             #find the inductor geometry that give the desired inductances
-            res = dual_annealing(self.cost, self.bounds, args=(l_1, l_2), maxiter=_maxiter)
+            res = dual_annealing(self.__cost, self.bounds, args=(l_1, l_2), maxiter=_maxiter)
             r_l1 = self.transfo.model['rs']
             r_l2 = self.transfo.model['rp']
-            print(f"${q_s_prime}\t${q_l_prime}")
         return res
     def print(self, res):
         """

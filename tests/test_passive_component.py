@@ -26,12 +26,12 @@ def test_coupler():
         CPL.print(res)
    
 def test_balun():
-    BLN = bln.Balun(SUB)
     ZS_TARG = np.array([20+1j*40])
     ZL_TARG = np.array([50 + 1j*0])
     F_TARG = np.array([4e9])
+    BLN = bln.Balun(SUB, F_TARG, ZL_TARG, ZS_TARG)
     if os.name == 'nt':
-        res = BLN.design(F_TARG, ZS_TARG, ZL_TARG, 1)
+        res = BLN.design(1)
         BLN.print(res)
 
 def test_taper():

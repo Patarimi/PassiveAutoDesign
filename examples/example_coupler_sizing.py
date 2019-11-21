@@ -11,6 +11,8 @@ Then, it designs an hybrid coupler and an impendance tranformer.
 import numpy as np
 import passive_auto_design.substrate as sub
 from passive_auto_design.ngspice_warper import set_path
+import passive_auto_design.passive_component.Coupler as cpl
+import passive_auto_design.passive_component.Balun as bln
 
 #setting the installation directory of the ngspice software (to be install separately)
 set_path('../ng_spice/')
@@ -19,7 +21,6 @@ set_path('../ng_spice/')
 BEOL = sub.Substrate('./tech.yml')
 
 #%% Coupler Design
-import passive_auto_design.passive_component.Coupler as cpl
 # Design inputs
 F_TARG = 18e9
 ZC_TARG = 50
@@ -33,19 +34,21 @@ with open('model_coupler.cir', 'w') as file:
     file.write(CPL_TST.transfo.generate_spice_model(K_COEFF))
 
 #%% Balun Design
-import passive_auto_design.passive_component.Balun as bln
+BALUN_TST = bln.Balun(BEOL)
 # Design inputs
-ZS_TARG = np.array([18 - 1j*30])
-ZL_TARG = np.array([2 - 1j*11])
-F_TARG = np.array([4e9])
-K_COEFF = 0.8
+BALUN_TST.f_c = np.array([18e9])
+BALUN_TST.z_ld = np.array([2 - 1j*11])
+BALUN_TST.z_src = np.array([18 - 1j*30])
+BALUN_TST.k = 0.8
+
 # Creation of an impedance tranformer from ZS_TARG to ZL_TARG at F_TARG
-BALUN_TST = bln.Balun(BEOL, _k=K_COEFF)
-RES2 = BALUN_TST.design(F_TARG, ZL_TARG, ZS_TARG)
+RES2 = BALUN_TST.design()
 BALUN_TST.print(RES2)
+
 # Inductance of the primary and secondary inductors
 LS_SYNTH = BALUN_TST.transfo.model['ls']
 LL_SYNTH = BALUN_TST.transfo.model['lp']
+
 #Write the spice model of the optimal design found
 with open('model_balun.cir', 'w') as file:
-    file.write(BALUN_TST.transfo.generate_spice_model(K_COEFF))
+    file.write(BALUN_TST.transfo.generate_spice_model(BALUN_TST.k))
