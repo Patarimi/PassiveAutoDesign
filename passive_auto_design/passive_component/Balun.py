@@ -21,6 +21,7 @@ class Balun:
         self.z_src = _z_source
         self.z_ld = _z_load
         self.k = _k
+        self.is_symmetrical = False
         self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
                                 (1, 4),
                                 (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
@@ -92,8 +93,13 @@ or try to lower the source quality factor")
                 l_1 = l_sol1[0]
                 l_2 = l_sol2[0]
             #find the inductor geometry that give the desired inductances
-            res1 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[0:4], args=(l_1), maxiter=_maxiter)
-            res2 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[4:], args=(l_2, False), maxiter=_maxiter)
+            res1 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[0:4],
+                                  args=(l_1), maxiter=_maxiter)
+            if self.is_symmetrical:
+                res2 = res1
+            else:
+                res2 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[4:],
+                                      args=(l_2, False), maxiter=_maxiter)
             r_l1 = self.transfo.model['rs']
             r_l2 = self.transfo.model['rp']
         res = OptimizeResult()
@@ -101,7 +107,7 @@ or try to lower the source quality factor")
         res.fun = (res1.fun + res2.fun)/2
         res.message = res1.message
         return res
-    def __enforce_symmetrical(self, _q_val, _of_load = True):
+    def __enforce_symmetrical(self, _q_val, _of_load=True):
         """
         return the 'distance' to a symmetrical balun (ie. primary = secondary)
         if _of_load, altering the load impedance
@@ -122,7 +128,7 @@ or try to lower the source quality factor")
         qxl2 = z_sol*(1+q_l**2)/(alpha*(1+(q_s-z_sol)**2))
         qxl_ratio = np.real(self.z_ld)/np.real(self.z_src)
         return np.abs(np.min(qxl1/qxl2)-qxl_ratio)
-    def enforce_symmetrical(self, _through_load = True, _verbose=True):
+    def enforce_symmetrical(self, _through_load=True, _verbose=True):
         """
         alter the value of the load impedance (if _through_load) or the source impedance
         in order to realize a symmetrical balun (ie. primary = secondary)
@@ -140,6 +146,7 @@ or try to lower the source quality factor")
             self.z_ld = new_z
         else:
             self.z_src = new_z
+        self.is_symmetrical = True
     def print(self, res):
         """
             print a summary of the solution (res)
