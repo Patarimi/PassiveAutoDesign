@@ -48,6 +48,18 @@ class Ports:
         """
         return self.name
 
+def float2engineer(_f, _res=2):
+    """
+    convert a float number in engineer notation (G, M, k, etc...)
+    """
+    if _f <= 1e-18:
+        return '0'
+    pre_fix = ('T', 'G', 'MEG', 'K', '', 'm', 'u', 'n', 'p', 'f')
+    for i in range(10):
+        power = (12-3*i)
+        if _f > 10**(power):
+            return f'{np.round(_f*10**(-power), _res)}'+pre_fix[i]
+    return f'{_f*1e-15}f'
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory
