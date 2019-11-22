@@ -47,7 +47,66 @@ class Ports:
         return a string representing the name of the port
         """
         return self.name
+class Circuit:
+    """
+    This class is intended to ease the declaration of spice model
+    """
+    def __init__(self, _name='Circuit'):
+        self.__descriptor = _name+'\n\n'
+        self.__indice = {'res':0,
+                         'ind':0,
+                         'cap':0,
+                         'v_src':0,
+                         'mut':0}
+    def add_res(self, _val, _pos_net, _neg_net='0', _name=''):
+        """
+        add a resistor between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_val)
+        if _name == '':
+            self.__descriptor += f'R{self.__indice["res"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+            self.__indice['res'] += 1
+        else:
+            self.__descriptor += f'R{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
+    def add_ind(self, _val, _pos_net, _neg_net='0'):
+        """
+        add a inductance between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_val)
+        self.__descriptor += f'L{self.__indice["ind"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+        self.__indice['ind'] += 1
+    def add_mut(self, _l1_name, _l2_name, _k=0.99):
+        """
+        add a coupling factor between two inductors _l1_name and _l2_name
+        """
+        num = float2engineer(_k)
+        self.__descriptor += f'K{self.__indice["mut"]}\t{_l1_name}\t{_l2_name}\t{num}\n'
+        self.__indice['mut'] += 1
 
+    def add_cap(self, _val, _pos_net, _neg_net='0'):
+        """
+        add a inductance between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_val)
+        self.__descriptor += f'C{self.__indice["cap"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+        self.__indice['cap'] += 1
+    def add_v_source(self, _dc_val, _pos_net, _neg_net='0', _ac_mag='1', _ac_phase='0', _name=''):
+        """
+        add a voltage source between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_dc_val)
+        if _name == '':
+            self.__descriptor += f'V{self.__indice["v_src"]}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
+AC\t{_ac_mag}\t{_ac_phase}\n'
+            self.__indice['v_src'] += 1
+        else:
+            self.__descriptor += f'V{_name}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
+AC\t{_ac_mag}\t{_ac_phase}\n'
+    def get_cir(self):
+        """
+        return a string representing the circuit
+        """
+        return self.__descriptor
 def float2engineer(_f, _res=2):
     """
     convert a float number in engineer notation (G, M, k, etc...)
