@@ -7,6 +7,7 @@ Created on Fri Jun  7 16:10:47 2019
 import numpy as np
 from scipy.optimize import minimize_scalar
 from ..special import u0, eps0
+from ..ngspice_warper import Circuit
 
 class Transformer:
     """
@@ -96,15 +97,16 @@ class Transformer:
         """
             Generate a equivalent circuit of a transformer with the given values
         """
-        return f'Transformer Model\n\n\
-L1		IN	1	{self.model["lp"]*1e12:.1f}p\n\
-R1		1	OUT	{self.model["rp"]*1e3:.1f}m\n\
-L2		CPL	2	{self.model["ls"]*1e12:.1f}p\n\
-R2		2	ISO	{self.model["rs"]*1e3:.1f}m\n\
-K		L1	L2	{k_ind:.3n}\n\
-CG1		IN	0	{self.model["cg"]*1e15/4:.1f}f\n\
-CG2		OUT	0	{self.model["cg"]*1e15/4:.1f}f\n\
-CG3		ISO	0	{self.model["cg"]*1e15/4:.1f}f\n\
-CG4		CPL	0	{self.model["cg"]*1e15/4:.1f}f\n\
-CM1		IN	CPL	{self.model["cm"]*1e15/2:.1f}f\n\
-CM2		ISO	OUT	{self.model["cm"]*1e15/2:.1f}f\n\n'
+        cir = Circuit(_name='Transformer Model')
+        cir.add_ind(self.model["lp"], 'IN', '1')
+        cir.add_res(self.model["rp"], '1', 'OUT')
+        cir.add_ind(self.model["ls"], 'CPL', '2')
+        cir.add_res(self.model["rs"], '2', 'ISO')
+        cir.add_mut('L0', 'L1', k_ind)
+        cir.add_cap(self.model["cg"]/4, 'IN')
+        cir.add_cap(self.model["cg"]/4, 'OUT')
+        cir.add_cap(self.model["cg"]/4, 'CPL')
+        cir.add_cap(self.model["cg"]/4, 'ISO')
+        cir.add_cap(self.model["cm"]/2, 'IN', 'CPL')
+        cir.add_cap(self.model["cm"]/2, 'ISO', 'OUT')
+        return cir.get_cir()

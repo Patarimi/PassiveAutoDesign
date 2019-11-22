@@ -63,14 +63,14 @@ def test_transformer():
     transfo.set_primary(geo)
     transfo.set_secondary(geo)
     assert transfo.generate_spice_model(0.99) == 'Transformer Model\n\n\
-L1\t\tIN\t1\t127143893.2p\n\
-R1\t\t1\tOUT\t2256609.9m\n\
-L2\t\tCPL\t2\t127143893.2p\n\
-R2\t\t2\tISO\t2256609.9m\n\
-K\t\tL1\tL2\t0.99\n\
-CG1\t\tIN\t0\t0.0f\n\
-CG2\t\tOUT\t0\t0.0f\n\
-CG3\t\tISO\t0\t0.0f\n\
-CG4\t\tCPL\t0\t0.0f\n\
-CM1\t\tIN\tCPL\t558.8f\n\
-CM2\t\tISO\tOUT\t558.8f\n\n'
+L0\tIN\t1\t127.14u\n\
+R0\t1\tOUT\t2.26K\n\
+L1\tCPL\t2\t127.14u\n\
+R1\t2\tISO\t2.26K\n\
+K0\tL0\tL1\t990.0m\n\
+C0\tIN\t0\t0\n\
+C1\tOUT\t0\t0\n\
+C2\tCPL\t0\t0\n\
+C3\tISO\t0\t0\n\
+C4\tIN\tCPL\t558.85f\n\
+C5\tISO\tOUT\t558.85f\n'

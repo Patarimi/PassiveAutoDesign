@@ -136,16 +136,17 @@ def generate_ac_simulation(freq_ctrl, ports_list):
         and for each ports of the ports_list
     """
     prt = ports_list
-    str_in = 'V'+prt[0].get_name()+'\t\t3\t'+prt[0].get_term_neg()+'\tDC\t0\tAC\t1\n'\
-    +'R'+prt[0].get_name()+'\t\t3\t'+prt[0].get_term_pos()+'\t'+prt[0].get_impedance()+'\n'
+    cir = Circuit('')
+    cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, 0, _name=prt[0].get_name())
+    cir.add_res(prt[0].get_impedance(), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
     str_out = ""
     for i in range(len(prt)-1):
-        str_in += 'R'+prt[i+1].get_name()+'\t'\
-        +prt[i+1].get_term_pos()+'\t'\
-        +prt[i+1].get_term_neg()+'\t'\
-        +prt[i+1].get_impedance()+'\n'
+        cir.add_res(prt[i+1].get_impedance(),
+                    prt[i+1].get_term_pos(),
+                    prt[i+1].get_term_neg(),
+                    prt[i+1].get_name())
         str_out += f' V({prt[i+1].get_name()})'
-    return str_in+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
+    return cir.get_cir()+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
 .PRINT AC V({prt[0].get_name()}) I(V{prt[0].get_name()}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
