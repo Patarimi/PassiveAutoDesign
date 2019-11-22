@@ -25,7 +25,8 @@ class Ports:
         self.imp = impedance
         if name == '':
             self.name = term_pos+"_"+term_neg
-        self.name = name
+        else:
+            self.name = name
     def get_term_pos(self):
         """
         return a string representing the name of the positive terminal
