@@ -25,7 +25,8 @@ class Ports:
         self.imp = impedance
         if name == '':
             self.name = term_pos+"_"+term_neg
-        self.name = name
+        else:
+            self.name = name
     def get_term_pos(self):
         """
         return a string representing the name of the positive terminal
@@ -38,15 +39,86 @@ class Ports:
         return self.t_minus
     def get_impedance(self):
         """
-        return a string representing the impedance of the port
+        return a real representing the impedance of the port
         """
-        return self.imp
+        return float(self.imp)
     def get_name(self):
         """
         return a string representing the name of the port
         """
         return self.name
+class Circuit:
+    """
+    This class is intended to ease the declaration of spice model
+    """
+    def __init__(self, _name='Circuit'):
+        self.__descriptor = _name+'\n\n'
+        self.__indice = {'res':0,
+                         'ind':0,
+                         'cap':0,
+                         'v_src':0,
+                         'mut':0}
+    def add_res(self, _val, _pos_net, _neg_net='0', _name=''):
+        """
+        add a resistor between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_val)
+        if _name == '':
+            self.__descriptor += f'R{self.__indice["res"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+            self.__indice['res'] += 1
+        else:
+            self.__descriptor += f'R{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
+    def add_ind(self, _val, _pos_net, _neg_net='0'):
+        """
+        add a inductance between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_val)
+        self.__descriptor += f'L{self.__indice["ind"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+        self.__indice['ind'] += 1
+    def add_mut(self, _l1_name, _l2_name, _k=0.99):
+        """
+        add a coupling factor between two inductors _l1_name and _l2_name
+        """
+        num = float2engineer(_k)
+        self.__descriptor += f'K{self.__indice["mut"]}\t{_l1_name}\t{_l2_name}\t{num}\n'
+        self.__indice['mut'] += 1
 
+    def add_cap(self, _val, _pos_net, _neg_net='0'):
+        """
+        add a inductance between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_val)
+        self.__descriptor += f'C{self.__indice["cap"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+        self.__indice['cap'] += 1
+    def add_v_source(self, _dc_val, _pos_net, _neg_net='0', _ac_mag='1', _ac_phase='0', _name=''):
+        """
+        add a voltage source between the two net _pos_net and _neg_net
+        """
+        num = float2engineer(_dc_val)
+        if _name == '':
+            self.__descriptor += f'V{self.__indice["v_src"]}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
+AC\t{_ac_mag}\t{_ac_phase}\n'
+            self.__indice['v_src'] += 1
+        else:
+            self.__descriptor += f'V{_name}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
+AC\t{_ac_mag}\t{_ac_phase}\n'
+    def get_cir(self):
+        """
+        return a string representing the circuit
+        """
+        return self.__descriptor
+def float2engineer(_f, _res=2):
+    """
+    convert a float number in engineer notation (G, M, k, etc...)
+    """
+    if _f <= 1e-18:
+        return '0'
+    pre_fix = ('T', 'G', 'MEG', 'K', '', 'm', 'u', 'n', 'p', 'f')
+    for i in range(10):
+        power = (12-3*i)
+        if _f > 10**(power):
+            return f'{np.round(_f*10**(-power), _res)}'+pre_fix[i]
+    return f'{_f*1e-15}f'
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory
@@ -64,16 +136,17 @@ def generate_ac_simulation(freq_ctrl, ports_list):
         and for each ports of the ports_list
     """
     prt = ports_list
-    str_in = 'V'+prt[0].get_name()+'\t\t3\t'+prt[0].get_term_neg()+'\tDC\t0\tAC\t1\n'\
-    +'R'+prt[0].get_name()+'\t\t3\t'+prt[0].get_term_pos()+'\t'+prt[0].get_impedance()+'\n'
+    cir = Circuit('')
+    cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, 0, _name=prt[0].get_name())
+    cir.add_res(prt[0].get_impedance(), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
     str_out = ""
     for i in range(len(prt)-1):
-        str_in += 'R'+prt[i+1].get_name()+'\t'\
-        +prt[i+1].get_term_pos()+'\t'\
-        +prt[i+1].get_term_neg()+'\t'\
-        +prt[i+1].get_impedance()+'\n'
+        cir.add_res(prt[i+1].get_impedance(),
+                    prt[i+1].get_term_pos(),
+                    prt[i+1].get_term_neg(),
+                    prt[i+1].get_name())
         str_out += f' V({prt[i+1].get_name()})'
-    return str_in+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
+    return cir.get_cir()+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
 .PRINT AC V({prt[0].get_name()}) I(V{prt[0].get_name()}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'

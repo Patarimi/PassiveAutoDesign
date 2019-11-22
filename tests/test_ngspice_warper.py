@@ -21,10 +21,10 @@ CG4\t\tCPL\t0\t2.500e-16\n\
 CM1\t\tIN\tCPL\t5.000e-16\n\
 CM2\t\tISO\tOUT\t5.000e-16\n\n'
 
-REF_CTRL = 'VIN\t\t3\t0\tDC\t0\tAC\t1\n\
-RIN\t\t3\tIN\t50\nROUT\tOUT\t0\t50\n\
-RCPL\tCPL\t0\t50\n\
-RISO\tISO\t0\t50\n\n\
+REF_CTRL = '\n\nVIN\tMID_SONDE\t0\tDC\t0\tAC\t1\t0\n\
+RIN\tIN\tMID_SONDE\t50.0\nROUT\tOUT\t0\t50.0\n\
+RCPL\tCPL\t0\t50.0\n\
+RISO\tISO\t0\t50.0\n\n\
 .AC LIN\t1\t1.000e+09\t1.000e+09\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
 .OPTION ELTOL=1e-12\n.END\n'

@@ -18,8 +18,8 @@ install:
 - cd ..
 - mkdir ng_spice
 - cd ng_spice
-- ps: Start-FileDownload https://netix.dl.sourceforge.net/project/ngspice/ng-spice-rework/30/ngspice-30_64.zip
-- 7z e ngspice-30_64.zip -aoa
+- ps: Start-FileDownload https://netcologne.dl.sourceforge.net/project/ngspice/ng-spice-rework/31/ngspice-31_64.zip
+- 7z e ngspice-31_64.zip -aoa
 
 test_script:
 - cd C:\projects\passiveautodesign
