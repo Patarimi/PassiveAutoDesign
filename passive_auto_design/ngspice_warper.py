@@ -39,9 +39,9 @@ class Ports:
         return self.t_minus
     def get_impedance(self):
         """
-        return a string representing the impedance of the port
+        return a real representing the impedance of the port
         """
-        return self.imp
+        return float(self.imp)
     def get_name(self):
         """
         return a string representing the name of the port
