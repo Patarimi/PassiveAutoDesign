@@ -5,7 +5,6 @@ Created on Fri Jun  7 16:10:47 2019
 @author: mpoterea
 """
 import numpy as np
-from scipy.optimize import minimize_scalar
 from ..special import u0, eps0
 from ..ngspice_warper import Circuit
 
