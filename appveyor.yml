@@ -11,6 +11,9 @@ environment:
 
 build: off
 
+cache:
+  - ..\ng_spice
+
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
 - pip install -qr requirements.txt --no-warn-script-location
