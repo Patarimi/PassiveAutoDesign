@@ -42,6 +42,11 @@ class SIW:
             convert the freq in pulsation in the given substrate
         """
         return np.sqrt(self.diel.epsilon)*2*np.pi*_freq/c0
+    def calc_lambda(self, _f):
+        """
+        return the wavelength inside the waveguide at the given frequency _f
+        """
+        return c0/(_f*np.sqrt(1-(self.f_c/_f)**2))
     def calc_beta(self, _freq):
         """
             return the value of the velocity (beta)
