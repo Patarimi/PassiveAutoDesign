@@ -26,7 +26,7 @@ RISO\tISO\t0\t50.0\n\n\
 .AC LIN\t1\t1.0G\t1.0G\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
 .OPTION ELTOL=1e-12\n.END\n'
-S_REF_AC = [[0.1*1j], [1-0.1*1j], [0.1*1j], [-0.1*1j]]
+S_REF_AC = [0.1*1j, 1-0.1*1j, 0.1*1j, -0.1*1j]
 S_REF_SP = [[0.1*1j,   1-0.1*1j,   0.1*1j,  -0.1*1j],
             [1-0.1*1j,   0.1*1j,  -0.1*1j,   0.1*1j],
             [0.1*1j,    -0.1*1j,   0.1*1j, 1-0.1*1j],
@@ -42,11 +42,11 @@ def test_ngspice_warper():
     ac_res = ng.run_ac_sim(REF_MODEL,
                            ports=PORTS,
                            freq_ctrl=FREQ_CTRL)
-    assert (np.round(ac_res, 1) == S_REF_AC).all()
+    assert (np.round(ac_res[:,0], 1) == S_REF_AC).all()
     sp_res = ng.run_sp_sim(REF_MODEL,
                            ports=PORTS,
                            freq_ctrl=FREQ_CTRL)
-    assert (np.round(sp_res, 1) == S_REF_SP).all()
+    assert (np.round(sp_res[:,:,0], 1) == S_REF_SP).all()
     with pytest.raises(FileNotFoundError):
         ng.set_path("foo")
     ng.set_path("../")
