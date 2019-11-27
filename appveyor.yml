@@ -19,7 +19,7 @@ install:
 - pip install -qr requirements.txt --no-warn-script-location
 - pip install -q pytest-cov --no-warn-script-location
 - cd ..
-- If (-not (Test-Path "ng_spice")) { New-Item -ItemType Directory -Name "ng_spice" }
+- ps: If (-not (Test-Path "ng_spice")) { New-Item -ItemType Directory -Name "ng_spice" }
 - cd ng_spice
 - ps: Start-FileDownload https://netcologne.dl.sourceforge.net/project/ngspice/ng-spice-rework/31/ngspice-31_64.zip
 - 7z e ngspice-31_64.zip -aos
