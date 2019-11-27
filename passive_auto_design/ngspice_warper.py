@@ -173,6 +173,8 @@ def run_ac_sim(spice_circuit, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fa
     try:
         pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
         spice_b = bytes(spice_circuit+generate_ac_simulation(freq_ctrl, ports), encoding='UTF-8')
+        if _dump_results:
+            print(spice_b.decode('UTF-8'))
         ret, _ = pipe.communicate(input=spice_b)
     except FileNotFoundError:
         raise FileNotFoundError('ngspice not found at: '+PATH+EXE_NAME+'\n\
@@ -182,41 +184,45 @@ Please set the correct folder using set_path')
         with open(DUMP_NAME, 'w') as file:
             for line in table:
                 file.write(line+'\n')
-    data = list()
-    param = list()
+    data = np.zeros((len(ports)+1, freq_ctrl[2]),dtype=complex)
+    param = np.zeros((freq_ctrl[2]),dtype=complex)
     new_param = False
+    i = 0
+    j = 0
     for line in table:
         if len(line) == 0:
             new_param = False
             continue
         if line[0] == '0':
             new_param = True
-            if len(param) != 0:
-                data.append(param)
-                param = list()
+            i = 0
         if new_param:
-            param.append(convert(line))
-    if len(param) != 0: # getting the last parameter !!
-        data.append(param)
-    data = np.array(data)
-    _s = np.insert(data[2:], 0, (-data[0]-50*data[1]), axis=0)
-    return _s
+            param[i] = convert(line)
+            i += 1
+        if i == freq_ctrl[2]:
+            data[j,:] = param
+            i = 0
+            j += 1
+    ac_res = np.zeros((len(ports), freq_ctrl[2]),dtype=complex)
+    ac_res[0] = (data[0]+ports[0].get_impedance()*data[1])
+    ac_res[1:] = (data[2:])*2
+    return ac_res
 
 def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=False):
     """
         run a sp simulation and return all gains and reflection coefficients.
     """
     global DUMP_NAME
-    nb_ports = len(ports)-1
-    if nb_ports == -1:
+    nb_ports = len(ports)
+    if nb_ports == 0:
         raise ValueError('Port name not set.\nPlease use set_ports')
-    sparam = list()
-    for i in range(nb_ports+1):
+    sparam = np.zeros((nb_ports, nb_ports, freq_ctrl[2]), dtype = complex)
+    for i in range(nb_ports):
         #put the simulated port in the beginning of the list
         port_tmp = (ports[i],)+ports[0:i]+ports[i+1:]
         DUMP_NAME = DUMP_NAME[:12]+'_'+ports[0].get_name()+DUMP_NAME[-4:]
         out = run_ac_sim(spice_bytes, port_tmp, freq_ctrl, _dump_results)
         #put the first result at the right place
-        out = np.insert(out[1:], i, out[0])
-        sparam.append(out)
+        out = np.insert(out[1:], i, out[0], axis=0)
+        sparam[:,i,:] = out
     return sparam

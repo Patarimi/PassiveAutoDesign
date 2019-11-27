@@ -61,5 +61,5 @@ plt.ylim(bottom=0)
 plt.xlim(left=0)
 plt.grid(True)
 print(f'Typical Error\nmin:\t{np.min(ERROR):2.1f}\nmed:\t{np.median(ERROR):2.2f}\nmax:\t{np.max(ERROR):2.1f}')
-assert np.median(ERROR) <= 4.4
+assert np.median(ERROR) <= 6.27
 assert np.max(ERROR) <= 10.4
