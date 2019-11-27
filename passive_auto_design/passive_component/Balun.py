@@ -96,6 +96,7 @@ or try to lower the source quality factor")
             res1 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[0:4],
                                   args=(l_1), maxiter=_maxiter)
             if self.is_symmetrical:
+                self.__cost_geo_vs_targ(res1.x, l_2, _is_primary=False)
                 res2 = res1
             else:
                 res2 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[4:],
