@@ -116,7 +116,7 @@ def float2engineer(_f, _res=2):
     pre_fix = ('T', 'G', 'MEG', 'K', '', 'm', 'u', 'n', 'p', 'f')
     for i in range(10):
         power = (12-3*i)
-        if _f > 10**(power):
+        if _f > 10**(power-0.1):
             return f'{np.round(_f*10**(-power), _res)}'+pre_fix[i]
     return f'{_f*1e-15}f'
 def set_path(_path):
@@ -145,9 +145,11 @@ def generate_ac_simulation(freq_ctrl, ports_list):
                     prt[i+1].get_term_pos(),
                     prt[i+1].get_term_neg(),
                     prt[i+1].get_name())
-        str_out += f' V({prt[i+1].get_name()})'
-    return cir.get_cir()+f'\n.AC LIN	{freq_ctrl[2]}	{freq_ctrl[0]:.3e}	{freq_ctrl[1]:.3e}\n\
-.PRINT AC V({prt[0].get_name()}) I(V{prt[0].get_name()}){str_out}\n\n\
+        str_out += f' V({prt[i+1].get_term_pos()})'
+    return cir.get_cir()+f'\n.AC LIN\t{freq_ctrl[2]}\t\
+{float2engineer(freq_ctrl[0])}\t{float2engineer(freq_ctrl[1])}\n\
+.PRINT AC V({prt[0].get_term_pos()})\
+ I(V{prt[0].get_name()}){str_out}\n\n\
 .OPTION ELTOL=1e-12\n\
 .END\n'
 

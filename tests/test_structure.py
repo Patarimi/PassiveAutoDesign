@@ -67,7 +67,7 @@ L0\tIN\t1\t127.14u\n\
 R0\t1\tOUT\t2.26K\n\
 L1\tCPL\t2\t127.14u\n\
 R1\t2\tISO\t2.26K\n\
-K0\tL0\tL1\t990.0m\n\
+K0\tL0\tL1\t0.99\n\
 C0\tIN\t0\t0\n\
 C1\tOUT\t0\t0\n\
 C2\tCPL\t0\t0\n\

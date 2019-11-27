@@ -25,7 +25,7 @@ REF_CTRL = '\n\nVIN\tMID_SONDE\t0\tDC\t0\tAC\t1\t0\n\
 RIN\tIN\tMID_SONDE\t50.0\nROUT\tOUT\t0\t50.0\n\
 RCPL\tCPL\t0\t50.0\n\
 RISO\tISO\t0\t50.0\n\n\
-.AC LIN\t1\t1.000e+09\t1.000e+09\n\
+.AC LIN\t1\t1.0G\t1.0G\n\
 .PRINT AC V(IN) I(VIN) V(OUT) V(CPL) V(ISO)\n\n\
 .OPTION ELTOL=1e-12\n.END\n'
 S_REF_AC = [[-0.1*1j], [0.5], [0.0], [0.0]]
