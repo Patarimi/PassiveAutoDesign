@@ -118,7 +118,7 @@ def float2engineer(_f, _res=2):
         power = (12-3*i)
         if _f > 10**(power-0.1):
             return f'{np.round(_f*10**(-power), _res)}'+pre_fix[i]
-    return f'{_f*1e-15}f'
+    return f'{_f*1e15}f'
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory
