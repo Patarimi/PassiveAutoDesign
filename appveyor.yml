@@ -8,6 +8,7 @@ environment:
     PYTHON: "C:\\Python37-x64"
     PYTHON_VERSION: "3.7.x"
     PYTHON_ARCH: "64"
+    NG_SPICE_NAME: "ngspice-31_64.zip"
 
 build: off
 
@@ -21,8 +22,8 @@ install:
 - cd ..
 - ps: If (-not (Test-Path "ng_spice")) { New-Item -ItemType Directory -Name "ng_spice" }
 - cd ng_spice
-- ps: Start-FileDownload https://netcologne.dl.sourceforge.net/project/ngspice/ng-spice-rework/31/ngspice-31_64.zip
-- 7z e ngspice-31_64.zip -aos
+- ps: If (-not (Test-Path %NG_SPICE_NAME%)) {Start-FileDownload https://netcologne.dl.sourceforge.net/project/ngspice/ng-spice-rework/31/ngspice-31_64.zip}
+- 7z e %NG_SPICE_NAME% -aos
 
 test_script:
 - cd C:\projects\passiveautodesign
