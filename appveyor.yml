@@ -19,10 +19,10 @@ install:
 - pip install -qr requirements.txt --no-warn-script-location
 - pip install -q pytest-cov --no-warn-script-location
 - cd ..
-- mkdir ng_spice
+- mkdir -p ng_spice
 - cd ng_spice
 - ps: Start-FileDownload https://netcologne.dl.sourceforge.net/project/ngspice/ng-spice-rework/31/ngspice-31_64.zip
-- 7z e ngspice-31_64.zip -aoa
+- 7z e ngspice-31_64.zip -aos
 
 test_script:
 - cd C:\projects\passiveautodesign
