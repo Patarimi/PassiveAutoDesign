@@ -123,6 +123,8 @@ or try to lower the source quality factor")
             q_l = -qual_f(self.z_ld)
         b_coeff = (2*alpha*q_s+q_s+q_l)
         discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s**2)
+        if discr < 0:
+            return np.inf
         z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
                           (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
         qxl1 = z_sol/(1-self.k**2)
