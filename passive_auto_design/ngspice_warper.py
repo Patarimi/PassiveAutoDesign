@@ -41,7 +41,7 @@ class Ports:
         """
         return a real representing the impedance of the port
         """
-        return float(self.imp)
+        return np.abs(complex(self.imp))
     def get_name(self):
         """
         return a string representing the name of the port
@@ -118,7 +118,7 @@ def float2engineer(_f, _res=5):
         power = (12-3*i)
         if _f > 10**(power-0.1):
             return f'{np.round(_f*10**(-power), _res)}'+pre_fix[i]
-    return f'{_f*1e15}f'
+    return f'{np.round(_f*1e15, _res)}f'
 def set_path(_path):
     """
     set the path (absolute or relative) to the ng_spice directory

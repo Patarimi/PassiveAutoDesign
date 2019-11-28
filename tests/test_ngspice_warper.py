@@ -20,7 +20,7 @@ CM1\t\tIN\tCPL\t0.5f\n\
 CM2\t\tISO\tOUT\t0.5f\n\n'
 
 REF_CTRL = '\n\nVIN\tMID_SONDE\t0\tDC\t0\tAC\t1\t0\n\
-RIN\tIN\tMID_SONDE\t50.0\nROUT\tOUT\t0\t50.0\n\
+RIN\tIN\tMID_SONDE\t50.0\nROUT_0\tOUT\t0\t50.0\n\
 RCPL\tCPL\t0\t50.0\n\
 RISO\tISO\t0\t50.0\n\n\
 .AC LIN\t1\t1.0G\t1.0G\n\
@@ -32,7 +32,7 @@ S_REF_SP = [[0.1*1j,   1-0.1*1j,   0.1*1j,  -0.1*1j],
             [0.1*1j,    -0.1*1j,   0.1*1j, 1-0.1*1j],
             [-0.1*1j,    0.1*1j, 1-0.1*1j,   0.1*1j]]
 PORTS = (ng.Ports('IN', name='IN'),
-         ng.Ports('OUT', name='OUT'),
+         ng.Ports('OUT'),
          ng.Ports('CPL', name='CPL'),
          ng.Ports('ISO', name='ISO'))
 FREQ_CTRL = (1e9, 1e9, 1)
@@ -41,7 +41,8 @@ def test_ngspice_warper():
     ng.set_path("../ng_spice/")
     ac_res = ng.run_ac_sim(REF_MODEL,
                            ports=PORTS,
-                           freq_ctrl=FREQ_CTRL)
+                           freq_ctrl=FREQ_CTRL,
+                           _dump_results=True)
     assert (np.round(ac_res[:,0], 1) == S_REF_AC).all()
     sp_res = ng.run_sp_sim(REF_MODEL,
                            ports=PORTS,
