@@ -76,8 +76,8 @@ class Balun:
             b_coeff = (2*alpha*q_s_prime+q_s_prime+q_l_prime)
             discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s_prime**2)
             if discr < 0:
-                ValueError("Negative value in square root,\
-try to increase the coupling factor or the load quality factor\
+                raise ValueError("Negative value in square root,\
+ try to increase the coupling factor or the load quality factor\
 or try to lower the source quality factor")
             z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
                               (b_coeff-np.sqrt(discr))/(2*(alpha+1))))

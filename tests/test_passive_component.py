@@ -4,6 +4,7 @@ Created on Fri Jul 12 15:07:03 2019
 
 @author: mpoterea
 """
+import pytest
 import numpy as np
 import os
 import passive_auto_design.passive_component.Coupler as cpl
@@ -30,6 +31,11 @@ def test_balun():
     ZL_TARG = np.array([50 + 1j*0.1])
     F_TARG = np.array([4e9])
     BLN = bln.Balun(SUB, F_TARG, ZL_TARG, ZS_TARG)
+    BLN.k = 0.5
+    with pytest.raises(ValueError):
+        res = BLN.design(1)
+    BLN.k = 0.8
+    res = BLN.design(1)
     if os.name == 'nt':
         BLN.enforce_symmetrical()
         BLN.enforce_symmetrical(False)
