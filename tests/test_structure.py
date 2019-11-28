@@ -24,6 +24,7 @@ def test_siw():
     assert round(wr1.calc_a_d(20e9), 4) == 0.0461
     assert round(wr1.calc_a_c(20e9), 6) == 0.004997
     assert round(wr1.calc_ksr(20e9), 6) == 1
+    assert round(wr1.calc_lambda(20e9), 6) == 0.028455
     wr1.diel.rougthness = 0
     with pytest.raises(ValueError):
         wr1.calc_ksr(20e9)
