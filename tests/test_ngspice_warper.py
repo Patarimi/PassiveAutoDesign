@@ -59,3 +59,10 @@ def test_ngspice_warper():
         ng.run_sp_sim(REF_MODEL,
                       ports=[],
                       freq_ctrl=FREQ_CTRL)
+
+def test_circuit():
+    cir = ng.Circuit('foo')
+    cir.add_v_source(0, 'in')
+
+def test_other():
+    assert ng.float2engineer(1e-16) == '0.1f'
