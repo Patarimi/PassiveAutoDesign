@@ -107,7 +107,7 @@ AC\t{_ac_mag}\t{_ac_phase}\n'
         return a string representing the circuit
         """
         return self.__descriptor
-def float2engineer(_f, _res=2):
+def float2engineer(_f, _res=5):
     """
     convert a float number in engineer notation (G, M, k, etc...)
     """
