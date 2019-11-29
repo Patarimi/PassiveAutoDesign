@@ -96,11 +96,9 @@ class Circuit:
         """
         num = float2engineer(_dc_val)
         if _name == '':
-            self.__descriptor += f'V{self.__indice["v_src"]}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
-AC\t{_ac_mag}\t{_ac_phase}\n'
+            _name = str(self.__indice["v_src"])
             self.__indice['v_src'] += 1
-        else:
-            self.__descriptor += f'V{_name}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
+        self.__descriptor += f'V{_name}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
 AC\t{_ac_mag}\t{_ac_phase}\n'
     def get_cir(self):
         """
