@@ -19,7 +19,7 @@ CG4\t\tCPL\t0\t0.25f\n\
 CM1\t\tIN\tCPL\t0.5f\n\
 CM2\t\tISO\tOUT\t0.5f\n\n'
 
-REF_CTRL = '\n\nVIN\tMID_SONDE\t0\tDC\t0\tAC\t1\t0\n\
+REF_CTRL = '\n\nVIN\tMID_SONDE\t0\tDC\t0\tAC\t1\t0.0\n\
 RIN\tIN\tMID_SONDE\t50.0\nROUT_0\tOUT\t0\t50.0\n\
 RCPL\tCPL\t0\t50.0\n\
 RISO\tISO\t0\t50.0\n\n\

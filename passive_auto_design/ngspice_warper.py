@@ -42,6 +42,11 @@ class Ports:
         return a real representing the impedance of the port
         """
         return np.abs(complex(self.imp))
+    def get_phase(self):
+        """
+        return a real representing the phase of the port
+        """
+        return np.angle(complex(self.imp), deg=True)
     def get_name(self):
         """
         return a string representing the name of the port
@@ -135,7 +140,7 @@ def generate_ac_simulation(freq_ctrl, ports_list):
     """
     prt = ports_list
     cir = Circuit('')
-    cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, 0, _name=prt[0].get_name())
+    cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, prt[0].get_phase(), _name=prt[0].get_name())
     cir.add_res(prt[0].get_impedance(), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
     str_out = ""
     for i in range(len(prt)-1):
@@ -203,7 +208,8 @@ Please set the correct folder using set_path')
             j += 1
     ac_res = np.zeros((len(ports), freq_ctrl[2]),dtype=complex)
     ac_res[0] = (data[0]+ports[0].get_impedance()*data[1])
-    ac_res[1:] = (data[2:])*2
+    for i in range(1, len(ports)-1):
+        ac_res[i:] = (data[i+1:])*2*np.exp(-1j*np.pi*ports[i+1].get_phase()/180)
     return ac_res
 
 def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=False):
