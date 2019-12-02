@@ -41,7 +41,7 @@ class Ports:
         """
         return a real representing the impedance of the port
         """
-        return np.abs(complex(self.imp))
+        return complex(self.imp)
     def get_phase(self):
         """
         return a real representing the phase of the port
@@ -73,12 +73,14 @@ class Circuit:
             self.__indice['res'] += 1
         else:
             self.__descriptor += f'R{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
-    def add_ind(self, _val, _pos_net, _neg_net='0'):
+    def add_ind(self, _val, _pos_net, _neg_net='0', _name=''):
         """
         add a inductance between the two net _pos_net and _neg_net
         """
         num = float2engineer(_val)
-        self.__descriptor += f'L{self.__indice["ind"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+        if _name == '':
+            _name = str(self.__indice["ind"])
+        self.__descriptor += f'L{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
         self.__indice['ind'] += 1
     def add_mut(self, _l1_name, _l2_name, _k=0.99):
         """
@@ -88,13 +90,15 @@ class Circuit:
         self.__descriptor += f'K{self.__indice["mut"]}\t{_l1_name}\t{_l2_name}\t{num}\n'
         self.__indice['mut'] += 1
 
-    def add_cap(self, _val, _pos_net, _neg_net='0'):
+    def add_cap(self, _val, _pos_net, _neg_net='0', _name=''):
         """
         add a inductance between the two net _pos_net and _neg_net
         """
         num = float2engineer(_val)
-        self.__descriptor += f'C{self.__indice["cap"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
-        self.__indice['cap'] += 1
+        if _name == '':
+            _name = str(self.__indice["cap"])
+            self.__indice['cap'] += 1
+        self.__descriptor += f'C{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
     def add_v_source(self, _dc_val, _pos_net, _neg_net='0', _ac_mag='1', _ac_phase='0', _name=''):
         """
         add a voltage source between the two net _pos_net and _neg_net
@@ -110,6 +114,8 @@ AC\t{_ac_mag}\t{_ac_phase}\n'
         return a string representing the circuit
         """
         return self.__descriptor
+    def add_custom(self, _str):
+        self.__descriptor += _str
 def float2engineer(_f, _res=5):
     """
     convert a float number in engineer notation (G, M, k, etc...)
