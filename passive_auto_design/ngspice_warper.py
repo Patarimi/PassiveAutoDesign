@@ -147,13 +147,18 @@ def generate_ac_simulation(freq_ctrl, ports_list):
     prt = ports_list
     cir = Circuit('')
     cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, prt[0].get_phase(), _name=prt[0].get_name())
-    cir.add_res(prt[0].get_impedance(), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
+    cir.add_res(np.abs(prt[0].get_impedance()), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
     str_out = ""
     for i in range(len(prt)-1):
-        cir.add_res(prt[i+1].get_impedance(),
-                    prt[i+1].get_term_pos(),
-                    prt[i+1].get_term_neg(),
-                    prt[i+1].get_name())
+        imp = prt[i+1].get_impedance()
+        name = prt[i+1].get_name()
+        v_p = prt[i+1].get_term_pos()
+        v_m = prt[i+1].get_term_neg()
+        cir.add_res(np.real(imp), v_p, f'INT{name}', name)
+        cir.add_custom(f'CEXT{name}\tEXT{name}\t0\t1\tIC = 0V\n')
+        cir.add_res(500e9, f'EXT{name}', _name=f'EXT{name}')
+        cir.add_custom(f'BEXT{name}\tEXT{name}\t0\tI = I(R{name})\n')
+        cir.add_custom(f'B{name}\tINT{name}\t{v_m}\tV = {-np.imag(imp)}*V(EXT{name})*hertz\n')
         str_out += f' V({prt[i+1].get_term_pos()})'
     return cir.get_cir()+f'\n.AC LIN\t{freq_ctrl[2]}\t\
 {float2engineer(freq_ctrl[0])}\t{float2engineer(freq_ctrl[1])}\n\
@@ -213,9 +218,10 @@ Please set the correct folder using set_path')
             i = 0
             j += 1
     ac_res = np.zeros((len(ports), freq_ctrl[2]),dtype=complex)
-    ac_res[0] = (data[0]+ports[0].get_impedance()*data[1])
-    for i in range(1, len(ports)-1):
-        ac_res[i:] = (data[i+1:])*2*np.exp(-1j*np.pi*ports[i+1].get_phase()/180)
+    vin = data[0]
+    ac_res[0] = 2*vin-np.exp(1j*ports[0].get_phase()/360)
+    for i in range(1, len(ports)):
+        ac_res[i:] = (data[i+1:])*2
     return ac_res
 
 def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=False):
