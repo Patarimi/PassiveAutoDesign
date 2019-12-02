@@ -184,6 +184,10 @@ def run_ac_sim(spice_circuit, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fa
     """
         run an ac simulation and return gains and input reflection coefficient.
     """
+    if freq_ctrl[2] >= 54:
+        Warning("Warper can't handle more than 53 pts !\
+                      number of points reduce to 53")
+        freq_ctrl = (freq_ctrl[0], freq_ctrl[1], 53)
     try:
         pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
         spice_b = bytes(spice_circuit+generate_ac_simulation(freq_ctrl, ports), encoding='UTF-8')
@@ -229,6 +233,10 @@ def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fals
         run a sp simulation and return all gains and reflection coefficients.
     """
     global DUMP_NAME
+    if freq_ctrl[2] >= 54:
+        Warning("Warper can't handle more than 53 pts !\
+                  number of points reduce to 53")
+        freq_ctrl = (freq_ctrl[0], freq_ctrl[1], 53)
     nb_ports = len(ports)
     if nb_ports == 0:
         raise ValueError('Port name not set.\nPlease use set_ports')
