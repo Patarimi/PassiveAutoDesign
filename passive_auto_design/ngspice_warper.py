@@ -41,7 +41,12 @@ class Ports:
         """
         return a real representing the impedance of the port
         """
-        return np.abs(complex(self.imp))
+        return complex(self.imp)
+    def get_phase(self):
+        """
+        return a real representing the phase of the port
+        """
+        return np.angle(complex(self.imp), deg=True)
     def get_name(self):
         """
         return a string representing the name of the port
@@ -68,12 +73,14 @@ class Circuit:
             self.__indice['res'] += 1
         else:
             self.__descriptor += f'R{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
-    def add_ind(self, _val, _pos_net, _neg_net='0'):
+    def add_ind(self, _val, _pos_net, _neg_net='0', _name=''):
         """
         add a inductance between the two net _pos_net and _neg_net
         """
         num = float2engineer(_val)
-        self.__descriptor += f'L{self.__indice["ind"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
+        if _name == '':
+            _name = str(self.__indice["ind"])
+        self.__descriptor += f'L{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
         self.__indice['ind'] += 1
     def add_mut(self, _l1_name, _l2_name, _k=0.99):
         """
@@ -83,30 +90,32 @@ class Circuit:
         self.__descriptor += f'K{self.__indice["mut"]}\t{_l1_name}\t{_l2_name}\t{num}\n'
         self.__indice['mut'] += 1
 
-    def add_cap(self, _val, _pos_net, _neg_net='0'):
+    def add_cap(self, _val, _pos_net, _neg_net='0', _name=''):
         """
         add a inductance between the two net _pos_net and _neg_net
         """
         num = float2engineer(_val)
-        self.__descriptor += f'C{self.__indice["cap"]}\t{_pos_net}\t{_neg_net}\t{num}\n'
-        self.__indice['cap'] += 1
+        if _name == '':
+            _name = str(self.__indice["cap"])
+            self.__indice['cap'] += 1
+        self.__descriptor += f'C{_name}\t{_pos_net}\t{_neg_net}\t{num}\n'
     def add_v_source(self, _dc_val, _pos_net, _neg_net='0', _ac_mag='1', _ac_phase='0', _name=''):
         """
         add a voltage source between the two net _pos_net and _neg_net
         """
         num = float2engineer(_dc_val)
         if _name == '':
-            self.__descriptor += f'V{self.__indice["v_src"]}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
-AC\t{_ac_mag}\t{_ac_phase}\n'
+            _name = str(self.__indice["v_src"])
             self.__indice['v_src'] += 1
-        else:
-            self.__descriptor += f'V{_name}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
+        self.__descriptor += f'V{_name}\t{_pos_net}\t{_neg_net}\tDC\t{num}\t\
 AC\t{_ac_mag}\t{_ac_phase}\n'
     def get_cir(self):
         """
         return a string representing the circuit
         """
         return self.__descriptor
+    def add_custom(self, _str):
+        self.__descriptor += _str
 def float2engineer(_f, _res=5):
     """
     convert a float number in engineer notation (G, M, k, etc...)
@@ -137,14 +146,19 @@ def generate_ac_simulation(freq_ctrl, ports_list):
     """
     prt = ports_list
     cir = Circuit('')
-    cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, 0, _name=prt[0].get_name())
-    cir.add_res(prt[0].get_impedance(), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
+    cir.add_v_source(0, 'MID_SONDE', prt[0].get_term_neg(), 1, prt[0].get_phase(), _name=prt[0].get_name())
+    cir.add_res(np.abs(prt[0].get_impedance()), prt[0].get_term_pos(), 'MID_SONDE', _name=prt[0].get_name())
     str_out = ""
     for i in range(len(prt)-1):
-        cir.add_res(prt[i+1].get_impedance(),
-                    prt[i+1].get_term_pos(),
-                    prt[i+1].get_term_neg(),
-                    prt[i+1].get_name())
+        imp = prt[i+1].get_impedance()
+        name = prt[i+1].get_name()
+        v_p = prt[i+1].get_term_pos()
+        v_m = prt[i+1].get_term_neg()
+        cir.add_res(np.real(imp), v_p, f'INT{name}', name)
+        cir.add_custom(f'CEXT{name}\tEXT{name}\t0\t1\tIC = 0V\n')
+        cir.add_res(500e9, f'EXT{name}', _name=f'EXT{name}')
+        cir.add_custom(f'BEXT{name}\tEXT{name}\t0\tI = I(R{name})\n')
+        cir.add_custom(f'B{name}\tINT{name}\t{v_m}\tV = {-np.imag(imp)}*V(EXT{name})*hertz\n')
         str_out += f' V({prt[i+1].get_term_pos()})'
     return cir.get_cir()+f'\n.AC LIN\t{freq_ctrl[2]}\t\
 {float2engineer(freq_ctrl[0])}\t{float2engineer(freq_ctrl[1])}\n\
@@ -204,8 +218,10 @@ Please set the correct folder using set_path')
             i = 0
             j += 1
     ac_res = np.zeros((len(ports), freq_ctrl[2]),dtype=complex)
-    ac_res[0] = (data[0]+ports[0].get_impedance()*data[1])
-    ac_res[1:] = (data[2:])*2
+    vin = data[0]
+    ac_res[0] = 2*vin-np.exp(1j*ports[0].get_phase()/360)
+    for i in range(1, len(ports)):
+        ac_res[i:] = (data[i+1:])*2
     return ac_res
 
 def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=False):
