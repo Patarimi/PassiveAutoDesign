@@ -140,7 +140,7 @@ or try to lower the source quality factor")
             old_z = self.z_ld
         else:
             old_z = self.z_src
-        res = minimize(self.__enforce_symmetrical, -qual_f(old_z), args=(_through_load))
+        res = minimize(self.__enforce_symmetrical, -qual_f(old_z), args=(_through_load), method='Nelder-Mead')
         new_z = np.real(old_z)*(1-1j*res.x)
         if _verbose:
             print(f'old z_ld: ${complex(old_z):5.2f}')
