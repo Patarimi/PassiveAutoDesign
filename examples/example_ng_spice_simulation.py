@@ -4,7 +4,6 @@ This script is given as an example to make simulation using ng_spice_warper.
 
 
 import matplotlib.pyplot as plt
-import numpy as np
 import passive_auto_design.ngspice_warper as ng
 from passive_auto_design.special import dB
 
