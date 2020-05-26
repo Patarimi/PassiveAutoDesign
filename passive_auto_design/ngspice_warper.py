@@ -185,7 +185,7 @@ def run_ac_sim(spice_circuit, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fa
         run an ac simulation and return gains and input reflection coefficient.
     """
     if freq_ctrl[2] >= 54:
-        Warning("Warper can't handle more than 53 pts !\
+        Warning.warn("Warper can't handle more than 53 pts !\
                       number of points reduce to 53")
         freq_ctrl = (freq_ctrl[0], freq_ctrl[1], 53)
     try:
@@ -234,7 +234,7 @@ def run_sp_sim(spice_bytes, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fals
     """
     global DUMP_NAME
     if freq_ctrl[2] >= 54:
-        Warning("Warper can't handle more than 53 pts !\
+        Warning.warn("Warper can't handle more than 53 pts !\
                   number of points reduce to 53")
         freq_ctrl = (freq_ctrl[0], freq_ctrl[1], 53)
     nb_ports = len(ports)
