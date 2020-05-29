@@ -10,7 +10,8 @@ Install the library using
 pip install passive-auto-design
 ```
 Then install [ngspice](http://ngspice.sourceforge.net/download.html).\
-Examples are given in the _examples_ directory.
+Examples are given in the _examples_ directory.\
+A demo is given [here](https://patarimi.github.io/PassiveAutoDesign/)
 
 Package Structure
 ----
