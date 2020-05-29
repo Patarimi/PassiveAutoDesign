@@ -11,18 +11,7 @@
 
 <body onload="brython()">
 
-<script type="text/python">
-from browser import document, html
-
-document <= html.H2("RF Components Design Helper")
-
-menu_item = ('Transformer Sizing', 'Model Extraction', 'About')
-document <= html.UL((html.LI(item, id="select") for item in menu_item), id="menu")
-
-
-input_list = ("Frequency (GHz):", "Characteristic Impedance (&Omega;):", "Coupling factor (SI):")
-document <= html.DIV((html.DIV(item) for item in input_list), id="content")
-</script>
+<script type="text/python" src="./index.py"></script>
 
 </body>
 
