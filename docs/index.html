@@ -1,22 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
+
 <head>
-	<meta charset="utf-8">
-	<script type="module">
-    	import * as doc from './__target__/index.js';
-    	window.doc = doc;
-    	doc.userInterface.select_menu(2);
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js">
     </script>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<title>RF Components Design Helper</title>
 </head>
-<body>
-<h2>Hello demo</h2>
 
-<menu id="menu">
-    <li id="notsel" href="./transfo_sizing.html">Transformer Sizing</li>
-</menu>
+<body onload="brython()">
 
-<iframe id="content" src="./content/about.html"></iframe>
+<script type="text/python">
+from browser import document, html
+
+document <= html.H2("RF Components Design Helper")
+
+menu_item = ('Transformer Sizing', 'Model Extraction', 'About')
+document <= html.UL((html.LI(item, id="select") for item in menu_item), id="menu")
+
+
+input_list = ("Frequency (GHz):", "Characteristic Impedance (&Omega;):", "Coupling factor (SI):")
+document <= html.DIV((html.DIV(item) for item in input_list), id="content")
+</script>
+
 </body>
+
 </html>

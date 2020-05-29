@@ -1,0 +1,55 @@
+body {
+    background-color: whitesmoke;
+    display: grid;
+    height: 500px;
+    grid-gap: 20px;
+    grid-template: [header-left] "head head" 50px [header-right]
+                   [nav-left]   "nav  nav" 50px [nav-right]
+                   [main-left] "main main" 50% [main-right]
+}
+h2{
+    grid-area: head;
+}
+#menu{
+    grid-area: nav; 
+}
+#menu li{
+    display: inline-flex;
+    padding: 5px;
+    width: 140px;
+    border-inline: gray solid 0.5px;
+    list-style: none;
+    border-bottom: black solid 1px;
+    background-color: darkgrey;
+}
+menu li#selected{
+    border: 1px solid;
+    border-bottom-style: hidden;
+    background-color: whitesmoke;
+}
+a#menu{
+    text-decoration: none;
+}
+a#menu:link, a#menu:visited{
+    color: black;
+}
+
+button{
+    border: hidden;
+    background-color: lightblue;
+}
+
+#content{
+    grid-area: main;
+    height: 200px;
+    width: 350px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto;
+}
+
+#content button{
+    border: hidden;
+    background-color: lightblue;
+    grid-column: 1/3;
+}
