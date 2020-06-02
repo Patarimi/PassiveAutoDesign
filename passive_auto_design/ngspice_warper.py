@@ -8,8 +8,10 @@ from subprocess import Popen, PIPE
 import os
 import numpy as np
 
+OS_OK = True
 if os.name != 'nt':
-    raise EnvironmentError('ngspice_warper Only Supported on Windows (nt) Operating System')
+    Warning.warn('ngspice_warper Only Supported on Windows (nt) Operating System')
+    OS_OK = False
 
 DUMP_NAME = './tests/dump.res'
 EXE_NAME = "ngspice_con.exe"
