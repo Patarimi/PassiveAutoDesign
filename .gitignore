@@ -2,6 +2,7 @@
 *.cir
 *.tmp
 .coverage
+ng_spice/*
 */Spice64/*
 build
 dist

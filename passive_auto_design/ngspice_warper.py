@@ -5,12 +5,13 @@ Created on Mon May 20 14:30:07 2019
 @author: mpoterea
 """
 from subprocess import Popen, PIPE
+import warnings
 import os
 import numpy as np
 
 OS_OK = True
 if os.name != 'nt':
-    Warning.warn('ngspice_warper Only Supported on Windows (nt) Operating System')
+    warnings.warn('ngspice_warper Only Supported on Windows (nt) Operating System')
     OS_OK = False
 
 DUMP_NAME = './tests/dump.res'
