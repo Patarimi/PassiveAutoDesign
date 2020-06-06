@@ -10,7 +10,7 @@ import os
 import numpy as np
 
 OS_OK = True
-if os.name != 'nt' or True:
+if os.name != 'nt':
     warnings.warn('ngspice_warper Only Supported on Windows (nt) Operating System')
     OS_OK = False
 
