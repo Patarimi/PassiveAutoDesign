@@ -6,7 +6,6 @@ Created on Fri Jul 12 09:30:00 2019
 """
 import pytest
 import passive_auto_design.structure.Waveguide as wg
-import passive_auto_design.structure.Transformer as tf
 from passive_auto_design.substrate import COPPER, D5880
 
 def test_siw():
@@ -51,6 +50,7 @@ def test_af_siw():
     with pytest.raises(ValueError):
         af1.calc_fc(0, 1)
 
+import passive_auto_design.structure.Transformer as tf
 def test_transformer():
     """
     unity test for tranformer object
@@ -75,3 +75,36 @@ C2\tCPL\t0\t0\n\
 C3\tISO\t0\t0\n\
 C4\tIN\tCPL\t558.84682f\n\
 C5\tISO\tOUT\t558.84682f\n'
+
+import passive_auto_design.structure.Capacitor as cap
+def test_capacitor():
+    """
+    unity test for capacitor object
+    """
+    CAP = cap.capacitor(1e-6, 1e-3, 1)
+    assert CAP.par["cap"] == 8.8541878128e-15
+    
+    CAP.set_X_with_Y("eps", "cap", 1e-15)
+    assert CAP.par["eps"] == 2.6180339603380443
+    
+import passive_auto_design.structure.Resistor as res
+def test_resistor():
+    """
+    unity test for capacitor object
+    """
+    RES = res.resistor()
+    assert RES.par["res"] == 1e-12
+    
+    RES.set_X_with_Y("length", "res", 1e3)
+    assert RES.par["length"] == 1000000026385065.9
+
+import passive_auto_design.structure.Inductor as ind
+def test_inductor():
+    """
+    unity test for capacitor object
+    """
+    IND = ind.inductor()
+    assert IND.par["ind"] == 1.5432565424041825e-10
+    
+    IND.set_X_with_Y("k_1", "ind", 1e-9)
+    assert IND.par["k_1"] == 8.196952235094303
