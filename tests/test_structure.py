@@ -76,35 +76,36 @@ C3\tISO\t0\t0\n\
 C4\tIN\tCPL\t558.84682f\n\
 C5\tISO\tOUT\t558.84682f\n'
 
-import passive_auto_design.structure.Capacitor as cap
+import passive_auto_design.structure.lumped_element as LMP
 def test_capacitor():
     """
     unity test for capacitor object
     """
-    CAP = cap.capacitor(1e-6, 1e-3, 1)
+    CAP = LMP.Capacitor(1e-6, 1e-3, 1)
     assert CAP.par["cap"] == 8.8541878128e-15
     
-    CAP.set_X_with_Y("eps", "cap", 1e-15)
-    assert CAP.par["eps"] == 2.6180339603380443
+    CAP.set_x_with_y("eps_r", "cap", 1e-15)
+    assert CAP.par["eps_r"] == 0.11294090917221976
+    assert CAP.par["cap"] == 1e-15
     
-import passive_auto_design.structure.Resistor as res
 def test_resistor():
     """
     unity test for capacitor object
     """
-    RES = res.resistor()
+    RES = LMP.Resistor()
     assert RES.par["res"] == 1e-12
     
-    RES.set_X_with_Y("length", "res", 1e3)
+    RES.set_x_with_y("length", "res", 1e3)
     assert RES.par["length"] == 1000000026385065.9
+    assert RES.par["res"] == 1e3
 
-import passive_auto_design.structure.Inductor as ind
 def test_inductor():
     """
     unity test for capacitor object
     """
-    IND = ind.inductor()
+    IND = LMP.Inductor()
     assert IND.par["ind"] == 1.5432565424041825e-10
     
-    IND.set_X_with_Y("k_1", "ind", 1e-9)
+    IND.set_x_with_y("k_1", "ind", 1e-9)
     assert IND.par["k_1"] == 8.196952235094303
+    assert IND.par["ind"] == 1e-9
