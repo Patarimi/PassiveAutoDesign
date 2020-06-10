@@ -50,7 +50,7 @@ def test_af_siw():
     with pytest.raises(ValueError):
         af1.calc_fc(0, 1)
 
-import passive_auto_design.structure.Transformer as tf
+import passive_auto_design.structure.transformer as tf
 def test_transformer():
     """
     unity test for tranformer object
@@ -81,31 +81,31 @@ def test_capacitor():
     """
     unity test for capacitor object
     """
-    CAP = LMP.Capacitor(1e-6, 1e-3, 1)
-    assert CAP.par["cap"] == 8.8541878128e-15
-    
-    CAP.set_x_with_y("eps_r", "cap", 1e-15)
-    assert CAP.par["eps_r"] == 0.11294090917221976
-    assert CAP.par["cap"] == 1e-15
-    
+    cap = LMP.Capacitor(1e-6, 1e-3, 1)
+    assert cap.par["cap"] == 8.8541878128e-15
+
+    cap.set_x_with_y("eps_r", "cap", 1e-15)
+    assert cap.par["eps_r"] == 0.11294090917221976
+    assert cap.par["cap"] == 1e-15
+
 def test_resistor():
     """
     unity test for capacitor object
     """
-    RES = LMP.Resistor()
-    assert RES.par["res"] == 1e-12
-    
-    RES.set_x_with_y("length", "res", 1e3)
-    assert RES.par["length"] == 1000000026385065.9
-    assert RES.par["res"] == 1e3
+    res = LMP.Resistor()
+    assert res.par["res"] == 1e-12
+
+    res.set_x_with_y("length", "res", 1e3)
+    assert res.par["length"] == 1000000026385065.9
+    assert res.par["res"] == 1e3
 
 def test_inductor():
     """
     unity test for capacitor object
     """
-    IND = LMP.Inductor()
-    assert IND.par["ind"] == 1.5432565424041825e-10
-    
-    IND.set_x_with_y("k_1", "ind", 1e-9)
-    assert IND.par["k_1"] == 8.196952235094303
-    assert IND.par["ind"] == 1e-9
+    ind = LMP.Inductor()
+    assert ind.par["ind"] == 1.5432565424041825e-10
+
+    ind.set_x_with_y("k_1", "ind", 1e-9)
+    assert ind.par["k_1"] == 8.196952235094303
+    assert ind.par["ind"] == 1e-9

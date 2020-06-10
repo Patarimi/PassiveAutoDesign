@@ -16,15 +16,15 @@ class LumpedElement(metaclass=abc.ABCMeta):
     def __init__(self):
         self._par = {}
         self.ref = None
-    
+
     @property
     def par(self):
         return self._par
-    
+
     @par.setter
     def par(self, key_pair):
         self._par.update(key_pair)
-    
+
     def set_x_with_y(self, x_key, y_key, y_value):
         """
             set the value of the X_key for a Y_value of the Y_key
@@ -35,7 +35,7 @@ class LumpedElement(metaclass=abc.ABCMeta):
     def cost(self, x_value, x_key):
         self.par = {x_key: x_value}
         return abs(self.calc_ref_value() - self.par[self.ref])
-    
+
     @abc.abstractmethod
     def calc_ref_value(self):
         raise NotImplementedError
@@ -44,7 +44,7 @@ class Resistor(LumpedElement):
     """
         class describing a resistor behavior
     """
-    def __init__(self, section = 1e-3, length = 1, rho = 1e-15):
+    def __init__(self, section=1e-3, length=1, rho=1e-15):
         LumpedElement.__init__(self)
         self.par = {'section': section,
                     'length': length,
@@ -106,7 +106,7 @@ class Mutual(LumpedElement):
         self.ind1 = ind1
         self.ind2 = ind2
         self.par = {"cpl_eq": 1}
-        self.par.update({"k": self.__calc_ref_value()})
+        self.par.update({"k": self.calc_ref_value()})
     def calc_ref_value(self):
         cpl = self.par["cpl_eq"]
         return cpl*(min(self.ind1.par["d_o"], self.ind2.par["d_o"])-\
