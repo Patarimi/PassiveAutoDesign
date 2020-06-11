@@ -7,7 +7,7 @@ Created on Fri Apr 26 14:12:17 2019
 import numpy as np
 from scipy.optimize import dual_annealing, minimize_scalar, OptimizeResult
 import passive_auto_design.ngspice_warper as ng
-from ..structure.Transformer import Transformer
+from ..structure.transformer import Transformer
 from ..special import ihsr
 
 PORTS = (ng.Ports('IN', name='IN'),
