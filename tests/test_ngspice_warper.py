@@ -5,8 +5,12 @@ Created on Fri Jul 12 09:30:00 2019
 @author: mpoterea
 """
 import pytest
-import passive_auto_design.ngspice_warper as ng
 import numpy as np
+import passive_auto_design.ngspice_warper as ng
+from passive_auto_design.ngspice_warper OS_OK
+
+if not OS_OK:
+    pytest.skip("skipping windows-only tests", allow_module_level=True)
 
 REF_MODEL = 'Hybrid Coupler\n\n\
 L1\t\tIN\tOUT\t1.0n\n\n\
