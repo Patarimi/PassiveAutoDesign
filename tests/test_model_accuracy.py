@@ -8,7 +8,11 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 #%% Comparison between EM simulation results and coupler_cost function results
 # The cost function should as close as possible to zero.
 import csv
-from passive_auto_design.ngspice_warper import set_path
+import pytest
+from passive_auto_design.ngspice_warper import set_path, OS_OK
+
+if not OS_OK:
+    pytest.skip("skipping windows-only tests", allow_module_level=True)
 set_path('../ng_spice/')
 
 import numpy as np
