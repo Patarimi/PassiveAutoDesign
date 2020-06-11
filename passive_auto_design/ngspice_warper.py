@@ -136,6 +136,8 @@ def set_path(_path):
     set the path (absolute or relative) to the ng_spice directory
     """
     global PATH
+    if not(OS_OK):
+        return
     if os.path.exists(_path):
         PATH = _path
     else:
