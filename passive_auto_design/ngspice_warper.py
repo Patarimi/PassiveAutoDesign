@@ -193,6 +193,8 @@ def run_ac_sim(spice_circuit, ports, freq_ctrl=(1e9, 10e9, 10), _dump_results=Fa
         Warning.warn("Warper can't handle more than 53 pts !\
                       number of points reduce to 53")
         freq_ctrl = (freq_ctrl[0], freq_ctrl[1], 53)
+    if not(OS_OK):
+        return
     try:
         pipe = Popen([PATH+EXE_NAME, '-b'], stdin=PIPE, stdout=PIPE, bufsize=-1)
         spice_b = bytes(spice_circuit+generate_ac_simulation(freq_ctrl, ports), encoding='UTF-8')
