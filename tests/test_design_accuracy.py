@@ -7,6 +7,7 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 """
 #%% Comparison between EM simulation results and coupler_cost function results
 import numpy as np
+import pystest
 import matplotlib.pyplot as plt
 import passive_auto_design.passive_component.Coupler as pad
 import passive_auto_design.substrate as sub
