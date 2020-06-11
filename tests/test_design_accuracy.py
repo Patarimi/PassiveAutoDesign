@@ -26,7 +26,8 @@ for w in W_TABLE:
     j = 0
     for di in DI_TABLE:
         CPL = pad.Coupler(BEOL, 5e9, 50)
-        COST[i, j] = CPL.cost([w, 2, di, 2.1e-6])
+        if OS_OK:
+            COST[i, j] = CPL.cost([w, 2, di, 2.1e-6])
         j += 1
     i += 1
 FIG = plt.figure()
