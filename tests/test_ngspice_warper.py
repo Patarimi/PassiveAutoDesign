@@ -7,7 +7,7 @@ Created on Fri Jul 12 09:30:00 2019
 import pytest
 import numpy as np
 import passive_auto_design.ngspice_warper as ng
-from passive_auto_design.ngspice_warper OS_OK
+from passive_auto_design.ngspice_warper import OS_OK
 
 if not OS_OK:
     pytest.skip("skipping windows-only tests", allow_module_level=True)
