@@ -33,5 +33,5 @@ jobs:
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_KEY }}
       run: |
-        coverage run --source=passive-auto-design -m pytest tests/
+        coverage run --source=passive_auto_design -m pytest tests/
         coveralls
