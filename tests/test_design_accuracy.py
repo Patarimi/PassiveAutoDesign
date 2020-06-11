@@ -12,6 +12,8 @@ import passive_auto_design.passive_component.Coupler as pad
 import passive_auto_design.substrate as sub
 from passive_auto_design.ngspice_warper import set_path, OS_OK
 
+if not OS_OK:
+    pytest.skip("skipping windows-only tests", allow_module_level=True)
 set_path('../ng_spice/')
 BEOL = sub.Substrate('tests/passive_component_tech.yml')
 
