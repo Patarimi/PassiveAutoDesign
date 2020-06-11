@@ -28,3 +28,8 @@ jobs:
     - name: Testing
       run: |
         python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
+        
+    - name: coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
