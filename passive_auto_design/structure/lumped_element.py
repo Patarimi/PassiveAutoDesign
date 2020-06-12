@@ -19,6 +19,13 @@ class LumpedElement(metaclass=abc.ABCMeta):
 
     @property
     def par(self):
+        """
+        Returns
+        -------
+        Dictonnary
+            Parameters of the lumped component.
+
+        """
         return self._par
 
     @par.setter
@@ -29,15 +36,30 @@ class LumpedElement(metaclass=abc.ABCMeta):
         """
             set the value of the X_key for a Y_value of the Y_key
         """
-        self.par = {y_key: y_value}
-        minimize_scalar(self.cost, args=(x_key))
+        minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
 
-    def cost(self, x_value, x_key):
+    def __cost(self, x_value, x_key, y_key, y_value):
         self.par = {x_key: x_value}
-        return abs(self.calc_ref_value() - self.par[self.ref])
+        if type(y_value) is float:
+            self.par = {y_key: y_value}
+            return abs(self.calc_ref_value() - self.par[self.ref])
+        else:
+            err = 0
+            for y_val in y_value:
+                self.par = {y_key: y_val}
+                err += abs(self.calc_ref_value() - self.par[self.ref])
+            return err
+        
 
     @abc.abstractmethod
     def calc_ref_value(self):
+        """
+        Definition of the behavioral equation of the lumped element.
+        Returns
+        -------
+        Value of self.par[self.ref] calculateed with the other value in self.par.
+
+        """
         raise NotImplementedError
 
 class Resistor(LumpedElement):
