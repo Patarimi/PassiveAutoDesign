@@ -5,8 +5,10 @@ Created on Fri Jun  7 16:10:47 2019
 @author: mpoterea
 """
 import numpy as np
-from ..special import u0, eps0
-from ..ngspice_warper import Circuit
+import yaml
+import skrf as rf
+from passive_auto_design.special import u0
+import passive_auto_design.structure.lumped_element as lmp
 
 class Transformer:
     """
@@ -15,46 +17,60 @@ class Transformer:
             {'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height})
         and calculate the associated electrical model
     """
-    def __init__(self, _primary, _secondary, _eps_r=4.2, _dist=9, _dist_sub=1e9, _freq=1e9):
-        self.prim = _primary
-        self.second = _secondary
-        self.dist = _dist
-        self.dist_sub = _dist_sub
-        self.freq = _freq
-        self.eps_r = _eps_r
-        self.model = {'lp':self.l_geo(True),
-                      'rp':self.r_geo(True, 17e-9),
-                      'ls':self.l_geo(False),
-                      'rs':self.r_geo(False, 17e-9),
-                      'cg':self.cc_geo(False),
-                      'cm':self.cc_geo(True),
-                      }
+    def __init__(self, primary, secondary, freq=1e9, modelmapfile=None):
+        self.prim = primary
+        self.second = secondary
+        if isinstance(freq, float):
+            self.freq = np.array([freq,])
+        else:
+            self.freq = freq
+        if modelmapfile is None:
+            modelmapfile = 'tests/default.map'
+        with open(modelmapfile, 'r') as file:
+            self.modelmap = yaml.full_load(file)
+        self.model = {}
+        self.set_primary(primary)
+        self.set_secondary(secondary)
     def set_primary(self, _primary):
         """
             modify the top inductor and refresh the related model parameters
         """
         self.prim = _primary
-        self.model['lp'] = self.l_geo(True)
-        self.model['rp'] = self.r_geo(True, 17e-9)
-        self.model['cg'] = self.cc_geo(False)
-        self.model['cm'] = self.cc_geo(True)
+        self.model.update({
+            'lp': self.l_geo(True),
+            'rp': self.r_geo(True),
+            'cg': self.cc_geo(False),
+            'cm': self.cc_geo(True),
+            'k' : self.k_geo(),
+            })
+        try:
+            self.circuit = self.__makecircuit()
+        except KeyError:
+            pass
     def set_secondary(self, _secondary):
         """
             modify the bottom inductor and refresh the related model parameters
         """
         self.second = _secondary
-        self.model['ls'] = self.l_geo(False)
-        self.model['rs'] = self.r_geo(False, 17e-9)
-        self.model['cg'] = self.cc_geo(False)
-        self.model['cm'] = self.cc_geo(True)
+        self.model.update({
+            'ls': self.l_geo(False),
+            'rs': self.r_geo(False),
+            'cg': self.cc_geo(False),
+            'cm': self.cc_geo(True),
+            'k' : self.k_geo(),
+            })
+        try:
+            self.circuit = self.__makecircuit()
+        except KeyError:
+            pass
     def l_geo(self, _of_primary=True):
         """
             return the value of the distributed inductance of the described transformer
             if _of_primary, return the value of the top inductor
             else, return the value of the bottom inductor
         """
-        k_1 = 1.265   #constante1 empirique pour inductance
-        k_2 = 2.093   #constante2 empirique pour inductance
+        k_1 = float(self.modelmap["mu_r"])   #constante1 empirique pour inductance
+        k_2 = float(self.modelmap["dens"])   #constante2 empirique pour inductance
         if _of_primary:
             geo = self.prim
         else:
@@ -70,14 +86,15 @@ class Transformer:
             else, return the capacitance to the ground plane
         """
         if _mutual:
-            dist = self.dist
+            dist = float(self.modelmap["d_m"])
         else:
-            dist = self.dist_sub
-        c_1 = 8.275   #constante1 empirique pour capacité
-        c_2 = 5.250   #constante2 empirique pour capacité
+            dist = float(self.modelmap["d_g"])
         n_t = self.prim['n_turn']
-        return self.prim['width']*eps0*self.eps_r*(c_1+c_2*(n_t-1))*self.prim['di']/dist
-    def r_geo(self, _of_primary=True, rho=17e-10):
+        eps_r = float(self.modelmap["eps_r"])
+        area = n_t*self.prim['di']*self.prim['width']
+        cap = lmp.Capacitor(area, dist, eps_r)
+        return cap.par["cap"]
+    def r_geo(self, _of_primary=True):
         """
             return the value of the resistance of the described transformer
         """
@@ -85,27 +102,57 @@ class Transformer:
             geo = self.prim
         else:
             geo = self.second
+        rho = self.modelmap["rho"]
         n_t = geo['n_turn']
-        height = geo['height']
         l_tot = 8*np.tan(np.pi/8)*n_t*(geo['di']+geo['width']+(n_t-1)*(geo['width']+geo['gap']))
-        r_dc = rho*l_tot/(geo['width']*height)
-        skin_d = np.sqrt(rho/(u0*self.freq*np.pi))
-        r_ac = rho*l_tot/((1+height/geo['width'])*skin_d*(1-np.exp(-height/skin_d)))
-        return r_dc + r_ac
-    def generate_spice_model(self, k_ind):
+        r_dc = rho*l_tot/geo['width']
+        return r_dc
+    def k_geo(self):
+        return self.modelmap["cpl_eq"]
+    def mutual_geo(self, freq, z_0=50):
         """
-            Generate a equivalent circuit of a transformer with the given values
+            Create a transformateur with a primary of l_1, and secondary of l_2
+            and a coupling factor of k_mut
         """
-        cir = Circuit(_name='Transformer Model')
-        cir.add_ind(self.model["lp"], 'IN', '1')
-        cir.add_res(self.model["rp"], '1', 'OUT')
-        cir.add_ind(self.model["ls"], 'CPL', '2')
-        cir.add_res(self.model["rs"], '2', 'ISO')
-        cir.add_mut('L0', 'L1', k_ind)
-        cir.add_cap(self.model["cg"]/4, 'IN')
-        cir.add_cap(self.model["cg"]/4, 'OUT')
-        cir.add_cap(self.model["cg"]/4, 'CPL')
-        cir.add_cap(self.model["cg"]/4, 'ISO')
-        cir.add_cap(self.model["cm"]/2, 'IN', 'CPL')
-        cir.add_cap(self.model["cm"]/2, 'ISO', 'OUT')
-        return cir.get_cir()
+        l_1 = self.model["lp"]
+        l_2 = self.model["ls"]
+        r_1 = self.model["rp"]
+        r_2 = self.model["rs"]
+        k_mut = self.model["k"]
+        for f_t in freq.f:
+            w_t = 2 * np.pi * f_t
+            y_1 = 1/(r_1 + 1j*w_t*l_1*(1-k_mut**2))
+            y_2 = 1/(r_2 + 1j*w_t*l_2*(1-k_mut**2))
+            y_m = k_mut/(1j*w_t*np.sqrt(l_1*l_2)*(1-k_mut**2))
+            yparam = np.array([[[y_1, -y_m, y_m, -y_1],
+                                [-y_m, y_2, -y_2, y_m],
+                                [y_m, -y_2, y_2, -y_m],
+                                [-y_1, y_m, -y_m, y_1]]])
+            try:
+                yparams = np.vstack((yparams, yparam))
+            except NameError:  # Only needed for first iteration.
+                yparams = np.copy(yparam)
+        #yparams+=1e-10
+        
+        ntwk = rf.Network(frequency=freq, s=rf.y2s(yparams), z0=z_0, name='coupled inductors')
+        return ntwk
+    def __makecircuit(self):
+        freq = rf.Frequency.from_f(self.freq, unit='Hz')
+        media = rf.DefinedGammaZ0(frequency=freq, Z0=50)
+        transfo_ideal = self.mutual_geo(freq= freq)
+        cap_g, ports = [], []
+        for i in range(4):
+            cap_g.append(media.capacitor(self.model["cg"], name=f'cg{i}'))
+            ports.append(rf.Circuit.Port(freq, f"port{i}"))
+        cap_m1 = media.capacitor(self.model["cm"], name='cm1')
+        cap_m2 = media.capacitor(self.model["cm"], name='cm2')
+
+        connections = []
+        for i in range(4):
+            connections.append([(ports[i], 0), (transfo_ideal, i), (cap_g[i], 0)])
+        connections.append([(cap_m1, 0), (transfo_ideal, 0)])
+        connections.append([(cap_m1, 1), (transfo_ideal, 1)])
+        connections.append([(cap_m2, 0), (transfo_ideal, 3)])
+        connections.append([(cap_m2, 1), (transfo_ideal, 2)])
+        cir = rf.Circuit(connections)
+        return cir

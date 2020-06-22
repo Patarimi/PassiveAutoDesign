@@ -63,18 +63,14 @@ def test_transformer():
     transfo = tf.Transformer(geo, geo)
     transfo.set_primary(geo)
     transfo.set_secondary(geo)
-    assert transfo.generate_spice_model(0.99) == 'Transformer Model\n\n\
-L0\tIN\t1\t127.14389u\n\
-R0\t1\tOUT\t2.25661K\n\
-L1\tCPL\t2\t127.14389u\n\
-R1\t2\tISO\t2.25661K\n\
-K0\tL0\tL1\t0.99\n\
-C0\tIN\t0\t0\n\
-C1\tOUT\t0\t0\n\
-C2\tCPL\t0\t0\n\
-C3\tISO\t0\t0\n\
-C4\tIN\tCPL\t558.84682f\n\
-C5\tISO\tOUT\t558.84682f\n'
+    assert transfo.model == {'ls': 0.0001376861381145666,
+                             'rs': 0.13257484962738228,
+                             'lp': 0.0001376861381145666,
+                             'rp': 0.13257484962738228,
+                             'k': 0.9,
+                             'cg': 8.854187812800001e-05,
+                             'cm': 0.0035416751251200005,
+                             }
 
 import passive_auto_design.structure.lumped_element as LMP
 def test_capacitor():
