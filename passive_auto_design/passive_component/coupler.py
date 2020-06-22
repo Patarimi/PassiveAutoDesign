@@ -13,10 +13,9 @@ class Coupler:
     """
         Create a coupler object
     """
-    def __init__(self, _fc=1e9, _zc=50, _k=0.99, modelmap=None, bounds=None):
+    def __init__(self, _fc=1e9, _zc=50, modelmap=None, bounds=None):
         self.f_c = _fc
         self.z_c = _zc
-        self.k = _k
         if bounds is None:
             self.bounds = np.array([(1e-6, 1), (1, 4), (1e-6, 1), (1e-6, 1)])
         else:

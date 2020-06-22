@@ -27,15 +27,14 @@ with open('tests/coupleur_data.csv', newline='') as data_file:
                     'di':float(row[2]),
                     'gap':float(row[3]),
                     }
-                k = float(row[4])
                 f = float(row[5])
                 z = complex(float(row[6]), float(row[7]))
                 # calculation of deviation between calculation and validated values
-                CPL = cpl.Coupler(f, z, k)
+                CPL = cpl.Coupler(f, z)
                 CPL.transfo.set_primary(x)
                 CPL.transfo.set_secondary(x)
-                S = CPL.transfo.circuit.s_external[0]
-                Cost = np.abs(S[0, 0]-(50-z)/(z+50))
+                Zp = CPL.transfo.circuit.network.z[0]
+                Cost = np.abs((Zp[0,0]-z)/(Zp[0,0]+z))
                 # output creation Cost and sweept variables
                 OUTPUT.append((Cost, x['di'], x['n_turn']))
         except ValueError:
@@ -58,5 +57,5 @@ print(f'Typical Error\
       \nmin:\t{np.min(ERROR):2.1f}\
           \nmed:\t{np.median(ERROR):2.2f}\
               \nmax:\t{np.max(ERROR):2.1f}')
-assert np.median(ERROR) <= 6.27
-assert np.max(ERROR) <= 10.4
+assert np.median(ERROR) <= 39
+assert np.max(ERROR) <= 63

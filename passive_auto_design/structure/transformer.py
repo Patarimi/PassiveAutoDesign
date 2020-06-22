@@ -28,10 +28,9 @@ class Transformer:
             modelmapfile = 'tests/default.map'
         with open(modelmapfile, 'r') as file:
             self.modelmap = yaml.full_load(file)
-        self.model = {'k':0.9}
+        self.model = {}
         self.set_primary(primary)
         self.set_secondary(secondary)
-        self.circuit = self.__makecircuit()
     def set_primary(self, _primary):
         """
             modify the top inductor and refresh the related model parameters
@@ -39,9 +38,10 @@ class Transformer:
         self.prim = _primary
         self.model.update({
             'lp': self.l_geo(True),
-            'rp': self.r_geo(True, 17e-9),
+            'rp': self.r_geo(True),
             'cg': self.cc_geo(False),
             'cm': self.cc_geo(True),
+            'k' : self.k_geo(),
             })
         try:
             self.circuit = self.__makecircuit()
@@ -54,9 +54,10 @@ class Transformer:
         self.second = _secondary
         self.model.update({
             'ls': self.l_geo(False),
-            'rs': self.r_geo(False, 17e-9),
+            'rs': self.r_geo(False),
             'cg': self.cc_geo(False),
             'cm': self.cc_geo(True),
+            'k' : self.k_geo(),
             })
         try:
             self.circuit = self.__makecircuit()
@@ -85,15 +86,15 @@ class Transformer:
             else, return the capacitance to the ground plane
         """
         if _mutual:
-            dist = float(self.modelmap["d1"])
+            dist = float(self.modelmap["d_m"])
         else:
-            dist = float(self.modelmap["d2"])
+            dist = float(self.modelmap["d_g"])
         n_t = self.prim['n_turn']
         eps_r = float(self.modelmap["eps_r"])
-        area = (n_t-1)*self.prim['di']*self.prim['width']
+        area = n_t*self.prim['di']*self.prim['width']
         cap = lmp.Capacitor(area, dist, eps_r)
         return cap.par["cap"]
-    def r_geo(self, _of_primary=True, rho=17e-10):
+    def r_geo(self, _of_primary=True):
         """
             return the value of the resistance of the described transformer
         """
@@ -101,54 +102,57 @@ class Transformer:
             geo = self.prim
         else:
             geo = self.second
+        rho = self.modelmap["rho"]
         n_t = geo['n_turn']
         l_tot = 8*np.tan(np.pi/8)*n_t*(geo['di']+geo['width']+(n_t-1)*(geo['width']+geo['gap']))
         r_dc = rho*l_tot/geo['width']
         return r_dc
-
+    def k_geo(self):
+        return self.modelmap["cpl_eq"]
+    def mutual_geo(self, freq, z_0=50):
+        """
+            Create a transformateur with a primary of l_1, and secondary of l_2
+            and a coupling factor of k_mut
+        """
+        l_1 = self.model["lp"]
+        l_2 = self.model["ls"]
+        r_1 = self.model["rp"]
+        r_2 = self.model["rs"]
+        k_mut = self.model["k"]
+        for f_t in freq.f:
+            w_t = 2 * np.pi * f_t
+            y_1 = 1/(r_1 + 1j*w_t*l_1*(1-k_mut**2))
+            y_2 = 1/(r_2 + 1j*w_t*l_2*(1-k_mut**2))
+            y_m = k_mut/(1j*w_t*np.sqrt(l_1*l_2)*(1-k_mut**2))
+            yparam = np.array([[[y_1, -y_m, y_m, -y_1],
+                                [-y_m, y_2, -y_2, y_m],
+                                [y_m, -y_2, y_2, -y_m],
+                                [-y_1, y_m, -y_m, y_1]]])
+            try:
+                yparams = np.vstack((yparams, yparam))
+            except NameError:  # Only needed for first iteration.
+                yparams = np.copy(yparam)
+        #yparams+=1e-10
+        
+        ntwk = rf.Network(frequency=freq, s=rf.y2s(yparams), z0=z_0, name='coupled inductors')
+        return ntwk
     def __makecircuit(self):
         freq = rf.Frequency.from_f(self.freq, unit='Hz')
         media = rf.DefinedGammaZ0(frequency=freq, Z0=50)
+        transfo_ideal = self.mutual_geo(freq= freq)
+        cap_g, ports = [], []
+        for i in range(4):
+            cap_g.append(media.capacitor(self.model["cg"], name=f'cg{i}'))
+            ports.append(rf.Circuit.Port(freq, f"port{i}"))
+        cap_m1 = media.capacitor(self.model["cm"], name='cm1')
+        cap_m2 = media.capacitor(self.model["cm"], name='cm2')
 
-        port1 = rf.Circuit.Port(freq, "port1")
-        port2 = rf.Circuit.Port(freq, "port2")
-        port3 = rf.Circuit.Port(freq, "port3")
-        port4 = rf.Circuit.Port(freq, "port4")
-
-        transfo_ideal = mutual_ind(self.model["lp"], self.model["ls"], self.model["k"], freq)
-        res_p = media.resistor(self.model["rp"], name='rp')
-        res_s = media.resistor(self.model["rs"], name='rs')
-
-        connections = [
-            [(port1, 0), (transfo_ideal, 0)],
-            [(res_p, 0), (transfo_ideal, 1)],
-            #[(port2, 0), (res_p, 1)],
-            [(port3, 0), (transfo_ideal, 2)],
-            [(res_s, 0), (transfo_ideal, 3)],
-            #[(port4, 0), (res_s, 3)],
-            ]
+        connections = []
+        for i in range(4):
+            connections.append([(ports[i], 0), (transfo_ideal, i), (cap_g[i], 0)])
+        connections.append([(cap_m1, 0), (transfo_ideal, 0)])
+        connections.append([(cap_m1, 1), (transfo_ideal, 1)])
+        connections.append([(cap_m2, 0), (transfo_ideal, 3)])
+        connections.append([(cap_m2, 1), (transfo_ideal, 2)])
         cir = rf.Circuit(connections)
         return cir
-
-def mutual_ind(l_1, l_2, k_mut, freq, z_0=50):
-    """
-        Create a transformateur with a primary of l_1, and secondary of l_2
-        and a coupling factor of k_mut
-    """
-    for f_t in freq.f:
-        w_t = 2 * np.pi * f_t
-        y_1 = 1/(1j*w_t*l_1*(1-k_mut**2))
-        y_2 = 1/(1j*w_t*l_2*(1-k_mut**2))
-        y_m = k_mut/(1j*w_t*np.sqrt(l_1*l_2)*(1-k_mut**2))
-        yparam = np.array([[[y_1, -y_m, y_m, -y_1],
-                            [-y_m, y_2, -y_2, y_m],
-                            [y_m, -y_2, y_2, -y_m],
-                            [-y_1, y_m, -y_m, y_1]]])
-        try:
-            yparams = np.vstack((yparams, yparam))
-        except NameError:  # Only needed for first iteration.
-            yparams = np.copy(yparam)
-    yparams+=1e-10
-
-    ntwk = rf.Network(frequency=freq, s=rf.y2s(yparams), z0=z_0, name='coupled inductors')
-    return ntwk
