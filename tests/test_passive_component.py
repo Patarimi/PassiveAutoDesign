@@ -7,18 +7,17 @@ Created on Fri Jul 12 15:07:03 2019
 import pytest
 import numpy as np
 import passive_auto_design.passive_component.coupler as cpl
-import passive_auto_design.passive_component.Balun as bln
+import passive_auto_design.passive_component.balun as bln
 import passive_auto_design.passive_component.Taper as tpr
-import passive_auto_design.substrate as sub
 
-SUB = sub.Substrate('tests/passive_component_tech.yml')
+modelmappath = 'tests/default.map'
 def test_coupler():
-    CPL = cpl.Coupler(SUB, 1e9, 50)
+    CPL = cpl.Coupler(1e9, 50, modelmappath)
     res = CPL.design(_maxiter=0)
-    assert np.round(1000*res.x[0], 3) == 1.10e-02
+    assert np.round(1000*res.x[0], 3) == 0
     assert np.round(res.x[1], 3) == 2
-    assert np.round(1000*res.x[2], 3) == 1.258
-    assert np.round(1000*res.x[3], 3) == 2.00e-03
+    assert np.round(1000*res.x[2], 3) == 1.16
+    assert np.round(1000*res.x[3], 3) == 1.00e-03
     CPL.print(res)
     res = CPL.design(_maxiter=1)
    
@@ -26,7 +25,7 @@ def test_balun():
     ZS_TARG = np.array([20 + 1j*40])
     ZL_TARG = np.array([50 + 1j*0.1])
     F_TARG = np.array([4e9])
-    BLN = bln.Balun(SUB, F_TARG, ZL_TARG, ZS_TARG)
+    BLN = bln.Balun(F_TARG, ZL_TARG, ZS_TARG, modelmappath)
     BLN.k = 0.5
     with pytest.raises(ValueError):
         res = BLN.design(1)

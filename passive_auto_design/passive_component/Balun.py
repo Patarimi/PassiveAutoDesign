@@ -5,6 +5,7 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
+import yaml
 from scipy.optimize import dual_annealing, minimize, OptimizeResult
 from ..structure.transformer import Transformer
 from ..special import std_dev, qual_f
@@ -13,29 +14,37 @@ class Balun:
     """
         Create a balun object
     """
-    def __init__(self, _substrate, _fc=1e9, _z_source=50, _z_load=50, _k=0.9):
-        eps_r = _substrate.sub[1].dielectric.epsilon
-        h_int = _substrate.sub[1].height
-        h_sub = _substrate.sub[3].height
+    def __init__(self, _fc=1e9, _z_source=50, _z_load=50, modelmapfile=None):
         self.f_c = _fc
         self.z_src = _z_source
         self.z_ld = _z_load
-        self.k = _k
         self.is_symmetrical = False
-        self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
-                                (1, 4),
-                                (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
-                                (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap),
-                                (_substrate.sub[2].width['min'], _substrate.sub[2].width['max']),
-                                (1, 4),
-                                (_substrate.sub[2].width['max'], 20*_substrate.sub[2].width['max']),
-                                (_substrate.sub[2].gap, 1.01*_substrate.sub[2].gap)])
+        if modelmapfile is None:
+            modelmapfile = 'tests/default.map'
+        with open(modelmapfile, 'r') as file:
+            self.modelmap = yaml.full_load(file)
+        width_lim = (float(self.modelmap["width"]["min"]),
+                     float(self.modelmap["width"]["max"]),
+                     )
+        turn_lim = (float(self.modelmap["turn"]["min"]),
+                    float(self.modelmap["turn"]["max"]),
+                    )
+        gap_lim = float(self.modelmap["gap"])
+        self.bounds = np.array([width_lim,     #width
+                                turn_lim,      #turn number
+                                (width_lim[1], 20*width_lim[1]),  #inner diameter
+                                (gap_lim, 1.01*gap_lim),    #gap
+                                width_lim,
+                                turn_lim,
+                                (width_lim[1], 20*width_lim[1]),
+                                (gap_lim, 1.01*gap_lim),
+                                ])
         geo = {'di':20,
                'n_turn':1,
                'width':2e-6,
                'gap':2e-6,
-               'height':_substrate.sub[0].height}
-        self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
+               }
+        self.transfo = Transformer(geo, geo, _fc)
     def __cost_geo_vs_targ(self, geo, _l_targ, _is_primary=True):
         """
             return the cost (standard deviation)
@@ -46,7 +55,7 @@ class Balun:
                                       'n_turn':np.round(geo[1]),
                                       'width':geo[0],
                                       'gap':geo[3],
-                                      'height':self.transfo.prim['height']})
+                                      })
             l_sol = self.transfo.model['lp']
             r_sol = self.transfo.model['rp']
         else:
@@ -54,7 +63,7 @@ class Balun:
                                         'n_turn':np.round(geo[1]),
                                         'width':geo[0],
                                         'gap':geo[3],
-                                        'height':self.transfo.second['height']})
+                                        })
             l_sol = self.transfo.model['lp']
             r_sol = self.transfo.model['rp']
         return std_dev(l_sol, _l_targ)+np.sum(r_sol)/100
