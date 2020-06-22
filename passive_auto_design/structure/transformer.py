@@ -108,6 +108,10 @@ class Transformer:
         r_dc = rho*l_tot/geo['width']
         return r_dc
     def k_geo(self):
+        """
+            return the value of the coupling between the two inductors.
+
+        """
         return self.modelmap["cpl_eq"]
     def mutual_geo(self, freq, z_0=50):
         """
@@ -123,7 +127,7 @@ class Transformer:
             w_t = 2 * np.pi * f_t
             y_1 = 1/(r_1 + 1j*w_t*l_1*(1-k_mut**2))
             y_2 = 1/(r_2 + 1j*w_t*l_2*(1-k_mut**2))
-            y_m = k_mut/(1j*w_t*np.sqrt(l_1*l_2)*(1-k_mut**2))
+            y_m = k_mut/(1e-30+1j*w_t*np.sqrt(l_1*l_2)*(1-k_mut**2))
             yparam = np.array([[[y_1, -y_m, y_m, -y_1],
                                 [-y_m, y_2, -y_2, y_m],
                                 [y_m, -y_2, y_2, -y_m],
@@ -132,14 +136,12 @@ class Transformer:
                 yparams = np.vstack((yparams, yparam))
             except NameError:  # Only needed for first iteration.
                 yparams = np.copy(yparam)
-        #yparams+=1e-10
-        
         ntwk = rf.Network(frequency=freq, s=rf.y2s(yparams), z0=z_0, name='coupled inductors')
         return ntwk
     def __makecircuit(self):
         freq = rf.Frequency.from_f(self.freq, unit='Hz')
         media = rf.DefinedGammaZ0(frequency=freq, Z0=50)
-        transfo_ideal = self.mutual_geo(freq= freq)
+        transfo_ideal = self.mutual_geo(freq=freq)
         cap_g, ports = [], []
         for i in range(4):
             cap_g.append(media.capacitor(self.model["cg"], name=f'cg{i}'))

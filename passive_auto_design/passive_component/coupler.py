@@ -4,8 +4,9 @@ Created on Fri Apr 26 14:12:17 2019
 
 @author: mpoterea
 """
+import yaml
 import numpy as np
-from scipy.optimize import dual_annealing, minimize_scalar, OptimizeResult
+from scipy.optimize import minimize, minimize_scalar, OptimizeResult
 from ..structure.transformer import Transformer
 from ..special import ihsr
 
@@ -13,11 +14,26 @@ class Coupler:
     """
         Create a coupler object
     """
-    def __init__(self, _fc=1e9, _zc=50, modelmap=None, bounds=None):
+    def __init__(self, _fc=1e9, _zc=50, modelmapfile=None, bounds=None):
         self.f_c = _fc
         self.z_c = _zc
+        if modelmapfile is None:
+            modelmapfile = 'tests/default.map'
+        with open(modelmapfile, 'r') as file:
+            self.modelmap = yaml.full_load(file)
+        width_lim = (float(self.modelmap["width"]["min"]),
+                     float(self.modelmap["width"]["max"]),
+                     )
+        turn_lim = (float(self.modelmap["turn"]["min"]),
+                    float(self.modelmap["turn"]["max"]),
+                    )
+        gap_lim = float(self.modelmap["gap"])
         if bounds is None:
-            self.bounds = np.array([(1e-6, 1), (1, 4), (1e-6, 1), (1e-6, 1)])
+            self.bounds = np.array([width_lim,     #width
+                                turn_lim,      #turn number
+                                (width_lim[1], 20*width_lim[1]),  #inner diameter
+                                (gap_lim, 1.01*gap_lim),    #gap
+                                ])
         else:
             self.bounds = bounds
         geo = {'di':20,
@@ -25,7 +41,7 @@ class Coupler:
                'width':self.bounds[0, 0],
                'gap':self.bounds[3, 0],
                }
-        self.transfo = Transformer(geo, geo, _fc, modelmap)
+        self.transfo = Transformer(geo, geo, _fc, modelmapfile)
     def cost(self, sol):
         """
             return the cost (standard deviation)
@@ -65,7 +81,7 @@ class Coupler:
             res.fun = res_int.fun
             res.message = 'First Guess'
             return res
-        res = dual_annealing(self.cost, self.bounds, x0=x_0, maxiter=_maxiter)
+        res = minimize(self.cost, x0=x_0)
         return res
     def print(self, res):
         """
