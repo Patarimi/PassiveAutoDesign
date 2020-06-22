@@ -33,7 +33,7 @@ def test_inductor():
     assert ind.par["k_1"] == 8.196952235094303
     assert ind.par["ind"] == 1e-9
     
-    ind.set_x_with_y(("k_1", "k_2"), "ind", 300e-12)
+    ind.set_x_with_y("k_1", "ind", (1e-9, 300e-12))
     assert ind.par["ind"] == 300e-12
 
 def test_mutual():

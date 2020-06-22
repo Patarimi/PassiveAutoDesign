@@ -57,7 +57,7 @@ class LumpedElement(metaclass=abc.ABCMeta):
         Definition of the behavioral equation of the lumped element.
         Returns
         -------
-        Value of self.par[self.ref] calculateed with the other value in self.par.
+        Value of self.par[self.ref] calculated with the other value in self.par.
 
         """
         raise NotImplementedError
@@ -110,10 +110,7 @@ class Inductor(LumpedElement):
     def calc_ref_value(self):
         outer_diam = self.par['d_i']+2*self.par['n_turn']*self.par['width']\
                 +2*(self.par['n_turn']-1)*self.par['gap']
-        try:
-            self.par["d_o"] = outer_diam
-        except KeyError:
-            self.par.update({"d_o": outer_diam})
+        self.par.update({"d_o": outer_diam})
         rho = (self.par['d_i']+outer_diam)/2
         density = (outer_diam-self.par['d_i'])/(outer_diam+self.par['d_i'])
         return self.par['k_1']*u0*self.par['n_turn']**2*rho/(1+self.par['k_2']*density)
