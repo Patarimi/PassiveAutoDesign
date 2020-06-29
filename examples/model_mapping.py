@@ -6,7 +6,6 @@ Created on Thu Jun 11 15:58:12 2020
 """
 import csv
 import passive_auto_design.passive_component.coupler as cpl
-import passive_auto_design.structure.lumped_element as lmp
 
 with open('tests/coupleur_data.csv', newline='') as data_file:
     DATA_RAW = csv.reader(data_file, delimiter='\t')
