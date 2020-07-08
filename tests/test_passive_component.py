@@ -8,7 +8,8 @@ import numpy as np
 import pytest
 import passive_auto_design.passive_component.coupler as cpl
 import passive_auto_design.passive_component.balun as bln
-import passive_auto_design.passive_component.Taper as tpr
+import passive_auto_design.passive_component.taper as tpr
+from passive_auto_design.special import reflexion_coef, transmission_coef
 
 modelmappath = 'tests/default.map'
 def test_coupler():
@@ -40,7 +41,8 @@ def test_taper():
     z_res = tpr.klopfenstein_taper(25, 50, 3)
     z_ref = [25.84, 35.71, 49.34]
     assert all(np.round(z_res,2) == z_ref)
-    assert np.round(np.abs(tpr.calc_RL_tot(z_res, 45)),3) == 0.17
+    assert np.round(np.abs(reflexion_coef(z_res, 45)),3) == 0.17
+    assert np.round(np.abs(transmission_coef(z_res, 45)), 3) == 0.986
     z_res = tpr.linear_taper(25, 50, 3)
     z_ref = [25, 37.5, 50]
     assert all(np.round(z_res,2) == z_ref)
