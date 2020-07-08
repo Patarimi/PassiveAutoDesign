@@ -31,6 +31,7 @@ def test_balun():
         res = BLN.design(1)
     BLN.enforce_symmetrical()
     BLN.enforce_symmetrical(False)
+    BLN.transfo.model["k"] = BLN.transfo.k_geo()
     res = BLN.design(1)
     BLN.print(res)
 
