@@ -5,7 +5,7 @@ Created on Sun Jun  7 08:13:38 2020
 @author: mpoterea
 """
 
-import abc
+import abc, functools
 from scipy.optimize import minimize_scalar
 from passive_auto_design.special import u0, eps0
 
@@ -37,7 +37,7 @@ class LumpedElement(metaclass=abc.ABCMeta):
             set the value of the X_key for a Y_value of the Y_key
         """
         minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
-
+    
     def __cost(self, x_value, x_key, y_key, y_value):
         self.par = {x_key: x_value}
         if type(y_value) is float:
@@ -89,6 +89,7 @@ class Capacitor(LumpedElement):
                     "dist": dist,
                     }
         self.par.update({"cap": self.calc_ref_value()})
+    #@functools.lru_cache()
     def calc_ref_value(self):
         return eps0*self.par["eps_r"]*self.par["area"]/self.par["dist"]
 
