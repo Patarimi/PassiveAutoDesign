@@ -6,7 +6,6 @@ Created on Fri Jul 12 09:30:00 2019
 """
 import pytest
 import passive_auto_design.structure.Waveguide as wg
-import passive_auto_design.structure.Transformer as tf
 from passive_auto_design.substrate import COPPER, D5880
 
 def test_siw():
@@ -24,6 +23,7 @@ def test_siw():
     assert round(wr1.calc_a_d(20e9), 4) == 0.0461
     assert round(wr1.calc_a_c(20e9), 6) == 0.004997
     assert round(wr1.calc_ksr(20e9), 6) == 1
+    assert round(wr1.calc_lambda(20e9), 6) == 0.028455
     wr1.diel.rougthness = 0
     with pytest.raises(ValueError):
         wr1.calc_ksr(20e9)
@@ -50,6 +50,7 @@ def test_af_siw():
     with pytest.raises(ValueError):
         af1.calc_fc(0, 1)
 
+import passive_auto_design.structure.transformer as tf
 def test_transformer():
     """
     unity test for tranformer object
@@ -62,15 +63,45 @@ def test_transformer():
     transfo = tf.Transformer(geo, geo)
     transfo.set_primary(geo)
     transfo.set_secondary(geo)
-    assert transfo.generate_spice_model(0.99) == 'Transformer Model\n\n\
-L1\t\tIN\t1\t127143893.2p\n\
-R1\t\t1\tOUT\t2256609.9m\n\
-L2\t\tCPL\t2\t127143893.2p\n\
-R2\t\t2\tISO\t2256609.9m\n\
-K\t\tL1\tL2\t0.99\n\
-CG1\t\tIN\t0\t0.0f\n\
-CG2\t\tOUT\t0\t0.0f\n\
-CG3\t\tISO\t0\t0.0f\n\
-CG4\t\tCPL\t0\t0.0f\n\
-CM1\t\tIN\tCPL\t558.8f\n\
-CM2\t\tISO\tOUT\t558.8f\n\n'
+    assert transfo.model == {'ls': 0.0001376861381145666,
+                             'rs': 0.13257484962738228,
+                             'lp': 0.0001376861381145666,
+                             'rp': 0.13257484962738228,
+                             'k': 0.9,
+                             'cg': 8.854187812800001e-05,
+                             'cm': 0.0035416751251200005,
+                             }
+
+import passive_auto_design.structure.lumped_element as LMP
+def test_capacitor():
+    """
+    unity test for capacitor object
+    """
+    cap = LMP.Capacitor(1e-6, 1e-3, 1)
+    assert cap.par["cap"] == 8.8541878128e-15
+
+    cap.set_x_with_y("eps_r", "cap", 1e-15)
+    assert cap.par["eps_r"] == 0.11294090917221976
+    assert cap.par["cap"] == 1e-15
+
+def test_resistor():
+    """
+    unity test for capacitor object
+    """
+    res = LMP.Resistor()
+    assert res.par["res"] == 1e-12
+
+    res.set_x_with_y("length", "res", 1e3)
+    assert res.par["length"] == 1000000026385065.9
+    assert res.par["res"] == 1e3
+
+def test_inductor():
+    """
+    unity test for capacitor object
+    """
+    ind = LMP.Inductor()
+    assert ind.par["ind"] == 1.5432565424041825e-10
+
+    ind.set_x_with_y("k_1", "ind", 1e-9)
+    assert ind.par["k_1"] == 8.196952235094303
+    assert ind.par["ind"] == 1e-9

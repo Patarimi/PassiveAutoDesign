@@ -5,37 +5,46 @@ Created on Fri Apr 26 14:12:17 2019
 @author: mpoterea
 """
 import numpy as np
-from scipy.optimize import dual_annealing, minimize, OptimizeResult
-from ..structure.Transformer import Transformer
+import yaml
+from scipy.optimize import minimize, OptimizeResult
+from ..structure.transformer import Transformer
 from ..special import std_dev, qual_f
 
 class Balun:
     """
         Create a balun object
     """
-    def __init__(self, _substrate, _fc=1e9, _z_source=50, _z_load=50, _k=0.9):
-        eps_r = _substrate.sub[1].dielectric.epsilon
-        h_int = _substrate.sub[1].height
-        h_sub = _substrate.sub[3].height
+    def __init__(self, _fc=1e9, _z_source=50, _z_load=50, modelmapfile=None):
         self.f_c = _fc
         self.z_src = _z_source
         self.z_ld = _z_load
-        self.k = _k
         self.is_symmetrical = False
-        self.bounds = np.array([(_substrate.sub[0].width['min'], _substrate.sub[0].width['max']),
-                                (1, 4),
-                                (_substrate.sub[0].width['max'], 20*_substrate.sub[0].width['max']),
-                                (_substrate.sub[0].gap, 1.01*_substrate.sub[0].gap),
-                                (_substrate.sub[2].width['min'], _substrate.sub[2].width['max']),
-                                (1, 4),
-                                (_substrate.sub[2].width['max'], 20*_substrate.sub[2].width['max']),
-                                (_substrate.sub[2].gap, 1.01*_substrate.sub[2].gap)])
+        if modelmapfile is None:
+            modelmapfile = 'tests/default.map'
+        with open(modelmapfile, 'r') as file:
+            self.modelmap = yaml.full_load(file)
+        width_lim = (float(self.modelmap["width"]["min"]),
+                     float(self.modelmap["width"]["max"]),
+                     )
+        turn_lim = (float(self.modelmap["turn"]["min"]),
+                    float(self.modelmap["turn"]["max"]),
+                    )
+        gap_lim = float(self.modelmap["gap"])
+        self.bounds = np.array([width_lim,     #width
+                                turn_lim,      #turn number
+                                (width_lim[1], 1e6),  #inner diameter
+                                (gap_lim, 1e6),    #gap
+                                width_lim,
+                                turn_lim,
+                                (width_lim[1], 1e6),
+                                (gap_lim, 1e6),
+                                ])
         geo = {'di':20,
                'n_turn':1,
                'width':2e-6,
                'gap':2e-6,
-               'height':_substrate.sub[0].height}
-        self.transfo = Transformer(geo, geo, eps_r, h_int, h_sub)
+               }
+        self.transfo = Transformer(geo, geo, _fc, modelmapfile)
     def __cost_geo_vs_targ(self, geo, _l_targ, _is_primary=True):
         """
             return the cost (standard deviation)
@@ -46,7 +55,7 @@ class Balun:
                                       'n_turn':np.round(geo[1]),
                                       'width':geo[0],
                                       'gap':geo[3],
-                                      'height':self.transfo.prim['height']})
+                                      })
             l_sol = self.transfo.model['lp']
             r_sol = self.transfo.model['rp']
         else:
@@ -54,7 +63,7 @@ class Balun:
                                         'n_turn':np.round(geo[1]),
                                         'width':geo[0],
                                         'gap':geo[3],
-                                        'height':self.transfo.second['height']})
+                                        })
             l_sol = self.transfo.model['lp']
             r_sol = self.transfo.model['rp']
         return std_dev(l_sol, _l_targ)+np.sum(r_sol)/100
@@ -64,7 +73,8 @@ class Balun:
             with the targeted specifications (f_targ, zl_targ, zs_targ)
             return an optimization results (res)
         """
-        alpha = (1-self.k**2)/self.k
+        k = self.transfo.model["k"]
+        alpha = (1-k**2)/k
         q_s = -qual_f(self.z_src)
         q_l = -qual_f(self.z_ld)
         #assuming perfect inductor for first calculation
@@ -76,12 +86,12 @@ class Balun:
             b_coeff = (2*alpha*q_s_prime+q_s_prime+q_l_prime)
             discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s_prime**2)
             if discr < 0:
-                ValueError("Negative value in square root,\
-try to increase the coupling factor or the load quality factor\
+                raise ValueError("Negative value in square root,\
+ try to increase the coupling factor or the load quality factor\
 or try to lower the source quality factor")
             z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
                               (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
-            qxl1 = z_sol/(1-self.k**2)
+            qxl1 = z_sol/(1-k**2)
             qxl2 = z_sol*(1+q_l_prime**2)/(alpha*(1+(q_s_prime-z_sol)**2))
             l_sol1 = qxl1*np.real(self.z_src)/(2*np.pi*self.f_c)
             l_sol2 = qxl2*np.real(self.z_ld)/(2*np.pi*self.f_c)
@@ -93,13 +103,18 @@ or try to lower the source quality factor")
                 l_1 = l_sol1[0]
                 l_2 = l_sol2[0]
             #find the inductor geometry that give the desired inductances
-            res1 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[0:4],
-                                  args=(l_1), maxiter=_maxiter)
+            res1 = minimize(fun=self.__cost_geo_vs_targ,
+                            x0=[x for x in self.transfo.prim.values()],
+                            bounds=self.bounds[0:4],
+                            args=(l_1))
             if self.is_symmetrical:
+                self.__cost_geo_vs_targ(res1.x, l_2, _is_primary=False)
                 res2 = res1
             else:
-                res2 = dual_annealing(self.__cost_geo_vs_targ, self.bounds[4:],
-                                      args=(l_2, False), maxiter=_maxiter)
+                res2 = minimize(fun=self.__cost_geo_vs_targ,
+                                x0=[x for x in self.transfo.prim.values()],
+                                bounds=self.bounds[4:],
+                                args=(l_2, False))
             r_l1 = self.transfo.model['rs']
             r_l2 = self.transfo.model['rp']
         res = OptimizeResult()
@@ -113,7 +128,8 @@ or try to lower the source quality factor")
         if _of_load, altering the load impedance
         else altering the source impedance
         """
-        alpha = (1-self.k**2)/self.k
+        k = self.transfo.model["k"]
+        alpha = (1-k**2)/k
         if _of_load:
             q_s = -qual_f(self.z_src)
             q_l = _q_val
@@ -122,9 +138,11 @@ or try to lower the source quality factor")
             q_l = -qual_f(self.z_ld)
         b_coeff = (2*alpha*q_s+q_s+q_l)
         discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s**2)
+        if discr < 0:
+            return np.inf
         z_sol = np.array(((b_coeff+np.sqrt(discr))/(2*(alpha+1)),
                           (b_coeff-np.sqrt(discr))/(2*(alpha+1))))
-        qxl1 = z_sol/(1-self.k**2)
+        qxl1 = z_sol/(1-k**2)
         qxl2 = z_sol*(1+q_l**2)/(alpha*(1+(q_s-z_sol)**2))
         qxl_ratio = np.real(self.z_ld)/np.real(self.z_src)
         return np.abs(np.min(qxl1/qxl2)-qxl_ratio)
@@ -137,7 +155,7 @@ or try to lower the source quality factor")
             old_z = self.z_ld
         else:
             old_z = self.z_src
-        res = minimize(self.__enforce_symmetrical, -qual_f(old_z), args=(_through_load))
+        res = minimize(self.__enforce_symmetrical, -qual_f(old_z), args=(_through_load), method='Nelder-Mead')
         new_z = np.real(old_z)*(1-1j*res.x)
         if _verbose:
             print(f'old z_ld: ${complex(old_z):5.2f}')
@@ -156,7 +174,7 @@ or try to lower the source quality factor")
         bds = np.array(self.bounds)*1e6
         print(f'Solution funds with remaining error of: {float(res.fun):.2e}')
         print('Termination message of algorithm: '+str(res.message))
-        print(f'\t\tW (µm)\tn\tdi (µm)\tG (µm)')
+        print(f'\t\t\tW (µm)\tn\tdi (µm)\tG (µm)')
         print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
 {(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
         print(f'primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}')

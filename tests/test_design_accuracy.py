@@ -8,12 +8,7 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 #%% Comparison between EM simulation results and coupler_cost function results
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.passive_component.Coupler as pad
-import passive_auto_design.substrate as sub
-from passive_auto_design.ngspice_warper import set_path
-
-set_path('../ng_spice/')
-BEOL = sub.Substrate('tests/passive_component_tech.yml')
+import passive_auto_design.passive_component.coupler as pad
 
 # %% drawing of the cost function versus di and W
 W_TABLE = np.arange(10e-6, 20e-6, 1e-6)
@@ -25,7 +20,7 @@ i = 0
 for w in W_TABLE:
     j = 0
     for di in DI_TABLE:
-        CPL = pad.Coupler(BEOL, 5e9, 50)
+        CPL = pad.Coupler(5e9, 50, )
         COST[i, j] = CPL.cost([w, 2, di, 2.1e-6])
         j += 1
     i += 1

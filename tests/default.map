@@ -1,0 +1,17 @@
+cpl_eq: 0.9
+dens: 2.5
+eps_r: 0.5
+d_m: 0.05e-9
+d_g: 2e-9
+mu_r: 1.37
+rho: 1.0e-6
+
+width:
+    min: 0.2e-6
+    max: 12e-6
+    
+turn:
+    min: 1
+    max: 4
+
+gap: 0.5e-6
