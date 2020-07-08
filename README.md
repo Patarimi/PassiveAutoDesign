@@ -10,7 +10,7 @@ Install the library using
 pip install passive-auto-design
 ```
 Examples are given in the _examples_ directory.\
-A demo is given [here](rf-design-helper-web.herokuapp.com/)
+A demo is given [here](https://rf-design-helper-web.herokuapp.com/)
 
 Package Structure
 ----
