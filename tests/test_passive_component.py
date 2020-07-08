@@ -26,14 +26,15 @@ def test_balun():
     ZL_TARG = np.array([50 + 1j*0.1])
     F_TARG = np.array([4e9])
     BLN = bln.Balun(F_TARG, ZL_TARG, ZS_TARG)
+    BLN.enforce_symmetrical()
+    res = BLN.design(1)
+    BLN.enforce_symmetrical(False)
+    BLN.is_symmetrical = False
+    res = BLN.design(1)
+    BLN.print(res)
     BLN.transfo.model["k"] = 0.2
     with pytest.raises(ValueError):
         res = BLN.design(1)
-    BLN.enforce_symmetrical()
-    BLN.enforce_symmetrical(False)
-    BLN.transfo.model["k"] = BLN.transfo.k_geo()
-    res = BLN.design(1)
-    BLN.print(res)
 
 def test_taper():
     z_res = tpr.klopfenstein_taper(25, 50, 3)
