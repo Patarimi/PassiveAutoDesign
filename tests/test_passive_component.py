@@ -5,6 +5,7 @@ Created on Fri Jul 12 15:07:03 2019
 @author: mpoterea
 """
 import numpy as np
+import pytest
 import passive_auto_design.passive_component.coupler as cpl
 import passive_auto_design.passive_component.balun as bln
 import passive_auto_design.passive_component.Taper as tpr
@@ -24,8 +25,10 @@ def test_balun():
     ZS_TARG = np.array([20 + 1j*40])
     ZL_TARG = np.array([50 + 1j*0.1])
     F_TARG = np.array([4e9])
-    BLN = bln.Balun(F_TARG, ZL_TARG, ZS_TARG, modelmappath)
-    res = BLN.design(1)
+    BLN = bln.Balun(F_TARG, ZL_TARG, ZS_TARG)
+    BLN.transfo.model["k"] = 0.2
+    with pytest.raises(ValueError):
+        res = BLN.design(1)
     BLN.enforce_symmetrical()
     BLN.enforce_symmetrical(False)
     res = BLN.design(1)
