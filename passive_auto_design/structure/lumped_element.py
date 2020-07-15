@@ -5,7 +5,7 @@ Created on Sun Jun  7 08:13:38 2020
 @author: mpoterea
 """
 
-import abc, functools
+import abc
 from scipy.optimize import minimize_scalar
 from passive_auto_design.special import u0, eps0
 
