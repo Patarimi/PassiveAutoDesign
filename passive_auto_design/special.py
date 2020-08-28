@@ -54,7 +54,10 @@ def reflexion_coef(_z_steps, _phi_step):
     return the coefficient reflexion of a given sequence of transmission lines
     with the given_z_steps profile and equal length of _phi_steps degrees
     """
-    n_step = _z_steps.size
+    if type(_z_steps) is not(np.array):
+        _z_steps = np.array(_z_steps)
+    n_step = len(_z_steps)
+    
     z_tot = _z_steps[-1:]
     for i in range(n_step):
         z_0 = _z_steps[n_step-i-1]
