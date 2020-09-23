@@ -7,8 +7,8 @@ Ceci est un script temporaire.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.passive_component.Taper as tap
-from passive_auto_design.special import dB
+import passive_auto_design.passive_component.taper as tap
+from passive_auto_design.special import dB, reflexion_coef
 
 N_STEP = 61
 Z_START = 50
@@ -26,8 +26,8 @@ GAMMA_LINEAR = np.zeros(F_SWEEP.shape, dtype=complex)
 GAMMA_KLOPF = np.zeros(F_SWEEP.shape, dtype=complex)
 for i in range(F_SWEEP.size):
     Phase = -DELAI*2*np.pi*F_SWEEP[i]
-    GAMMA_LINEAR[i] = tap.calc_RL_tot(Z_LINEAR, Phase)
-    GAMMA_KLOPF[i] = tap.calc_RL_tot(Z_KLOPF, Phase)
+    GAMMA_LINEAR[i] = reflexion_coef(Z_LINEAR, Phase)
+    GAMMA_KLOPF[i] = reflexion_coef(Z_KLOPF, Phase)
 
 plt.figure()
 plt.grid(True)

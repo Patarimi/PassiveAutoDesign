@@ -5,6 +5,7 @@ Created on Thu Jun 11 15:58:12 2020
 @author: mpoterea
 """
 import csv
+import numpy as np
 import passive_auto_design.passive_component.coupler as cpl
 
 with open('tests/coupleur_data.csv', newline='') as data_file:
