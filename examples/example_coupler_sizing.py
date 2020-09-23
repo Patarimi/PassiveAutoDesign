@@ -11,7 +11,7 @@ Then, it designs an hybrid coupler and an impendance tranformer.
 import passive_auto_design.passive_component.coupler as cpl
 import passive_auto_design.passive_component.balun as bln
 
-mappath = "../tests/default.map"
+mappath = "./tests/default.map"
 
 #%% Coupler Design
 #Creation of a coupler in the BEOL substrate at F_TARG and with ZC_TARG characteristic impedance
