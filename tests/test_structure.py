@@ -5,6 +5,7 @@ Created on Fri Jul 12 09:30:00 2019
 @author: mpoterea
 """
 import pytest
+from numpy import round
 import passive_auto_design.structure.waveguide as wg
 from passive_auto_design.substrate import COPPER, D5880
 
