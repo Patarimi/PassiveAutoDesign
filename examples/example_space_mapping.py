@@ -1,18 +1,18 @@
 import passive_auto_design.space_mapping as sm
 
 class Capacitor(sm.SpaceMap):
-    def coarse_model(self, d, p):
+    def coarse_model(self, dim, par):
         model = {
-            "C":p["eps"]*d["w"]*d["l"]/d["d"],
-            "R":p["rho.h"]*d["w"]/d["l"],
+            "C":par["eps"]*dim["w"]*dim["l"]/dim["d"],
+            "R":par["rho.h"]*dim["w"]/dim["l"],
             }
         return model
 
     def fine_model(self):
-        d = self.dim
+        dim = self.dim
         model = {
-            "C":5*d["w"]*d["l"]/d["d"],
-            "R":0.2*d["w"]/d["l"],
+            "C":5*dim["w"]*dim["l"]/dim["d"],
+            "R":0.2*dim["w"]/dim["l"],
             }
         return model
 
