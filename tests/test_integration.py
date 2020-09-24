@@ -1,7 +1,7 @@
 import glob
 
 def test_examples():
-    exmple = glob.glob(".\examples\*.py")
+    exmple = glob.glob("./examples/*.py")
     i=0
     for file in exmple:
         print(file)
