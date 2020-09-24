@@ -1,4 +1,4 @@
-import space_map as sm
+import passive_auto_design.space_mapping as sm
 
 class Capacitor(sm.SpaceMap):
     def coarse_model(self, d, p):

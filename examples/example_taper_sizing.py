@@ -7,7 +7,7 @@ Ceci est un script temporaire.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.passive_component.taper as tap
+import passive_auto_design.components.taper as tap
 from passive_auto_design.special import dB, reflexion_coef
 
 N_STEP = 61

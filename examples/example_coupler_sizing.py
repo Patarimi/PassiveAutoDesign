@@ -8,8 +8,8 @@ This Script is given as an example.
 First, it loads a subtrate BEOL.
 Then, it designs an hybrid coupler and an impendance tranformer.
 """
-import passive_auto_design.passive_component.coupler as cpl
-import passive_auto_design.passive_component.balun as bln
+import passive_auto_design.components.coupler as cpl
+import passive_auto_design.components.balun as bln
 
 mappath = "./tests/default.map"
 
