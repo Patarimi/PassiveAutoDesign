@@ -17,6 +17,5 @@ Package Structure
 The Package is composed of five modules:
 
 - The _substrate.py_ file which describes the substrate used (or Back End Of Line).
-- The _structure_ directory which contains RF-structures to be implemented in a susbtrate (SIW, AF-SIW, Transformers, ...).
-- The _passive_component_ which contains RF-components (such as hybrid coupler, impedance transformers, and (soon ?) filters). It also enables rough geometry design/estimation from given rf specifications.
+- The _components_ directory which contains RF-components to be implemented in a susbtrate (Waveguides, Transformers, Coupler...). It also enables rough geometry design/estimation from given rf specifications.
 - _special.py_ which contains physical constants and special functions (dB, NmtodBcm, ...)

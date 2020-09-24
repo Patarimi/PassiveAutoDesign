@@ -7,7 +7,7 @@ Created on Fri Apr 26 14:12:17 2019
 import numpy as np
 import yaml
 from scipy.optimize import minimize, OptimizeResult
-from ..structure.transformer import Transformer
+from ..components.transformer import Transformer
 from ..special import std_dev, qual_f
 
 class Balun:
@@ -174,7 +174,7 @@ or try to lower the source quality factor")
         bds = np.array(self.bounds)*1e6
         print(f'Solution funds with remaining error of: {float(res.fun):.2e}')
         print('Termination message of algorithm: '+str(res.message))
-        print(f'\t\t\tW (µm)\tn\tdi (µm)\tG (µm)')
+        print('\t\t\tW (µm)\tn\tdi (µm)\tG (µm)')
         print(f'lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
 {(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}')
         print(f'primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}')
