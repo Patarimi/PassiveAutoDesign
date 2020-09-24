@@ -1,4 +1,4 @@
-import passive_auto_design.structure.lumped_element as LMP
+import passive_auto_design.components.lumped_element as LMP
 
 def test_capacitor():
     """

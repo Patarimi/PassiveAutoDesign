@@ -8,7 +8,7 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 #%% Comparison between EM simulation results and coupler_cost function results
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.passive_component.coupler as pad
+import passive_auto_design.components.coupler as pad
 
 # %% drawing of the cost function versus di and W
 W_TABLE = np.arange(10e-6, 20e-6, 1e-6)

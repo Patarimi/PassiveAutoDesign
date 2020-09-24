@@ -6,9 +6,9 @@ Created on Fri Jul 12 15:07:03 2019
 """
 import numpy as np
 import pytest
-import passive_auto_design.passive_component.coupler as cpl
-import passive_auto_design.passive_component.balun as bln
-import passive_auto_design.passive_component.taper as tpr
+import passive_auto_design.components.coupler as cpl
+import passive_auto_design.components.balun as bln
+import passive_auto_design.components.taper as tpr
 from passive_auto_design.special import reflexion_coef, transmission_coef
 
 modelmappath = 'tests/default.map'

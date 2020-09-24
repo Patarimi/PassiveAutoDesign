@@ -7,7 +7,7 @@ Created on Fri Apr 26 14:12:17 2019
 import yaml
 import numpy as np
 from scipy.optimize import minimize, minimize_scalar, OptimizeResult
-from ..structure.transformer import Transformer
+from ..components.transformer import Transformer
 from ..special import ihsr
 
 class Coupler:

@@ -8,7 +8,7 @@ import numpy as np
 import yaml
 import skrf as rf
 from passive_auto_design.special import u0
-import passive_auto_design.structure.lumped_element as lmp
+import passive_auto_design.components.lumped_element as lmp
 
 class Transformer:
     """
