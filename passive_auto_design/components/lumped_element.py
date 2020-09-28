@@ -4,19 +4,21 @@ Created on Sun Jun  7 08:13:38 2020
 
 @author: mpoterea
 """
-
 import abc
 import functools
 from scipy.optimize import minimize_scalar
+import skrf as rf
 from passive_auto_design.special import u0, eps0
+
 
 class LumpedElement(metaclass=abc.ABCMeta):
     """
         class of standard lumped element, to be inhereted by all lumped elements
     """
-    def __init__(self):
+    def __init__(self, freq, z0):
         self._par = {}
         self.ref = None
+        self.line = rf.media.DefinedGammaZ0(freq, z0=50)
 
     @property
     def par(self):
@@ -66,14 +68,15 @@ class Resistor(LumpedElement):
     """
         class describing a resistor behavior
     """
-    def __init__(self, section=1e-3, length=1, rho=1e-15):
-        LumpedElement.__init__(self)
+    def __init__(self, freq, section=1e-3, length=1, rho=1e-15, z0=50):
+        LumpedElement.__init__(self, freq, z0)
         self.par = {'section': section,
                     'length': length,
                     'rho': rho,
                     }
         self.ref = "res"
         self.par.update({"res": self.calc_ref_value()})
+        self.sp = self.line.resistor(self.par[self.ref])
     def calc_ref_value(self):
         return self.par["rho"]*self.par["length"]/self.par["section"]
 
@@ -81,15 +84,15 @@ class Capacitor(LumpedElement):
     """
         class describing a capacitor behavior
     """
-    def __init__(self, area=1e-6, dist=1e-3, eps_r=1):
-        LumpedElement.__init__(self)
+    def __init__(self, freq, area=1e-6, dist=1e-3, eps_r=1, z0=50):
+        LumpedElement.__init__(self, freq, z0)
         self.ref = "cap"
         self.par = {"eps_r": eps_r,
                     "area": area,
                     "dist": dist,
                     }
         self.par.update({"cap": self.calc_ref_value()})
-    #@functools.lru_cache()
+        self.sp = self.line.capacitor(self.par[self.ref])
     def calc_ref_value(self):
         return eps0*self.par["eps_r"]*self.par["area"]/self.par["dist"]
 
@@ -97,8 +100,8 @@ class Inductor(LumpedElement):
     """
         class describing a inductor behavior
     """
-    def __init__(self, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6):
-        LumpedElement.__init__(self)
+    def __init__(self, freq, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6, z0=50):
+        LumpedElement.__init__(self, freq, z0)
         self.ref = "ind"
         self.par = {"d_i": d_i,
                     "n_turn": n_turn,
@@ -108,6 +111,7 @@ class Inductor(LumpedElement):
                     "k_2": 2.093,
                     }
         self.par.update({"ind": self.calc_ref_value()})
+        self.sp = self.line.inductor(self.par[self.ref])
     def calc_ref_value(self):
         outer_diam = self.par['d_i']+2*self.par['n_turn']*self.par['width']\
                 +2*(self.par['n_turn']-1)*self.par['gap']
@@ -120,9 +124,9 @@ class Mutual(LumpedElement):
     """
         class describing a mutual inductor behavior
     """
-    def __init__(self, ind1, ind2):
+    def __init__(self, freq, ind1, ind2, z0=50):
         self.ref = "k"
-        LumpedElement.__init__(self)
+        LumpedElement.__init__(self, freq, z0)
         self.ind1 = ind1
         self.ind2 = ind2
         self.par = {"cpl_eq": 1}

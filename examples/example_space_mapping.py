@@ -25,8 +25,14 @@ def coarse_model(dim, par):
             should contain all the keys of the goal
     """
 
-    cap = lp.Capacitor(area=dim["w"]*dim["l"], dist=1, eps_r=par["eps/d"])
-    res = lp.Resistor(section=dim["w"], length=dim["l"], rho=par["rho/h"])
+    freq = rf.Frequency(10, 15, 10)
+    cap = lp.Capacitor(freq=freq,
+                       area=dim["w"]*dim["l"],
+                       dist=1, eps_r=par["eps/d"])
+    res = lp.Resistor(freq=freq,
+                      section=dim["w"],
+                      length=dim["l"],
+                      rho=par["rho/h"])
     achieved = {
         "C":cap.par["cap"],
         "R":res.par["res"],
