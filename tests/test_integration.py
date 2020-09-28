@@ -8,4 +8,4 @@ def test_examples():
         with open(file, 'r') as f:
             exec(f.read())
         i+=1
-    assert i == 5
+    assert i == 6

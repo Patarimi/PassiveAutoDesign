@@ -146,15 +146,17 @@ or try to lower the source quality factor")
         qxl2 = z_sol*(1+q_l**2)/(alpha*(1+(q_s-z_sol)**2))
         qxl_ratio = np.real(self.z_ld)/np.real(self.z_src)
         return np.abs(np.min(qxl1/qxl2)-qxl_ratio)
-    def enforce_symmetrical(self, _through_load=True, _verbose=True):
+    def enforce_symmetrical(self, side="load", _verbose=True):
         """
-        alter the value of the load impedance (if _through_load) or the source impedance
+        alter the value of the load impedance (if side="load") or the source impedance
         in order to realize a symmetrical balun (ie. primary = secondary)
         """
-        if _through_load:
+        if side=="load":
             old_z = self.z_ld
+            _through_load = True
         else:
             old_z = self.z_src
+            _through_load=False
         res = minimize(self.__enforce_symmetrical, -qual_f(old_z), args=(_through_load), method='Nelder-Mead')
         new_z = np.real(old_z)*(1-1j*res.x)
         if _verbose:
