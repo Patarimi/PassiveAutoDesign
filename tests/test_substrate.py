@@ -8,6 +8,8 @@ import pytest
 import passive_auto_design.substrate as sb
 def test_substrate():
     SUB = sb.Substrate()
+    with pytest.raises(FileNotFoundError):
+        SUB = sb.Substrate('wrongpath.yml') 
     M_LYR = sb.Layer('m_bott', 0.1e-3, sb.COPPER, sb.AIR)
     M_LYR.set_rules(0.508e-3, 10e-3, 0.508e-3)
     D_LYR = sb.Layer('core', 0.8e-3, sb.COPPER, sb.D5880)
