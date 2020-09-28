@@ -2,7 +2,10 @@
     Space_mapping module implementation example
 
 """
+import skrf as rf
 from passive_auto_design.space_mapping import space_map
+from passive_auto_design.special import eps0
+import passive_auto_design.components.lumped_element as lp
 
 #definition of the goal (or target)
 goal={"C":800e-12, "R":(0, 1)}
@@ -21,10 +24,18 @@ def coarse_model(dim, par):
         dict
             should contain all the keys of the goal
     """
-    import passive_auto_design.components.lumped_element as lp
+    
 
     cap = lp.Capacitor(area=dim["w"]*dim["l"], dist=1, eps_r=par["eps/d"])
     res = lp.Resistor(section=dim["w"], length=dim["l"], rho=par["rho/h"])
+    freq = rf.Frequency(10, 15, 10)
+    cap = lp.Capacitor(freq=freq,
+                       area=dim["w"]*dim["l"],
+                       dist=1, eps_r=par["eps/d"])
+    res = lp.Resistor(freq=freq,
+                      section=dim["w"],
+                      length=dim["l"],
+                      rho=par["rho/h"])
     achieved = {
         "C":cap.par["cap"],
         "R":res.par["res"],
@@ -39,7 +50,6 @@ def fine_model(dim):
         dict
             should contain all the keys of the goal
     """
-    from passive_auto_design.special import eps0
 
     achieved = {
         "C":eps0*5*dim["w"]*dim["l"],
