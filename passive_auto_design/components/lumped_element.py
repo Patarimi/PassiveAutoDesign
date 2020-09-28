@@ -6,6 +6,7 @@ Created on Sun Jun  7 08:13:38 2020
 """
 
 import abc
+import functools
 from scipy.optimize import minimize_scalar
 from passive_auto_design.special import u0, eps0
 
@@ -38,6 +39,7 @@ class LumpedElement(metaclass=abc.ABCMeta):
         """
         minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
     
+    @functools.lru_cache()
     def __cost(self, x_value, x_key, y_key, y_value):
         self.par = {x_key: x_value}
         if type(y_value) is float:
@@ -50,7 +52,6 @@ class LumpedElement(metaclass=abc.ABCMeta):
                 err += abs(self.calc_ref_value() - self.par[self.ref])
             return err
         
-
     @abc.abstractmethod
     def calc_ref_value(self):
         """
