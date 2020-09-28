@@ -22,7 +22,7 @@ class Transformer:
         self.second = secondary
         if isinstance(freq, rf.Frequency):
             self.freq = freq
-        if isinstance(freq, float):
+        elif isinstance(freq, float):
             self.freq = rf.Frequency(freq, freq, 1, unit='Hz')
         else:
             self.freq = rf.Frequency.from_f(freq, unit='Hz')
