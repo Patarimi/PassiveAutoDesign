@@ -92,7 +92,6 @@ class Capacitor(LumpedElement):
                     "dist": dist,
                     }
         self.par.update({"cap": self.calc_ref_value()})
-    #@functools.lru_cache()
         self.sp = self.line.capacitor(self.par[self.ref])
     def calc_ref_value(self):
         return eps0*self.par["eps_r"]*self.par["area"]/self.par["dist"]
