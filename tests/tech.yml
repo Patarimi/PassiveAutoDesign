@@ -15,7 +15,7 @@
 - !!python/object:passive_auto_design.substrate.Layer
   dielectric: !!python/object:passive_auto_design.substrate.Dielectric
     epsilon: 2.2
-    rougthness: 0.0009
+    rougthness: 0.0004
     tand: 0.0009
   gap: 0.000508
   height: 0.0008
