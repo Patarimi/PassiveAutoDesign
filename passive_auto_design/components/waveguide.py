@@ -58,7 +58,7 @@ class SIW:
             return the value of the dielectric loss in dB/m at the frequency freq (array-like)
         """
         k = self.calc_k(_freq)
-        tand = self.diel.tand
+        tan_d = self.dielectric.tand
         beta = self.calc_beta(_freq)
         return Nm_to_dBcm * k ** 2 * tan_d / (2 * beta)
 
