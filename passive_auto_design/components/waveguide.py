@@ -2,11 +2,12 @@
 """
 Created on Fri Jun  7 16:10:47 2019
 
-@author: mpoterea
+@author: Patarimi
 """
 import numpy as np
 from scipy.optimize import minimize_scalar
-from ..special import u0, eps0, c0, NmtodBcm, eta0
+from ..special import u0, eps0, c0, Nm_to_dBcm, eta0
+
 
 class SIW:
     """
@@ -59,7 +60,8 @@ class SIW:
         k = self.calc_k(_freq)
         tand = self.diel.tand
         beta = self.calc_beta(_freq)
-        return NmtodBcm*k**2*tand/(2*beta)
+        return Nm_to_dBcm * k ** 2 * tan_d / (2 * beta)
+
     def calc_a_c(self, _freq):
         """
             return the value of the conductor loss in dB/m at the frequency freq (array-like)
@@ -70,8 +72,10 @@ class SIW:
         beta = self.calc_beta(_freq)
         height = self.height
         width = self.width
-        return NmtodBcm*r_s*(2*height*np.pi**2+width**3*k**2)/((width**3)*height*beta*k*eta)
-    def calc_ksr(self, _freq):
+        return Nm_to_dBcm * r_s * (2 * height * np.pi ** 2 + width ** 3 * k ** 2) /\
+            ((width ** 3) * height * beta * k * eta)
+
+    def k_sr(self, _freq):
         """
             return the coefficient of the added conductor loss introduce by surface rougthness
         """
