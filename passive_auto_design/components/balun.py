@@ -8,7 +8,7 @@ import numpy as np
 import yaml
 from scipy.optimize import minimize, OptimizeResult
 from ..components.transformer import Transformer
-from ..special import std_dev, qual_f
+from ..special import std_dev, quality_f
 
 class Balun:
     """
@@ -66,7 +66,7 @@ class Balun:
                                         })
             l_sol = self.transfo.model['lp']
             r_sol = self.transfo.model['rp']
-        return std_dev(l_sol, _l_targ)+np.sum(r_sol)/100
+        return std_dev(l_sol, _l_targ) + np.sum(r_sol) / 100
     def design(self, _maxiter=1000):
         """
             design an impedance transformer
@@ -75,8 +75,8 @@ class Balun:
         """
         k = self.transfo.model["k"]
         alpha = (1-k**2)/k
-        q_s = -qual_f(self.z_src)
-        q_l = -qual_f(self.z_ld)
+        q_s = -quality_f(self.z_src)
+        q_l = -quality_f(self.z_ld)
         #assuming perfect inductor for first calculation
         r_l1 = 0
         r_l2 = 0
@@ -131,11 +131,11 @@ or try to lower the source quality factor")
         k = self.transfo.model["k"]
         alpha = (1-k**2)/k
         if _of_load:
-            q_s = -qual_f(self.z_src)
+            q_s = -quality_f(self.z_src)
             q_l = _q_val
         else:
             q_s = _q_val
-            q_l = -qual_f(self.z_ld)
+            q_l = -quality_f(self.z_ld)
         b_coeff = (2*alpha*q_s+q_s+q_l)
         discr = b_coeff**2-4*alpha*(alpha+1)*(1+q_s**2)
         if discr < 0:
@@ -156,8 +156,11 @@ or try to lower the source quality factor")
             _through_load = True
         else:
             old_z = self.z_src
-            _through_load=False
-        res = minimize(self.__enforce_symmetrical, -qual_f(old_z), args=(_through_load), method='Nelder-Mead')
+            _through_load = False
+        res = minimize(self.__enforce_symmetrical,
+                       -quality_f(old_z),
+                       args=(_through_load),
+                       method='Nelder-Mead')
         new_z = np.real(old_z)*(1-1j*res.x)
         if _verbose:
             print(f'old z_ld: ${complex(old_z):5.2f}')
