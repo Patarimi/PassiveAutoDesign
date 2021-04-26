@@ -3,7 +3,7 @@
 Define constants and function dedicated to RF-conception
 """
 import numpy as np
-from numba import njit, complex128, vectorize, float64, guvectorize
+from numba import njit, vectorize
 
 # Constants
 u0 = 4*np.pi*1e-7  # H/m
@@ -24,10 +24,8 @@ def std_dev(measured, targeted):
     """
         return the standard deviation between an array_like of results and their references.
     """
-    tmp = 0.0
-    for i in range(measured.shape[0]):
-        tmp += np.abs(gamma(measured[i], targeted[i])) ** 2
-    return np.sqrt(tmp)
+    tmp = np.abs(gamma(measured, targeted)) ** 2
+    return np.sqrt(np.sum(tmp))
 
 
 @vectorize
@@ -54,19 +52,19 @@ def quality_f(_z):
     return np.imag(_z)/np.real(_z)
 
 
-@njit(complex128(complex128[:], float64))
+@njit
 def reflexion_coef(_z_steps, _phi_step):
     """
     return the coefficient reflexion of a given sequence of transmission lines
     with the given_z_steps profile and equal length of _phi_steps degrees
     """
     n_step = len(_z_steps)
-    
+
     z_tot = _z_steps[-1:]
     for i in range(n_step):
         z_0 = _z_steps[n_step-i-1]
         z_tot = z_0*(z_tot+1j*z_0*np.tan(_phi_step))/(z_0+1j*z_tot*np.tan(_phi_step))
-    return gamma(_z_steps[0], z_tot)[0]
+    return gamma(_z_steps[0], z_tot)
 
 
 @njit
