@@ -58,7 +58,7 @@ class SIW:
             return the value of the dielectric loss in dB/m at the frequency freq (array-like)
         """
         k = self.calc_k(_freq)
-        tan_d = self.diel.tand
+        tan_d = self.diel.tan_d
         beta = self.calc_beta(_freq)
         return Nm_to_dBcm * k ** 2 * tan_d / (2 * beta)
 
@@ -81,7 +81,7 @@ class SIW:
         """
         rho = self.metal.rho
         skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
-        rougth = self.diel.rougthness
+        rougth = self.diel.roughness
         if rougth <= 0:
             raise ValueError("Rougthness must be above zero. \
 Value can be set through /self.diel.rougthness/")
@@ -162,7 +162,7 @@ class AF_SIW(SIW):
     def calc_ksr(self, _freq):
         rho = self.metal.rho
         skin_d = 1/np.sqrt(rho*np.pi*_freq*u0)
-        rougth = self.metal.rougthness
+        rougth = self.metal.roughness
         return 2*np.arctan(1.4*(rougth/skin_d)**2)/np.pi
     def print_info(self):
         """

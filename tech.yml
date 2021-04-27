@@ -1,0 +1,50 @@
+- !!python/object:passive_auto_design.substrate.Layer
+  dielectric: &id001 !!python/object:passive_auto_design.substrate.Dielectric
+    epsilon: 4.2
+    roughness: 0.0
+    tan_d: 0.0
+  gap: 2.1e-06
+  height: 3.0e-06
+  metal: &id002 !!python/object:passive_auto_design.substrate.Metal
+    rho: 580000000.0
+    roughness: 0.0004
+  name: M_top
+  width:
+    max: 2.0e-05
+    min: 2.0e-06
+- !!python/object:passive_auto_design.substrate.Layer
+  dielectric: *id001
+  gap: 0.001
+  height: 3.0e-06
+  metal: *id002
+  name: Via
+  width:
+    max: 0.001
+    min: 0.001
+- !!python/object:passive_auto_design.substrate.Layer
+  dielectric: *id001
+  gap: 2.1e-06
+  height: 3.0e-06
+  metal: *id002
+  name: M_bot
+  width:
+    max: 2.0e-05
+    min: 2.0e-06
+- !!python/object:passive_auto_design.substrate.Layer
+  dielectric: *id001
+  gap: 0.001
+  height: 9.54e-06
+  metal: *id002
+  name: Inter
+  width:
+    max: 0.001
+    min: 0.001
+- !!python/object:passive_auto_design.substrate.Layer
+  dielectric: *id001
+  gap: 0.001
+  height: 3.0e-06
+  metal: *id002
+  name: gnd_plane
+  width:
+    max: 0.001
+    min: 0.001
