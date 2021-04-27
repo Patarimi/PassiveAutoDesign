@@ -7,12 +7,14 @@ from scipy.special import i1
 from scipy.integrate import quad
 from ..special import gamma
 
+
 def linear_taper(_z_start, _z_stop, _n_step):
     """
     return the _n_step profile of impedance for a transition from
     _z_start to _z_stop
     """
-    return np.linspace(_z_start, _z_stop, _n_step)
+    return np.linspace(_z_start, _z_stop, _n_step, dtype=complex)
+
 
 def klopfenstein_taper(_z_start, _z_stop, _n_step, _rhomax=0.01):
     """
@@ -28,8 +30,14 @@ def klopfenstein_taper(_z_start, _z_stop, _n_step, _rhomax=0.01):
         ln_z[i+n_mid] = z_mid + _rhomax*(1+a_coeff**2*__phi(a_coeff, i/n_mid))
         ln_z[n_mid-i] = z_mid + _rhomax*(1-a_coeff**2*__phi(a_coeff, i/n_mid))
     ln_z[n_mid] = z_mid + _rhomax
-    return np.exp(ln_z)
+    return np.exp(ln_z, dtype=complex)
+
 
 def __phi(_a_coeff, _y_pos):
-    phi_r = quad(lambda x: i1(_a_coeff*np.sqrt(1-x**2))/(_a_coeff*np.sqrt(1-x**2)), 0, _y_pos)
+    phi_r = quad(__phase_equation, 0, _y_pos, args=_a_coeff)
     return phi_r[0]
+
+
+def __phase_equation(x, a):
+    a = np.abs(a)
+    return i1(a * np.sqrt(1 - x ** 2)) / (a * np.sqrt(1 - x ** 2))
