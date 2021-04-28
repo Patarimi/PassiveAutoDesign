@@ -1,16 +1,17 @@
 import passive_auto_design.components.transformer as tf
 from skrf import Frequency
 
+
 def test_transformer():
     """
-    unity test for tranformer object
+    unity test for transformer object
     """
-    geo = {'di':20,
-           'n_turn':2,
-           'width':1e-3,
-           'gap':2e-3,
-           'height':1e-6}
-    transfo = tf.Transformer(geo, geo)
+    geo = {'di': 20,
+           'n_turn': 2,
+           'width': 1e-3,
+           'gap': 2e-3,
+           'height': 1e-6}
+    tf.Transformer(geo, geo)
     transfo = tf.Transformer(geo, geo, Frequency(1, 1, 1))
     transfo.set_primary(geo)
     transfo.set_secondary(geo)

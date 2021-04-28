@@ -13,19 +13,19 @@ from passive_auto_design.special import dB, reflexion_coef
 N_STEP = 61
 Z_START = 50
 Z_STOP = 377
-E = 1.77 #USI
-C_0 = 2.988e8 #m/s
-TOT_LENGTH = 10e-3 #m
+E = 1.77  # USI
+C_0 = 2.988e8  # m/s
+TOT_LENGTH = 10e-3  # m
 
-Z_LINEAR = tap.linear_taper(Z_START, Z_STOP, N_STEP) #Ohm
-Z_KLOPF = tap.klopfenstein_taper(Z_START, Z_STOP, N_STEP) #Ohm
-DELAI = np.sqrt(E)*TOT_LENGTH/(C_0*(N_STEP)) #s
+Z_LINEAR = tap.linear_taper(Z_START, Z_STOP, N_STEP)  # Ohm
+Z_KLOPF = tap.klopfenstein_taper(Z_START, Z_STOP, N_STEP)  # Ohm
+DELAY = np.sqrt(E) * TOT_LENGTH / (C_0 * N_STEP)  # s
 
 F_SWEEP = np.arange(0, 50e9, 0.1e9)
 GAMMA_LINEAR = np.zeros(F_SWEEP.shape, dtype=complex)
 GAMMA_KLOPF = np.zeros(F_SWEEP.shape, dtype=complex)
 for i in range(F_SWEEP.size):
-    Phase = -DELAI*2*np.pi*F_SWEEP[i]
+    Phase = -DELAY * 2 * np.pi * F_SWEEP[i]
     GAMMA_LINEAR[i] = reflexion_coef(Z_LINEAR, Phase)
     GAMMA_KLOPF[i] = reflexion_coef(Z_KLOPF, Phase)
 
