@@ -43,7 +43,10 @@ def ihsr(_s31, _s21):
     """
         Return the IHSR (Ideal Hybrid Splitting Ratio) for the given gains
     """
-    return -np.minimum(dB(_s21 - 1j * _s31), dB(_s21 + 1j * _s31))
+    if _s21 == 1j*_s31 or _s21 == -1j*_s31:
+        return np.inf
+    ihsr_log = dB((_s21 - 1j * _s31) / (_s21 + 1j * _s31))
+    return -np.minimum(ihsr_log, -ihsr_log)
 
 
 @vectorize(cache=True)

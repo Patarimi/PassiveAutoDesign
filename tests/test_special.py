@@ -1,4 +1,4 @@
-from numpy import Inf, array, round
+from numpy import inf, array, round
 import passive_auto_design.special as sp
 
 
@@ -14,7 +14,9 @@ def test_quality_factor():
 
 def test_dB():
     assert sp.dB(10) == 20
-    assert sp.ihsr(3+0*1j, 3*1j) == Inf
+    assert sp.dB(0) == -inf
+    assert sp.ihsr(3+0*1j, 3*1j) == inf
+    assert sp.ihsr(3, 3) == 0
 
 
 def test_sp_calculation():
