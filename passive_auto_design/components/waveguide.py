@@ -122,6 +122,19 @@ Value can be set using set_width() or set_f_c()")
         eps = self.diel.epsilon
         return 0.25 * np.sqrt(eps) * np.sqrt(1 - (f_c / _freq) ** 2) * width * height * _e_0 ** 2 / eta0
 
+    def calc_aphc(self, _freq, _t_max, t_amb=295) -> float:
+        # using doi.org/10.1109/TADVP.2008.927814
+        a = self.width
+        alpha = self.calc_a_c(_freq) / Nm_to_dBcm + self.calc_a_d(_freq) / Nm_to_dBcm
+        # see page 346 of Heat Transfert, 10th edition
+        h_uc = 1.32*((_t_max - t_amb)/a)**0.25
+        h_dc = 0.59*((_t_max - t_amb)/a)**0.25
+        # see page 461 of Heat Transfert, 10th edition (with A2 >> A1)
+        sigma = 5.669*1e-8  # W/m²K^4 Stefan-Boltzmann constant
+        epsilon = 0.65      # emissivity of the copper
+        h_r = sigma*epsilon*(_t_max**2 + t_amb**2)*(_t_max + t_amb)
+        return (h_uc + h_dc + 2*h_r)*a*(_t_max - t_amb)/alpha
+
     def print_info(self):
         """
             output the size and the upper mode cut-off frequency

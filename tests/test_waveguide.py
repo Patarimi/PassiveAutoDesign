@@ -25,6 +25,7 @@ def test_waveguide():
         wr1.calc_ksr(20e9)
     wr1.diel.roughness = 0.0009
     assert round(wr1.calc_pphc(29e9, 35e5)) == 139370
+    assert round(wr1.calc_aphc(29e9, 533.15)) == 131
     wr1.print_info()
     assert round(wr1.get_sparam(20e9, 10e-3), 2) == (-0.99+0.13j)
 
@@ -42,6 +43,8 @@ def test_af_siw():
     assert round(1000*af1.width, 1) == 5.9
     assert af1.calc_a_d(15e9) == 0
     assert round(af1.calc_ksr(20e9), 6) == 1
+    assert round(af1.calc_pphc(29e9, 35e5)) == 139389
+    assert round(af1.calc_aphc(29e9, 533.15)) == 1936
     af1.first_cut_off = 0
     af1.print_info()
     with pytest.raises(ValueError):
