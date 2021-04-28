@@ -166,10 +166,11 @@ class AF_SIW(Waveguide):
 
     @property
     def width(self) -> float:
-        slb = self.slab
-        sqr_eps = np.sqrt(self.diel.epsilon)
-        tan = np.tan(2 * slb * np.pi * self.f_c / c0) * sqr_eps
-        self._w = 2 * slb + np.arctan(1 / tan) * c0 / (sqr_eps * np.pi * self.f_c)
+        if self.f_c > 0:
+            slb = self.slab
+            sqr_eps = np.sqrt(self.diel.epsilon)
+            tan = np.tan(2 * slb * np.pi * self.f_c / c0) * sqr_eps
+            self._w = 2 * slb + np.arctan(1 / tan) * c0 / (sqr_eps * np.pi * self.f_c)
         return self._w
 
     @width.setter
@@ -191,7 +192,8 @@ class AF_SIW(Waveguide):
 
     @property
     def first_cut_off(self) -> float:
-        self.f_c = self.f_cut_off(1, 0)
+        if self.width > 0:
+            self.f_c = self.f_cut_off(1, 0)
         return self.f_c
 
     @first_cut_off.setter
@@ -221,14 +223,16 @@ class AF_SIW(Waveguide):
         wth = self._w
         sqr_eps = np.sqrt(self.diel.epsilon)
         return np.abs(
-            sqr_eps * np.tan(2 * np.pi * _fc * slb / c0) - 1 / np.tan(sqr_eps * np.pi * _fc * (wth - 2 * slb) / c0))
+            sqr_eps * np.tan(2 * np.pi * _fc * slb / c0)
+            - 1 / np.tan(sqr_eps * np.pi * _fc * (wth - 2 * slb) / c0))
 
     def __even_fc(self, _fc):
         slb = self._slab
         wth = self._w
         sqr_eps = np.sqrt(self.diel.epsilon)
         return np.abs(
-            sqr_eps * np.tan(2 * np.pi * _fc * slb / c0) + np.tan(sqr_eps * np.pi * _fc * (wth - 2 * slb) / c0))
+            sqr_eps * np.tan(2 * np.pi * _fc * slb / c0)
+            + np.tan(sqr_eps * np.pi * _fc * (wth - 2 * slb) / c0))
 
     def calc_a_d(self, _freq):
         return 0
