@@ -85,6 +85,26 @@ plt.xlabel('Frequency (GHz)')
 plt.legend(['Rogers 6002-based AF-SIW', 'Rogers 5880-filled SIW', 'Rogers 6002-filled SIW'])
 plt.ylim(bottom=0)
 
+# %% calcul of average power handling capability
+Tg_Rogers_5880 = 260+273.15
+Tg_Rogers_6002 = 350+273.15
+
+APHC_AF_SIW = SIW_AIR.calc_aphc(FREQ, Tg_Rogers_6002)
+APHC_5880_SIW = SIW_5880.calc_aphc(FREQ, Tg_Rogers_5880)
+APHC_6002_SIW = SIW_6002.calc_aphc(FREQ, Tg_Rogers_6002)
+
+plt.figure()
+plt.semilogy(FREQ*1e-9, APHC_AF_SIW, 'g')
+plt.semilogy(FREQ*1e-9, APHC_5880_SIW, 'r')
+plt.semilogy(FREQ*1e-9, APHC_6002_SIW, 'b')
+plt.grid(b=True, which='major')
+plt.grid(b=True, which='minor', linestyle='--')
+plt.ylabel('APHC (W)')
+plt.ylim(1e1, 1e4)
+plt.xlabel('Frequency (GHz)')
+plt.legend(['Rogers 6002-based AF-SIW', 'Rogers 5880-filled SIW', 'Rogers 6002-filled SIW'])
+
+
 # %% calcul du peak power handling capability
 
 PPHC_AF_SIW = SIW_AIR.calc_pphc(FREQ, 36e5)
