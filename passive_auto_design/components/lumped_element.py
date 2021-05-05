@@ -2,7 +2,7 @@
 """
 Created on Sun Jun  7 08:13:38 2020
 
-@author: mpoterea
+@author: Patarimi
 """
 import abc
 import functools
@@ -13,19 +13,20 @@ from passive_auto_design.special import u0, eps0
 
 class LumpedElement(metaclass=abc.ABCMeta):
     """
-        class of standard lumped element, to be inhereted by all lumped elements
+        class of standard lumped element, to be inherited by all lumped elements
     """
+
     def __init__(self, freq, z0):
         self._par = {}
         self.ref = None
-        self.line = rf.media.DefinedGammaZ0(freq, z0=50)
+        self.line = rf.media.DefinedGammaZ0(freq, z0=z0)
 
     @property
     def par(self):
         """
         Returns
         -------
-        Dictonnary
+        Dictionary
             Parameters of the lumped component.
 
         """
@@ -64,10 +65,12 @@ class LumpedElement(metaclass=abc.ABCMeta):
         """
         raise NotImplementedError
 
+
 class Resistor(LumpedElement):
     """
         class describing a resistor behavior
     """
+
     def __init__(self, freq, section=1e-3, length=1, rho=1e-15, z0=50):
         LumpedElement.__init__(self, freq, z0)
         self.par = {'section': section,
@@ -77,13 +80,16 @@ class Resistor(LumpedElement):
         self.ref = "res"
         self.par.update({"res": self.calc_ref_value()})
         self.sp = self.line.resistor(self.par[self.ref])
+
     def calc_ref_value(self):
-        return self.par["rho"]*self.par["length"]/self.par["section"]
+        return self.par["rho"] * self.par["length"] / self.par["section"]
+
 
 class Capacitor(LumpedElement):
     """
         class describing a capacitor behavior
     """
+
     def __init__(self, freq, area=1e-6, dist=1e-3, eps_r=1, z0=50):
         LumpedElement.__init__(self, freq, z0)
         self.ref = "cap"
@@ -93,13 +99,16 @@ class Capacitor(LumpedElement):
                     }
         self.par.update({"cap": self.calc_ref_value()})
         self.sp = self.line.capacitor(self.par[self.ref])
+
     def calc_ref_value(self):
-        return eps0*self.par["eps_r"]*self.par["area"]/self.par["dist"]
+        return eps0 * self.par["eps_r"] * self.par["area"] / self.par["dist"]
+
 
 class Inductor(LumpedElement):
     """
         class describing a inductor behavior
     """
+
     def __init__(self, freq, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6, z0=50):
         LumpedElement.__init__(self, freq, z0)
         self.ref = "ind"
@@ -112,18 +121,21 @@ class Inductor(LumpedElement):
                     }
         self.par.update({"ind": self.calc_ref_value()})
         self.sp = self.line.inductor(self.par[self.ref])
+
     def calc_ref_value(self):
-        outer_diam = self.par['d_i']+2*self.par['n_turn']*self.par['width']\
-                +2*(self.par['n_turn']-1)*self.par['gap']
+        outer_diam = self.par['d_i'] + 2 * self.par['n_turn'] * self.par['width'] \
+                     + 2 * (self.par['n_turn'] - 1) * self.par['gap']
         self.par.update({"d_o": outer_diam})
-        rho = (self.par['d_i']+outer_diam)/2
-        density = (outer_diam-self.par['d_i'])/(outer_diam+self.par['d_i'])
-        return self.par['k_1']*u0*self.par['n_turn']**2*rho/(1+self.par['k_2']*density)
+        rho = (self.par['d_i'] + outer_diam) / 2
+        density = (outer_diam - self.par['d_i']) / (outer_diam + self.par['d_i'])
+        return self.par['k_1'] * u0 * self.par['n_turn'] ** 2 * rho / (1 + self.par['k_2'] * density)
+
 
 class Mutual(LumpedElement):
     """
         class describing a mutual inductor behavior
     """
+
     def __init__(self, freq, ind1, ind2, z0=50):
         self.ref = "k"
         LumpedElement.__init__(self, freq, z0)
@@ -131,7 +143,8 @@ class Mutual(LumpedElement):
         self.ind2 = ind2
         self.par = {"cpl_eq": 1}
         self.par.update({"k": self.calc_ref_value()})
+
     def calc_ref_value(self):
         cpl = self.par["cpl_eq"]
-        return cpl*(min(self.ind1.par["d_o"], self.ind2.par["d_o"])-\
-                    max(self.ind1.par["d_i"], self.ind2.par["d_i"]))
+        return cpl * (min(self.ind1.par["d_o"], self.ind2.par["d_o"]) -
+                      max(self.ind1.par["d_i"], self.ind2.par["d_i"]))
