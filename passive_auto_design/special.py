@@ -35,7 +35,15 @@ def dB(c):
     """
     if c == 0:
         return -np.inf
-    return 20*np.log10(np.abs(c))
+    return 10*np.log10(np.abs(c))
+
+
+@vectorize(cache=True)
+def lin(d):
+    """
+        return the linear magnitude of the given magnitude in decibel
+    """
+    return 10**(d/10)
 
 
 @vectorize(cache=True)
@@ -75,3 +83,8 @@ def reflexion_coef(_z_steps, _phi_step):
 @njit(cache=True)
 def transmission_coef(_z_steps, _phi_step):
     return np.sqrt(1-reflexion_coef(_z_steps, _phi_step)**2)
+
+
+@vectorize(cache=True)
+def frac_bandwidth(f_min, f_max):
+    return 100*np.abs(f_max-f_min)/np.sqrt(f_max*f_min)

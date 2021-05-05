@@ -13,10 +13,11 @@ def test_quality_factor():
 
 
 def test_dB():
-    assert sp.dB(10) == 20
+    assert sp.dB(10) == 10
     assert sp.dB(0) == -inf
     assert sp.ihsr(3+0*1j, 3*1j) == inf
     assert sp.ihsr(3, 3) == 0
+    assert round(sp.lin(-3), 1) == 0.5
 
 
 def test_sp_calculation():
@@ -24,3 +25,7 @@ def test_sp_calculation():
     z_profile = array([50, 75, 100], dtype=complex)
     assert round(sp.reflexion_coef(z_profile, 10), 3) == -0.006 - 0.286*1j
     assert round(sp.transmission_coef(z_profile, 10), 3) == 1.04 - 0.002*1j
+
+
+def test_frac_bw():
+    assert round(sp.frac_bandwidth(1e9, 6e9)) == 204
