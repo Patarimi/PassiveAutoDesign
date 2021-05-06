@@ -3,7 +3,7 @@
 Define constants and function dedicated to RF-conception
 """
 import numpy as np
-from numba import njit, vectorize
+from numba import njit, vectorize, guvectorize
 
 # Constants
 u0 = 4*np.pi*1e-7  # H/m
@@ -88,3 +88,21 @@ def transmission_coef(_z_steps, _phi_step):
 @vectorize(cache=True)
 def frac_bandwidth(f_min, f_max):
     return 100*np.abs(f_max-f_min)/np.sqrt(f_max*f_min)
+
+
+@njit(cache=True)
+def friis(f, gain):
+    """
+
+    """
+    m = gain.shape[0]
+    n = f.shape[0]
+    if m != n-1:
+        raise ValueError("gain should have 1 item less than noise factor f")
+    g_tot = 1
+    f_lin = lin(f)
+    res = f_lin[0]
+    for i in range(m):
+        g_tot *= lin(gain[i])
+        res += (f_lin[i+1]-1)/g_tot
+    return dB(res)
