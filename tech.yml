@@ -1,13 +1,13 @@
 - !!python/object:passive_auto_design.substrate.Layer
   dielectric: &id001 !!python/object:passive_auto_design.substrate.Dielectric
     epsilon: 4.2
-    roughness: 0.0
-    tan_d: 0.0
+    rougthness: 0
+    tand: 0
   gap: 2.1e-06
   height: 3.0e-06
   metal: &id002 !!python/object:passive_auto_design.substrate.Metal
     rho: 580000000.0
-    roughness: 0.0004
+    rougthness: 0.0004
   name: M_top
   width:
     max: 2.0e-05
