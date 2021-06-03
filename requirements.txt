@@ -2,7 +2,7 @@ numpy==1.20.2
 matplotlib==3.4.2
 scipy==1.6.3
 pyyaml==5.4.1
-scikit-rf==0.17.0
+scikit-rf==0.18.1
 
 setuptools~=56.2.0
 numba~=0.53.1
