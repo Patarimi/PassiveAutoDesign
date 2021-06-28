@@ -115,7 +115,7 @@ class Transformer:
         n_t = geo['n_turn']
         l_tot = 8 * np.tan(np.pi / 8) * n_t * (geo['di'] + geo['width'] + (n_t - 1) * (geo['width'] + geo['gap']))
         r_dc = rho * l_tot / geo['width']
-        return r_dc
+        return np.maximum(r_dc, 0)
 
     def k_geo(self):
         """
