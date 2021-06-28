@@ -31,8 +31,12 @@ def test_sp_calculation():
 def test_frac_bw():
     assert round(sp.frac_bandwidth(1e9, 6e9)) == 204
 
+
 def test_friis():
     noise_factor = array([3, 6])
     gain = array([15, ])
     f_out = sp.friis(noise_factor, gain)
     assert round(f_out, 2) == 3.2
+    gain = array([15, 18])
+    with raises(ValueError):
+        sp.friis(noise_factor, gain)
