@@ -13,8 +13,9 @@ build: off
 
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
-- pip install -qr requirements.txt --no-warn-script-location
-- pip install -q pytest-cov --no-warn-script-location
+- pip install --upgrade pip
+- pip install -qr requirements.txt
+- pip install -q pytest-cov
 
 test_script:
 - cd C:\projects\passiveautodesign
