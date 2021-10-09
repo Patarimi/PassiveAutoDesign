@@ -49,7 +49,7 @@ def space_map(coarse_model, dim0, fine_model, par0, goal, maxiter=5):
         res = minimize(__cost_coarse, __totuple(dim), method='Powell',
                        args=(dim0.keys(), par, coarse_model, goal))
         dim = __todict(dim0.keys(), res.x)
-    return (dim, par, achieved_goal)
+    return dim, par, achieved_goal
 
 def __cost_coarse(dim_values, dim_keys, par, coarse_model, goal):
     _dim = __todict(dim_keys, dim_values)

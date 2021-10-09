@@ -106,7 +106,7 @@ or try to lower the source quality factor")
             res1 = minimize(fun=self.__cost_geo_vs_targ,
                             x0=[x for x in self.transfo.prim.values()],
                             bounds=self.bounds[0:4],
-                            args=(l_1))
+                            args=l_1)
             if self.is_symmetrical:
                 self.__cost_geo_vs_targ(res1.x, l_2, _is_primary=False)
                 res2 = res1
@@ -159,7 +159,7 @@ or try to lower the source quality factor")
             _through_load = False
         res = minimize(self.__enforce_symmetrical,
                        -quality_f(old_z),
-                       args=(_through_load),
+                       args=_through_load,
                        method='Nelder-Mead')
         new_z = np.real(old_z)*(1-1j*res.x)
         if _verbose:
