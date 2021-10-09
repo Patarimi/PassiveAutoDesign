@@ -9,7 +9,7 @@ environment:
     PYTHON_VERSION: "3.7.x"
     PYTHON_ARCH: "64"
 
-build: off
+build: false
 
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
