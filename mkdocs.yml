@@ -1,0 +1,15 @@
+site_name: PassiveAutoDesign
+site_url: https://passiveautodesign.netlify.app/
+repo_url: https://github.com/Patarimi/PassiveAutoDesign
+
+
+nav:
+  - Home: index.md
+  - Code Reference:
+      - Special: special.md
+
+theme: material
+
+plugins:
+  - search
+  - mkdocstrings

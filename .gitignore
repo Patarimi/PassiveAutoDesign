@@ -11,3 +11,4 @@ venv/
 .idea/
 passive_auto_design.egg-info
 tests/dump*
+site/
