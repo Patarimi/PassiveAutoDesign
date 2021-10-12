@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jun  7 16:10:47 2019
 
-@author: Patarimi
 """
 import numpy as np
 from scipy.optimize import minimize_scalar

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr 26 14:12:17 2019
 
-@author: mpoterea
 """
 import yaml
 import numpy as np

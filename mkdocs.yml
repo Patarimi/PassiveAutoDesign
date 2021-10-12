@@ -1,8 +1,23 @@
 site_name: PassiveAutoDesign
 site_url: https://passiveautodesign.netlify.app/
+repo_url: https://github.com/Patarimi/PassiveAutoDesign
+
 
 nav:
   - Home: index.md
-  - Docs: index.html
+  - Code Reference:
+      - Special: special.md
+      - Space Mapping: spacemap.md
+      - Components:
+          - Balun: components/balun.md
+          - Coupler: components/coupler.md
+          - Lumped Element: components/lumped_element.md
+          - Taper: components/taper.md
+          - Transformer: components/transformer.md
+          - Waveguide: components/waveguide.md
 
-theme: readthedocs
+theme: material
+
+plugins:
+  - search
+  - mkdocstrings
