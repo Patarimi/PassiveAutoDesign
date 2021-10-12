@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Jun  7 08:13:38 2020
 
-@author: Patarimi
 """
 import abc
 import functools
