@@ -1,0 +1,8 @@
+site_name: PassiveAutoDesign
+site_url: https://passiveautodesign.netlify.app/
+
+nav:
+  - Home: index.md
+  - Docs: index.html
+
+theme: readthedocs
