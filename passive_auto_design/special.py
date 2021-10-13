@@ -102,7 +102,7 @@ def friis(f, gain):
     ----------
     f : np.Array
         List of the noise figure (in dB) of each block.
-    freq : np.Array
+    gain : np.Array
         List of the gain of each block (in dB).
 
 
