@@ -48,8 +48,8 @@ def test_friis():
 
 def test_inp():
     f_0 = 2.3e9
-    freq_pn = np.array([100, 1e3, 100e6])
-    pn_dbc = np.array([-7.5, -30, -131.7])
+    freq_pn = array([100, 1e3, 100e6])
+    pn_dbc = array([-7.5, -30, -131.7])
 
     ipn = int_phase_noise(pn_dbc, freq_pn)
     assert round(ipn * 1e6) == 14393347
