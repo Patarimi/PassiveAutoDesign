@@ -51,11 +51,11 @@ def test_inp():
     freq_pn = array([100, 1e3, 100e6])
     pn_dbc = array([-7.5, -30, -131.7])
 
-    ipn = int_phase_noise(pn_dbc, freq_pn)
+    ipn = sp.int_phase_noise(pn_dbc, freq_pn)
     assert round(ipn * 1e6) == 14393347
-    ipn1 = int_phase_noise(pn_dbc, freq_pn, 1e6)
+    ipn1 = sp.int_phase_noise(pn_dbc, freq_pn, 1e6)
     assert round(ipn1 * 1e6) == 758
-    ipn2 = int_phase_noise(pn_dbc, freq_pn, f_max=1e6)
+    ipn2 = sp.int_phase_noise(pn_dbc, freq_pn, f_max=1e6)
     assert round(ipn2 * 1e3) == 15193
 
-    assert round(ipn_to_jitter(ipn1 + ipn2, f_0) * 1e12) == 381
+    assert round(sp.ipn_to_jitter(ipn1 + ipn2, f_0) * 1e12) == 381
