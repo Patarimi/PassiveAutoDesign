@@ -1,5 +1,5 @@
 """
-    Implementation of an aggressive space mapping algorithm for RF-design
+Implementation of an aggressive space mapping algorithm for RF-design
 """
 import functools
 from scipy.optimize import minimize
@@ -7,7 +7,7 @@ from scipy.optimize import minimize
 
 def space_map(coarse_model, dim0, fine_model, par0, goal, maxiter=5):
     """
-        Optimization function for space mapping algorithm.
+    Optimization function for space mapping algorithm.
 
     Parameters
     ----------
@@ -31,7 +31,7 @@ def space_map(coarse_model, dim0, fine_model, par0, goal, maxiter=5):
     dim : dict
         final dimension of the component.
     par : dict
-        final paramters of the component model.
+        final parameters of the component model.
     fine_mod : dict
         achieved goal.
 
@@ -42,7 +42,7 @@ def space_map(coarse_model, dim0, fine_model, par0, goal, maxiter=5):
     for i in range(maxiter):
         # evaluate exact value using fine model
         achieved_goal = fine_model(dim)
-        # alter coarse model paramaters to better match fine model results
+        # alter coarse model parameters to better match fine model results
         res = minimize(
             __refresh_coarse,
             __totuple(par),
@@ -76,22 +76,21 @@ def __refresh_coarse(par_values, par_keys, dim, coarse_model, fine_mod):
 @functools.lru_cache()
 def cost_calc(perf_list, goal_list, weight_list=None):
     """
-        return the normalize standard deviation between the perf_list and
-    the goal_list
+    return the normalize standard deviation between the perf_list and the goal_list
+
     Parameters
     ----------
-    perf_list : list
+    perf_list : tuple of float
         list of the performances achieved.
-    goal_list : list
-        list of the goal to be achieved. If one value is given, the goal is
-        a point. If two, the goal is an interval.
-    weight_list : list, optional
+    goal_list : tuple of float
+        list of the goal to be achieved. If one value is given, the goal is a point. If two, the goal is an interval.
+    weight_list : tuple of float, optional
         weightning of the goals. If set to None, all the weight are set to one.
 
     Returns
     -------
-    cost : TYPE
-        DESCRIPTION.
+    cost : float
+        cost value
 
     """
     if weight_list is None:

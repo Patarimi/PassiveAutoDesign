@@ -10,3 +10,4 @@ numba~=0.53.1
 mkdocs-material
 mkdocstrings
 mkdocs==1.2.3
+pytkdocs[numpy-style]
