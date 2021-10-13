@@ -44,3 +44,18 @@ def test_friis():
     gain = array([15, 18])
     with raises(ValueError):
         sp.friis(noise_factor, gain)
+
+
+def test_inp():
+    f_0 = 2.3e9
+    freq_pn = np.array([100, 1e3, 100e6])
+    pn_dbc = np.array([-7.5, -30, -131.7])
+
+    ipn = int_phase_noise(pn_dbc, freq_pn)
+    assert round(ipn * 1e6) == 14393347
+    ipn1 = int_phase_noise(pn_dbc, freq_pn, 1e6)
+    assert round(ipn1 * 1e6) == 758
+    ipn2 = int_phase_noise(pn_dbc, freq_pn, f_max=1e6)
+    assert round(ipn2 * 1e3) == 15193
+
+    assert round(ipn_to_jitter(ipn1 + ipn2, f_0) * 1e12) == 381
