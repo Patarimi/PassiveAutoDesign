@@ -9,6 +9,7 @@ First, it loads a model map.
 Then, it designs an hybrid coupler and an impedance transformer.
 """
 import passive_auto_design.components.coupler as cpl
+
 MODEL_MAP_PATH = "./tests/default.map"
 
 # Creation of a coupler in the BEOL substrate at central frequency f_c and with z_c characteristic impedance

@@ -6,7 +6,7 @@ def test_examples():
     i = 0
     for file in example:
         print(file)
-        with open(file, 'r') as f:
+        with open(file, "r") as f:
             exec(f.read(), globals())
         i += 1
     assert i == 6
