@@ -97,7 +97,8 @@ def frac_bandwidth(f_min, f_max):
 @njit(cache=True)
 def friis(f, gain):
     """
-        Parameters
+
+    Parameters
     ----------
     f : np.Array
         List of the noise figure (in dB) of each block.
