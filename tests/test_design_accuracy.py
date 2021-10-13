@@ -17,7 +17,10 @@ DI, W = np.meshgrid(DI_TABLE, W_TABLE)
 
 COST = np.zeros(DI.shape)
 i = 0
-CPL = pad.Coupler(5e9, 50, )
+CPL = pad.Coupler(
+    5e9,
+    50,
+)
 for w in W_TABLE:
     j = 0
     for di in DI_TABLE:
@@ -26,11 +29,11 @@ for w in W_TABLE:
     i += 1
 FIG = plt.figure()
 plt.grid(True)
-CS = plt.contour(DI*1e6, W*1e6, -COST)
+CS = plt.contour(DI * 1e6, W * 1e6, -COST)
 plt.clabel(CS, inline=1, fontsize=10)
 plt.title("-Cost (dB)")
 plt.ylabel("Width (µm)")
 plt.xlabel("Inner Diameter (µm)")
 # calculation of the first guess
 CPL.design(_maxiter=0)
-plt.plot(CPL.transfo.prim['di']*1e6, CPL.transfo.prim['width']*1e6, 'rx')
+plt.plot(CPL.transfo.prim["di"] * 1e6, CPL.transfo.prim["width"] * 1e6, "rx")

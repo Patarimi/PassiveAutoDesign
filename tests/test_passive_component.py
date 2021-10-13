@@ -11,7 +11,7 @@ import passive_auto_design.components.balun as bln
 import passive_auto_design.components.taper as tpr
 from passive_auto_design.special import reflexion_coef, transmission_coef
 
-MODEL_MAP_PATH = 'tests/default.map'
+MODEL_MAP_PATH = "tests/default.map"
 
 
 def test_coupler():
@@ -20,10 +20,10 @@ def test_coupler():
     """
     coupler = cpl.Coupler(1e9, 50, MODEL_MAP_PATH)
     res = coupler.design(_maxiter=0)
-    assert round(1e6*res.x[0], 3) == 0.015
+    assert round(1e6 * res.x[0], 3) == 0.015
     assert round(res.x[1], 3) == 2
-    assert round(1e6*res.x[2], 3) == 1156.925
-    assert round(1e6*res.x[3], 3) == 0.5
+    assert round(1e6 * res.x[2], 3) == 1156.925
+    assert round(1e6 * res.x[3], 3) == 0.5
     coupler.print(res)
     coupler.design(_maxiter=1)
 
@@ -32,8 +32,8 @@ def test_balun():
     """
     test function for the balun class
     """
-    zs_target = np.array([20 + 1j*40])
-    zl_target = np.array([50 + 1j*0.1])
+    zs_target = np.array([20 + 1j * 40])
+    zl_target = np.array([50 + 1j * 0.1])
     f_target = np.array([4e9])
     balun = bln.Balun(f_target, zl_target, zs_target)
     balun.enforce_symmetrical()
