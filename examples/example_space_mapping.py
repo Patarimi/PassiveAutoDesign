@@ -27,17 +27,12 @@ def coarse_model(dim, par):
     """
 
     freq = rf.Frequency(10, 15, 10)
-    cap = lp.Capacitor(freq=freq,
-                       area=dim["w"]*dim["l"],
-                       dist=1, eps_r=par["eps/d"])
-    res = lp.Resistor(freq=freq,
-                      section=dim["w"],
-                      length=dim["l"],
-                      rho=par["rho/h"])
+    cap = lp.Capacitor(freq=freq, area=dim["w"] * dim["l"], dist=1, eps_r=par["eps/d"])
+    res = lp.Resistor(freq=freq, section=dim["w"], length=dim["l"], rho=par["rho/h"])
     achieved = {
         "C": cap.par["cap"],
         "R": res.par["res"],
-        }
+    }
     return achieved
 
 
@@ -51,9 +46,9 @@ def fine_model(dim):
     """
 
     achieved = {
-        "C": eps0*5*dim["w"]*dim["l"],
-        "R": 0.2*dim["l"]/dim["w"],
-        }
+        "C": eps0 * 5 * dim["w"] * dim["l"],
+        "R": 0.2 * dim["l"] / dim["w"],
+    }
     return achieved
 
 
