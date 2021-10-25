@@ -9,12 +9,13 @@ nav:
       - Special: special.md
       - Space Mapping: spacemap.md
       - Components:
-          - Balun: components/balun.md
-          - Coupler: components/coupler.md
           - Lumped Element: components/lumped_element.md
           - Taper: components/taper.md
           - Transformer: components/transformer.md
           - Waveguide: components/waveguide.md
+      - Devices:
+          - Balun: devices/balun.md
+          - Coupler: devices/coupler.md
 
 theme: material
 
