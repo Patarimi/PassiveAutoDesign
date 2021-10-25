@@ -8,7 +8,7 @@ This Script is given as an example.
 First, it loads a model map.
 Then, it designs an hybrid coupler and an impedance transformer.
 """
-import passive_auto_design.components.coupler as cpl
+import passive_auto_design.devices.coupler as cpl
 
 MODEL_MAP_PATH = "./tests/default.map"
 
