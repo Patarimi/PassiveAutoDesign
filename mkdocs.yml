@@ -16,6 +16,13 @@ nav:
       - Devices:
           - Balun: devices/balun.md
           - Coupler: devices/coupler.md
+      - Examples:
+          - Substrate: examples/example_substrate.py
+          - Balun: examples/example_balun_sizing.py
+          - Coupler: examples/example_coupler_sizing.py
+          - Taper: examples/example_taper_sizing.py
+          - Waveguide: examples/example_waveguide_sizing.py
+          - Space Mapping: examples/example_space_mapping.py
 
 theme: material
 
@@ -26,3 +33,4 @@ plugins:
         python:
           selection:
             docstring_style: numpy
+  - mkdocs-jupyter
