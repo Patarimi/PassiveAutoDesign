@@ -1,7 +1,11 @@
 import setuptools
+import pathlib
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+HERE = pathlib.Path(__file__).parent
+INSTALL_REQUIRES = (HERE / "requirements.txt").read_text().splitlines()
 
 setuptools.setup(
     name="passive-auto-design",
@@ -13,6 +17,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Patarimi/PassiveAutoDesign",
     packages=setuptools.find_packages(),
+    install_requires=INSTALL_REQUIRES,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
