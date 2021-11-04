@@ -6,7 +6,6 @@ with open("README.md", "r") as fh:
 
 HERE = pathlib.Path(__file__).parent
 INSTALL_REQUIRES = (HERE / "requirements.txt").read_text().splitlines()
-# TESTS_REQUIRE = (HERE / "requirements.txt").read_text().splitlines()[1:]    
 
 setuptools.setup(
     name="passive-auto-design",
@@ -19,7 +18,6 @@ setuptools.setup(
     url="https://github.com/Patarimi/PassiveAutoDesign",
     packages=setuptools.find_packages(),
     install_requires=INSTALL_REQUIRES,
-#    tests_require=TESTS_REQUIRE,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
