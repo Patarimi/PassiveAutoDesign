@@ -2,7 +2,7 @@ import glob
 
 
 def test_examples():
-    example = glob.glob("./examples/*.py")
+    example = glob.glob("./docs/examples/*.py")
     i = 0
     for file in example:
         print(file)

@@ -10,7 +10,7 @@ Feed validated values to Coupleur_Cost. Results should be close to zero.
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-import passive_auto_design.components.coupler as cpl
+import passive_auto_design.devices.coupler as cpl
 
 OUTPUT = list()  # contains list of tuples (cost, param sweep for plotting)
 # importation of reference data and cost calculation

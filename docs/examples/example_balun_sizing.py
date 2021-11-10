@@ -5,7 +5,7 @@ Created on Mon Sep 28 11:40:48 2020
 @author: Patarimi
 """
 
-import passive_auto_design.components.balun as bln
+import passive_auto_design.devices.balun as bln
 
 MODEL_MAP_PATH = "./tests/default.map"
 

@@ -1,11 +1,13 @@
-numpy==1.21.3
+numpy==1.21.4
 matplotlib==3.4.3
-scipy==1.7.1
+scipy==1.7.2
 pyyaml==6.0
 scikit-rf==0.19.0
-setuptools~=58.3.0
+setuptools~=58.5.3
 numba~=0.54.1
+
 mkdocs-material
 mkdocstrings
 mkdocs==1.2.3
 pytkdocs[numpy-style]
+mkdocs-jupyter
