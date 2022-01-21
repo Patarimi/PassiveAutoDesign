@@ -78,7 +78,7 @@ class Balun:
                 }
             )
             l_sol = self.transfo.model["lp"]
-            r_sol = self.transfo.model["rp"]
+            r_sol = np.array(self.transfo.model["rp"])
         return std_dev(l_sol, _l_targ) + np.sum(r_sol) / 100
 
     def design(self, _maxiter=1000):
@@ -210,22 +210,14 @@ or try to lower the source quality factor"
         print a summary of the solution (res)
         with a comparison to the boundaries
         """
+        message = ""
         sol = res.x * 1e6
         bds = np.array(self.bounds) * 1e6
-        print(f"Solution funds with remaining error of: {float(res.fun):.2e}")
-        print("Termination message of algorithm: " + str(res.message))
-        print("\t\t\tW (µm)\tn\tdi (µm)\tG (µm)")
-        print(
-            f"lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t\
-{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}"
-        )
-        print(
-            f"primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}"
-        )
-        print(
-            f"secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.0g}\t{sol[6]:.3g}\t{sol[7]:.2g}"
-        )
-        print(
-            f"upper bound :\t{(bds[0])[1]:.2g}\t{(self.bounds[1])[1]:.2g}\t\
-{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}"
-        )
+        message += f"Solution funds with remaining error of: {float(res.fun):.2e}\n"
+        message += "Termination message of algorithm: " + str(res.message) + "\n"
+        message += "\t\t\tW (µm)\tn\tdi (µm)\tG (µm)\n"
+        message += f"lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}\n"
+        message += f"primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}\n"
+        message += f"secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.0g}\t{sol[6]:.3g}\t{sol[7]:.2g}\n"
+        message += f"upper bound :\t{(bds[0])[1]:.2g}\t{(self.bounds[1])[1]:.2g}\t{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}\n"
+        return message
