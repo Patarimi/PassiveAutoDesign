@@ -217,7 +217,9 @@ or try to lower the source quality factor"
         message += "Termination message of algorithm: " + str(res.message) + "\n"
         message += "\t\t\tW (µm)\tn\tdi (µm)\tG (µm)\n"
         message += f"lower bound :\t{(bds[0])[0]:.2g}\t{(self.bounds[1])[0]:.2g}\t{(bds[2])[0]:.3g}\t{(bds[3])[0]:.2g}\n"
-        message += f"primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}\n"
+        message += (
+            f"primary dim.:\t{sol[0]:.2g}\t{res.x[1]:.0g}\t{sol[2]:.3g}\t{sol[3]:.2g}\n"
+        )
         message += f"secondary dim.:\t{sol[4]:.2g}\t{res.x[5]:.0g}\t{sol[6]:.3g}\t{sol[7]:.2g}\n"
         message += f"upper bound :\t{(bds[0])[1]:.2g}\t{(self.bounds[1])[1]:.2g}\t{(bds[2])[1]:.3g}\t{(bds[3])[1]:.2g}\n"
         return message

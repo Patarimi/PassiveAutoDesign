@@ -7,9 +7,13 @@ MODEL_MAP_PATH = "./tests/default.map"
 BALUN_TST = bln.Balun(modelmapfile=MODEL_MAP_PATH)
 
 # Design inputs
-BALUN_TST.f_c = st.number_input("f_c (Hz)", value=18.e9)
-BALUN_TST.z_src = st.number_input("Z_src (Real)", value=50.) + 1j * st.number_input("Z_src (Imag)", value=.1)
-BALUN_TST.z_ld = st.number_input("Z_load (Real)", value=2.) + 1j * st.number_input("Z_load (Imag)", value=-11.)
+BALUN_TST.f_c = st.number_input("f_c (Hz)", value=18.0e9)
+BALUN_TST.z_src = st.number_input("Z_src (Real)", value=50.0) + 1j * st.number_input(
+    "Z_src (Imag)", value=0.1
+)
+BALUN_TST.z_ld = st.number_input("Z_load (Real)", value=2.0) + 1j * st.number_input(
+    "Z_load (Imag)", value=-11.0
+)
 
 # force symmetrical balun by altering load
 if st.checkbox("enforce symmetrical balun"):
