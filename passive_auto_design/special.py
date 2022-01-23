@@ -14,7 +14,7 @@ Nm_to_dBcm = 8.686 / 100
 
 
 # Other functions
-@vectorize(cache=False)
+@vectorize(cache=True)
 def gamma(_z_load: float, _z0: float = 50):
     return (_z0 - _z_load) / (_z0 + _z_load)
 
