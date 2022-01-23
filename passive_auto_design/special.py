@@ -3,7 +3,7 @@
 Define constants and function dedicated to RF-conception
 """
 import numpy as np
-from numba import njit, vectorize
+from numba import njit, vectorize, guvectorize
 
 # Constants
 u0 = 4 * np.pi * 1e-7  # H/m
@@ -19,8 +19,7 @@ def gamma(_z_load: float, _z0: float = 50):
     return (_z0 - _z_load) / (_z0 + _z_load)
 
 
-@njit(cache=True)
-def std_dev(measured: float, targeted: float):
+def std_dev(measured, targeted):
     """
     return the standard deviation between an array_like of results and their references.
     """
