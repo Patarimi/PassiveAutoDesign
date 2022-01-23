@@ -9,4 +9,4 @@ def test_examples():
         with open(file, "r") as f:
             exec(f.read(), globals())
         i += 1
-    assert i == 6
+    assert i == 5
