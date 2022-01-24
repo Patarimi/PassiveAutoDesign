@@ -6,6 +6,18 @@ MODEL_MAP_PATH = "./tests/default.map"
 # Creation of an impedance transformer
 BALUN_TST = bln.Balun(modelmapfile=MODEL_MAP_PATH)
 
+st.set_page_config(
+     page_title="Balun Sizer",
+     page_icon="🧊",
+     layout="wide",
+     initial_sidebar_state="expanded",
+     menu_items={
+         'Get Help': 'https://passiveautodesign.netlify.app/',
+         'Report a bug': "https://github.com/Patarimi/PassiveAutoDesign/issues"
+     }
+ )
+
+
 # Design inputs
 BALUN_TST.f_c = st.number_input("f_c (Hz)", value=18.0e9)
 BALUN_TST.z_src = st.number_input("Z_src (Real)", value=50.0) + 1j * st.number_input(
