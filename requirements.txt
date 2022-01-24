@@ -4,11 +4,16 @@ scipy==1.7.3
 pyyaml==6.0
 scikit-rf==0.20.0
 
+# for package deployment
 setuptools~=60.5.0
 numba~=0.55.0
 
+# for doc building
 mkdocs-material
 mkdocstrings
 mkdocs==1.2.3
 pytkdocs[numpy-style]
 mkdocs-jupyter
+
+# for streamlit
+streamlit
