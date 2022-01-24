@@ -3,7 +3,7 @@
 Define constants and function dedicated to RF-conception
 """
 import numpy as np
-from numba import njit, vectorize, guvectorize
+from numba import njit, vectorize
 
 # Constants
 u0 = 4 * np.pi * 1e-7  # H/m
