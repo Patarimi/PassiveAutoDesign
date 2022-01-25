@@ -11,6 +11,7 @@ def test_capacitor():
     cap.set_x_with_y("eps_r", "cap", 1e-15)
     assert cap.par["eps_r"] == 0.11294090917221976
     assert cap.par["cap"] == 1e-15
+    assert str(cap) == r"1 fF"
 
 
 def test_resistor():

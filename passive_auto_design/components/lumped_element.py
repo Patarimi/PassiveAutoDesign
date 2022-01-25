@@ -60,7 +60,6 @@ class LumpedElement(metaclass=abc.ABCMeta):
         Value of self.par[self.ref] calculated with the other value in self.par.
 
         """
-        raise NotImplementedError
 
 
 Res = EngFormatter(unit=r"$\Omega$")
