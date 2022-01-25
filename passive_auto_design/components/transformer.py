@@ -106,7 +106,7 @@ class Transformer:
         n_t = self.prim["n_turn"]
         eps_r = float(self.model_map["eps_r"])
         area = n_t * self.prim["di"] * self.prim["width"]
-        cap = lmp.Capacitor(self.freq, area, dist, eps_r)
+        cap = lmp.Capacitor(area, dist, eps_r)
         return cap.par["cap"]
 
     def r_geo(self, _of_primary=True):
