@@ -17,3 +17,4 @@ mkdocs-jupyter
 
 # for streamlit
 streamlit
+hydralit
