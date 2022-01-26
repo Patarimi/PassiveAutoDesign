@@ -2,7 +2,7 @@ import glob
 
 
 def test_examples():
-    example = glob.glob("./streamlit_apps/*.py")
+    example = glob.glob("./apps/example*.py")
     i = 0
     for file in example:
         print(file)
