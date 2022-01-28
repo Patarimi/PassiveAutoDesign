@@ -10,7 +10,7 @@ class Balun(HydraHeadApp):
             # Creation of an impedance transformer
             BALUN_TST = bln.Balun(modelmapfile=uploaded_file)
         else:
-            BALUN_TST = bln.Balun(modelmapfile="./tech.yml")
+            BALUN_TST = bln.Balun(modelmapfile="./tests/default.map")
 
         # Design inputs
         with st.form(key="design_input"):
