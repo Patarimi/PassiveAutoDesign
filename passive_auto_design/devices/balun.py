@@ -130,7 +130,7 @@ or try to lower the source quality factor"
                 x0=[x for x in self.transfo.prim.values()],
                 bounds=self.bounds[0:4],
                 args=l_1,
-                maxiter=_maxiter,
+                options={'maxiter': _maxiter},
             )
             if self.is_symmetrical:
                 self.__cost_geo_vs_targ(res1.x, l_2, _is_primary=False)
@@ -141,7 +141,7 @@ or try to lower the source quality factor"
                     x0=[x for x in self.transfo.prim.values()],
                     bounds=self.bounds[4:],
                     args=(l_2, False),
-                    maxiter=_maxiter,
+                    options={'maxiter': _maxiter},
                 )
             r_l1 = self.transfo.model["rs"]
             r_l2 = self.transfo.model["rp"]
