@@ -7,9 +7,10 @@ class Balun(HydraHeadApp):
     def run(self):
         uploaded_file = st.file_uploader("Substrate File")
         if uploaded_file is not None:
-
             # Creation of an impedance transformer
             BALUN_TST = bln.Balun(modelmapfile=uploaded_file)
+        else:
+            BALUN_TST = bln.Balun(modelmapfile="./tests/default.map")
 
         # Design inputs
         with st.form(key="design_input"):
