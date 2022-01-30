@@ -16,4 +16,5 @@ pytkdocs[numpy-style]
 mkdocs-jupyter
 
 # for streamlit
-streamlit
+hydralit==1.0.12
+streamlit==1.5
