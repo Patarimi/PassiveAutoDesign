@@ -1,5 +1,4 @@
 import hydralit as hy
-from generate_substrate import Substrate
 from example_balun_sizing import Balun
 
 if __name__ == "__main__":
@@ -14,7 +13,7 @@ if __name__ == "__main__":
         },
     )
 
-    app = hy.HydraApp(title="Simple Multi-Page App")
+    app = hy.HydraApp(title="Simple Multi-Page App", allow_url_nav=True)
 
     @app.addapp(is_home=True)
     def my_home():

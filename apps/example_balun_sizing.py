@@ -29,11 +29,10 @@ class Balun(HydraHeadApp):
             submitted = st.form_submit_button()
 
             if submitted:
-                st.text(BALUN_TST.z_ld)
-                st.text(BALUN_TST.z_src)
-                RES2 = BALUN_TST.design()
+                st.write("$Z_{load}$=", BALUN_TST.z_ld, "$\Omega$")
+                st.write("$Z_{source}$=", BALUN_TST.z_src, "$\Omega$")
+                RES2 = BALUN_TST.design(0)
+                st.write("$L_{in}$=", BALUN_TST.transfo.model["lp"], " H")
+                st.write("$L_{out}$=", BALUN_TST.transfo.model["ls"], " H")
+                st.write("k=", BALUN_TST.transfo.model["k"])
                 st.text(BALUN_TST.print(RES2))
-
-                # Inductance of the primary and secondary inductors
-                BALUN_TST.transfo.model["ls"]
-                BALUN_TST.transfo.model["lp"]
