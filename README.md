@@ -10,7 +10,7 @@ Install the library using
 pip install passive-auto-design
 ```
 Examples are given in the _examples_ directory.\
-A demo is given [here](https://share.streamlit.io/patarimi/passiveautodesign/streamlit_apps/example_balun_sizing.py) and the documentation can be found [here](https://passiveautodesign.netlify.app/)
+A demo is given [here](https://share.streamlit.io/patarimi/passiveautodesign/apps/home.py) and the documentation can be found [here](https://passiveautodesign.netlify.app/)
 
 Package Structure
 ----
