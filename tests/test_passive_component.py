@@ -43,11 +43,14 @@ def test_balun():
     assert round(L2[0] * 1e12) == 3967
 
     balun.enforce_symmetrical()
-    balun.enforce_symmetrical(False)
-    balun.is_symmetrical = False
-    res = balun.design()
+    assert round(np.imag(balun.z_ld)) == 19
+
+    balun.z_ld = zl_target
+    balun.enforce_symmetrical(side='source', _verbose=True)
+    assert round(np.imag(balun.z_src)) == -249
+
     balun.print()
-    balun.k = 0.2
+    balun.k = 0.02
     with pytest.raises(ValueError):
         balun.design()
 

@@ -23,7 +23,6 @@ class Balun:
         self.z_src = _z_source
         self.z_ld = _z_load
         self.k = _k
-        self.is_symmetrical = False
 
     def design(self):
         """
@@ -114,7 +113,6 @@ or try to lower the source quality factor"
             self.z_ld = complex(new_z)
         else:
             self.z_src = complex(new_z)
-        self.is_symmetrical = True
 
     def print(self):
         message = f"target : f={EngFor(self.f_c)}Hz"
