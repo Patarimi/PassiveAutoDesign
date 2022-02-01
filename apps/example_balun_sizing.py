@@ -1,16 +1,8 @@
 import streamlit as st
 from hydralit import HydraHeadApp
-from matplotlib.ticker import EngFormatter
-from numpy import real, imag
 import passive_auto_design.devices.balun as bln
+from passive_auto_design.unit import Impedance, SI
 
-
-Ind = EngFormatter(unit="H")
-
-__res = EngFormatter(unit="")
-
-def Res(value):
-    return __res(real(value))+" "+__res(imag(value))+" $\Omega$"
 
 class Balun(HydraHeadApp):
     def run(self):
@@ -34,14 +26,14 @@ class Balun(HydraHeadApp):
         if submitted:
             if force_sym:
                 BALUN_TST.enforce_symmetrical(dir_sym)
-            st.write("$Z_{load}$=" + Res(BALUN_TST.z_ld))
-            st.write("$Z_{source}$=" + Res(BALUN_TST.z_src))
+            st.write("$Z_{load}$=" + Impedance(BALUN_TST.z_ld))
+            st.write("$Z_{source}$=" + Impedance(BALUN_TST.z_src))
             Result = BALUN_TST.design()
             res_col = st.columns(2)
             res_col[0].subheader("First Solution")
-            res_col[0].write(r"$L_{in}$=" + Ind(Result[0][0]))
-            res_col[0].write(r"$L_{out}$=" + Ind(Result[1][0]))
+            res_col[0].write(r"$L_{in}$=" + SI(Result[0][0]) + "H")
+            res_col[0].write(r"$L_{out}$=" + SI(Result[1][0]) + "H")
 
             res_col[1].subheader("Second Solution")
-            res_col[1].write(r"$L_{in}$=" + Ind(Result[0][1]))
-            res_col[1].write(r"$L_{out}$=" + Ind(Result[1][1]))
+            res_col[1].write(r"$L_{in}$=" + SI(Result[0][1]) + "H")
+            res_col[1].write(r"$L_{out}$=" + SI(Result[1][1]) + "H")
