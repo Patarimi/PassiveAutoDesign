@@ -7,7 +7,8 @@ __res = EngFormatter(unit="")
 
 
 def Impedance(value):
-    return __res(real(value)) + " " + __res(imag(value)) + "j $\Omega$"
-
+    if imag(value) < 0:
+        return __res(real(value)) + " - j" + __res(-imag(value)) + r" $\Omega$"
+    return __res(real(value)) + " + j" + __res(imag(value)) + r" $\Omega$"
 
 SI = EngFormatter(unit="")
