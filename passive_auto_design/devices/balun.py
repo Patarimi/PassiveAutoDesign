@@ -3,11 +3,9 @@
 
 """
 import numpy as np
-import yaml
 from matplotlib.ticker import EngFormatter
-from scipy.optimize import minimize, OptimizeResult
-from ..components.transformer import Transformer
-from ..special import std_dev, quality_f
+from scipy.optimize import minimize
+from ..special import quality_f
 
 
 EngFor = EngFormatter()
