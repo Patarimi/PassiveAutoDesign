@@ -32,19 +32,27 @@ def test_balun():
     """
     test function for the balun class
     """
-    zs_target = np.array([20 + 1j * 40])
-    zl_target = np.array([50 + 1j * 0.1])
-    f_target = np.array([4e9])
-    balun = bln.Balun(f_target, zl_target, zs_target)
+    zs_target = 100 - 1j * 300
+    zl_target = 50 - 1j * 100
+    f_target = 60e9
+    balun = bln.Balun(f_target, zl_target, zs_target, 0.8)
+    L1, L2 = balun.design()
+    assert round(L1[1] * 1e12) == 132
+    assert round(L1[0] * 1e12) == 1596
+    assert round(L2[1] * 1e12) == 571
+    assert round(L2[0] * 1e12) == 3967
+
     balun.enforce_symmetrical()
-    balun.design(1)
-    balun.enforce_symmetrical(False)
-    balun.is_symmetrical = False
-    res = balun.design(1)
-    balun.print(res)
-    balun.transfo.model["k"] = 0.2
+    assert round(np.imag(balun.z_ld)) == 19
+
+    balun.z_ld = zl_target
+    balun.enforce_symmetrical(side='source', _verbose=True)
+    assert round(np.imag(balun.z_src)) == -249
+
+    balun.print()
+    balun.k = 0.02
     with pytest.raises(ValueError):
-        balun.design(1)
+        balun.design()
 
 
 def test_taper():
