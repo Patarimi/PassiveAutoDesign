@@ -46,7 +46,7 @@ def test_balun():
     assert round(np.imag(balun.z_ld)) == 19
 
     balun.z_ld = zl_target
-    balun.enforce_symmetrical(side='source', _verbose=True)
+    balun.enforce_symmetrical(side="source", _verbose=True)
     assert round(np.imag(balun.z_src)) == -249
 
     balun.print()
