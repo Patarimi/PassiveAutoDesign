@@ -59,12 +59,12 @@ class SpaceMap(HydraHeadApp):
         col1, col2, col3 = st.columns(3)
         col1.subheader("Physical Dimensions")
         for key in dim_f:
-            col1.write(key+": "+SI(dim_f[key])+"m")
+            col1.write(key + ": " + SI(dim_f[key]) + "m")
 
         col2.subheader("Electrical Parameters")
-        col2.write("C: "+SI(goal_f['C'])+"F")
-        col2.write("R: " + SI(goal_f['R']) + "$\Omega$")
+        col2.write("C: " + SI(goal_f["C"]) + "F")
+        col2.write("R: " + SI(goal_f["R"]) + "$\Omega$")
 
         col3.subheader("Model Constants")
         for key in par_f:
-            col3.write(key+": "+SI(par_f[key])+"SI")
+            col3.write(key + ": " + SI(par_f[key]) + "SI")
