@@ -6,6 +6,7 @@ repo_url: https://github.com/Patarimi/PassiveAutoDesign
 nav:
   - Home: index.md
   - Code Reference:
+      - Unit : unit.md
       - Special: special.md
       - Space Mapping: spacemap.md
       - Components:
