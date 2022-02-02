@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-
+    Class to calculate the inductors values of an impedance transformer.
 """
 import numpy as np
-from matplotlib.ticker import EngFormatter
 from scipy.optimize import minimize
 from ..special import quality_f
-
-
-EngFor = EngFormatter()
+from ..unit import Frequency
 
 
 class Balun:
@@ -113,5 +110,5 @@ or try to lower the source quality factor"
             self.z_src = complex(new_z)
 
     def print(self):
-        message = f"target : f={EngFor(self.f_c)}Hz"
+        message = f"target : f={Frequency(self.f_c)}"
         return message
