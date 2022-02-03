@@ -18,14 +18,10 @@ def test_coupler():
     """
     test function for the coupler class
     """
-    coupler = cpl.Coupler(1e9, 50, MODEL_MAP_PATH)
-    res = coupler.design(_maxiter=0)
-    assert round(1e6 * res.x[0], 3) == 0.015
-    assert round(res.x[1], 3) == 2
-    assert round(1e6 * res.x[2], 3) == 1156.925
-    assert round(1e6 * res.x[3], 3) == 0.5
-    coupler.print(res)
-    coupler.design(_maxiter=1)
+    coupler = cpl.Coupler(1e9, 50)
+    assert round(1e9 * coupler.l, 3) == 11.252
+    assert round(1e12 * coupler.c, 3) == 4.501
+    coupler.print()
 
 
 def test_balun():

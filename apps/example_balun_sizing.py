@@ -10,7 +10,9 @@ class Balun(HydraHeadApp):
         # Design inputs
         with st.form(key="design_input"):
             col1, col2 = st.columns(2)
-            f_c = col1.number_input("Central Frequency (MHz)", value=60.0e3) * 1e6
+            f_c = col1.number_input(
+                "Central Frequency (Hz)", value=60.0e9, min_value=0.0, format="%e"
+            )
             k = col2.number_input("Coupling Factor", value=0.8)
             z_src = col1.number_input(
                 "Source Impedance (Real)", value=100.0
