@@ -2,7 +2,7 @@ import streamlit as st
 from hydralit import HydraHeadApp
 from numpy import imag
 import passive_auto_design.devices.coupler as cpl
-from passive_auto_design.unit import Impedance, SI
+from passive_auto_design.unit import SI
 
 
 class Coupler(HydraHeadApp):

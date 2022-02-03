@@ -2,7 +2,6 @@
 """
 
 """
-import yaml
 from numpy import pi, sqrt
 from ..unit import SI
 
@@ -21,6 +20,7 @@ class Coupler:
 
     def print(self):
         """
-        print a summary of the solution l and c
+        Print a summary of the solution l and c
         """
         message = f"L: {SI(self.l)}H\tC: {SI(self.c)}F"
+        return message
