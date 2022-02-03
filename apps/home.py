@@ -1,5 +1,6 @@
 import hydralit as hy
 from example_balun_sizing import Balun
+from example_coupler_sizing import Coupler
 from example_space_mapping import SpaceMap
 
 if __name__ == "__main__":
@@ -23,6 +24,7 @@ if __name__ == "__main__":
     # deactivated for now
     app.add_app("Space Mapping", app=SpaceMap())
     app.add_app("Balun", app=Balun())
+    app.add_app("Coupler", app=Coupler())
 
     # Run the whole lot, we get navbar, state management and app isolation, all with this tiny amount of work.
     app.run()
