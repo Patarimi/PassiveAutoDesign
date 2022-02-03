@@ -466,20 +466,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#passive_auto_design.devices.coupler.Coupler.cost" class="md-nav__link">
-    cost()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#passive_auto_design.devices.coupler.Coupler.design" class="md-nav__link">
-    design()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#passive_auto_design.devices.coupler.Coupler.print" class="md-nav__link">
     print()
   </a>
@@ -551,20 +537,6 @@
   
     <nav class="md-nav" aria-label="Coupler">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#passive_auto_design.devices.coupler.Coupler.cost" class="md-nav__link">
-    cost()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#passive_auto_design.devices.coupler.Coupler.design" class="md-nav__link">
-    design()
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#passive_auto_design.devices.coupler.Coupler.print" class="md-nav__link">
@@ -647,124 +619,24 @@ Coupler        </code>
 
 
 
-<h3 id="passive_auto_design.devices.coupler.Coupler.cost" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span></code>
-
-
-</h3>
-
-    <div class="doc doc-contents ">
-
-      <p>return the cost (standard deviation)</p>
-<p>between the proposed solution and the targeted specifications</p>
-
-        <details class="quote">
-          <summary>Source code in <code>passive_auto_design\devices\coupler.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    return the cost (standard deviation)</span>
-<span class="sd">    between the proposed solution and the targeted specifications</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">geo</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;di&quot;</span><span class="p">:</span> <span class="n">sol</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="s2">&quot;n_turn&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-        <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="s2">&quot;gap&quot;</span><span class="p">:</span> <span class="n">sol</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-    <span class="p">}</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">transfo</span><span class="o">.</span><span class="n">set_primary</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">transfo</span><span class="o">.</span><span class="n">set_secondary</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
-    <span class="n">s_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transfo</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">s_external</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s_p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="mf">26.7</span> <span class="o">-</span> <span class="n">ihsr</span><span class="p">(</span><span class="n">s_p</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">s_p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="mi">0</span><span class="p">])</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="passive_auto_design.devices.coupler.Coupler.design" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">design</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_maxiter</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></code>
-
-
-</h3>
-
-    <div class="doc doc-contents ">
-
-      <p>design an hybrid coupleur with the targeted specifications (f_targ, z_targ)</p>
-<p>return an optimization results (res)</p>
-
-        <details class="quote">
-          <summary>Source code in <code>passive_auto_design\devices\coupler.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">design</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_maxiter</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    design an hybrid coupleur with the targeted specifications (f_targ, z_targ)</span>
-<span class="sd">    return an optimization results (res)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># finding the inner diameter that give the correct inductance</span>
-    <span class="n">minimize_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__cost_est_inductance</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="c1"># finding the path width that give the correct capacitor</span>
-    <span class="n">res_int</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__cost_est_capacitance</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">geo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transfo</span><span class="o">.</span><span class="n">prim</span>
-    <span class="n">x_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">geo</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;n_turn&quot;</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;di&quot;</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;gap&quot;</span><span class="p">]])</span>
-    <span class="k">if</span> <span class="n">_maxiter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># just get the first guess</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">OptimizeResult</span><span class="p">()</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x_0</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">fun</span> <span class="o">=</span> <span class="n">res_int</span><span class="o">.</span><span class="n">fun</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;First Guess&quot;</span>
-        <span class="k">return</span> <span class="n">res</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x_0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
 <h3 id="passive_auto_design.devices.coupler.Coupler.print" class="doc doc-heading">
-<code class="highlight language-python"><span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
 
 </h3>
 
     <div class="doc doc-contents ">
 
-      <p>print a summary of the solution (res)</p>
-<p>with a comparison to the boundaries</p>
+      <p>Print a summary of the solution l and c</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\devices\coupler.py</code></summary>
-          <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        print a summary of the solution (res)</span>
-<span class="sd">        with a comparison to the boundaries</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sol</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="mf">1e6</span>
-        <span class="n">bds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e6</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Solution funds with remaining error of: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Termination message of algorithm: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">W (µm)</span><span class="se">\t</span><span class="s2">n</span><span class="se">\t</span><span class="s2">di (µm)</span><span class="se">\t</span><span class="s2">G (µm)&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;lower bound :</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="se">\t\</span>
-<span class="si">{</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">3</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;best point  :</span><span class="se">\t</span><span class="si">{</span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">sol</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">sol</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;upper bound :</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="se">\t\</span>
-<span class="si">{</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">3</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print a summary of the solution l and c</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;L: </span><span class="si">{</span><span class="n">SI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">)</span><span class="si">}</span><span class="s2">H</span><span class="se">\t</span><span class="s2">C: </span><span class="si">{</span><span class="n">SI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span><span class="si">}</span><span class="s2">F&quot;</span>
+    <span class="k">return</span> <span class="n">message</span>
 </code></pre></div>
         </details>
     </div>
