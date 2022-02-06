@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://passiveautodesign.netlify.app/devices/balun/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.2">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6e60f8b8.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f7951f6f.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -635,7 +635,7 @@ Balun        </code>
 
 
 <h3 id="passive_auto_design.devices.balun.Balun.design" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">design</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">design</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">XL_add</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">XS_add</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span></code>
 
 
 </h3>
@@ -648,40 +648,33 @@ return the two ideal transformers solution</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\devices\balun.py</code></summary>
-          <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">design</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        design an impedance transformer</span>
-<span class="sd">        with the targeted specifications (f_targ, zl_targ, zs_targ, k)</span>
-<span class="sd">        return the two ideal transformers solution</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">k</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">k</span>
-        <span class="n">q_s</span> <span class="o">=</span> <span class="o">-</span><span class="n">quality_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span>
-        <span class="n">q_l</span> <span class="o">=</span> <span class="o">-</span><span class="n">quality_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span>
-        <span class="c1"># assuming perfect inductor for first calculation</span>
-        <span class="n">r_l1</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">r_l2</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">q_s_prime</span> <span class="o">=</span> <span class="n">q_s</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span> <span class="o">+</span> <span class="n">r_l1</span><span class="p">)</span>
-        <span class="n">q_l_prime</span> <span class="o">=</span> <span class="n">q_l</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span> <span class="o">+</span> <span class="n">r_l2</span><span class="p">)</span>
-        <span class="n">b_coeff</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">q_s_prime</span> <span class="o">+</span> <span class="n">q_s_prime</span> <span class="o">+</span> <span class="n">q_l_prime</span>
-        <span class="n">discr</span> <span class="o">=</span> <span class="n">b_coeff</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q_s_prime</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">discr</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Negative value in square root,</span><span class="se">\</span>
-<span class="s2">try to increase the coupling factor or the load quality factor</span><span class="se">\</span>
-<span class="s2">or try to lower the source quality factor&quot;</span>
-            <span class="p">)</span>
-        <span class="n">z_sol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">(</span>
-                <span class="p">(</span><span class="n">b_coeff</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">discr</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
-                <span class="p">(</span><span class="n">b_coeff</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">discr</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
-            <span class="p">)</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">design</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">XL_add</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">XS_add</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    design an impedance transformer</span>
+<span class="sd">    with the targeted specifications (f_targ, zl_targ, zs_targ, k)</span>
+<span class="sd">    return the two ideal transformers solution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">k</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">k</span>
+    <span class="n">q_s</span> <span class="o">=</span> <span class="o">-</span><span class="n">quality_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">XS_add</span><span class="p">))</span>
+    <span class="n">q_l</span> <span class="o">=</span> <span class="o">-</span><span class="n">quality_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">XL_add</span><span class="p">))</span>
+    <span class="c1"># assuming perfect inductor for first calculation</span>
+    <span class="n">r_l1</span><span class="p">,</span> <span class="n">r_l2</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+    <span class="n">q_s_prime</span> <span class="o">=</span> <span class="n">q_s</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span> <span class="o">+</span> <span class="n">r_l1</span><span class="p">)</span>
+    <span class="n">q_l_prime</span> <span class="o">=</span> <span class="n">q_l</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span> <span class="o">+</span> <span class="n">r_l2</span><span class="p">)</span>
+    <span class="n">b_coeff</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">q_s_prime</span> <span class="o">+</span> <span class="n">q_s_prime</span> <span class="o">+</span> <span class="n">q_l_prime</span>
+    <span class="n">discr</span> <span class="o">=</span> <span class="n">b_coeff</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q_s_prime</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">z_sol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="n">b_coeff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">discr</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="p">(</span><span class="n">b_coeff</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">discr</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="p">)</span>
-        <span class="n">qxl1</span> <span class="o">=</span> <span class="n">z_sol</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">k</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">qxl2</span> <span class="o">=</span> <span class="n">z_sol</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q_l_prime</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">q_s_prime</span> <span class="o">-</span> <span class="n">z_sol</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">l_sol1</span> <span class="o">=</span> <span class="n">qxl1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_c</span><span class="p">)</span>
-        <span class="n">l_sol2</span> <span class="o">=</span> <span class="n">qxl2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_c</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">l_sol1</span><span class="p">,</span> <span class="n">l_sol2</span>
+    <span class="p">)</span>
+    <span class="n">qxl1</span> <span class="o">=</span> <span class="n">z_sol</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">k</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qxl2</span> <span class="o">=</span> <span class="n">z_sol</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q_l_prime</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">q_s_prime</span> <span class="o">-</span> <span class="n">z_sol</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">l_sol1</span> <span class="o">=</span> <span class="n">qxl1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_src</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_c</span><span class="p">)</span>
+    <span class="n">l_sol2</span> <span class="o">=</span> <span class="n">qxl2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">l_sol1</span><span class="p">,</span> <span class="n">l_sol2</span>
 </code></pre></div>
         </details>
     </div>
@@ -702,15 +695,17 @@ return the two ideal transformers solution</p>
 
     <div class="doc doc-contents ">
 
-      <p>alter the value of the load impedance (if side="load") or the source impedance</p>
-<p>in order to realize a symmetrical balun (ie. primary = secondary)</p>
+      <p>return the reactance to be added to the load (if side="load") or the source impedance</p>
+<p>in order to realize a symmetrical balun (ie. primary = secondary)
+the two solution match the two solutions of the design</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\devices\balun.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">enforce_symmetrical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;load&quot;</span><span class="p">,</span> <span class="n">_verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    alter the value of the load impedance (if side=&quot;load&quot;) or the source impedance</span>
+<span class="sd">    return the reactance to be added to the load (if side=&quot;load&quot;) or the source impedance</span>
 <span class="sd">    in order to realize a symmetrical balun (ie. primary = secondary)</span>
+<span class="sd">    the two solution match the two solutions of the design</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;load&quot;</span><span class="p">:</span>
         <span class="n">old_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span>
@@ -718,20 +713,25 @@ return the two ideal transformers solution</p>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">old_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_src</span>
         <span class="n">_through_load</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+    <span class="n">res0</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__enforce_symmetrical</span><span class="p">,</span>
         <span class="o">-</span><span class="n">quality_f</span><span class="p">(</span><span class="n">old_z</span><span class="p">),</span>
-        <span class="n">args</span><span class="o">=</span><span class="n">_through_load</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">_through_load</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
         <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Nelder-Mead&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">new_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">old_z</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">res1</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__enforce_symmetrical</span><span class="p">,</span>
+        <span class="o">-</span><span class="n">quality_f</span><span class="p">(</span><span class="n">old_z</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">_through_load</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Nelder-Mead&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">delta_X</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">old_z</span><span class="p">)</span> <span class="o">*</span> <span class="n">res0</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">old_z</span><span class="p">),</span>
+        <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">old_z</span><span class="p">)</span> <span class="o">*</span> <span class="n">res1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">old_z</span><span class="p">),</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">_verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;old z_ld: $</span><span class="si">{</span><span class="nb">complex</span><span class="p">(</span><span class="n">old_z</span><span class="p">)</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;new z_ld: $</span><span class="si">{</span><span class="nb">complex</span><span class="p">(</span><span class="n">new_z</span><span class="p">)</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">_through_load</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_ld</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">new_z</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_src</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">new_z</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;X_</span><span class="si">{</span><span class="n">side</span><span class="si">}</span><span class="s2"> must be change by </span><span class="si">{</span><span class="n">delta_X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> or </span><span class="si">{</span><span class="n">delta_X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">delta_X</span>
 </code></pre></div>
         </details>
     </div>
@@ -825,10 +825,10 @@ return the two ideal transformers solution</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.960e086b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.649a939e.min.js"></script>
       
     
   </body>
