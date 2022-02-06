@@ -1,8 +1,7 @@
 import streamlit as st
 from hydralit import HydraHeadApp
-from numpy import imag
 import passive_auto_design.devices.balun as bln
-from passive_auto_design.unit import Impedance, SI
+from passive_auto_design.unit import SI
 
 
 class Balun(HydraHeadApp):
@@ -26,24 +25,31 @@ class Balun(HydraHeadApp):
         if submitted:
             BALUN_TST = bln.Balun(f_c, z_src, z_ld, k)
             if force_sym:
-                BALUN_TST.enforce_symmetrical(dir_sym)
+                X_add = BALUN_TST.enforce_symmetrical(dir_sym)
                 if dir_sym == "load":
-                    X_add = imag(BALUN_TST.z_ld - z_ld)
+                    result = BALUN_TST.design(XL_add=X_add)
                 else:
-                    X_add = imag(BALUN_TST.z_src - z_src)
-                if X_add > 0:
-                    message = "an inductor of " + SI(X_add / (2 * 3.14 * f_c)) + "H"
-                else:
-                    message = (
-                        "a condensator of " + SI(-1 / (X_add * 2 * 3.14 * f_c)) + "F"
-                    )
-                st.write("Please add " + message + " to the " + dir_sym + ".")
-            Result = BALUN_TST.design()
+                    result = BALUN_TST.design(XS_add=X_add)
+            else:
+                result = BALUN_TST.design()
             res_col = st.columns(2)
             res_col[0].subheader("First Solution")
-            res_col[0].write(r"$L_{in}$=" + SI(Result[0][1]) + "H")
-            res_col[0].write(r"$L_{out}$=" + SI(Result[1][1]) + "H")
-
             res_col[1].subheader("Second Solution")
-            res_col[1].write(r"$L_{in}$=" + SI(Result[0][0]) + "H")
-            res_col[1].write(r"$L_{out}$=" + SI(Result[1][0]) + "H")
+
+            for i in (0, 1):
+                res_col[i].write(r"$L_{in}$=" + SI(result[0][i]) + "H")
+                res_col[i].write(r"$L_{out}$=" + SI(result[1][i]) + "H")
+                if force_sym:
+                    if X_add[i] > 0:
+                        message = (
+                            "an inductor of " + SI(X_add[i] / (2 * 3.14 * f_c)) + "H"
+                        )
+                    else:
+                        message = (
+                            "a condensator of "
+                            + SI(-1 / (X_add[i] * 2 * 3.14 * f_c))
+                            + "F"
+                        )
+                    res_col[i].write(
+                        "Please add " + message + " to the " + dir_sym + "."
+                    )
