@@ -51,5 +51,5 @@ class Balun(HydraHeadApp):
                             + "F"
                         )
                     res_col[i].write(
-                        "Please add " + message + " to the " + dir_sym + "."
+                        "Please add " + message + " in series with the " + dir_sym + "."
                     )
