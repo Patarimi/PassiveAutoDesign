@@ -78,8 +78,9 @@ class Balun:
 
     def enforce_symmetrical(self, side="load", _verbose=False):
         """
-        alter the value of the load impedance (if side="load") or the source impedance
+        return the reactance to be added to the load (if side="load") or the source impedance
         in order to realize a symmetrical balun (ie. primary = secondary)
+        the two solution match the two solutions of the design
         """
         if side == "load":
             old_z = self.z_ld
