@@ -137,7 +137,7 @@ class Transformer:
 
     def mutual_geo(self, z_0=50):
         """
-        Create a transformateur with a primary of l_1, and secondary of l_2
+        Create a transformer with a primary of l_1, and secondary of l_2
         and a coupling factor of k_mut
         """
         l_1 = self.model["lp"]
