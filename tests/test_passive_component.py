@@ -5,7 +5,6 @@ Created on Fri Jul 12 15:07:03 2019
 @author: Patarimi
 """
 import numpy as np
-import pytest
 import passive_auto_design.devices.coupler as cpl
 import passive_auto_design.devices.balun as bln
 import passive_auto_design.components.taper as tpr
@@ -38,17 +37,15 @@ def test_balun():
     assert round(L2[1] * 1e12) == 571
     assert round(L2[0] * 1e12) == 3967
 
-    balun.enforce_symmetrical()
-    assert round(np.imag(balun.z_ld)) == 19
+    delta_X = balun.enforce_symmetrical(_verbose=True)
+    assert round(delta_X[0]) == 319
+    assert round(delta_X[1]) == 205
 
-    balun.z_ld = zl_target
-    balun.enforce_symmetrical(side="source", _verbose=True)
-    assert round(np.imag(balun.z_src)) == -249
+    delta_X = balun.enforce_symmetrical(side="source", _verbose=True)
+    assert round(delta_X[0]) == -3690987515
+    assert round(delta_X[1]) == -146
 
     balun.print()
-    balun.k = 0.02
-    with pytest.raises(ValueError):
-        balun.design()
 
 
 def test_taper():

@@ -19,7 +19,7 @@ class Balun:
         self.z_ld = _z_load
         self.k = _k
 
-    def design(self):
+    def design(self, XL_add=(0.0, 0.0), XS_add=(0.0, 0.0)):
         """
         design an impedance transformer
         with the targeted specifications (f_targ, zl_targ, zs_targ, k)
@@ -27,25 +27,18 @@ class Balun:
         """
         k = self.k
         alpha = (1 - k ** 2) / k
-        q_s = -quality_f(self.z_src)
-        q_l = -quality_f(self.z_ld)
+        q_s = -quality_f(self.z_src + 1j * np.array(XS_add))
+        q_l = -quality_f(self.z_ld + 1j * np.array(XL_add))
         # assuming perfect inductor for first calculation
-        r_l1 = 0
-        r_l2 = 0
+        r_l1, r_l2 = 0.0, 0.0
         q_s_prime = q_s * np.real(self.z_src) / (np.real(self.z_src) + r_l1)
         q_l_prime = q_l * np.real(self.z_ld) / (np.real(self.z_ld) + r_l2)
         b_coeff = 2 * alpha * q_s_prime + q_s_prime + q_l_prime
         discr = b_coeff ** 2 - 4 * alpha * (alpha + 1) * (1 + q_s_prime ** 2)
-        if discr < 0:
-            raise ValueError(
-                "Negative value in square root,\
-try to increase the coupling factor or the load quality factor\
-or try to lower the source quality factor"
-            )
         z_sol = np.array(
             (
-                (b_coeff + np.sqrt(discr)) / (2 * (alpha + 1)),
-                (b_coeff - np.sqrt(discr)) / (2 * (alpha + 1)),
+                (b_coeff[0] + np.sqrt(discr[0])) / (2 * (alpha + 1)),
+                (b_coeff[1] - np.sqrt(discr[1])) / (2 * (alpha + 1)),
             )
         )
         qxl1 = z_sol / (1 - k ** 2)
@@ -54,7 +47,7 @@ or try to lower the source quality factor"
         l_sol2 = qxl2 * np.real(self.z_ld) / (2 * np.pi * self.f_c)
         return l_sol1, l_sol2
 
-    def __enforce_symmetrical(self, _q_val, _of_load=True):
+    def __enforce_symmetrical(self, _q_val, _of_load=True, sol=0):
         """
         return the 'distance' to a symmetrical balun (ie. primary = secondary)
         if _of_load, altering the load impedance
@@ -81,7 +74,7 @@ or try to lower the source quality factor"
         qxl1 = z_sol / (1 - k ** 2)
         qxl2 = z_sol * (1 + q_l ** 2) / (alpha * (1 + (q_s - z_sol) ** 2))
         qxl_ratio = np.real(self.z_ld) / np.real(self.z_src)
-        return np.abs(np.min(qxl1 / qxl2) - qxl_ratio)
+        return np.abs(qxl1[sol] / qxl2[sol] - qxl_ratio)
 
     def enforce_symmetrical(self, side="load", _verbose=False):
         """
@@ -94,20 +87,25 @@ or try to lower the source quality factor"
         else:
             old_z = self.z_src
             _through_load = False
-        res = minimize(
+        res0 = minimize(
             self.__enforce_symmetrical,
             -quality_f(old_z),
-            args=_through_load,
+            args=(_through_load, 0),
             method="Nelder-Mead",
         )
-        new_z = np.real(old_z) * (1 - 1j * res.x[0])
+        res1 = minimize(
+            self.__enforce_symmetrical,
+            -quality_f(old_z),
+            args=(_through_load, 1),
+            method="Nelder-Mead",
+        )
+        delta_X = (
+            -np.real(old_z) * res0.x[0] - np.imag(old_z),
+            -np.real(old_z) * res1.x[0] - np.imag(old_z),
+        )
         if _verbose:
-            print(f"old z_ld: ${complex(old_z):5.2f}")
-            print(f"new z_ld: ${complex(new_z):5.2f}")
-        if _through_load:
-            self.z_ld = complex(new_z)
-        else:
-            self.z_src = complex(new_z)
+            print(f"X_{side} must be change by {delta_X[0]:5.2f} or {delta_X[1]:5.2f}")
+        return delta_X
 
     def print(self):
         message = f"target : f={Frequency(self.f_c)}"
