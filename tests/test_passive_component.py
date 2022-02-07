@@ -43,7 +43,7 @@ def test_balun():
 
     delta_X = balun.enforce_symmetrical(side="source", _verbose=True)
     assert round(delta_X[0]) == -8073707515
-    assert round(delta_X[1]) == -127
+    assert round(delta_X[1]) == -128
 
     balun.print()
 
