@@ -26,7 +26,7 @@ class Balun:
         return the two ideal transformers solution
         """
         k = self.k
-        alpha = (1 - k ** 2) / k
+        alpha = (1 - k ** 2) / k ** 2
         q_s = -quality_f(self.z_src + 1j * np.array(XS_add))
         q_l = -quality_f(self.z_ld + 1j * np.array(XL_add))
         # assuming perfect inductor for first calculation
@@ -54,7 +54,7 @@ class Balun:
         else altering the source impedance
         """
         k = self.k
-        alpha = (1 - k ** 2) / k
+        alpha = (1 - k ** 2) / k ** 2
         if _of_load:
             q_s = -quality_f(self.z_src)
             q_l = _q_val

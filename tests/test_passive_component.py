@@ -32,18 +32,18 @@ def test_balun():
     f_target = 60e9
     balun = bln.Balun(f_target, zl_target, zs_target, 0.8)
     L1, L2 = balun.design()
-    assert round(L1[1] * 1e12) == 132
-    assert round(L1[0] * 1e12) == 1596
-    assert round(L2[1] * 1e12) == 571
-    assert round(L2[0] * 1e12) == 3967
+    assert round(L1[1] * 1e12) == 157
+    assert round(L1[0] * 1e12) == 1552
+    assert round(L2[1] * 1e12) == 580
+    assert round(L2[0] * 1e12) == 3369
 
     delta_X = balun.enforce_symmetrical(_verbose=True)
-    assert round(delta_X[0]) == 319
-    assert round(delta_X[1]) == 205
+    assert round(delta_X[0]) == 304
+    assert round(delta_X[1]) == 190
 
     delta_X = balun.enforce_symmetrical(side="source", _verbose=True)
-    assert round(delta_X[0]) == -3690987515
-    assert round(delta_X[1]) == -146
+    assert round(delta_X[0]) == -8073707515
+    assert round(delta_X[1]) == -127
 
     balun.print()
 
