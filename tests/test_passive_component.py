@@ -10,8 +10,6 @@ import passive_auto_design.devices.balun as bln
 import passive_auto_design.components.taper as tpr
 from passive_auto_design.special import reflexion_coef, transmission_coef
 
-MODEL_MAP_PATH = "tests/default.map"
-
 
 def test_coupler():
     """
@@ -42,7 +40,7 @@ def test_balun():
     assert round(delta_X[1]) == 190
 
     delta_X = balun.enforce_symmetrical(side="source", _verbose=True)
-    assert round(delta_X[0]) == -8073707515
+    assert round(delta_X[0]) == 122
     assert round(delta_X[1]) == -128
 
     balun.print()
