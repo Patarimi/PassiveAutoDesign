@@ -73,21 +73,18 @@ class Balun:
             old_z = self.z_src
             _through_load = False
         # TODO : Detect when minimize did not converge
-        res0 = minimize(
-            self.__enforce_symmetrical,
-            quality_f(old_z),
-            args=(_through_load, 0),
-            method="Nelder-Mead",
-        )
-        res1 = minimize(
-            self.__enforce_symmetrical,
-            quality_f(old_z),
-            args=(_through_load, 1),
-            method="Nelder-Mead",
-        )
+        res = list((0, 1))
+        for i in (0, 1):
+            t = minimize(
+                self.__enforce_symmetrical,
+                quality_f(old_z),
+                args=(_through_load, i),
+                method="Nelder-Mead",
+            )
+            res[i] = t.x[0]
         if _verbose:
-            print(f"X_{side} must be change by {res0.x[0]:5.2f} or {res1.x[0]:5.2f}")
-        return res0.x[0], res1.x[0]
+            print(f"X_{side} must be change by {res[0]:5.2f} or {res[1]:5.2f}")
+        return res
 
     def print(self):
         message = f"target : f={Frequency(self.f_c)}"
