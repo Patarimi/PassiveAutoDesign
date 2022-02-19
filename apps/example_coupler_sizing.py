@@ -1,25 +1,38 @@
+import numpy as np
 import streamlit as st
 from hydralit import HydraHeadApp
-from numpy import imag
+import matplotlib.pyplot as plt
 import passive_auto_design.devices.coupler as cpl
 from passive_auto_design.unit import SI
+from passive_auto_design.special import dB, gamma
 
 
 class Coupler(HydraHeadApp):
     def run(self):
         # Design inputs
-        with st.form(key="design_input"):
-            col1, col2 = st.columns(2)
-            f_c = col1.number_input(
+        col1, col2 = st.columns(2)
+        with col1.form(key="design_input"):
+            st.header("Input Parameters")
+            f_c = st.number_input(
                 "Central Frequency (Hz)", value=1.0e9, min_value=0.0, format="%e"
             )
-            k = col2.number_input(
+            k = st.number_input(
                 "Coupling Factor", value=0.707, min_value=0.0, max_value=1.0, step=0.001
             )
-            z_c = col1.number_input("Characteristic Impedance (Real)", value=50.0)
+            z_c = st.number_input("Characteristic Impedance (Real)", value=50.0)
             submitted = st.form_submit_button()
         if submitted:
             coupler = cpl.Coupler(f_c, z_c, k)
-            st.subheader("Solution")
-            st.write(r"$C_{eq}$=" + SI(coupler.c) + "F")
-            st.write(r"$L_{eq}$=" + SI(coupler.l) + "H")
+            col2.subheader("Solution")
+            col2.write(r"$C_{eq}$=" + SI(coupler.c) + "F")
+            col2.write(r"$L_{eq}$=" + SI(coupler.l) + "H")
+            f_log = np.round(np.log10(f_c), 1)
+            freq = np.logspace(f_log - 2, f_log + 2)
+
+            z_eff = coupler.l * (2 * np.pi * freq * np.sqrt(1 - k ** 2))
+
+            fig, ax = plt.subplots()
+            ax.semilogx(freq, dB(gamma(z_eff, z_c)), label="Return Loss")
+            ax.semilogx(freq, dB(1-gamma(z_eff, z_c)**2), label="Transmission")
+            ax.legend()
+            col2.pyplot(fig, dpi=300)
