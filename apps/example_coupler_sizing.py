@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import passive_auto_design.devices.coupler as cpl
 from passive_auto_design.unit import SI
 from passive_auto_design.special import dB, gamma
-from passive_auto_design.components.lumped_element import Inductor
+from passive_auto_design.components.lumped_element import Inductor, Capacitor
 
 
 class Coupler(HydraHeadApp):
@@ -41,12 +41,26 @@ class Coupler(HydraHeadApp):
         with col1.form(key="Transformer Parameters"):
             st.header("Transformer Parameters")
             n_turn = st.number_input(label="turn number", min_value=1, step=1)
-            width = st.number_input(label="width (µm)", value=3., min_value=0., step=0.01)
-            gap = st.number_input(label="gap (µm)", value=1.5, min_value=0., step=0.01)
+            width_min = st.number_input(label="width (µm)", value=3., min_value=0., step=0.01) * 1e-6
+            gap = st.number_input(label="gap (µm)", value=1.5, min_value=0., step=0.01) * 1e-6
+            st.header("Model Parameters")
+            eps_r = st.number_input(label="permittivity", value=4., min_value=0.)
+            dist = st.number_input(label="distance between inductor (µm)", value=0.15) * 1e-6
             submit2 = st.form_submit_button(label="Compute")
 
         if submit2:
-            l1 = Inductor(n_turn=n_turn, width=width*1e-6, gap=gap*1e-6)
-            l1.set_x_with_y("d_i", "ind", coupler.l)
-
-            col1.write(l1.par)
+            width = width_min
+            l1 = Inductor(n_turn=n_turn, width=width, gap=gap)
+            for i in range(2):
+                l1.set_x_with_y("d_i", "ind", coupler.l)
+                area = n_turn * l1.par["d_i"] * width
+                st.write(area)
+                cap = Capacitor(area, dist, eps_r)
+                cap.set_x_with_y("area", "cap", coupler.c)
+                width = cap.par["area"]/(n_turn*l1.par["d_i"])
+                l1.par.update({"width": width})
+            col2.write(r"$l_{find}$ = "+str(l1))
+            col2.write(r"$c_{find}$ = "+str(cap))
+            col2.write(r"$n_{turn}$= "+str(n_turn))
+            for key in {"width", "gap", "d_i"}:
+                col2.write(f'{key}: {SI(l1.par[key])}m')
