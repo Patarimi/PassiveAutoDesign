@@ -7,10 +7,10 @@ from passive_auto_design.unit import SI
 class Balun(HydraHeadApp):
     def run(self):
         # Design inputs
-        with st.form(key="design_input"):
-            st.header("Input Parameters")
-            col1, col2 = st.columns(2)
-            f_c = col1.number_input(
+        col = st.columns([2, 1, 1])
+        with col[0].form(key="design_input"):
+            st.header("Design Parameters")
+            f_c = st.number_input(
                 "Central Frequency (Hz)", value=60.0e9, min_value=0.0, format="%e"
             )
             k = col2.number_input("Coupling Factor", value=0.8)
