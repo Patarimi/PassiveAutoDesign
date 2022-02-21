@@ -21,7 +21,7 @@ class Coupler(HydraHeadApp):
                 "Coupling Factor", value=0.707, min_value=0.0, max_value=1.0, step=0.001
             )
             z_c = st.number_input("Characteristic Impedance (Real)", value=50.0)
-            submitted = st.form_submit_button(label="Compute")
+            st.form_submit_button(label="Compute")
         coupler = cpl.Coupler(f_c, z_c, k)
         col1.subheader("Solution")
         col1.write(r"$C_{eq}$=" + SI(coupler.c) + "F")
