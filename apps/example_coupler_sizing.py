@@ -34,24 +34,26 @@ class Coupler(HydraHeadApp):
         fig, ax = plt.subplots()
         ax.semilogx(freq, dB(gamma(z_eff, z_c)), label="Return Loss")
         ax.semilogx(freq, dB(1-gamma(z_eff, z_c)**2), label="Transmission")
+        ax.grid(True)
         ax.legend()
         col2.pyplot(fig, dpi=300)
 
+        col1, col2 = st.columns(2)
         with col1.form(key="Transformer Parameters"):
             st.header("Transformer Parameters")
-            n_turn = st.number_input(label="turn number", min_value=1, step=1)
+            n_turn = st.number_input(label="Turn number", min_value=1, step=1)
             width_min = (
-                st.number_input(label="width (µm)", value=3.0, min_value=0.0, step=0.01)
+                st.number_input(label="Width (µm)", value=3.0, min_value=0.0, step=0.01)
                 * 1e-6
             )
             gap = (
-                st.number_input(label="gap (µm)", value=1.5, min_value=0.0, step=0.01)
+                st.number_input(label="Gap (µm)", value=1.5, min_value=0.0, step=0.01)
                 * 1e-6
             )
             st.header("Model Parameters")
-            eps_r = st.number_input(label="permittivity", value=4.0, min_value=0.0)
+            eps_r = st.number_input(label="Permittivity", value=4.0, min_value=0.0)
             dist = (
-                st.number_input(label="distance between inductor (µm)", value=0.15)
+                st.number_input(label="Distance between inductor (µm)", value=0.15)
                 * 1e-6
             )
             st.form_submit_button(label="Compute")
@@ -68,6 +70,7 @@ class Coupler(HydraHeadApp):
             delta = np.abs(area - cap.par["area"]) / area
             if delta < 0.001:
                 break
+        col2.header("Geometrical Sizing")
         col2.write(r"$l_{find}$ = " + str(l1))
         col2.write(r"$c_{find}$ = " + str(cap))
         col2.write(r"$n_{turn}$= " + str(n_turn))
