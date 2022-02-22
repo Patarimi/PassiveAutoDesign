@@ -33,7 +33,7 @@ class Coupler(HydraHeadApp):
 
         fig, ax = plt.subplots()
         ax.semilogx(freq, dB(gamma(z_eff, z_c)), label="Return Loss")
-        ax.semilogx(freq, dB(1-gamma(z_eff, z_c)**2), label="Transmission")
+        ax.semilogx(freq, dB(1 - gamma(z_eff, z_c) ** 2), label="Transmission")
         ax.grid(True)
         ax.legend()
         col2.pyplot(fig, dpi=300)
@@ -62,7 +62,8 @@ class Coupler(HydraHeadApp):
         l1 = Inductor(n_turn=n_turn, width=width, gap=gap)
         for i in range(4):
             l1.set_x_with_y("d_i", "ind", coupler.l)
-            area = n_turn * l1.par["d_i"] * width
+            d_i = l1.par["d_i"]
+            area = 4 * ((n_turn * width + d_i) ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
             cap = Capacitor(area, dist, eps_r)
             cap.set_x_with_y("area", "cap", coupler.c)
             width = cap.par["area"] / (n_turn * l1.par["d_i"])

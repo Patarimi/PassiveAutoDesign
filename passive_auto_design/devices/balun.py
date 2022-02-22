@@ -19,7 +19,7 @@ class Balun:
         self.z_ld = _z_load
         self.k = _k
 
-    def design(self, XL_add=(0.0, 0.0), XS_add=(0.0, 0.0), r_serie = (0., 0.)):
+    def design(self, XL_add=(0.0, 0.0), XS_add=(0.0, 0.0), r_serie=(0.0, 0.0)):
         """
         design an impedance transformer
         with the targeted specifications (f_targ, zl_targ, zs_targ, k)
