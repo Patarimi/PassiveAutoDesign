@@ -19,7 +19,7 @@ class Balun:
         self.z_ld = _z_load
         self.k = _k
 
-    def design(self, XL_add=(0.0, 0.0), XS_add=(0.0, 0.0)):
+    def design(self, XL_add=(0.0, 0.0), XS_add=(0.0, 0.0), r_serie=(0.0, 0.0)):
         """
         design an impedance transformer
         with the targeted specifications (f_targ, zl_targ, zs_targ, k)
@@ -30,7 +30,7 @@ class Balun:
         q_s = -quality_f(self.z_src + 1j * np.array(XS_add))
         q_l = -quality_f(self.z_ld + 1j * np.array(XL_add))
         # assuming perfect inductor for first calculation
-        r_l1, r_l2 = 0.0, 0.0
+        r_l1, r_l2 = r_serie
         q_s_prime = q_s * np.real(self.z_src) / (np.real(self.z_src) + r_l1)
         q_l_prime = q_l * np.real(self.z_ld) / (np.real(self.z_ld) + r_l2)
         b_coeff = 2 * alpha * q_s_prime + q_s_prime + q_l_prime

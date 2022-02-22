@@ -43,8 +43,8 @@ class Transformer:
             {
                 "lp": self.l_geo(True),
                 "rp": self.r_geo(True),
-                "cg": self.cc_geo(False),
                 "cm": self.cc_geo(True),
+                "cg": self.cc_geo(False),
                 "k": self.k_geo(),
             }
         )
@@ -101,11 +101,16 @@ class Transformer:
         """
         if _mutual:
             dist = float(self.model_map["d_m"])
+            d_i = np.max((self.prim["di"], self.second["di"]))
+            d_o = np.min((self.prim["di"] + self.prim["n_turn"]*self.prim["width"],
+                         self.second["di"] + self.second["n_turn"]*self.second["width"]))
         else:
             dist = float(self.model_map["d_g"])
+            d_i = self.second["di"]
+            d_o = self.second["di"] + self.second["n_turn"] * self.second["width"]
         n_t = self.prim["n_turn"]
         eps_r = float(self.model_map["eps_r"])
-        area = n_t * self.prim["di"] * self.prim["width"]
+        area = 4 * (d_o ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
         cap = lmp.Capacitor(area, dist, eps_r)
         return cap.par["cap"]
 
