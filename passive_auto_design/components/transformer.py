@@ -108,7 +108,6 @@ class Transformer:
             dist = float(self.model_map["d_g"])
             d_i = self.second["di"]
             d_o = self.second["di"] + self.second["n_turn"] * self.second["width"]
-        n_t = self.prim["n_turn"]
         eps_r = float(self.model_map["eps_r"])
         area = 4 * (d_o ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
         cap = lmp.Capacitor(area, dist, eps_r)
