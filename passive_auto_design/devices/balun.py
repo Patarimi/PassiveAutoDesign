@@ -5,7 +5,7 @@
 import numpy as np
 from scipy.optimize import minimize
 from ..special import quality_f
-from ..unit import Frequency
+from ..unit import Frequency, Impedance
 
 
 class Balun:
@@ -18,6 +18,10 @@ class Balun:
         self.z_src = _z_source
         self.z_ld = _z_load
         self.k = _k
+
+    def __str__(self):
+        message = f"target : fc={Frequency(self.f_c)}\tzs={Impedance(self.z_src)}\tzl={Impedance(self.z_ld)}"
+        return message
 
     def design(self, XL_add=(0.0, 0.0), XS_add=(0.0, 0.0), r_serie=(0.0, 0.0)):
         """
@@ -85,7 +89,3 @@ class Balun:
         if _verbose:
             print(f"X_{side} must be change by {res[0]:5.2f} or {res[1]:5.2f}")
         return res
-
-    def print(self):
-        message = f"target : f={Frequency(self.f_c)}"
-        return message

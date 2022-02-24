@@ -18,7 +18,7 @@ def test_coupler():
     coupler = cpl.Coupler(1e9, 50)
     assert round(1e9 * coupler.l, 3) == 11.252
     assert round(1e12 * coupler.c, 3) == 4.501
-    coupler.print()
+    assert str(coupler) == "L: 11.2523 nH\tC: 4.5009 pF"
 
 
 def test_balun():
@@ -43,7 +43,7 @@ def test_balun():
     assert round(delta_X[0]) == 122
     assert round(delta_X[1]) == -128
 
-    balun.print()
+    assert str(balun) == "target : fc=60 GHz\tzs=50 - j100 $\Omega$\tzl=100 - j300 $\Omega$"
 
 
 def test_taper():

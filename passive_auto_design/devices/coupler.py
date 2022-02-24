@@ -18,7 +18,7 @@ class Coupler:
         self.l = self.z_c / (2 * pi * self.f_c * sqrt(1 - self.k ** 2))
         self.c = self.l / self.z_c ** 2
 
-    def print(self):
+    def __str__(self):
         """
         Print a summary of the solution l and c
         """
