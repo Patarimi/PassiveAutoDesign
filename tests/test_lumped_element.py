@@ -31,12 +31,16 @@ def test_inductor():
     """
     unity test for capacitor object
     """
-    ind = lmp.Inductor()
-    assert ind.par["ind"] == 1.5432565424041825e-10
 
-    ind.set_x_with_y("k_1", "ind", 1e-9)
-    assert ind.par["k_1"] == 8.196952235094303
-    assert ind.par["ind"] == 1e-9
+    ind = lmp.Inductor(d_i=210e-6, n_turn=1, width=10e-6, gap=3e-6)
+    assert ind.par["ind"] == 5.356077338175006e-10
+
+    ind = lmp.Inductor(d_i=183e-6, n_turn=2, width=10e-6, gap=3e-6)
+    assert ind.par["ind"] == 1.6684854964430778e-09
+
+    ind.set_x_with_y("k_1", "ind", 1.96e-9)
+    assert ind.par["k_1"] == 2.643115627671878
+    assert ind.par["ind"] == 1.96e-9
 
     ind.set_x_with_y("k_1", "ind", (1e-9, 300e-12))
     assert ind.par["ind"] == 300e-12

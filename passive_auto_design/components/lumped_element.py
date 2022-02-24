@@ -120,7 +120,7 @@ class Inductor(LumpedElement):
     class describing a inductor behavior
     """
 
-    def __init__(self, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6):
+    def __init__(self, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6, k_1=2.25, k_2=3.55):
         LumpedElement.__init__(self)
         self.ref = "ind"
         self.par = {
@@ -128,8 +128,8 @@ class Inductor(LumpedElement):
             "n_turn": n_turn,
             "width": width,
             "gap": gap,
-            "k_1": 1.265,
-            "k_2": 2.093,
+            "k_1": k_1,
+            "k_2": k_2,
         }
         self.par.update({"ind": self.calc_ref_value()})
 
@@ -137,21 +137,12 @@ class Inductor(LumpedElement):
         return Ind(self.par["ind"])
 
     def calc_ref_value(self):
-        outer_diam = (
-            self.par["d_i"]
-            + 2 * self.par["n_turn"] * self.par["width"]
-            + 2 * (self.par["n_turn"] - 1) * self.par["gap"]
-        )
+        n = self.par["n_turn"]
+        outer_diam = self.par["d_i"] + 2 * n * self.par["width"] + 2 * (n - 1) * self.par["gap"]
         self.par.update({"d_o": outer_diam})
         rho = (self.par["d_i"] + outer_diam) / 2
         density = (outer_diam - self.par["d_i"]) / (outer_diam + self.par["d_i"])
-        return (
-            self.par["k_1"]
-            * u0
-            * self.par["n_turn"] ** 2
-            * rho
-            / (1 + self.par["k_2"] * density)
-        )
+        return self.par["k_1"] * u0 * n ** 2 * rho / (1 + self.par["k_2"] * density)
 
 
 Mut = EngFormatter()
