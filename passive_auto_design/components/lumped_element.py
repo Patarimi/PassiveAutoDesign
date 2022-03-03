@@ -33,6 +33,7 @@ class LumpedElement(metaclass=abc.ABCMeta):
     def par(self, key_pair):
         self._par.update(key_pair)
 
+    #TODO enable multiple x_keys
     def set_x_with_y(self, x_key, y_key, y_value):
         """
         set the value of the X_key for a Y_value of the Y_key
@@ -40,16 +41,18 @@ class LumpedElement(metaclass=abc.ABCMeta):
         minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
 
     @functools.lru_cache()
-    def __cost(self, x_value, x_key, y_key, y_value):
-        self.par = {x_key: x_value}
-        if isinstance(y_value, float):
+    def __cost(self, x_value : float, x_key : str, y_key : str, y_value : float):
+        if y_key.find(".") > 0:
+            comp, ref = y_key.split(".", 1)
+            self.par[comp].par.update({ref: y_value})
+        else:
             self.par = {y_key: y_value}
-            return abs(self.calc_ref_value() - self.par[self.ref])
-        err = 0
-        for y_val in y_value:
-            self.par = {y_key: y_val}
-            err += abs(self.calc_ref_value() - self.par[self.ref])
-        return err
+        if x_key.find(".") > 0:
+            comp, x_k = x_key.split(".", 1)
+            self.par[comp].par.update({x_k: x_value})
+            return abs(self.par[comp].calc_ref_value() - self.par[comp].par[self.par[comp].ref])
+        self.par = {x_key: x_value}
+        return abs(self.calc_ref_value() - self.par[self.ref])
 
     @abc.abstractmethod
     def calc_ref_value(self):
@@ -84,7 +87,7 @@ class Resistor(LumpedElement):
         return Res(self.par["res"])
 
     def calc_ref_value(self):
-        return self.par["rho"] * self.par["length"] / self.par["section"]
+        return max([self.par["rho"] * self.par["length"] / self.par["section"], 0.])
 
 
 Cap = EngFormatter(unit="F")
@@ -143,30 +146,3 @@ class Inductor(LumpedElement):
         rho = (self.par["d_i"] + outer_diam) / 2
         density = (outer_diam - self.par["d_i"]) / (outer_diam + self.par["d_i"])
         return self.par["k_1"] * u0 * n ** 2 * rho / (1 + self.par["k_2"] * density)
-
-
-Mut = EngFormatter()
-
-
-class Mutual(LumpedElement):
-    """
-    class describing a mutual inductor behavior
-    """
-
-    def __init__(self, ind1, ind2):
-        self.ref = "k"
-        LumpedElement.__init__(self)
-        self.ind1 = ind1
-        self.ind2 = ind2
-        self.par = {"cpl_eq": 1}
-        self.par.update({"k": self.calc_ref_value()})
-
-    def __str__(self):
-        return Mut(self.par["k"])
-
-    def calc_ref_value(self):
-        cpl = self.par["cpl_eq"]
-        return cpl * (
-            min(self.ind1.par["d_o"], self.ind2.par["d_o"])
-            - max(self.ind1.par["d_i"], self.ind2.par["d_i"])
-        )
