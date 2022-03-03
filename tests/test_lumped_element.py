@@ -1,4 +1,5 @@
 import passive_auto_design.components.lumped_element as lmp
+import passive_auto_design.components.transformer as tf
 
 
 def test_capacitor():
@@ -41,16 +42,13 @@ def test_inductor():
     ind.set_x_with_y("k_1", "ind", 1.96e-9)
     assert ind.par["k_1"] == 2.643115627671878
     assert ind.par["ind"] == 1.96e-9
-
-    ind.set_x_with_y("k_1", "ind", (1e-9, 300e-12))
-    assert ind.par["ind"] == 300e-12
-    assert str(ind) == "300 pH"
+    assert str(ind) == "1.96 nH"
 
 
-def test_mutual():
+def test_transformer():
     ind1 = lmp.Inductor()
     ind2 = lmp.Inductor()
-    mut = lmp.Mutual(ind1, ind2)
+    transfo = tf.Transformer(ind1, ind2)
 
-    assert round(mut.par["k"], 6) == 6e-6
-    assert str(mut) == "6 µ"
+    transfo.set_x_with_y("lp.d_i", "lp.ind", 1e-9)
+    assert transfo.par["lp"].par["ind"] == 1e-9
