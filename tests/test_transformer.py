@@ -12,3 +12,4 @@ def test_transformer():
     transfo.set_x_with_y("lp.d_i", "lp.ind", 0.5e-9)
     assert transfo.par["lp"].par["ind"] == 0.5e-9
     assert transfo.par["lp"].par["d_i"] == 197.14500527543268e-6
+    assert transfo.calc_ref_value() == 0.8698824082661091

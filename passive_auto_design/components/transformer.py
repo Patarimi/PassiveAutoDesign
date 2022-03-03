@@ -77,7 +77,7 @@ class Transformer(lmp.LumpedElement):
             * (geo["d_i"] + geo["width"] + (n_t - 1) * (geo["width"] + geo["gap"]))
         )
         r_dc = lmp.Resistor(geo["width"], l_tot, rho)
-        return np.maximum(r_dc.par["res"], 0)
+        return r_dc
 
     def k_geo(self):
         """
@@ -90,4 +90,4 @@ class Transformer(lmp.LumpedElement):
         d1 = l1["d_i"]
         c2 = l2["width"]*l2["n_turn"] + l2["gap"]*(l2["n_turn"]-1)
         d2 = l2["d_i"]
-        return 0.99*(np.min([c1+d1, c2+d2])-np.max([d1, d2]))/(np.max([c1+d1, c2+d2])-np.min([d1, d2]))
+        return 0.99*(np.max([d1, d2])-np.min([c1+d1, c2+d2]))/(np.max([c1+d1, c2+d2])-np.min([d1, d2]))

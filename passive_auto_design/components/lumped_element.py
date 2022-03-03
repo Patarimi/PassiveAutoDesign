@@ -87,7 +87,7 @@ class Resistor(LumpedElement):
         return Res(self.par["res"])
 
     def calc_ref_value(self):
-        return self.par["rho"] * self.par["length"] / self.par["section"]
+        return max([self.par["rho"] * self.par["length"] / self.par["section"], 0.])
 
 
 Cap = EngFormatter(unit="F")
