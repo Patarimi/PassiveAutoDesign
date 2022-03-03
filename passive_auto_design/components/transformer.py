@@ -3,8 +3,6 @@
 
 """
 import numpy as np
-import yaml
-import skrf as rf
 from passive_auto_design.special import u0
 import passive_auto_design.components.lumped_element as lmp
 
@@ -54,7 +52,6 @@ class Transformer(lmp.LumpedElement):
             dist = float(self.par["h_gnd"])
             d_i = np.min([l2["d_i"], l1["d_i"]])
             d_o = np.max([l1["d_i"] + l1["n_turn"] * l1["width"], l2["d_i"] + l2["n_turn"] * l2["width"]])
-        n_t = self.par["lp"].par["n_turn"]
         eps_r = float(self.par["eps_r"])
         area = 4 * (d_o ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
         cap = lmp.Capacitor(area, dist, eps_r)
