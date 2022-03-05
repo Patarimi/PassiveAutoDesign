@@ -3,7 +3,6 @@
 Define constants and function dedicated to RF-conception
 """
 import numpy as np
-from numba import njit, vectorize
 
 # Constants
 u0 = 4 * np.pi * 1e-7  # H/m
@@ -14,7 +13,6 @@ Nm_to_dBcm = 8.686 / 100
 
 
 # Other functions
-@vectorize(cache=True)
 def gamma(_z_load: float, _z0: float = 50):
     return (_z0 - _z_load) / (_z0 + _z_load)
 
@@ -27,7 +25,6 @@ def std_dev(measured, targeted):
     return np.sqrt(np.sum(tmp))
 
 
-@vectorize(cache=True)
 def dB(c):
     """
     Return the decibel value of the given imaginary number.
@@ -37,7 +34,6 @@ def dB(c):
     return 10 * np.log10(np.abs(c))
 
 
-@vectorize(cache=True)
 def lin(d):
     """
     return the linear magnitude of the given magnitude in decibel
@@ -45,7 +41,6 @@ def lin(d):
     return 10 ** (d / 10)
 
 
-@vectorize(cache=True)
 def ihsr(_s31, _s21):
     """
     Return the IHSR (Ideal Hybrid Splitting Ratio) for the given gains
@@ -55,8 +50,6 @@ def ihsr(_s31, _s21):
     ihsr_log = dB((_s21 - 1j * _s31) / (_s21 + 1j * _s31))
     return -np.minimum(ihsr_log, -ihsr_log)
 
-
-@vectorize(cache=True)
 def quality_f(_z):
     """
     return the quality factor of a components
@@ -64,7 +57,6 @@ def quality_f(_z):
     return np.imag(_z) / np.real(_z)
 
 
-@njit(cache=True)
 def reflexion_coef(_z_steps, _phi_step):
     """
     return the coefficient reflexion of a given sequence of transmission lines
@@ -83,17 +75,14 @@ def reflexion_coef(_z_steps, _phi_step):
     return gamma(_z_steps[0], z_tot)
 
 
-@njit(cache=True)
 def transmission_coef(_z_steps, _phi_step):
     return np.sqrt(1 - reflexion_coef(_z_steps, _phi_step) ** 2)
 
 
-@vectorize(cache=True)
 def frac_bandwidth(f_min, f_max):
     return 100 * np.abs(f_max - f_min) / np.sqrt(f_max * f_min)
 
 
-@njit(cache=True)
 def friis(f, gain):
     """
 
