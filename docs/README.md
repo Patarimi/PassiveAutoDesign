@@ -17,4 +17,4 @@ The Package is composed of five modules:
 - The _components_ directory which contains RF-components to be implemented in a susbtrate (Waveguides, Transformers, Coupler...). It also enables rough geometry design/estimation from given rf specifications.
 - The _special.py_ file which contains physical constants and special functions (dB, NmtodBcm, ...)
 - The _space_mapping.py_ file which help deploy space mapping algorithm.
-- The _unit.py_ file which contains fonction to hlp formatting number to string.
+- The _unit.py_ file which contains fonction to help formatting number to string.
