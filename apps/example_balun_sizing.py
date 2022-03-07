@@ -3,7 +3,8 @@ from hydralit import HydraHeadApp
 from numpy import tan, pi, sqrt
 import passive_auto_design.devices.balun as bln
 from passive_auto_design.unit import SI, Impedance
-from passive_auto_design.components.lumped_element import Inductor, Capacitor, Resistor
+from passive_auto_design.components.lumped_element import Inductor
+from passive_auto_design.components.transformer import Transformer
 
 
 class Balun(HydraHeadApp):
@@ -81,38 +82,30 @@ class Balun(HydraHeadApp):
                 l_t[i] = Inductor(n_turn=n_turn, width=width * 1e-6, gap=gap * 1e-6)
             st.header("Model Parameters")
             eps_r = st.number_input(label="Permittivity", value=4.0, min_value=0.0)
-            dist = st.number_input(label="Distance between inductor (µm)", value=0.15)
+            dist = st.number_input(label="Height between inductor (µm)", value=0.15)
+            dist_g = st.number_input(label="Height to the ground plane (µm)", value=0.15)
             r_square = st.number_input(label=r"Square Resistance (mOhm)", value=5.0)
+            transfo = Transformer(l_t[0], l_t[1], r_square*1e-3, eps_r, dist*1e-6, dist_g*1e-6)
             st.form_submit_button(label="Compute")
 
-        for i in range(1):
-            l_t[0].set_x_with_y("d_i", "ind", result[0][sel])
-            l_t[1].set_x_with_y("d_i", "ind", result[1][sel])
-
-            res = list((0, 1))
-            cap = list((0, 1))
-            for k in (0, 1):
-                d_i = l_t[k].par["d_i"]
-                gap = l_t[k].par["gap"]
-                w = l_t[k].par["width"]
-                n = l_t[k].par["n_turn"]
-                area = 4 * ((n * w + d_i) ** 2 - d_i ** 2) * (1 + 2 * sqrt(2))
-                cap[k] = Capacitor(area, dist * 1e-6, eps_r).par["cap"]
-                length = 8 * tan(pi / 8) * n * (d_i + w / 2 + (n - 1) * (w + gap))
-                res[k] = Resistor(w, length, r_square * 1e-3).par["res"]
-            new_z_ld = z_ld / (1 + z_ld * 1j * 2 * pi * min(cap) * f_c) + res[1]
-            new_z_src = z_src / (1 + z_src * 1j * 2 * pi * min(cap) * f_c) + res[0]
-            BALUN_TST = bln.Balun(f_c, new_z_src, new_z_ld, k)
-            result = BALUN_TST.design(r_serie=res)
+        transfo.par["lp"].set_x_with_y("d_i", "ind", result[0][sel])
+        transfo.par["ls"].set_x_with_y("d_i", "ind", result[1][sel])
+        cap = transfo.par["cm"].par["cap"]/2
+        res = (transfo.par["rp"].par["res"], transfo.par["rs"].par["res"])
+        new_z_ld = z_ld / (1 + z_ld * 1j * 2 * pi * cap * f_c) + res[1]
+        new_z_src = z_src / (1 + z_src * 1j * 2 * pi * cap * f_c) + res[0]
+        BALUN_TST = bln.Balun(f_c, new_z_src, new_z_ld, k)
+        result = BALUN_TST.design(r_serie=res)
 
         col[1].write(r"New $Z_{load}$: " + Impedance(new_z_ld))
         col[2].write(r"New $Z_{source}$: " + Impedance(new_z_src))
         col[1].header("First Inductor")
         col[2].header("Second Inductor")
         for k in (0, 1):
-            col[k + 1].write("New Inductance found: " + str(l_t[k]))
-            col[k + 1].write("Cap Para: " + SI(cap[k]) + "F")
+            side = "lp" if k == 0 else "ls"
+            col[k + 1].write("New Inductance found: " + str(transfo.par[side]))
+            col[k + 1].write("Cap Para: " + SI(cap) + "F")
             col[k + 1].write("Res Para: " + SI(res[k]) + r"$\Omega$")
-            col[k + 1].write(r"$n_{turn}$= " + str(l_t[k].par["n_turn"]))
+            col[k + 1].write(r"$n_{turn}$= " + str(transfo.par[side].par["n_turn"]))
             for key in {"width", "gap", "d_i"}:
                 col[k + 1].write(f"{key}: {SI(l_t[k].par[key])}m")
