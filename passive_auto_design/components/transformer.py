@@ -9,21 +9,21 @@ import passive_auto_design.components.lumped_element as lmp
 
 class Transformer(lmp.LumpedElement):
     """
-    Create a transformer object with the specified geometry _primary & _secondary
-    (which are dict defined as :
-        {'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height})
+    Create a transformer object with the specified Inductors primary & secondary
     and calculate the associated electrical model
+    if sym=True, Create a symmetrical transformer (secondary is ignored and assume egal to primary)
     """
 
-    def __init__(self, primary, secondary, rho=0., eps_r=0., h_mut=0., h_gnd=0.):
+    def __init__(self, primary, secondary=None, rho=0., eps_r=0., h_mut=0., h_gnd=0., sym=False):
         lmp.LumpedElement.__init__(self)
         self.par = {}
+        self.par["sym"] = sym
         self.par["rho"] = rho
         self.par["eps_r"] = eps_r
         self.par["h_mut"] = h_mut
         self.par["h_gnd"] = h_gnd
         self.par["lp"] = primary
-        self.par["ls"] = secondary
+        self.par["ls"] = secondary if not sym else primary
         self.par["rp"] = self.r_geo(True)
         self.par["rs"] = self.r_geo(False)
         self.par["cm"] = self.cc_geo(True)
@@ -31,7 +31,7 @@ class Transformer(lmp.LumpedElement):
         self.par["k"] = self.k_geo()
         self.ref = "k"
 
-    def calc_ref_value(self):
+    def calc_ref_value(self, subpart=""):
         for subpart in ("ls", "lp", "rp", "rs", "cm", "cg"):
             self.par[subpart].calc_ref_value()
         return self.k_geo()
