@@ -38,7 +38,8 @@ class LumpedElement(metaclass=abc.ABCMeta):
         """
         set the value of the X_key for a Y_value of the Y_key
         """
-        minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
+        res = minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
+        return res.x[0]
 
     @functools.lru_cache()
     def __cost(self, x_value : float, x_key : str, y_key : str, y_value : float):
@@ -55,13 +56,12 @@ class LumpedElement(metaclass=abc.ABCMeta):
         return abs(self.calc_ref_value() - self.par[self.ref])
 
     @abc.abstractmethod
-    def calc_ref_value(self):
+    def calc_ref_value(self, subpart=""):
         """
         Definition of the behavioral equation of the lumped element.
         Returns
         -------
         Value of self.par[self.ref] calculated with the other value in self.par.
-
         """
 
 
