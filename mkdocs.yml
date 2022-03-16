@@ -1,5 +1,5 @@
 site_name: PassiveAutoDesign
-site_url: https://passiveautodesign.netlify.app/
+site_url: https://patarimi.github.io/PassiveAutoDesign/
 repo_url: https://github.com/Patarimi/PassiveAutoDesign
 
 
@@ -25,3 +25,4 @@ plugins:
         python:
           selection:
             docstring_style: numpy
+            
