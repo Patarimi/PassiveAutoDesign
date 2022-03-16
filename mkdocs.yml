@@ -5,26 +5,23 @@ repo_url: https://github.com/Patarimi/PassiveAutoDesign
 
 nav:
   - Home: README.md
-  - Code Reference:
-      - Unit : unit.md
-      - Special: special.md
-      - Space Mapping: spacemap.md
-      - Components:
-          - Lumped Element: components/lumped_element.md
-          - Taper: components/taper.md
-          - Transformer: components/transformer.md
-          - Waveguide: components/waveguide.md
-      - Devices:
-          - Balun: devices/balun.md
-          - Coupler: devices/coupler.md
+  - Code Reference: reference/
 
 theme: material
 
 plugins:
   - search
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - section-index
+  - mkdocs-jupyter
+  - literate-nav:
+      nav_file: SUMMARY.md
   - mkdocstrings:
+      watch:
+        - passive_auto_design
       handlers:
         python:
           selection:
             docstring_style: numpy
-  - mkdocs-jupyter

@@ -10,6 +10,9 @@ setuptools~=60.9.3
 # for doc building
 mkdocs-material
 mkdocstrings
+mkdocs-literate-nav
+mkdocs-gen-files
+mkdocs-section-index
 mkdocs==1.2.3
 pytkdocs[numpy-style]
 mkdocs-jupyter
