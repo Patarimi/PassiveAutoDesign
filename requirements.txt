@@ -5,7 +5,7 @@ pyyaml==6.0
 scikit-rf==0.21.0
 
 # for package deployment
-setuptools~=60.9.3
+setuptools~=60.10.0
 
 # for doc building
 mkdocs-material
