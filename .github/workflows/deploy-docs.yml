@@ -1,12 +1,10 @@
 # These workflows will upload a Python Package using Twine when a release is created
 # For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
 
-name: Testing Python Package
+name: Docs Deploy
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -25,13 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine pytest-cov coveralls
         pip install -r requirements.txt
-    - name: Testing
+    - name: Deploy Docs
       run: |
-        python -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design
-        
-    - name: coveralls
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        coveralls
+        mkdocs gh-deploy
