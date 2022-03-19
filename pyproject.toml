@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "passiveautodesign"
+version = "0.1.0"
+description = ""
+authors = ["Patarimi <38954040+Patarimi@users.noreply.github.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+numpy = "^1.22.3"
+matplotlib = "^3.5.1"
+scipy = "^1.8.0"
+scikit-rf = "^0.21.0"
+
+[tool.poetry.dev-dependencies]
+setuptools = "^60.10.0"
+mkdocs-material = "^8.2.5"
+mkdocstrings = "^0.18.1"
+mkdocs = "^1.2.3"
+pytkdocs = {extras = ["numpy-style"], version = "^0.16.1"}
+mkdocs-jupyter = "^0.20.1"
+mkdocs-gen-files = "^0.3.4"
+mkdocs-section-index = "^0.3.3"
+mkdocs-literate-nav = "^0.4.1"
+pytest = "^7.1.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
