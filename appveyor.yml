@@ -20,7 +20,3 @@ install:
 test_script:
 - cd C:\projects\passiveautodesign
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
-
-deploy_script:
-- "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | %PYTHON%\\python -"
-- "poetry publish --build --username=Patarimi --password=%PYPIPASSWORD% --dry-run"
