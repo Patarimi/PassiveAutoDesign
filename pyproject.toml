@@ -11,6 +11,8 @@ numpy = "^1.22.3"
 matplotlib = "^3.5.1"
 scipy = "^1.8.0"
 scikit-rf = "^0.21.0"
+PyYAML = "^6.0"
+pytest-cov = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 setuptools = "^60.10.0"
