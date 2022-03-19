@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "passiveautodesign"
+name = "passive_auto_design"
 version = "0.1.0"
 description = ""
 authors = ["Patarimi <38954040+Patarimi@users.noreply.github.com>"]
 license = "MIT"
+
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
