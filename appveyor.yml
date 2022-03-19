@@ -20,19 +20,3 @@ install:
 test_script:
 - cd C:\projects\passiveautodesign
 - "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
-
-deploy_script:
-    # Specify account details for PyPI
-      - echo [distutils]                                  > %USERPROFILE%\\.pypirc
-      - echo index-servers =                             >> %USERPROFILE%\\.pypirc
-      - echo     pypi                                    >> %USERPROFILE%\\.pypirc
-      - echo [pypi]                                      >> %USERPROFILE%\\.pypirc
-      - echo username=Patarimi                            >> %USERPROFILE%\\.pypirc
-      - echo password=%PYPIPASSWORD%                     >> %USERPROFILE%\\.pypirc
-  
-    # Workaround required to ensure setup.py finds the .pypirc under Windows
-      - set HOME=%USERPROFILE%
-
-      - pip install -q --user --upgrade setuptools wheel twine --no-warn-script-location
-      - "%PYTHON%\\python.exe setup.py -q sdist bdist_wheel"
-      - "%PYTHON%\\python.exe -qm twine upload dist/* --skip-existing"
