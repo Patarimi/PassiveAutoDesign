@@ -17,7 +17,7 @@ pytest-cov = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 setuptools = "^60.10.0"
-mkdocs-material = "^8.2.5"
+mkdocs-material = "^8.2.6"
 mkdocstrings = "^0.18.1"
 mkdocs = "^1.2.3"
 pytkdocs = {extras = ["numpy-style"], version = "^0.16.1"}
