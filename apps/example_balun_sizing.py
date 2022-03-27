@@ -1,6 +1,6 @@
 import streamlit as st
 from hydralit import HydraHeadApp
-from numpy import tan, pi, sqrt
+from numpy import pi
 import passive_auto_design.devices.balun as bln
 from passive_auto_design.unit import SI, Impedance
 from passive_auto_design.components.lumped_element import Inductor
@@ -27,15 +27,16 @@ class Balun(HydraHeadApp):
             dir_sym = st.radio("by altering :", ("load", "source"))
             st.form_submit_button()
 
-        BALUN_TST = bln.Balun(f_c, z_src, z_ld, k)
+        balun = bln.Balun(f_c, z_src, z_ld, k)
+        x_add = (0., 0.)
         if force_sym:
-            X_add = BALUN_TST.enforce_symmetrical(dir_sym)
+            x_add = balun.enforce_symmetrical(dir_sym)
             if dir_sym == "load":
-                result = BALUN_TST.design(XL_add=X_add)
+                result = balun.design(XL_add=x_add)
             else:
-                result = BALUN_TST.design(XS_add=X_add)
+                result = balun.design(XS_add=x_add)
         else:
-            result = BALUN_TST.design()
+            result = balun.design()
         col[1].subheader("First Solution")
         col[2].subheader("Second Solution")
 
@@ -43,11 +44,11 @@ class Balun(HydraHeadApp):
             col[i + 1].write(r"$L_{in}$=" + SI(result[0][i]) + "H")
             col[i + 1].write(r"$L_{out}$=" + SI(result[1][i]) + "H")
             if force_sym:
-                if X_add[i] > 0:
-                    message = "an inductor of " + SI(X_add[i] / (2 * 3.14 * f_c)) + "H"
+                if x_add[i] > 0:
+                    message = "an inductor of " + SI(x_add[i] / (2 * 3.14 * f_c)) + "H"
                 else:
                     message = (
-                        "a condensator of " + SI(-1 / (X_add[i] * 2 * 3.14 * f_c)) + "F"
+                        "a capacitor of " + SI(-1 / (x_add[i] * 2 * 3.14 * f_c)) + "F"
                     )
                 col[i + 1].write(
                     "Please add " + message + " in series with the " + dir_sym + "."
@@ -94,8 +95,8 @@ class Balun(HydraHeadApp):
         res = (transfo.par["rp"].par["res"], transfo.par["rs"].par["res"])
         new_z_ld = z_ld / (1 + z_ld * 1j * 2 * pi * cap * f_c) + res[1]
         new_z_src = z_src / (1 + z_src * 1j * 2 * pi * cap * f_c) + res[0]
-        BALUN_TST = bln.Balun(f_c, new_z_src, new_z_ld, k)
-        result = BALUN_TST.design(r_serie=res)
+        balun = bln.Balun(f_c, new_z_src, new_z_ld, k)
+        balun.design(r_serie=res)
 
         col[1].write(r"New $Z_{load}$: " + Impedance(new_z_ld))
         col[2].write(r"New $Z_{source}$: " + Impedance(new_z_src))
