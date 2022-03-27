@@ -28,6 +28,7 @@ class Balun(HydraHeadApp):
             st.form_submit_button()
 
         balun = bln.Balun(f_c, z_src, z_ld, k)
+        x_add = (0., 0.)
         if force_sym:
             x_add = balun.enforce_symmetrical(dir_sym)
             if dir_sym == "load":
@@ -35,7 +36,6 @@ class Balun(HydraHeadApp):
             else:
                 result = balun.design(XS_add=x_add)
         else:
-            x_add = (0., 0.)
             result = balun.design()
         col[1].subheader("First Solution")
         col[2].subheader("Second Solution")
