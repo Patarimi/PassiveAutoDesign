@@ -5,7 +5,7 @@ This module give function to ease the design of RF-tapper
 import numpy as np
 from scipy.special import i1
 from scipy.integrate import quad
-from ..special import gamma
+from passive_auto_design.special import gamma
 
 
 def linear_taper(_z_start, _z_stop, _n_step):
