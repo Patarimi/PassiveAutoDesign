@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import passive_auto_design.devices.coupler as cpl
 from passive_auto_design.unit import SI
 from passive_auto_design.special import dB, gamma
-from passive_auto_design.components.lumped_element import Inductor, Capacitor
+from passive_auto_design.components.lumped_element import Inductor
+from passive_auto_design.components.transformer import Transformer
 
 
 class Coupler(HydraHeadApp):
@@ -35,7 +36,6 @@ class Coupler(HydraHeadApp):
         ax.semilogx(freq, dB(gamma(z_eff, z_c)), label="Return Loss")
         ax.semilogx(freq, dB(1 - gamma(z_eff, z_c) ** 2), label="Transmission")
         ax.grid(True)
-        ax.legend()
         col2.pyplot(fig, dpi=300)
 
         col1, col2 = st.columns(2)
@@ -52,28 +52,29 @@ class Coupler(HydraHeadApp):
             )
             st.header("Model Parameters")
             eps_r = st.number_input(label="Permittivity", value=4.0, min_value=0.0)
-            dist = (
-                st.number_input(label="Distance between inductor (µm)", value=0.15)
-                * 1e-6
-            )
+            dist = st.number_input(label="Distance between inductor (µm)", value=1.5)
+            dist_g = st.number_input(label="Distance to the ground plane (µm)", value=3)
             st.form_submit_button(label="Compute")
 
         width = width_min
         l1 = Inductor(n_turn=n_turn, width=width, gap=gap)
+        transfo = Transformer(l1, l1, rho=0, eps_r=eps_r, h_mut=dist*1e-6, h_gnd=dist_g*1e-6)
         for i in range(4):
-            l1.set_x_with_y("d_i", "ind", coupler.l)
-            d_i = l1.par["d_i"]
-            area = 4 * ((n_turn * width + d_i) ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
-            cap = Capacitor(area, dist, eps_r)
-            cap.set_x_with_y("area", "cap", coupler.c)
-            width = cap.par["area"] / (n_turn * l1.par["d_i"])
+            d_i = transfo.par["lp"].set_x_with_y("d_i", "ind", coupler.l)
+            transfo.par["ls"].par["d_i"] = d_i
+            cm = transfo.par["cm"]
+            cg = transfo.par["cg"]
+            area = cm.set_x_with_y("area", "cap", coupler.c-cg.par["cap"])
+            width = cm.par["area"] / (n_turn * l1.par["d_i"])
             l1.par.update({"width": width})
-            delta = np.abs(area - cap.par["area"]) / area
+            transfo = Transformer(l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6)
+            delta = np.abs(area - cm.par["area"]) / area
             if delta < 0.001:
                 break
         col2.header("Geometrical Sizing")
         col2.write(r"$l_{find}$ = " + str(l1))
-        col2.write(r"$c_{find}$ = " + str(cap))
+        col2.write(r"$c_{find}$ = " + str(cm))
+        col2.write(r"$c_{find}$ = " + str(cg))
         col2.write(r"$n_{turn}$= " + str(n_turn))
         for key in {"width", "gap", "d_i"}:
             col2.write(f"{key}: {SI(l1.par[key])}m")
