@@ -39,7 +39,7 @@ class LumpedElement(metaclass=abc.ABCMeta):
         set the value of the X_key for a Y_value of the Y_key
         """
         res = minimize_scalar(self.__cost, args=(x_key, y_key, y_value))
-        return res.x[0]
+        return res.x
 
     @functools.lru_cache()
     def __cost(self, x_value : float, x_key : str, y_key : str, y_value : float):

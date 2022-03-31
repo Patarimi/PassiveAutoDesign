@@ -25,12 +25,10 @@ def std_dev(measured, targeted):
     return np.sqrt(np.sum(tmp))
 
 
-def dB(c):
+def dB(c: float):
     """
     Return the decibel value of the given imaginary number.
     """
-    if c == 0:
-        return -np.inf
     return 10 * np.log10(np.abs(c))
 
 
