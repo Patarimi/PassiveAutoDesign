@@ -96,6 +96,13 @@ Cap = EngFormatter(unit="F")
 class Capacitor(LumpedElement):
     """
     class describing a capacitor behavior
+    - dimension:
+        - area: area of plate
+        - dist: distance between plates
+    - parameter:
+        - eps_r: relative permitivity of isolator
+    - behavioral:
+        - cap: capacitor
     """
 
     def __init__(self, area=1e-6, dist=1e-3, eps_r=1):
@@ -120,7 +127,7 @@ Ind = EngFormatter(unit="H")
 
 class Inductor(LumpedElement):
     """
-    class describing a inductor behavior
+    class describing a inductor behavior using wheeler formula for ic
     """
 
     def __init__(self, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6, k_1=2.25, k_2=3.55):
