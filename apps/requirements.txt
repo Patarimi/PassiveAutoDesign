@@ -1,2 +1,2 @@
-hydralit
+git+https://github.com/Patarimi/hydralit.git
 ./
