@@ -141,9 +141,9 @@ matplotlib==3.5.1; python_version >= "3.7" \
     --hash=sha256:6803299cbf4665eca14428d9e886de62e24f4223ac31ab9c5d6d5339a39782c7 \
     --hash=sha256:14334b9902ec776461c4b8c6516e26b450f7ebe0b3ef8703bf5cdfbbaecf774a \
     --hash=sha256:b2e9810e09c3a47b73ce9cab5a72243a1258f61e7900969097a817232246ce1c
-networkx==2.7.1; python_version >= "3.8" \
-    --hash=sha256:011e85d277c89681e8fa661cf5ff0743443445049b0b68789ad55ef09340c6e0 \
-    --hash=sha256:d1194ba753e5eed07cdecd1d23c5cd7a3c772099bd8dbd2fea366788cf4de7ba
+networkx==2.8; python_version >= "3.8" \
+    --hash=sha256:1a1e8fe052cc1b4e0339b998f6795099562a264a13a5af7a32cad45ab9d4e126 \
+    --hash=sha256:4a52cf66aed221955420e11b3e2e05ca44196b4829aab9576d4d439212b0a14f
 numpy==1.22.3; python_version >= "3.8" \
     --hash=sha256:92bfa69cfbdf7dfc3040978ad09a48091143cffb778ec3b03fa170c494118d75 \
     --hash=sha256:8251ed96f38b47b4295b1ae51631de7ffa8260b5b087808ef09a39a9d66c97ab \
