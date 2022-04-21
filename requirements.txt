@@ -141,9 +141,9 @@ matplotlib==3.5.1; python_version >= "3.7" \
     --hash=sha256:6803299cbf4665eca14428d9e886de62e24f4223ac31ab9c5d6d5339a39782c7 \
     --hash=sha256:14334b9902ec776461c4b8c6516e26b450f7ebe0b3ef8703bf5cdfbbaecf774a \
     --hash=sha256:b2e9810e09c3a47b73ce9cab5a72243a1258f61e7900969097a817232246ce1c
-networkx==2.7.1; python_version >= "3.8" \
-    --hash=sha256:011e85d277c89681e8fa661cf5ff0743443445049b0b68789ad55ef09340c6e0 \
-    --hash=sha256:d1194ba753e5eed07cdecd1d23c5cd7a3c772099bd8dbd2fea366788cf4de7ba
+networkx==2.8; python_version >= "3.8" \
+    --hash=sha256:1a1e8fe052cc1b4e0339b998f6795099562a264a13a5af7a32cad45ab9d4e126 \
+    --hash=sha256:4a52cf66aed221955420e11b3e2e05ca44196b4829aab9576d4d439212b0a14f
 numpy==1.22.3; python_version >= "3.8" \
     --hash=sha256:92bfa69cfbdf7dfc3040978ad09a48091143cffb778ec3b03fa170c494118d75 \
     --hash=sha256:8251ed96f38b47b4295b1ae51631de7ffa8260b5b087808ef09a39a9d66c97ab \
@@ -235,9 +235,9 @@ pluggy==1.0.0; python_version >= "3.7" \
 py==1.11.0; python_version >= "3.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.7" \
     --hash=sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378 \
     --hash=sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719
-pyparsing==3.0.7; python_version >= "3.7" \
-    --hash=sha256:a6c06a88f252e6c322f65faf8f418b16213b51bdfaece0524c1c1bc30c63c484 \
-    --hash=sha256:18ee9022775d270c55187733956460083db60b37d0d0fb357445f3094eed3eea
+pyparsing==3.0.8; python_version >= "3.7" \
+    --hash=sha256:7bf433498c016c4314268d95df76c81b842a4cb2b276fa3312cfb1e1d85f6954 \
+    --hash=sha256:ef7b523f6356f763771559412c0d7134753f037822dad1b16945b7b846f7ad06
 pytest-cov==3.0.0; python_version >= "3.6" \
     --hash=sha256:e7f0f5b1617d2210a2cabc266dfe2f4c75a8d32fb89eafb7ad9d06f6d076d470 \
     --hash=sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6
