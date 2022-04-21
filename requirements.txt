@@ -55,9 +55,9 @@ cycler==0.11.0; python_version >= "3.7" \
 et-xmlfile==1.1.0; python_version >= "3.6" \
     --hash=sha256:a2ba85d1d6a74ef63837eed693bcb89c3f752169b0e3e7ae5b16ca5e1b3deada \
     --hash=sha256:8eb9e2bc2f8c97e37a2dc85a09ecdcdec9d8a396530a6d5a33b30b9a92da0c5c
-fonttools==4.31.1; python_version >= "3.7" \
-    --hash=sha256:2b288eae806800668cb5cdf52a37b5ac701c5adda2dd5c88b685581ce3385285 \
-    --hash=sha256:f8b35ed9ba189710994cec2c86b8eb5f0c49336698575e439a0d5671d3ca1ace
+fonttools==4.32.0; python_version >= "3.7" \
+    --hash=sha256:59a90de72149893167e3d552ae2402c6874e006b9adc3feaf5f6d706fe20d392 \
+    --hash=sha256:b038d1a0dee0079de7ade57071e2e2aced6e35bd697de244ac62938b2b1628c1
 iniconfig==1.1.1; python_version >= "3.7" \
     --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
     --hash=sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32
