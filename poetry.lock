@@ -460,7 +460,7 @@ mkdocs = ">=1.0.3,<2.0.0"
 
 [[package]]
 name = "mkdocs-material"
-version = "8.2.10"
+version = "8.2.11"
 description = "Documentation that simply works"
 category = "dev"
 optional = false
@@ -471,8 +471,8 @@ jinja2 = ">=2.11.1"
 markdown = ">=3.2"
 mkdocs = ">=1.3.0"
 mkdocs-material-extensions = ">=1.0.3"
-pygments = ">=2.10"
-pymdown-extensions = ">=9.0"
+pygments = ">=2.10,<2.12"
+pymdown-extensions = ">=9.0,<9.4"
 
 [[package]]
 name = "mkdocs-material-extensions"
@@ -1013,7 +1013,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "33e8a382125f7da6cd23f6950709fc877403609ba5ccfc32f0e4d6bd861b640f"
+content-hash = "77b875476ade1e1ae30ff421536a515377457a11cd80baedefc7748e4544c741"
 
 [metadata.files]
 atomicwrites = [
@@ -1358,8 +1358,8 @@ mkdocs-literate-nav = [
     {file = "mkdocs_literate_nav-0.4.1-py3-none-any.whl", hash = "sha256:a4b761792ba21defbe2dfd5e0de6ba451639e1ca0f0661c37eda83cc6261e4f9"},
 ]
 mkdocs-material = [
-    {file = "mkdocs-material-8.2.10.tar.gz", hash = "sha256:11bafe7a32d072439942cab7d1bb36b965a237371b978ba1da868b222dae8cf5"},
-    {file = "mkdocs_material-8.2.10-py2.py3-none-any.whl", hash = "sha256:4877433fd46cfcc17b11c7b6bc51c35263789ad2b5f2f5a2d3ea39dcf2436b1d"},
+    {file = "mkdocs-material-8.2.11.tar.gz", hash = "sha256:af6bbd608a54b8493cb5fa0d2f2cf29cde3bf348837ab718afb1be0a8bea6509"},
+    {file = "mkdocs_material-8.2.11-py2.py3-none-any.whl", hash = "sha256:4a3631ba22cff7ceca00c39465a8db5b2116fcd74f3abd82b801f7711cceb699"},
 ]
 mkdocs-material-extensions = [
     {file = "mkdocs-material-extensions-1.0.3.tar.gz", hash = "sha256:bfd24dfdef7b41c312ede42648f9eb83476ea168ec163b613f9abd12bbfddba2"},
