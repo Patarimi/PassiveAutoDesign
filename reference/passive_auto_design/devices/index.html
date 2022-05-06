@@ -342,20 +342,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../components/taper/" class="md-nav__link">
-        taper
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../components/transformer/" class="md-nav__link">
         transformer
       </a>
@@ -441,6 +427,20 @@
     <li class="md-nav__item">
       <a href="coupler/" class="md-nav__link">
         coupler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="taper/" class="md-nav__link">
+        taper
       </a>
     </li>
   
@@ -666,6 +666,33 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passive_auto_design.devices.taper" class="md-nav__link">
+    taper
+  </a>
+  
+    <nav class="md-nav" aria-label="taper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.devices.taper.klopfenstein_taper" class="md-nav__link">
+    klopfenstein_taper()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.devices.taper.linear_taper" class="md-nav__link">
+    linear_taper()
+  </a>
   
 </li>
         
@@ -992,6 +1019,120 @@ Coupler        </code>
 
   </div>
 
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h2 id="passive_auto_design.devices.taper" class="doc doc-heading">
+        <code>taper</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This module give function to ease the design of RF-tapper</p>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="passive_auto_design.devices.taper.klopfenstein_taper" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">klopfenstein_taper</span><span class="p">(</span><span class="n">_z_start</span><span class="p">,</span> <span class="n">_z_stop</span><span class="p">,</span> <span class="n">_n_step</span><span class="p">,</span> <span class="n">_rhomax</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>return the _n_step profile of impedance for a transition from</p>
+<p>_z_start to _z_stop</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\devices\taper.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">klopfenstein_taper</span><span class="p">(</span><span class="n">_z_start</span><span class="p">,</span> <span class="n">_z_stop</span><span class="p">,</span> <span class="n">_n_step</span><span class="p">,</span> <span class="n">_rhomax</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    return the _n_step profile of impedance for a transition from</span>
+<span class="sd">    _z_start to _z_stop</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rho0</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">(</span><span class="n">_z_start</span><span class="p">,</span> <span class="n">_z_stop</span><span class="p">)</span>
+    <span class="n">z_mid</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_z_stop</span> <span class="o">*</span> <span class="n">_z_start</span><span class="p">)</span>
+    <span class="n">n_mid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">_n_step</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">a_coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="n">rho0</span> <span class="o">/</span> <span class="n">_rhomax</span><span class="p">)</span>
+    <span class="n">ln_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">_n_step</span><span class="p">,))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">ln_z</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">n_mid</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">_rhomax</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="mi">1</span> <span class="o">+</span> <span class="n">a_coeff</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">__phi</span><span class="p">(</span><span class="n">a_coeff</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="n">n_mid</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">ln_z</span><span class="p">[</span><span class="n">n_mid</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">_rhomax</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="mi">1</span> <span class="o">-</span> <span class="n">a_coeff</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">__phi</span><span class="p">(</span><span class="n">a_coeff</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="n">n_mid</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">ln_z</span><span class="p">[</span><span class="n">n_mid</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="n">_rhomax</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">ln_z</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="passive_auto_design.devices.taper.linear_taper" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">linear_taper</span><span class="p">(</span><span class="n">_z_start</span><span class="p">,</span> <span class="n">_z_stop</span><span class="p">,</span> <span class="n">_n_step</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>return the _n_step profile of impedance for a transition from</p>
+<p>_z_start to _z_stop</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\devices\taper.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">linear_taper</span><span class="p">(</span><span class="n">_z_start</span><span class="p">,</span> <span class="n">_z_stop</span><span class="p">,</span> <span class="n">_n_step</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    return the _n_step profile of impedance for a transition from</span>
+<span class="sd">    _z_start to _z_stop</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">_z_start</span><span class="p">,</span> <span class="n">_z_stop</span><span class="p">,</span> <span class="n">_n_step</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 

@@ -342,20 +342,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../components/taper/" class="md-nav__link">
-        taper
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../components/transformer/" class="md-nav__link">
         transformer
       </a>
@@ -439,6 +425,20 @@
     <li class="md-nav__item">
       <a href="../devices/coupler/" class="md-nav__link">
         coupler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../devices/taper/" class="md-nav__link">
+        taper
       </a>
     </li>
   
@@ -865,12 +865,10 @@
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\special.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dB</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dB</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the decibel value of the given imaginary number.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="k">return</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 </code></pre></div>
         </details>

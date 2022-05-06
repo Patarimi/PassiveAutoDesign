@@ -342,20 +342,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../taper/" class="md-nav__link">
-        taper
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -519,6 +505,20 @@
     <li class="md-nav__item">
       <a href="../../devices/coupler/" class="md-nav__link">
         coupler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devices/taper/" class="md-nav__link">
+        taper
       </a>
     </li>
   
@@ -770,10 +770,9 @@ Transformer            (<a title="passive_auto_design.components.lumped_element.
 
     <div class="doc doc-contents ">
 
-      <p>Create a transformer object with the specified geometry _primary &amp; _secondary</p>
-<p>(which are dict defined as :
-    {'di':_di,'n_turn':_n_turn, 'width':_width, 'gap':_gap, 'height':height})
-and calculate the associated electrical model</p>
+      <p>Create a transformer object with the specified Inductors primary &amp; secondary</p>
+<p>and calculate the associated electrical model
+if sym=True, Create a symmetrical transformer (secondary is ignored and assume egal to primary)</p>
 
 
 
@@ -794,7 +793,7 @@ and calculate the associated electrical model</p>
 
 
 <h3 id="passive_auto_design.components.transformer.Transformer.calc_ref_value" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subpart</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
 
 
 </h3>
@@ -805,7 +804,7 @@ and calculate the associated electrical model</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\components\transformer.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subpart</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">subpart</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="s2">&quot;lp&quot;</span><span class="p">,</span> <span class="s2">&quot;rp&quot;</span><span class="p">,</span> <span class="s2">&quot;rs&quot;</span><span class="p">,</span> <span class="s2">&quot;cm&quot;</span><span class="p">,</span> <span class="s2">&quot;cg&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="p">[</span><span class="n">subpart</span><span class="p">]</span><span class="o">.</span><span class="n">calc_ref_value</span><span class="p">()</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_geo</span><span class="p">()</span>
@@ -973,7 +972,7 @@ else, return the capacitance to the ground plane</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../taper/" class="md-footer__link md-footer__link--prev" aria-label="Previous: taper" rel="prev">
+        <a href="../mos/" class="md-footer__link md-footer__link--prev" aria-label="Previous: mos" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -982,7 +981,7 @@ else, return the capacitance to the ground plane</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              taper
+              mos
             </div>
           </div>
         </a>

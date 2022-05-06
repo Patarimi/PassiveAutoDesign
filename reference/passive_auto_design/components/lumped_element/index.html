@@ -475,20 +475,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../taper/" class="md-nav__link">
-        taper
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../transformer/" class="md-nav__link">
         transformer
       </a>
@@ -572,6 +558,20 @@
     <li class="md-nav__item">
       <a href="../../devices/coupler/" class="md-nav__link">
         coupler
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devices/taper/" class="md-nav__link">
+        taper
       </a>
     </li>
   
@@ -1092,7 +1092,7 @@ LumpedElement        </code>
 
 
 <h3 id="passive_auto_design.components.lumped_element.LumpedElement.calc_ref_value" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subpart</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
 
 
 </h3>
@@ -1104,13 +1104,12 @@ LumpedElement        </code>
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\components\lumped_element.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-<span class="k">def</span> <span class="nf">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calc_ref_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subpart</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Definition of the behavioral equation of the lumped element.</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Value of self.par[self.ref] calculated with the other value in self.par.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
         </details>
@@ -1140,7 +1139,8 @@ LumpedElement        </code>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    set the value of the X_key for a Y_value of the Y_key</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">minimize_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__cost</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">,</span> <span class="n">y_value</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__cost</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x_key</span><span class="p">,</span> <span class="n">y_key</span><span class="p">,</span> <span class="n">y_value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
 </code></pre></div>
         </details>
     </div>
