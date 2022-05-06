@@ -7,6 +7,10 @@ The library required are scikit-rf, numpy, scipy, yaml and matplotlib (for plott
 ```
 pip install passive-auto-design
 ```
+or
+```
+poetry install
+```
 A demo is given [here](https://share.streamlit.io/patarimi/passiveautodesign/apps/home.py) and the documentation can be found [here](https://patarimi.github.io/PassiveAutoDesign/)
 
 Package Structure
