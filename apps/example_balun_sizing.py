@@ -88,10 +88,10 @@ class Balun(HydraHeadApp):
             transfo = Transformer(l_t[0], l_t[1], r_square*1e-3, eps_r, dist*1e-6, dist_g*1e-6)
             st.form_submit_button(label="Compute")
 
-        transfo.par["lp"].set_x_with_y("d_i", "ind", result[0][sel])
-        transfo.par["ls"].set_x_with_y("d_i", "ind", result[1][sel])
-        cap = transfo.par["cm"].par["cap"]/2
-        res = (transfo.par["rp"].par["res"], transfo.par["rs"].par["res"])
+        transfo.set_model_with_dim({"lp": result[0][sel]}, "lp.d_i")
+        transfo.set_model_with_dim({"ls": result[1][sel]}, "ls.d_i")
+        cap = transfo.model["cm"]/2
+        res = (transfo.model["rp"], transfo.model["rs"])
         new_z_ld = z_ld / (1 + z_ld * 1j * 2 * pi * cap * f_c) + res[1]
         new_z_src = z_src / (1 + z_src * 1j * 2 * pi * cap * f_c) + res[0]
         balun = bln.Balun(f_c, new_z_src, new_z_ld, k)
@@ -103,9 +103,9 @@ class Balun(HydraHeadApp):
         col[2].header("Second Inductor")
         for k in (0, 1):
             side = "lp" if k == 0 else "ls"
-            col[k + 1].write("New Inductance found: " + str(transfo.par[side]))
+            col[k + 1].write("New Inductance found: " + str(transfo.model[side]))
             col[k + 1].write("Cap Para: " + SI(cap) + "F")
             col[k + 1].write("Res Para: " + SI(res[k]) + r"$\Omega$")
-            col[k + 1].write(r"$n_{turn}$= " + str(transfo.par[side].par["n_turn"]))
+            col[k + 1].write(r"$n_{turn}$= " + str(transfo.dim[side+".n_turn"]))
             for key in {"width", "gap", "d_i"}:
-                col[k + 1].write(f"{key}: {SI(l_t[k].par[key])}m")
+                col[k + 1].write(f"{key}: {SI(l_t[k].dim[key])}m")

@@ -36,8 +36,8 @@ class SpaceMap(HydraHeadApp):
                 cap = lp.Capacitor(area=dim["w"] * dim["l"], dist=1, eps_r=par["eps/d"])
                 res = lp.Resistor(section=dim["w"], length=dim["l"], rho=par["rho/h"])
                 achieved = {
-                    "C": cap.par["cap"],
-                    "R": res.par["res"],
+                    "C": cap.model["cap"],
+                    "R": res.model["res"],
                 }
                 return achieved  # should contain all the keys of the goal
 

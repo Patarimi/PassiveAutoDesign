@@ -13,28 +13,34 @@ class Transformer(lmp.LumpedElement):
     and calculate the associated electrical model
     if sym=True, Create a symmetrical transformer (secondary is ignored and assume egal to primary)
     """
+    sym: bool
 
-    def __init__(self, primary, secondary=None, rho=0., eps_r=0., h_mut=0., h_gnd=0., sym=False):
-        lmp.LumpedElement.__init__(self)
-        self.par = {}
-        self.par["sym"] = sym
-        self.par["rho"] = rho
-        self.par["eps_r"] = eps_r
-        self.par["h_mut"] = h_mut
-        self.par["h_gnd"] = h_gnd
-        self.par["lp"] = primary
-        self.par["ls"] = secondary if not sym else primary
-        self.par["rp"] = self.r_geo(True)
-        self.par["rs"] = self.r_geo(False)
-        self.par["cm"] = self.cc_geo(True)
-        self.par["cg"] = self.cc_geo(False)
-        self.par["k"] = self.k_geo()
-        self.ref = "k"
+    def __init__(self, primary: lmp.Inductor, secondary=None, rho=0., eps_r=0., h_mut=0., h_gnd=0., sym=False):
+        const = {"eps_r": eps_r,
+                 "rho": rho,
+                 }
+        dim = {"h_mut": h_mut,
+               "h_gnd": h_gnd,
+               }
+        for key in primary.dim.keys():
+            dim["lp."+key] = primary.dim[key]
+            dim["ls."+key] = primary.dim[key] if sym else secondary.dim[key]
+        lmp.LumpedElement.__init__(self, dim=dim, const=const, sym=sym)
 
-    def calc_ref_value(self, subpart=""):
-        for subpart in ("ls", "lp", "rp", "rs", "cm", "cg"):
-            self.par[subpart].calc_ref_value()
-        return self.k_geo()
+    def get_model(self):
+        primary = lmp.Inductor(self.dim["lp.d_i"], self.dim["lp.n_turn"], self.dim["lp.width"], self.dim["lp.gap"])
+        self.model["lp"] = primary.model["ind"]
+        if self.sym:
+            self.model["ls"] = primary.model["ind"]
+        else:
+            secondary = lmp.Inductor(self.dim["ls.d_i"], self.dim["ls.n_turn"], self.dim["ls.width"], self.dim["ls.gap"])
+            self.model["ls"] = secondary.model["ind"]
+        self.model["rp"] = self.r_geo(True)
+        self.model["rs"] = self.r_geo(False)
+        self.model["cm"] = self.cc_geo(True)
+        self.model["cg"] = self.cc_geo(False)
+        self.model["k"] = self.k_geo()
+        return self.model
 
     def cc_geo(self, _mutual=True):
         """
@@ -42,49 +48,44 @@ class Transformer(lmp.LumpedElement):
         if _mutual, return the capacitance between primary and secondary
         else, return the capacitance to the ground plane
         """
-        l1 = self.par["lp"].par
-        l2 = self.par["ls"].par
+        dim = self.dim
         if _mutual:
-            dist = float(self.par["h_mut"])
-            d_i = np.max([l2["d_i"], l1["d_i"]])
-            d_o = np.min([l1["d_i"] + l1["n_turn"] * l1["width"], l2["d_i"] + l2["n_turn"] * l2["width"]])
+            dist = float(self.dim["h_mut"])
+            d_i = np.max([dim["lp.d_i"], dim["ls.d_i"]])
+            d_o = np.min([dim["lp.d_i"] + dim["lp.n_turn"] * dim["lp.width"], dim["ls.d_i"] + dim["ls.n_turn"] * dim["ls.width"]])
         else:
-            dist = float(self.par["h_gnd"])
-            d_i = np.min([l2["d_i"], l1["d_i"]])
-            d_o = np.max([l1["d_i"] + l1["n_turn"] * l1["width"], l2["d_i"] + l2["n_turn"] * l2["width"]])
-        eps_r = float(self.par["eps_r"])
+            dist = float(self.dim["h_gnd"])
+            d_i = np.min([dim["ls.d_i"], dim["lp.d_i"]])
+            d_o = np.max([dim["lp.d_i"] + dim["lp.n_turn"] * dim["lp.width"], dim["ls.d_i"] + dim["ls.n_turn"] * dim["ls.width"]])
+        eps_r = float(self.const["eps_r"])
         area = 4 * (d_o ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
         cap = lmp.Capacitor(area, dist, eps_r)
-        return cap
+        return cap.model["cap"]
 
     def r_geo(self, _of_primary=True):
         """
         return the value of the resistance of the described transformer
         """
-        if _of_primary:
-            geo = self.par["lp"].par
-        else:
-            geo = self.par["ls"].par
-        rho = self.par["rho"]
-        n_t = geo["n_turn"]
+        geo = "lp." if _of_primary else "lp."
+        rho = self.const["rho"]
+        n_t = self.dim[geo+"n_turn"]
         l_tot = (
             8
             * np.tan(np.pi / 8)
             * n_t
-            * (geo["d_i"] + geo["width"] + (n_t - 1) * (geo["width"] + geo["gap"]))
+            * (self.dim[geo+"d_i"] + self.dim[geo+"width"] + (n_t - 1) * (self.dim[geo+"width"] + self.dim[geo+"gap"]))
         )
-        r_dc = lmp.Resistor(geo["width"], l_tot, rho)
-        return r_dc
+        r_dc = lmp.Resistor(self.dim[geo+"width"], l_tot, rho)
+        return r_dc.model["res"]
 
     def k_geo(self):
         """
         return the value of the coupling between the two inductors.
 
         """
-        l1 = self.par["lp"].par
-        l2 = self.par["ls"].par
-        c1 = l1["width"]*l1["n_turn"] + l1["gap"]*(l1["n_turn"]-1)
-        d1 = l1["d_i"]
-        c2 = l2["width"]*l2["n_turn"] + l2["gap"]*(l2["n_turn"]-1)
-        d2 = l2["d_i"]
+        dim = self.dim
+        c1 = dim["lp.width"]*dim["lp.n_turn"] + dim["lp.gap"]*(dim["lp.n_turn"]-1)
+        d1 = dim["lp.d_i"]
+        c2 = dim["ls.width"]*dim["ls.n_turn"] + dim["ls.gap"]*(dim["ls.n_turn"]-1)
+        d2 = dim["ls.d_i"]
         return 0.99*(np.max([d1, d2])-np.min([c1+d1, c2+d2]))/(np.max([c1+d1, c2+d2])-np.min([d1, d2]))
