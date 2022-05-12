@@ -48,6 +48,7 @@ def ihsr(_s31, _s21):
     ihsr_log = dB((_s21 - 1j * _s31) / (_s21 + 1j * _s31))
     return -np.minimum(ihsr_log, -ihsr_log)
 
+
 def quality_f(_z):
     """
     return the quality factor of a components

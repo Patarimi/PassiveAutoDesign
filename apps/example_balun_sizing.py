@@ -83,14 +83,18 @@ class Balun(HydraHeadApp):
             st.header("Model Parameters")
             eps_r = st.number_input(label="Permittivity", value=4.0, min_value=0.0)
             dist = st.number_input(label="Height between inductor (µm)", value=0.15)
-            dist_g = st.number_input(label="Height to the ground plane (µm)", value=0.15)
+            dist_g = st.number_input(
+                label="Height to the ground plane (µm)", value=0.15
+            )
             r_square = st.number_input(label=r"Square Resistance (mOhm)", value=5.0)
-            transfo = Transformer(l_t[0], l_t[1], r_square*1e-3, eps_r, dist*1e-6, dist_g*1e-6)
+            transfo = Transformer(
+                l_t[0], l_t[1], r_square * 1e-3, eps_r, dist * 1e-6, dist_g * 1e-6
+            )
             st.form_submit_button(label="Compute")
 
         transfo.set_model_with_dim({"lp": result[0][sel]}, "lp.d_i")
         transfo.set_model_with_dim({"ls": result[1][sel]}, "ls.d_i")
-        cap = transfo.model["cm"]/2
+        cap = transfo.model["cm"] / 2
         res = (transfo.model["rp"], transfo.model["rs"])
         new_z_ld = z_ld / (1 + z_ld * 1j * 2 * pi * cap * f_c) + res[1]
         new_z_src = z_src / (1 + z_src * 1j * 2 * pi * cap * f_c) + res[0]
@@ -106,6 +110,6 @@ class Balun(HydraHeadApp):
             col[k + 1].write("New Inductance found: " + str(transfo.model[side]))
             col[k + 1].write("Cap Para: " + SI(cap) + "F")
             col[k + 1].write("Res Para: " + SI(res[k]) + r"$\Omega$")
-            col[k + 1].write(r"$n_{turn}$= " + str(transfo.dim[side+".n_turn"]))
+            col[k + 1].write(r"$n_{turn}$= " + str(transfo.dim[side + ".n_turn"]))
             for key in {"width", "gap", "d_i"}:
                 col[k + 1].write(f"{key}: {SI(l_t[k].dim[key])}m")

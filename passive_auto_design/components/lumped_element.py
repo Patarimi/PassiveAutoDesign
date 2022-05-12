@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from abc import ABC, abstractmethod
-from pydantic import BaseModel, validator, Field
+from pydantic import BaseModel
 from typing import Dict
-import functools
 from scipy.optimize import minimize_scalar
 from matplotlib.ticker import EngFormatter
 from passive_auto_design.special import u0, eps0
@@ -30,7 +29,9 @@ class LumpedElement(BaseModel, ABC):
         self.model = self.get_model()
         return res.x
 
-    def __cost(self, x_value: float, x_key: str, target_model: Dict[str, float]) -> float:
+    def __cost(
+        self, x_value: float, x_key: str, target_model: Dict[str, float]
+    ) -> float:
         if x_key in self.dim:
             self.dim[x_key] = x_value
         if x_key in self.const:
@@ -38,7 +39,9 @@ class LumpedElement(BaseModel, ABC):
         tmp_model = self.get_model()
         cost = 0
         for key in target_model.keys():
-            cost += (target_model[key] - tmp_model[key])**2/(target_model[key] + tmp_model[key])**2
+            cost += (target_model[key] - tmp_model[key]) ** 2 / (
+                target_model[key] + tmp_model[key]
+            ) ** 2
         return cost
 
     @abstractmethod
@@ -68,7 +71,11 @@ class Resistor(LumpedElement):
         return Res(self.model["res"])
 
     def get_model(self):
-        return {"res": max([self.const["rho"] * self.dim["length"] / self.dim["section"], 0.])}
+        return {
+            "res": max(
+                [self.const["rho"] * self.dim["length"] / self.dim["section"], 0.0]
+            )
+        }
 
 
 Cap = EngFormatter(unit="F")
@@ -116,7 +123,9 @@ class Inductor(LumpedElement):
 
     def get_model(self):
         n = self.dim["n_turn"]
-        outer_diam = self.dim["d_i"] + 2 * n * self.dim["width"] + 2 * (n - 1) * self.dim["gap"]
+        outer_diam = (
+            self.dim["d_i"] + 2 * n * self.dim["width"] + 2 * (n - 1) * self.dim["gap"]
+        )
         self.dim["d_o"] = outer_diam
         rho = (self.dim["d_i"] + outer_diam) / 2
         density = (outer_diam - self.dim["d_i"]) / (outer_diam + self.dim["d_i"])

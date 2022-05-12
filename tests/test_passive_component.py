@@ -43,7 +43,10 @@ def test_balun():
     assert round(delta_X[0]) == 122
     assert round(delta_X[1]) == -128
 
-    assert str(balun) == "target : fc=60 GHz\tzs=50 - j100 $\Omega$\tzl=100 - j300 $\Omega$"
+    assert (
+        str(balun)
+        == "target : fc=60 GHz\tzs=50 - j100 $\Omega$\tzl=100 - j300 $\Omega$"
+    )
 
 
 def test_taper():

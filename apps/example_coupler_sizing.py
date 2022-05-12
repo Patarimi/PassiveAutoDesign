@@ -58,17 +58,21 @@ class Coupler(HydraHeadApp):
 
         width = width_min
         l1 = Inductor(n_turn=n_turn, width=width, gap=gap)
-        transfo = Transformer(l1, l1, rho=0, eps_r=eps_r, h_mut=dist*1e-6, h_gnd=dist_g*1e-6)
+        transfo = Transformer(
+            l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6
+        )
         for i in range(4):
             d_i = transfo.set_model_with_dim({"lp": coupler.l}, "lp.d_i")
             transfo.dim["ls.d_i"] = d_i
             cm = transfo.model["cm"]
             cg = transfo.model["cg"]
-            cap = Capacitor(dist=dist*1e-6, eps_r=eps_r)
-            area = cap.set_model_with_dim({"cap": coupler.c-cg}, "area")
+            cap = Capacitor(dist=dist * 1e-6, eps_r=eps_r)
+            area = cap.set_model_with_dim({"cap": coupler.c - cg}, "area")
             width = cap.dim["area"] / (n_turn * l1.dim["d_i"])
             l1.dim["width"] = width
-            transfo = Transformer(l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6)
+            transfo = Transformer(
+                l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6
+            )
             delta = np.abs(area - cap.dim["area"]) / area
             if delta < 0.001:
                 break
