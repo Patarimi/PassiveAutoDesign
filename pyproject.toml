@@ -5,12 +5,12 @@ description = ""
 authors = ["Patarimi <38954040+Patarimi@users.noreply.github.com>"]
 license = "MIT"
 
-[toolt.semantic_release]
+[tool.semantic_release]
 version_variable = [
-    "passive_auto_design/__init__py:__version__",
+    "passive_auto_design/__init__.py:__version__",
     "pyproject.toml:version"
 ]
-branch = "main"
+branch = "master"
 upload_to_pipy = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"
