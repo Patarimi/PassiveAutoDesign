@@ -75,8 +75,8 @@ class Transformer(lmp.LumpedElement):
             d_i = np.max([dim["lp.d_i"], dim["ls.d_i"]])
             d_o = np.min(
                 [
-                    dim["lp.d_i"] + dim["lp.n_turn"] * dim["lp.width"],
-                    dim["ls.d_i"] + dim["ls.n_turn"] * dim["ls.width"],
+                    d_i + dim["lp.n_turn"] * dim["lp.width"],
+                    d_i + dim["ls.n_turn"] * dim["ls.width"],
                 ]
             )
         else:
@@ -84,14 +84,14 @@ class Transformer(lmp.LumpedElement):
             d_i = np.min([dim["ls.d_i"], dim["lp.d_i"]])
             d_o = np.max(
                 [
-                    dim["lp.d_i"] + dim["lp.n_turn"] * dim["lp.width"],
-                    dim["ls.d_i"] + dim["ls.n_turn"] * dim["ls.width"],
+                    d_i + dim["lp.n_turn"] * dim["lp.width"],
+                    d_i + dim["ls.n_turn"] * dim["ls.width"],
                 ]
             )
         eps_r = float(self.const["eps_r"])
         area = 4 * (d_o ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
         cap = lmp.Capacitor(area, dist, eps_r)
-        return cap.model["cap"]
+        return np.abs(cap.model["cap"])
 
     def r_geo(self, _of_primary=True):
         """

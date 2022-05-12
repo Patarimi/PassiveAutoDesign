@@ -112,4 +112,4 @@ class Balun(HydraHeadApp):
             col[k + 1].write("Res Para: " + SI(res[k]) + r"$\Omega$")
             col[k + 1].write(r"$n_{turn}$= " + str(transfo.dim[side + ".n_turn"]))
             for key in {"width", "gap", "d_i"}:
-                col[k + 1].write(f"{key}: {SI(l_t[k].dim[key])}m")
+                col[k + 1].write(f"{key}: {SI(transfo.dim[side+'.'+key])}m")

@@ -62,24 +62,24 @@ class Coupler(HydraHeadApp):
             l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6
         )
         for i in range(4):
-            d_i = transfo.set_model_with_dim({"lp": coupler.l}, "lp.d_i")
-            transfo.dim["ls.d_i"] = d_i
-            cm = transfo.model["cm"]
-            cg = transfo.model["cg"]
-            cap = Capacitor(dist=dist * 1e-6, eps_r=eps_r)
-            area = cap.set_model_with_dim({"cap": coupler.c - cg}, "area")
-            width = cap.dim["area"] / (n_turn * l1.dim["d_i"])
-            l1.dim["width"] = width
+            transfo.set_model_with_dim({"lp": coupler.l}, "lp.d_i")
+            d_i = transfo.dim["lp.d_i"]
+            ratio = transfo.model["cm"]/transfo.model["cg"]
+            width = transfo.dim["lp.width"]
+            transfo.set_model_with_dim({"cm": ratio*coupler.c/(1+ratio),
+                                        "cg": coupler.c/(1+ratio)},
+                                       "lp.width")
+            delta = np.abs(width - transfo.dim["lp.width"]) / width
+            l1 = Inductor(n_turn=n_turn, width=transfo.dim["lp.width"], gap=gap, d_i=d_i)
             transfo = Transformer(
                 l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6
             )
-            delta = np.abs(area - cap.dim["area"]) / area
             if delta < 0.001:
                 break
         col2.header("Geometrical Sizing")
         col2.write(r"$l_{find}$ = " + str(l1))
-        col2.write(r"$c_{find}$ = " + str(cm))
-        col2.write(r"$c_{find}$ = " + str(cg))
+        col2.write(r"$c_{mut}$ = " + str(transfo.model["cm"]))
+        col2.write(r"$c_{gnd}$ = "+str(transfo.model["cg"]))
         col2.write(r"$n_{turn}$= " + str(n_turn))
         for key in {"width", "gap", "d_i"}:
-            col2.write(f"{key}: {SI(l1.dim[key])}m")
+            col2.write(f"{key}: {SI(transfo.dim['lp.'+key])}m")
