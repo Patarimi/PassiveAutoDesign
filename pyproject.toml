@@ -25,6 +25,7 @@ scikit-rf = "^0.22.1"
 PyYAML = "^6.0"
 pytest-cov = "^3.0.0"
 pydantic = "^1.9.0"
+flake8 = "^4.0.1"
 
 [tool.poetry.dev-dependencies]
 setuptools = "^60.10.0"
