@@ -107,7 +107,7 @@ class Balun(HydraHeadApp):
         col[2].header("Second Inductor")
         for k in (0, 1):
             side = "lp" if k == 0 else "ls"
-            col[k + 1].write("New Inductance found: " + str(transfo.model[side]))
+            col[k + 1].write("New Inductance found: " + SI(transfo.model[side]) + "H")
             col[k + 1].write("Cap Para: " + SI(cap) + "F")
             col[k + 1].write("Res Para: " + SI(res[k]) + r"$\Omega$")
             col[k + 1].write(r"$n_{turn}$= " + str(transfo.dim[side + ".n_turn"]))
