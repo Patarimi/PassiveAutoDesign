@@ -53,7 +53,7 @@ class Coupler(HydraHeadApp):
             st.header("Model Parameters")
             eps_r = st.number_input(label="Permittivity", value=4.0, min_value=0.0)
             dist = st.number_input(label="Distance between inductor (µm)", value=1.5)
-            dist_g = st.number_input(label="Distance to the ground plane (µm)", value=3)
+            dist_g = st.number_input(label="Distance to the ground plane (µm)", value=3.)
             st.form_submit_button(label="Compute")
 
         width = width_min
@@ -78,8 +78,8 @@ class Coupler(HydraHeadApp):
                 break
         col2.header("Geometrical Sizing")
         col2.write(r"$l_{find}$ = " + str(l1))
-        col2.write(r"$c_{mut}$ = " + str(transfo.model["cm"]))
-        col2.write(r"$c_{gnd}$ = "+str(transfo.model["cg"]))
+        col2.write(r"$c_{mut}$ = " + SI(transfo.model["cm"]) + "F")
+        col2.write(r"$c_{gnd}$ = "+SI(transfo.model["cg"]) + "F")
         col2.write(r"$n_{turn}$= " + str(n_turn))
         for key in {"width", "gap", "d_i"}:
             col2.write(f"{key}: {SI(transfo.dim['lp.'+key])}m")
