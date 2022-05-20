@@ -165,9 +165,9 @@ numpy==1.22.3; python_version >= "3.8" \
     --hash=sha256:639b54cdf6aa4f82fe37ebf70401bbb74b8508fddcf4797f9fe59615b8c5813a \
     --hash=sha256:c34ea7e9d13a70bf2ab64a2532fe149a9aced424cd05a2c4ba662fd989e3e45f \
     --hash=sha256:dbc7601a3b7472d559dc7b933b18b4b66f9aa7452c120e87dfb33d02008c8a18
-openpyxl==3.0.9; python_version >= "3.6" \
-    --hash=sha256:8f3b11bd896a95468a4ab162fc4fcd260d46157155d1f8bfaabb99d88cfcf79f \
-    --hash=sha256:40f568b9829bf9e446acfffce30250ac1fa39035124d55fc024025c41481c90f
+openpyxl==3.0.10; python_version >= "3.6" \
+    --hash=sha256:0ab6d25d01799f97a9464630abacbb34aafecdcaa0ef3cba6d6b3499867d0355 \
+    --hash=sha256:e47805627aebcf860edb4edf7987b1309c1b3632f3750538ed962bbcc3bd7449
 packaging==21.3; python_version >= "3.7" \
     --hash=sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522 \
     --hash=sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb
