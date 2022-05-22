@@ -9,7 +9,7 @@ INSTALL_REQUIRES = (HERE / "requirements.txt").read_text().splitlines()
 
 setuptools.setup(
     name="passive-auto-design",
-    version="0.1.8",
+    version="0.1.9",
     author="Patarimi",
     author_email="mpqqch@gmail.com",
     description="Tools for fast prototyping of radio-frequence passive components",
