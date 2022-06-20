@@ -927,7 +927,7 @@ py = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
 name = "scikit-rf"
-version = "0.22.1"
+version = "0.23.0"
 description = "Object Oriented Microwave Engineering"
 category = "main"
 optional = false
@@ -1089,7 +1089,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.11"
-content-hash = "fa8fc65200fe75965bf0912c4ada50b85e04f18837854b6e1442f6d68096d304"
+content-hash = "15b3d6260be5ffe9ce74523b4632328c9b9b90b86259167be2d12c1c8ded6a13"
 
 [metadata.files]
 atomicwrites = [
@@ -1802,7 +1802,7 @@ pyzmq = [
     {file = "pyzmq-22.3.0.tar.gz", hash = "sha256:8eddc033e716f8c91c6a2112f0a8ebc5e00532b4a6ae1eb0ccc48e027f9c671c"},
 ]
 scikit-rf = [
-    {file = "scikit-rf-0.22.1.tar.gz", hash = "sha256:16e999cc5245c446a8fd26fbc28d97ada405dcc6329e00cd077e1964566ce2a0"},
+    {file = "scikit-rf-0.23.0.tar.gz", hash = "sha256:13c3eb82c034bd631a7714421d0bef08bad73c6e3952dc422c9d94c64cdebbd8"},
 ]
 scipy = [
     {file = "scipy-1.8.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:65b77f20202599c51eb2771d11a6b899b97989159b7975e9b5259594f1d35ef4"},
