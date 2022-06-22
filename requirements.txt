@@ -351,9 +351,9 @@ scipy==1.8.0; python_version >= "3.8" and python_version < "3.11" \
     --hash=sha256:3d573228c10a3a8c32b9037be982e6440e411b443a6267b067cac72f690b8d56 \
     --hash=sha256:bb7088e89cd751acf66195d2f00cf009a1ea113f3019664032d9075b1e727b6c \
     --hash=sha256:31d4f2d6b724bc9a98e527b5849b8a7e589bf1ea630c33aa563eda912c9ff0bd
-setuptools-scm==6.4.2; python_version >= "3.7" \
-    --hash=sha256:acea13255093849de7ccb11af9e1fb8bde7067783450cee9ef7a93139bddf6d4 \
-    --hash=sha256:6833ac65c6ed9711a4d5d2266f8024cfa07c533a0e55f4c12f6eff280a5a9e30
+setuptools-scm==7.0.1; python_version >= "3.7" \
+    --hash=sha256:23b2e561fd3db49d168f282384af4730092a8c8c6db6d3451ce93a5813c14509 \
+    --hash=sha256:d1c631fc3a4281754274155ef4a40de24b1d1c718df00ead147b08ab690615b2
 six==1.16.0; python_version >= "3.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.7" \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254 \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926
