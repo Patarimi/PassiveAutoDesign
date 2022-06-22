@@ -959,15 +959,16 @@ numpy = ">=1.17.3,<1.25.0"
 
 [[package]]
 name = "setuptools-scm"
-version = "6.4.2"
+version = "7.0.1"
 description = "the blessed package to manage your versions by scm tags"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 
 [package.dependencies]
 packaging = ">=20.0"
 tomli = ">=1.0.0"
+typing-extensions = "*"
 
 [package.extras]
 test = ["pytest (>=6.2)", "virtualenv (>20)"]
@@ -1830,8 +1831,8 @@ scipy = [
     {file = "scipy-1.8.1.tar.gz", hash = "sha256:9e3fb1b0e896f14a85aa9a28d5f755daaeeb54c897b746df7a55ccb02b340f33"},
 ]
 setuptools-scm = [
-    {file = "setuptools_scm-6.4.2-py3-none-any.whl", hash = "sha256:acea13255093849de7ccb11af9e1fb8bde7067783450cee9ef7a93139bddf6d4"},
-    {file = "setuptools_scm-6.4.2.tar.gz", hash = "sha256:6833ac65c6ed9711a4d5d2266f8024cfa07c533a0e55f4c12f6eff280a5a9e30"},
+    {file = "setuptools_scm-7.0.1-py3-none-any.whl", hash = "sha256:23b2e561fd3db49d168f282384af4730092a8c8c6db6d3451ce93a5813c14509"},
+    {file = "setuptools_scm-7.0.1.tar.gz", hash = "sha256:d1c631fc3a4281754274155ef4a40de24b1d1c718df00ead147b08ab690615b2"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
