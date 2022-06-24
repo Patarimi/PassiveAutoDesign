@@ -1,5 +1,5 @@
-from typing import Literal, TypedDict, Optional, List, Tuple, Union, Any, Generic
-from pydantic import BaseModel, Field
+from typing import Literal, List, Tuple
+from pydantic import BaseModel
 import numpy as np
 
 
@@ -78,13 +78,13 @@ class PhysicalDimension(BaseModel):
 
 
 def operator(l_a, l_b, op):
-    l = np.array(l_a.shape())
+    res = np.array(l_a.shape())
     if op == "+":
-        l = l_a.value + l_b.value
+        res = l_a.value + l_b.value
     if op == "-":
-        l = l_a.value - l_b.value
+        res = l_a.value - l_b.value
     if op == "/":
-        l = l_a.value / l_b.value
+        res = l_a.value / l_b.value
     if op == "*":
-        l = l_a.value * l_b.value
-    return PhysicalDimension(value=l, scale=l_a.scale, unit=l_a.unit)
+        res = l_a.value * l_b.value
+    return PhysicalDimension(value=res, scale=l_a.scale, unit=l_a.unit)
