@@ -46,7 +46,13 @@ class PhysicalDimension(BaseModel):
 
     def __getitem__(self, item):
         print(self.shape())
-        return self.__init__(value=[self.value[item],], scale=self.scale, unit=self.unit)
+        return self.__init__(
+            value=[
+                self.value[item],
+            ],
+            scale=self.scale,
+            unit=self.unit,
+        )
 
     def shape(self):
         return self.value.shape
@@ -64,7 +70,11 @@ class PhysicalDimension(BaseModel):
         operator(self, ohter, "*")
 
     def __eq__(self, other):
-        return self.unit == other.unit and self.scale == other.scale and np.all(self.value==other.value)
+        return (
+            self.unit == other.unit
+            and self.scale == other.scale
+            and np.all(self.value == other.value)
+        )
 
 
 def operator(l_a, l_b, op):
