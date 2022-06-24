@@ -5,7 +5,7 @@
 import numpy as np
 from scipy.optimize import minimize
 from ..special import quality_f
-from ..unit import Frequency, Impedance
+from ..units.unit import Frequency, Impedance
 
 
 class Balun:

@@ -1,4 +1,4 @@
-from passive_auto_design import unit
+from passive_auto_design.units import unit
 
 
 def test_freq():
