@@ -13,12 +13,10 @@ def test_quality_factor():
     assert sp.quality_f(100 - 1j * 300) == -3.0
 
 
-def test_dB():
-    assert sp.dB(10) == 10
-    assert sp.dB(0) == -inf
+def test_ihsr():
     assert sp.ihsr(3 + 0 * 1j, 3 * 1j) == inf
     assert sp.ihsr(3, 3) == 0
-    assert round(sp.lin(-3), 1) == 0.5
+    assert round(10 ** (-3 / 10), 1) == 0.5
 
 
 def test_sp_calculation():
