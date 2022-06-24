@@ -3,7 +3,7 @@
 
 """
 from numpy import pi, sqrt
-from ..unit import SI
+from ..units.unit import SI
 
 
 class Coupler:
