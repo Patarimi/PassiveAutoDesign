@@ -53,7 +53,9 @@ class Coupler(HydraHeadApp):
             st.header("Model Parameters")
             eps_r = st.number_input(label="Permittivity", value=4.0, min_value=0.0)
             dist = st.number_input(label="Distance between inductor (µm)", value=1.5)
-            dist_g = st.number_input(label="Distance to the ground plane (µm)", value=3.)
+            dist_g = st.number_input(
+                label="Distance to the ground plane (µm)", value=3.0
+            )
             st.form_submit_button(label="Compute")
 
         width = width_min
@@ -64,13 +66,16 @@ class Coupler(HydraHeadApp):
         for i in range(4):
             transfo.set_model_with_dim({"lp": coupler.l}, "lp.d_i")
             d_i = transfo.dim["lp.d_i"]
-            ratio = transfo.model["cm"]/transfo.model["cg"]
+            ratio = transfo.model["cm"] / transfo.model["cg"]
             width = transfo.dim["lp.width"]
-            transfo.set_model_with_dim({"cm": ratio*coupler.c/(1+ratio),
-                                        "cg": coupler.c/(1+ratio)},
-                                       "lp.width")
+            transfo.set_model_with_dim(
+                {"cm": ratio * coupler.c / (1 + ratio), "cg": coupler.c / (1 + ratio)},
+                "lp.width",
+            )
             delta = np.abs(width - transfo.dim["lp.width"]) / width
-            l1 = Inductor(n_turn=n_turn, width=transfo.dim["lp.width"], gap=gap, d_i=d_i)
+            l1 = Inductor(
+                n_turn=n_turn, width=transfo.dim["lp.width"], gap=gap, d_i=d_i
+            )
             transfo = Transformer(
                 l1, l1, rho=0, eps_r=eps_r, h_mut=dist * 1e-6, h_gnd=dist_g * 1e-6
             )
@@ -79,7 +84,7 @@ class Coupler(HydraHeadApp):
         col2.header("Geometrical Sizing")
         col2.write(r"$l_{find}$ = " + str(l1))
         col2.write(r"$c_{mut}$ = " + SI(transfo.model["cm"]) + "F")
-        col2.write(r"$c_{gnd}$ = "+SI(transfo.model["cg"]) + "F")
+        col2.write(r"$c_{gnd}$ = " + SI(transfo.model["cg"]) + "F")
         col2.write(r"$n_{turn}$= " + str(n_turn))
         for key in {"width", "gap", "d_i"}:
             col2.write(f"{key}: {SI(transfo.dim['lp.'+key])}m")

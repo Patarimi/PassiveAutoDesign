@@ -4,7 +4,7 @@
 """
 import numpy as np
 from scipy.optimize import minimize_scalar
-from ..special import u0, eps0, c0, Nm_to_dBcm, eta0
+from ..units.constants import u0, eps0, c0, Nm_to_dBcm, eta0
 
 
 class Waveguide:
