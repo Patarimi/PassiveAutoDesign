@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Dict
 from scipy.optimize import minimize_scalar
 from matplotlib.ticker import EngFormatter
-from passive_auto_design.special import u0, eps0
+from  ..units.constants import u0, eps0
 
 
 class LumpedElement(BaseModel, ABC):
