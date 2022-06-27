@@ -84,10 +84,10 @@ def friis(f: Frequency, gain: PhysicalDimension):
     n = f.shape()[0]
     if m != n - 1:
         raise ValueError("gain should have 1 item less than noise factor f")
-    g_tot = 1
+    g_tot = PhysicalDimension(value=[1.,], scale="lin", unit="")
     f_lin = f.lin()
     res = f_lin[0]
     for i in range(m):
-        g_tot *= gain[i].lin()
+        g_tot = g_tot*gain[i].lin()
         res += (f_lin[i + 1] - 1) / g_tot
-    return PhysicalDimension(value=list(res)).dB()
+    return res.dB()

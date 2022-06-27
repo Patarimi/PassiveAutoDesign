@@ -57,16 +57,16 @@ class PhysicalDimension(BaseModel):
         return self.value.shape
 
     def __sub__(self, other):
-        operator(self, other, "-")
+        return operator(self, other, "-")
 
     def __add__(self, other):
-        operator(self, other, "+")
+        return operator(self, other, "+")
 
     def __truediv__(self, other):
-        operator(self, other, "/")
+        return operator(self, other, "/")
 
     def __mul__(self, other):
-        operator(self, other, "*")
+        return operator(self, other, "*")
 
     def __eq__(self, other):
         return (
@@ -82,7 +82,6 @@ class PhysicalDimension(BaseModel):
 
 
 def operator(l_a, l_b, op):
-    res = np.array(l_a.shape())
     b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b
     if op == "+":
         res = l_a.value + b
