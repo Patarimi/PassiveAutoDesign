@@ -16,6 +16,19 @@ class NDArray(np.ndarray):
             return v
         if isinstance(v, List) or isinstance(v, Tuple):
             return np.asarray(v)
+        if (
+            isinstance(v, float)
+            or isinstance(v, int)
+            or isinstance(v, np.float32)
+            or isinstance(v, np.int32)
+            or isinstance(v, np.float64)
+            or isinstance(v, np.int64)
+        ):
+            return np.asarray(
+                [
+                    v,
+                ]
+            )
         raise ValueError(f"cannot coerse input of type {type(v)} to numpy array.")
 
 
@@ -46,9 +59,7 @@ class PhysicalDimension(BaseModel):
 
     def __getitem__(self, item):
         return self.__class__(
-            value=[
-                self.value[item],
-            ],
+            value=self.value[item],
             scale=self.scale,
             unit=self.unit,
         )
@@ -68,12 +79,18 @@ class PhysicalDimension(BaseModel):
     def __mul__(self, other):
         return operator(self, other, "*")
 
+    def __rmul__(self, other):
+        return operator(self, other, "*")
+
     def __eq__(self, other):
         return (
             self.unit == other.unit
             and self.scale == other.scale
             and np.all(self.value == other.value)
         )
+
+    def __lt__(self, other):
+        return np.all(self.value < other.value)
 
     def __round__(self, x):
         return self.__class__(
