@@ -33,7 +33,7 @@ class PhysicalDimension(BaseModel):
         """
         v = self.value
         v_db = v if self.scale == "dB" else 10 * np.log10(np.abs(v))
-        out = PhysicalDimension(value=v_db, scale="dB", unit=self.unit)
+        out = self.__class__(value=v_db, scale="dB", unit=self.unit)
         return out
 
     def lin(self):
@@ -42,11 +42,10 @@ class PhysicalDimension(BaseModel):
         """
         v = self.value
         v_lin = 10 ** (v / 10) if self.scale == "dB" else v
-        return self(value=v_lin, scale="lin", unit=self.unit)
+        return self.__class__(value=v_lin, scale="lin", unit=self.unit)
 
     def __getitem__(self, item):
-        print(self.shape())
-        return self.__init__(
+        return self.__class__(
             value=[
                 self.value[item],
             ],
@@ -67,7 +66,7 @@ class PhysicalDimension(BaseModel):
         operator(self, other, "/")
 
     def __mul__(self, other):
-        operator(self, ohter, "*")
+        operator(self, other, "*")
 
     def __eq__(self, other):
         return (
@@ -76,15 +75,21 @@ class PhysicalDimension(BaseModel):
             and np.all(self.value == other.value)
         )
 
+    def __round__(self, x):
+        return self.__class__(
+            value=np.round(self.value, x), scale=self.scale, unit=self.unit
+        )
+
 
 def operator(l_a, l_b, op):
     res = np.array(l_a.shape())
+    b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b
     if op == "+":
-        res = l_a.value + l_b.value
+        res = l_a.value + b
     if op == "-":
-        res = l_a.value - l_b.value
+        res = l_a.value - b
     if op == "/":
-        res = l_a.value / l_b.value
+        res = l_a.value / b
     if op == "*":
-        res = l_a.value * l_b.value
-    return PhysicalDimension(value=res, scale=l_a.scale, unit=l_a.unit)
+        res = l_a.value * b
+    return l_a.__class__(value=res, scale=l_a.scale, unit=l_a.unit)
