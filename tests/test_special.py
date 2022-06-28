@@ -33,9 +33,9 @@ def test_frac_bw():
 
 def test_friis():
     noise_factor = PhysicalDimension(value=[3, 6], scale="dB")
-    gain = PhysicalDimension(value=[15,], scale="dB")
+    gain = PhysicalDimension(value=15, scale="dB")
     f_out = sp.friis(noise_factor, gain)
     assert round(f_out.value, 2) == 3.2
-    gain = PhysicalDimension(value=[15,18], scale="dB")
+    gain = PhysicalDimension(value=[15, 18], scale="dB")
     with raises(ValueError):
         sp.friis(noise_factor, gain)
