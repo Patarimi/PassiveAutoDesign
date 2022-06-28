@@ -904,13 +904,13 @@
 
     <div class="doc doc-contents ">
 
-      <p>interpolator for phase noise</p>
+      <p>Interpolator for phase noise.</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__pn_interpol</span><span class="p">(</span><span class="n">pn_db</span><span class="p">:</span> <span class="n">PhaseNoise</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">,</span> <span class="n">f_int</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    interpolator for phase noise</span>
+<span class="sd">    Interpolator for phase noise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">pn_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pn_db</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span> <span class="o">-</span> <span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">())</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">pn_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
@@ -1063,6 +1063,7 @@
 
     <div class="doc doc-contents ">
 
+      <p>Convert Integrated Phase Noise to equivalent Jitter.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1077,13 +1078,13 @@
   <tbody>
       <tr>
         <td><code>ipn</code></td>
-        <td><code>float</code></td>
+        <td><code>IntegratedPhaseNoise</code></td>
         <td><p>integrated phase noise of a system</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>f0</code></td>
-        <td><code>float</code></td>
+        <td><code>Frequency</code></td>
         <td><p>central frequency of the system</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1106,8 +1107,9 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_jitter</span><span class="p">(</span><span class="n">ipn</span><span class="p">,</span> <span class="n">f0</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_jitter</span><span class="p">(</span><span class="n">ipn</span><span class="p">:</span> <span class="n">IntegratedPhaseNoise</span><span class="p">,</span> <span class="n">f0</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert Integrated Phase Noise to equivalent Jitter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1122,7 +1124,7 @@
 <span class="sd">        equivalent jitter in seconds</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ipn</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ipn</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f0</span><span class="p">))</span>
 </code></pre></div>
         </details>
     </div>

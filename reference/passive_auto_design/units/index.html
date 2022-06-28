@@ -812,6 +812,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#passive_auto_design.units.noise" class="md-nav__link">
+    noise
+  </a>
+  
+    <nav class="md-nav" aria-label="noise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.noise.IntegratedPhaseNoise" class="md-nav__link">
+    IntegratedPhaseNoise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.noise.PhaseNoise" class="md-nav__link">
+    PhaseNoise
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#passive_auto_design.units.physical_dimension" class="md-nav__link">
     physical_dimension
   </a>
@@ -1015,13 +1042,13 @@
 
     <div class="doc doc-contents ">
 
-      <p>interpolator for phase noise</p>
+      <p>Interpolator for phase noise.</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__pn_interpol</span><span class="p">(</span><span class="n">pn_db</span><span class="p">:</span> <span class="n">PhaseNoise</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">,</span> <span class="n">f_int</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    interpolator for phase noise</span>
+<span class="sd">    Interpolator for phase noise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">pn_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pn_db</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span> <span class="o">-</span> <span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">())</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">pn_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
@@ -1174,6 +1201,7 @@
 
     <div class="doc doc-contents ">
 
+      <p>Convert Integrated Phase Noise to equivalent Jitter.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1188,13 +1216,13 @@
   <tbody>
       <tr>
         <td><code>ipn</code></td>
-        <td><code>float</code></td>
+        <td><code>IntegratedPhaseNoise</code></td>
         <td><p>integrated phase noise of a system</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>f0</code></td>
-        <td><code>float</code></td>
+        <td><code>Frequency</code></td>
         <td><p>central frequency of the system</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1217,8 +1245,9 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_jitter</span><span class="p">(</span><span class="n">ipn</span><span class="p">,</span> <span class="n">f0</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_jitter</span><span class="p">(</span><span class="n">ipn</span><span class="p">:</span> <span class="n">IntegratedPhaseNoise</span><span class="p">,</span> <span class="n">f0</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert Integrated Phase Noise to equivalent Jitter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1233,7 +1262,7 @@
 <span class="sd">        equivalent jitter in seconds</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ipn</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ipn</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f0</span><span class="p">))</span>
 </code></pre></div>
         </details>
     </div>
@@ -1251,6 +1280,133 @@
 
   </div>
 
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h2 id="passive_auto_design.units.noise" class="doc doc-heading">
+        <code>noise</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="passive_auto_design.units.noise.IntegratedPhaseNoise" class="doc doc-heading">
+        <code>
+IntegratedPhaseNoise            (<a title="passive_auto_design.units.physical_dimension.PhysicalDimension" href="physical_dimension/#passive_auto_design.units.physical_dimension.PhysicalDimension">PhysicalDimension</a>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Integrated Phase Noise PhysicalDimension, use for noise conversion (see ::converters).</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="passive_auto_design.units.noise.PhaseNoise" class="doc doc-heading">
+        <code>
+PhaseNoise            (<a title="passive_auto_design.units.physical_dimension.PhysicalDimension" href="physical_dimension/#passive_auto_design.units.physical_dimension.PhysicalDimension">PhysicalDimension</a>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Phase Noise PhysicalDimension, use for noise conversion (see ::converters).</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 
@@ -1297,6 +1453,7 @@ PhysicalDimension            (<span title="pydantic.main.BaseModel">BaseModel</s
 
     <div class="doc doc-contents ">
 
+      <p>Pydantic model adding unit and scale to standard ndarray.</p>
 
 
 
