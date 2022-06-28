@@ -3,8 +3,6 @@
 Define constants and function dedicated to RF-conception
 """
 import numpy as np
-from passive_auto_design.units.physical_dimension import PhysicalDimension
-from passive_auto_design.units.time import Frequency
 
 # Other functions
 def gamma(_z_load: float, _z0: float = 50):

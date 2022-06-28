@@ -49,14 +49,6 @@ class RFLineUp(BaseModel):
         print(gain)
         return sum(gain)
 
-    def __concat__(self, RFBloc):
-        if isinstance(v, RFBloc):
-            return self.__class__(chain=self.chain + RFBloc)
-        return self.__class__(chain=self.chain + RFBloc.chain)
-
-    def __getitem__(self, item):
-        return self.chain[item]
-
 
 def friis(nf: NoiseFigure, gain: PhysicalDimension):
     """

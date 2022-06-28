@@ -72,7 +72,7 @@ def __pn_interpol(pn_db: PhaseNoise, freq: Frequency, f_int: Frequency):
 def to_jitter(ipn: IntegratedPhaseNoise, f0: Frequency):
     """
     Convert Integrated Phase Noise to equivalent Jitter.
-    
+
     Parameters
     ----------
     ipn : float
