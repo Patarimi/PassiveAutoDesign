@@ -19,7 +19,9 @@ def int_phase_noise(
         List of the phase noise in dBc/Hz
     freq : Frequency
         List of the corresponding frequency (in Hz)
-    f_min, f_max : Frequency
+    f_min : Frequency
+        f_min
+    f_max : Frequency
         if not None, calculation is done from f_min to f_max (with interpolation)
 
 

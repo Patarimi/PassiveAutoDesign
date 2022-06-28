@@ -32,6 +32,9 @@ class NDArray(np.ndarray):
         raise ValueError(f"cannot coerse input of type {type(v)} to numpy array.")
 
 
+"""
+Pydantic model adding unit and scale to standard ndarray.
+"""
 class PhysicalDimension(BaseModel):
     value: NDArray
     unit: str = ""
@@ -42,7 +45,7 @@ class PhysicalDimension(BaseModel):
 
     def dB(self):
         """
-        Return the decibel value of the given imaginary number.
+        Convert the Physical dimension to decibel.
         """
         v = self.value
         v_db = v if self.scale == "dB" else 10 * np.log10(np.abs(v))
@@ -51,7 +54,7 @@ class PhysicalDimension(BaseModel):
 
     def lin(self):
         """
-        return the linear magnitude of the given magnitude in decibel
+        Convert the Physical dimension to linear magnitude.
         """
         v = self.value
         v_lin = 10 ** (v / 10) if self.scale == "dB" else v
@@ -68,19 +71,19 @@ class PhysicalDimension(BaseModel):
         return self.value.shape
 
     def __sub__(self, other):
-        return operator(self, other, "-")
+        return __operator(self, other, "-")
 
     def __add__(self, other):
-        return operator(self, other, "+")
+        return __operator(self, other, "+")
 
     def __truediv__(self, other):
-        return operator(self, other, "/")
+        return __operator(self, other, "/")
 
     def __mul__(self, other):
-        return operator(self, other, "*")
+        return __operator(self, other, "*")
 
     def __rmul__(self, other):
-        return operator(self, other, "*")
+        return __operator(self, other, "*")
 
     def __eq__(self, other):
         return (
@@ -98,7 +101,7 @@ class PhysicalDimension(BaseModel):
         )
 
 
-def operator(l_a, l_b, op):
+def __operator(l_a, l_b, op):
     b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b
     if op == "+":
         res = l_a.value + b
