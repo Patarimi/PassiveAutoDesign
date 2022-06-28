@@ -86,4 +86,4 @@ def to_jitter(ipn: IntegratedPhaseNoise, f0: Frequency):
         equivalent jitter in seconds
 
     """
-    return Time(value=np.sqrt(2 * ipn) / (2 * np.pi * f0))
+    return Time(value=np.sqrt(2 * ipn.value) / (2 * np.pi * f0))
