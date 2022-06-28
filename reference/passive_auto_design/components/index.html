@@ -501,10 +501,63 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_6" type="checkbox" id="__nav_2_1_6" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../system/">system</a>
+          
+            <label for="__nav_2_1_6">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="system" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_6">
+          <span class="md-nav__icon md-icon"></span>
+          system
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../unit/" class="md-nav__link">
-        unit
+      <a href="../system/pll/" class="md-nav__link">
+        pll
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/rf_line_up/" class="md-nav__link">
+        rf_line_up
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -524,13 +577,108 @@
       
       
       
-        <label class="md-nav__link" for="__nav_2_1_7">
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../units/">units</a>
+          
+            <label for="__nav_2_1_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="units" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          units
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units/constants/" class="md-nav__link">
+        constants
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units/physical_dimension/" class="md-nav__link">
+        physical_dimension
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units/time/" class="md-nav__link">
+        time
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units/unit/" class="md-nav__link">
+        unit
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_8" type="checkbox" id="__nav_2_1_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_8">
           wrappers
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="wrappers" data-md-level="3">
-        <label class="md-nav__title" for="__nav_2_1_7">
+        <label class="md-nav__title" for="__nav_2_1_8">
           <span class="md-nav__icon md-icon"></span>
           wrappers
         </label>
@@ -1230,7 +1378,9 @@ Inductor            (<a title="passive_auto_design.components.lumped_element.Lum
           <summary>Source code in <code>passive_auto_design\components\lumped_element.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;n_turn&quot;</span><span class="p">]</span>
-    <span class="n">outer_diam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;gap&quot;</span><span class="p">]</span>
+    <span class="n">outer_diam</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;gap&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;d_o&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">outer_diam</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">outer_diam</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">density</span> <span class="o">=</span> <span class="p">(</span><span class="n">outer_diam</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;d_i&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">outer_diam</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;d_i&quot;</span><span class="p">])</span>
@@ -1450,7 +1600,11 @@ Resistor            (<a title="passive_auto_design.components.lumped_element.Lum
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\components\lumped_element.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;res&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;section&quot;</span><span class="p">],</span> <span class="mf">0.</span><span class="p">])}</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;res&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;section&quot;</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
 </code></pre></div>
         </details>
     </div>
@@ -1779,15 +1933,25 @@ else, return the capacitance to the ground plane</p>
     <span class="k">if</span> <span class="n">_mutual</span><span class="p">:</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;h_mut&quot;</span><span class="p">])</span>
         <span class="n">d_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">],</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">]])</span>
-        <span class="n">d_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">]])</span>
+        <span class="n">d_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">d_i</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span>
+                <span class="n">d_i</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;h_gnd&quot;</span><span class="p">])</span>
         <span class="n">d_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">],</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">]])</span>
-        <span class="n">d_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">]])</span>
+        <span class="n">d_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">d_i</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span>
+                <span class="n">d_i</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
     <span class="n">eps_r</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="s2">&quot;eps_r&quot;</span><span class="p">])</span>
     <span class="n">area</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">d_o</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">d_i</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
     <span class="n">cap</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Capacitor</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">eps_r</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cap</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;cap&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;cap&quot;</span><span class="p">])</span>
 </code></pre></div>
         </details>
     </div>
@@ -1813,12 +1977,22 @@ else, return the capacitance to the ground plane</p>
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\components\transformer.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">primary</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.gap&quot;</span><span class="p">])</span>
+    <span class="n">primary</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.gap&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;lp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ind&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sym</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ind&quot;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">secondary</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.gap&quot;</span><span class="p">])</span>
+        <span class="n">secondary</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.gap&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">secondary</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ind&quot;</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;rp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_geo</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;rs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_geo</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -1856,11 +2030,15 @@ else, return the capacitance to the ground plane</p>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
-    <span class="n">c1</span> <span class="o">=</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.gap&quot;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.gap&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">d1</span> <span class="o">=</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">]</span>
-    <span class="n">c2</span> <span class="o">=</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.gap&quot;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.gap&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">d2</span> <span class="o">=</span> <span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="mf">0.99</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">c1</span><span class="o">+</span><span class="n">d1</span><span class="p">,</span> <span class="n">c2</span><span class="o">+</span><span class="n">d2</span><span class="p">]))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">c1</span><span class="o">+</span><span class="n">d1</span><span class="p">,</span> <span class="n">c2</span><span class="o">+</span><span class="n">d2</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="mf">0.99</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">c1</span> <span class="o">+</span> <span class="n">d1</span><span class="p">,</span> <span class="n">c2</span> <span class="o">+</span> <span class="n">d2</span><span class="p">]))</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">c1</span> <span class="o">+</span> <span class="n">d1</span><span class="p">,</span> <span class="n">c2</span> <span class="o">+</span> <span class="n">d2</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">]))</span>
+    <span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1891,14 +2069,18 @@ else, return the capacitance to the ground plane</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">geo</span> <span class="o">=</span> <span class="s2">&quot;lp.&quot;</span> <span class="k">if</span> <span class="n">_of_primary</span> <span class="k">else</span> <span class="s2">&quot;lp.&quot;</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span>
-    <span class="n">n_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span><span class="o">+</span><span class="s2">&quot;n_turn&quot;</span><span class="p">]</span>
+    <span class="n">n_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span> <span class="o">+</span> <span class="s2">&quot;n_turn&quot;</span><span class="p">]</span>
     <span class="n">l_tot</span> <span class="o">=</span> <span class="p">(</span>
         <span class="mi">8</span>
         <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
         <span class="o">*</span> <span class="n">n_t</span>
-        <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span><span class="o">+</span><span class="s2">&quot;d_i&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span><span class="o">+</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">n_t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span><span class="o">+</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span><span class="o">+</span><span class="s2">&quot;gap&quot;</span><span class="p">]))</span>
+        <span class="o">*</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span> <span class="o">+</span> <span class="s2">&quot;d_i&quot;</span><span class="p">]</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span> <span class="o">+</span> <span class="s2">&quot;width&quot;</span><span class="p">]</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">n_t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span> <span class="o">+</span> <span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span> <span class="o">+</span> <span class="s2">&quot;gap&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">r_dc</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Resistor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span><span class="o">+</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">l_tot</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">r_dc</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Resistor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="n">geo</span> <span class="o">+</span> <span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">l_tot</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">r_dc</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">]</span>
 </code></pre></div>
         </details>
