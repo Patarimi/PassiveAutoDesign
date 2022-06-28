@@ -509,8 +509,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#passive_auto_design.special.friis" class="md-nav__link">
-    friis()
+  <a href="#passive_auto_design.special.gamma" class="md-nav__link">
+    gamma()
   </a>
   
 </li>
@@ -848,8 +848,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#passive_auto_design.special.friis" class="md-nav__link">
-    friis()
+  <a href="#passive_auto_design.special.gamma" class="md-nav__link">
+    gamma()
   </a>
   
 </li>
@@ -919,103 +919,32 @@
 
 
 
-
   <div class="doc doc-object doc-function">
 
 
 
-<h2 id="passive_auto_design.special.friis" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">friis</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">gain</span><span class="p">)</span></code>
+<h2 id="passive_auto_design.special.gamma" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gamma</span><span class="p">(</span><span class="n">_z_load</span><span class="p">,</span> <span class="n">_z0</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></code>
 
 
 </h2>
 
     <div class="doc doc-contents ">
 
+      <p>return the reflexion coefficient of an interface between two impedances.</p>
 
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>f</code></td>
-        <td><code>Frequency</code></td>
-        <td><p>List of the noise figure (in dB) of each block.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>gain</code></td>
-        <td><code>PhysicalDimension</code></td>
-        <td><p>List of the gain of each block (in dB).</p></td>
-        <td><em>required</em></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>float</code></td>
-      <td><p>Total noise figure of the system</p></td>
-    </tr>
-  </tbody>
-</table>
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\special.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">friis</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">,</span> <span class="n">gain</span><span class="p">:</span> <span class="n">PhysicalDimension</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="n">_z_load</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">_z0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    f : np.Array</span>
-<span class="sd">        List of the noise figure (in dB) of each block.</span>
-<span class="sd">    gain : np.Array</span>
-<span class="sd">        List of the gain of each block (in dB).</span>
-
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    float</span>
-<span class="sd">        Total noise figure of the system</span>
-
+<span class="sd">    return the reflexion coefficient of an interface between two impedances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">m</span> <span class="o">=</span> <span class="n">gain</span><span class="o">.</span><span class="n">shape</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">m</span> <span class="o">!=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gain should have 1 item less than noise factor f&quot;</span><span class="p">)</span>
-    <span class="n">g_tot</span> <span class="o">=</span> <span class="n">PhysicalDimension</span><span class="p">(</span>
-        <span class="n">value</span><span class="o">=</span><span class="p">[</span>
-            <span class="mf">1.0</span><span class="p">,</span>
-        <span class="p">],</span>
-        <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;lin&quot;</span><span class="p">,</span>
-        <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">f_lin</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">f_lin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-        <span class="n">g_tot</span> <span class="o">*=</span> <span class="n">gain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">f_lin</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g_tot</span>
-    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">_z0</span> <span class="o">-</span> <span class="n">_z_load</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">_z0</span> <span class="o">+</span> <span class="n">_z_load</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
 
   </div>
-
 
 
 

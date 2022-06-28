@@ -856,13 +856,14 @@
 </code></pre>
 <p>A demo is given <a href="https://share.streamlit.io/patarimi/passiveautodesign/apps/home.py">here</a> and the documentation can be found <a href="https://patarimi.github.io/PassiveAutoDesign/">here</a></p>
 <h2 id="package-structure">Package Structure</h2>
-<p>The Package is composed of five modules:</p>
+<p>The Package is composed of 9 modules:</p>
 <ul>
 <li>The <em>substrate.py</em> file which describes the substrate used (or Back End Of Line).</li>
 <li>The <em>components</em> directory which contains RF-components to be implemented in a susbtrate (Waveguides, Transformers, Coupler...). It also enables rough geometry design/estimation from given rf specifications.</li>
-<li>The <em>special.py</em> file which contains physical constants and special functions (dB, NmtodBcm, ...)</li>
+<li>The <em>devices</em> module which contains RF-devices. It helps defining the rf-specification of the devices from the given higher-level specification.</li>
+<li>The <em>special.py</em> file which contains special functions.</li>
 <li>The <em>space_mapping.py</em> file which help deploy space mapping algorithm.</li>
-<li>The <em>unit.py</em> file which contains fonction to help formatting number to string.</li>
+<li>The <em>units</em> module which contains pydantic models to ease the usage of physical dimension. It also contains physical constants.</li>
 </ul>
 
               

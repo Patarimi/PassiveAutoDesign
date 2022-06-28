@@ -777,6 +777,60 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#passive_auto_design.system.rf_line_up" class="md-nav__link">
+    rf_line_up
+  </a>
+  
+    <nav class="md-nav" aria-label="rf_line_up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.system.rf_line_up.RFBloc" class="md-nav__link">
+    RFBloc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.system.rf_line_up.RFLineUp" class="md-nav__link">
+    RFLineUp
+  </a>
+  
+    <nav class="md-nav" aria-label="RFLineUp">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.system.rf_line_up.RFLineUp.NF" class="md-nav__link">
+    NF()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.system.rf_line_up.RFLineUp.gain" class="md-nav__link">
+    gain()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.system.rf_line_up.friis" class="md-nav__link">
+    friis()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -814,6 +868,294 @@
 
 
 
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h2 id="passive_auto_design.system.rf_line_up" class="doc doc-heading">
+        <code>rf_line_up</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="passive_auto_design.system.rf_line_up.RFBloc" class="doc doc-heading">
+        <code>
+RFBloc            (<span title="pydantic.main.BaseModel">BaseModel</span>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>class used to defined RF-bloc.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="passive_auto_design.system.rf_line_up.RFLineUp" class="doc doc-heading">
+        <code>
+RFLineUp            (<span title="pydantic.main.BaseModel">BaseModel</span>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>class used to size rf line-up</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="passive_auto_design.system.rf_line_up.RFLineUp.NF" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">NF</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>return the noise figure of the global line-up.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\system\rf_line_up.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">NF</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    return the noise figure of the global line-up.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NF</span> <span class="o">=</span> <span class="n">NoiseFigure</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">noise</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">))</span>
+    <span class="n">gain</span> <span class="o">=</span> <span class="n">PhysicalDimension</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">gain</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;dB&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">friis</span><span class="p">(</span><span class="n">NF</span><span class="p">,</span> <span class="n">gain</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="passive_auto_design.system.rf_line_up.RFLineUp.gain" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gain</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>return the gain of the global line-up.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\system\rf_line_up.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    return the gain of the global line-up.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gain</span><span class="o">.</span><span class="n">shape</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="p">:</span>
+        <span class="n">gain</span> <span class="o">+=</span> <span class="n">l</span><span class="o">.</span><span class="n">gain</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">gain</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gain</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="passive_auto_design.system.rf_line_up.friis" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">friis</span><span class="p">(</span><span class="n">nf</span><span class="p">,</span> <span class="n">gain</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nf</code></td>
+        <td><code>NoiseFigure</code></td>
+        <td><p>List of the noise figure (in dB) of each block.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>gain</code></td>
+        <td><code>PhysicalDimension</code></td>
+        <td><p>List of the gain of each block (in dB).</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Total noise figure of the system</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\system\rf_line_up.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">friis</span><span class="p">(</span><span class="n">nf</span><span class="p">:</span> <span class="n">NoiseFigure</span><span class="p">,</span> <span class="n">gain</span><span class="p">:</span> <span class="n">PhysicalDimension</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nf : NoiseFigure</span>
+<span class="sd">        List of the noise figure (in dB) of each block.</span>
+<span class="sd">    gain : PhysicalDimension</span>
+<span class="sd">        List of the gain of each block (in dB).</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Total noise figure of the system</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">gain</span><span class="o">.</span><span class="n">shape</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">shape</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">!=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gain should have 1 item less than noise factor f&quot;</span><span class="p">)</span>
+    <span class="n">g_tot</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">f_lin</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">f_lin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">g_tot</span> <span class="o">*=</span> <span class="n">gain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">f_lin</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g_tot</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 
