@@ -71,19 +71,19 @@ class PhysicalDimension(BaseModel):
         return self.value.shape
 
     def __sub__(self, other):
-        return __operator(self, other, "-")
+        return self.__operator(other, "-")
 
     def __add__(self, other):
-        return __operator(self, other, "+")
+        return self.__operator(other, "+")
 
     def __truediv__(self, other):
-        return __operator(self, other, "/")
+        return self.__operator(other, "/")
 
     def __mul__(self, other):
-        return __operator(self, other, "*")
+        return self.__operator(other, "*")
 
     def __rmul__(self, other):
-        return __operator(self, other, "*")
+        return self.__operator(other, "*")
 
     def __eq__(self, other):
         return (
@@ -101,14 +101,14 @@ class PhysicalDimension(BaseModel):
         )
 
 
-def __operator(l_a, l_b, op):
-    b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b
-    if op == "+":
-        res = l_a.value + b
-    if op == "-":
-        res = l_a.value - b
-    if op == "/":
-        res = l_a.value / b
-    if op == "*":
-        res = l_a.value * b
-    return l_a.__class__(value=res, scale=l_a.scale, unit=l_a.unit)
+    def __operator(self, l_b, op):
+        b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b
+        if op == "+":
+            res = self.value + b
+        if op == "-":
+            res = self.value - b
+        if op == "/":
+            res = self.value / b
+        if op == "*":
+            res = self.value * b
+        return self.__class__(value=res, scale=self.scale, unit=self.unit)
