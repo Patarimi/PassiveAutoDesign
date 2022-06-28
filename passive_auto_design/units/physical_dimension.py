@@ -36,6 +36,7 @@ class PhysicalDimension(BaseModel):
     """
     Pydantic model adding unit and scale to standard ndarray.
     """
+
     value: NDArray
     unit: str = ""
     scale: Literal["lin", "dB"] = "lin"
@@ -76,6 +77,9 @@ class PhysicalDimension(BaseModel):
     def __add__(self, other):
         return self.__operator(other, "+")
 
+    def __radd__(self, other):
+        return self.__operator(other, "+")
+
     def __truediv__(self, other):
         return self.__operator(other, "/")
 
@@ -99,7 +103,6 @@ class PhysicalDimension(BaseModel):
         return self.__class__(
             value=np.round(self.value, x), scale=self.scale, unit=self.unit
         )
-
 
     def __operator(self, l_b, op):
         b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b

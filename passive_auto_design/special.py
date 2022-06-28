@@ -8,6 +8,9 @@ from passive_auto_design.units.time import Frequency
 
 # Other functions
 def gamma(_z_load: float, _z0: float = 50):
+    """
+    return the reflexion coefficient of an interface between two impedances.
+    """
     return (_z0 - _z_load) / (_z0 + _z_load)
 
 
@@ -56,44 +59,3 @@ def reflexion_coef(_z_steps, _phi_step):
 
 def transmission_coef(_z_steps, _phi_step):
     return np.sqrt(1 - reflexion_coef(_z_steps, _phi_step) ** 2)
-
-
-def frac_bandwidth(f_min, f_max):
-    return 100 * np.abs(f_max - f_min) / np.sqrt(f_max * f_min)
-
-
-def friis(f: Frequency, gain: PhysicalDimension):
-    """
-
-    Parameters
-    ----------
-    f : np.Array
-        List of the noise figure (in dB) of each block.
-    gain : np.Array
-        List of the gain of each block (in dB).
-
-
-    Returns
-    -------
-    float
-        Total noise figure of the system
-
-    """
-
-    m = gain.shape()[0]
-    n = f.shape()[0]
-    if m != n - 1:
-        raise ValueError("gain should have 1 item less than noise factor f")
-    g_tot = PhysicalDimension(
-        value=[
-            1.0,
-        ],
-        scale="lin",
-        unit="",
-    )
-    f_lin = f.lin()
-    res = f_lin[0]
-    for i in range(m):
-        g_tot *= gain[i].lin()
-        res += (f_lin[i + 1] - 1) / g_tot
-    return res.dB()

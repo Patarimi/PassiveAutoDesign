@@ -1,4 +1,4 @@
-from numpy import sqrt
+from numpy import sqrt, min, max, abs
 from .physical_dimension import PhysicalDimension
 from .constants import c0
 
@@ -7,10 +7,11 @@ class Frequency(PhysicalDimension):
     """
     Frequency class inherited from Physical Dimension.
     """
+
     unit = "Hz"
 
-    def __init__(self, scale="lin", **data):
-        super().__init__(scale=scale, **data)
+    def __init__(self, value, scale="lin", **data):
+        super().__init__(value=value, scale=scale, **data)
 
     def to_time(self):
         """
@@ -30,15 +31,24 @@ class Frequency(PhysicalDimension):
             value=sqrt(eps_r) * c0 / f_lin.value, scale="lin", unit="m"
         )
 
+    def fractionnal_bandwidth(self):
+        """
+        Return the fractionnal BandWidth in percent.
+        """
+        f_min = min(self.lin().value)
+        f_max = max(self.lin().value)
+        return 100 * abs(f_max - f_min) / sqrt(f_max * f_min)
+
 
 class Time(PhysicalDimension):
     """
     Time class inherited from Physical Dimension.
     """
+
     unit = "s"
 
-    def __init__(self, scale="lin", **data):
-        super().__init__(scale=scale, **data)
+    def __init__(self, value, scale="lin", **data):
+        super().__init__(value=value, scale=scale, **data)
 
     def to_freq(self):
         """
