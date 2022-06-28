@@ -685,6 +685,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../units/converters/" class="md-nav__link">
+        converters
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units/noise/" class="md-nav__link">
+        noise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../units/physical_dimension/" class="md-nav__link">
         physical_dimension
       </a>
@@ -969,11 +997,17 @@
     <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">m</span> <span class="o">!=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gain should have 1 item less than noise factor f&quot;</span><span class="p">)</span>
-    <span class="n">g_tot</span> <span class="o">=</span> <span class="n">PhysicalDimension</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,],</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;lin&quot;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">g_tot</span> <span class="o">=</span> <span class="n">PhysicalDimension</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="p">[</span>
+            <span class="mf">1.0</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;lin&quot;</span><span class="p">,</span>
+        <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">f_lin</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">f_lin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-        <span class="n">g_tot</span> <span class="o">=</span> <span class="n">g_tot</span><span class="o">*</span><span class="n">gain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
+        <span class="n">g_tot</span> <span class="o">*=</span> <span class="n">gain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
         <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">f_lin</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g_tot</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
 </code></pre></div>

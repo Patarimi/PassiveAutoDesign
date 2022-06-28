@@ -615,6 +615,34 @@
   
   
     <li class="md-nav__item">
+      <a href="converters/" class="md-nav__link">
+        converters
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="noise/" class="md-nav__link">
+        noise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="physical_dimension/" class="md-nav__link">
         physical_dimension
       </a>
@@ -750,6 +778,40 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#passive_auto_design.units.converters" class="md-nav__link">
+    converters
+  </a>
+  
+    <nav class="md-nav" aria-label="converters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.converters.__pn_interpol" class="md-nav__link">
+    __pn_interpol()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.converters.int_phase_noise" class="md-nav__link">
+    int_phase_noise()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.converters.to_jitter" class="md-nav__link">
+    to_jitter()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#passive_auto_design.units.physical_dimension" class="md-nav__link">
     physical_dimension
   </a>
@@ -782,6 +844,66 @@
           <li class="md-nav__item">
   <a href="#passive_auto_design.units.physical_dimension.PhysicalDimension.lin" class="md-nav__link">
     lin()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passive_auto_design.units.time" class="md-nav__link">
+    time
+  </a>
+  
+    <nav class="md-nav" aria-label="time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.time.Frequency" class="md-nav__link">
+    Frequency
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.time.Frequency.to_time" class="md-nav__link">
+    to_time()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.time.Frequency.to_wavelength" class="md-nav__link">
+    to_wavelength()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.time.Time" class="md-nav__link">
+    Time
+  </a>
+  
+    <nav class="md-nav" aria-label="Time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passive_auto_design.units.time.Time.to_freq" class="md-nav__link">
+    to_freq()
   </a>
   
 </li>
@@ -852,6 +974,282 @@
 
 
 
+
+
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h2 id="passive_auto_design.units.converters" class="doc doc-heading">
+        <code>converters</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="passive_auto_design.units.converters.__pn_interpol" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__pn_interpol</span><span class="p">(</span><span class="n">pn_db</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">f_int</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>interpolator for phase noise</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__pn_interpol</span><span class="p">(</span><span class="n">pn_db</span><span class="p">:</span> <span class="n">PhaseNoise</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">,</span> <span class="n">f_int</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    interpolator for phase noise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">pn_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pn_db</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span> <span class="o">-</span> <span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">())</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pn_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">b</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">f_int</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="passive_auto_design.units.converters.int_phase_noise" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">int_phase_noise</span><span class="p">(</span><span class="n">pn_db</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">f_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">f_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>pn_db</code></td>
+        <td><code>PhaseNoise</code></td>
+        <td><p>List of the phase noise in dBc/Hz</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>freq</code></td>
+        <td><code>Frequency</code></td>
+        <td><p>List of the corresponding frequency (in Hz)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f_min</code></td>
+        <td><code>Frequency</code></td>
+        <td><p>f_min</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>f_max</code></td>
+        <td><code>Frequency</code></td>
+        <td><p>if not None, calculation is done from f_min to f_max (with interpolation)</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>integrated phase noise of the piece wise phase noise curve (in radian)</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">int_phase_noise</span><span class="p">(</span>
+    <span class="n">pn_db</span><span class="p">:</span> <span class="n">PhaseNoise</span><span class="p">,</span>
+    <span class="n">freq</span><span class="p">:</span> <span class="n">Frequency</span><span class="p">,</span>
+    <span class="n">f_min</span><span class="p">:</span> <span class="n">Frequency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">f_max</span><span class="p">:</span> <span class="n">Frequency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pn_db : PhaseNoise</span>
+<span class="sd">        List of the phase noise in dBc/Hz</span>
+<span class="sd">    freq : Frequency</span>
+<span class="sd">        List of the corresponding frequency (in Hz)</span>
+<span class="sd">    f_min : Frequency</span>
+<span class="sd">        f_min</span>
+<span class="sd">    f_max : Frequency</span>
+<span class="sd">        if not None, calculation is done from f_min to f_max (with interpolation)</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        integrated phase noise of the piece wise phase noise curve (in radian)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pn_shape</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pn_db</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">f_shape</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pn_shape</span> <span class="o">!=</span> <span class="n">f_shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected identical shape, got </span><span class="si">{</span><span class="n">pn_shape</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">f_shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ipn</span> <span class="o">=</span> <span class="n">PhysicalDimension</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,),</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;lin&quot;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pn_shape</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">f_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">f_min</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="c1"># skipping all part bellow f_min</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">f_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">f_min</span> <span class="o">&gt;</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="n">f_min</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">f_min</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Frequency</span> <span class="k">else</span> <span class="n">Frequency</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">f_min</span><span class="p">)</span>
+            <span class="n">pn1_db</span> <span class="o">=</span> <span class="n">__pn_interpol</span><span class="p">(</span><span class="n">pn_db</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">f_min</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">pn1_db</span> <span class="o">=</span> <span class="n">pn_db</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">f_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">f_max</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">f_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">f_max</span><span class="p">:</span>
+            <span class="n">f2</span> <span class="o">=</span> <span class="n">f_max</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">f_max</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Frequency</span> <span class="k">else</span> <span class="n">Frequency</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">f_max</span><span class="p">)</span>
+            <span class="n">pn2_db</span> <span class="o">=</span> <span class="n">__pn_interpol</span><span class="p">(</span><span class="n">pn_db</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">f_max</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f2</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">pn2_db</span> <span class="o">=</span> <span class="n">pn_db</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">pn1_db</span> <span class="o">-</span> <span class="n">pn2_db</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">dB</span><span class="p">()</span> <span class="o">-</span> <span class="n">f2</span><span class="o">.</span><span class="n">dB</span><span class="p">())</span>
+        <span class="n">ipn</span> <span class="o">+=</span> <span class="p">(</span><span class="n">f2</span> <span class="o">*</span> <span class="n">pn2_db</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span> <span class="o">-</span> <span class="n">f1</span> <span class="o">*</span> <span class="n">pn1_db</span><span class="o">.</span><span class="n">lin</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ipn</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="passive_auto_design.units.converters.to_jitter" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_jitter</span><span class="p">(</span><span class="n">ipn</span><span class="p">,</span> <span class="n">f0</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>ipn</code></td>
+        <td><code>float</code></td>
+        <td><p>integrated phase noise of a system</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f0</code></td>
+        <td><code>float</code></td>
+        <td><p>central frequency of the system</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>equivalent jitter in seconds</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\units\converters.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_jitter</span><span class="p">(</span><span class="n">ipn</span><span class="p">,</span> <span class="n">f0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ipn : float</span>
+<span class="sd">        integrated phase noise of a system</span>
+<span class="sd">    f0 : float</span>
+<span class="sd">        central frequency of the system</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        equivalent jitter in seconds</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ipn</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f0</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 
@@ -958,6 +1356,8 @@ PhysicalDimension            (<span title="pydantic.main.BaseModel">BaseModel</s
 
 
 
+
+
   <div class="doc doc-object doc-method">
 
 
@@ -970,13 +1370,13 @@ PhysicalDimension            (<span title="pydantic.main.BaseModel">BaseModel</s
 
     <div class="doc doc-contents ">
 
-      <p>Return the decibel value of the given imaginary number.</p>
+      <p>Convert the Physical dimension to decibel.</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\units\physical_dimension.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the decibel value of the given imaginary number.</span>
+<span class="sd">    Convert the Physical dimension to decibel.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
     <span class="n">v_db</span> <span class="o">=</span> <span class="n">v</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="s2">&quot;dB&quot;</span> <span class="k">else</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
@@ -1002,13 +1402,13 @@ PhysicalDimension            (<span title="pydantic.main.BaseModel">BaseModel</s
 
     <div class="doc doc-contents ">
 
-      <p>return the linear magnitude of the given magnitude in decibel</p>
+      <p>Convert the Physical dimension to linear magnitude.</p>
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\units\physical_dimension.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">lin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    return the linear magnitude of the given magnitude in decibel</span>
+<span class="sd">    Convert the Physical dimension to linear magnitude.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
     <span class="n">v_lin</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="s2">&quot;dB&quot;</span> <span class="k">else</span> <span class="n">v</span>
@@ -1036,6 +1436,140 @@ PhysicalDimension            (<span title="pydantic.main.BaseModel">BaseModel</s
 
 
 
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-module">
+
+
+
+<h2 id="passive_auto_design.units.time" class="doc doc-heading">
+        <code>time</code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="passive_auto_design.units.time.Frequency" class="doc doc-heading">
+        <code>
+Frequency            (<a title="passive_auto_design.units.physical_dimension.PhysicalDimension" href="physical_dimension/#passive_auto_design.units.physical_dimension.PhysicalDimension">PhysicalDimension</a>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Frequency class inherited from Physical Dimension.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="passive_auto_design.units.time.Frequency.to_time" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert the frequency to equivalent period.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\units\time.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the frequency to equivalent period.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="s2">&quot;lin&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">value</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="passive_auto_design.units.time.Frequency.to_wavelength" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps_r</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert the frequency to the equivalent wavelength.</p>
+<p>eps_r : relative permittivity of the medium used.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\units\time.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps_r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the frequency to the equivalent wavelength.</span>
+<span class="sd">    eps_r : relative permittivity of the medium used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f_lin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">PhysicalDimension</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">eps_r</span><span class="p">)</span> <span class="o">*</span> <span class="n">c0</span> <span class="o">/</span> <span class="n">f_lin</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;lin&quot;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
 
   </div>
 
@@ -1043,6 +1577,94 @@ PhysicalDimension            (<span title="pydantic.main.BaseModel">BaseModel</s
 
   </div>
 
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="passive_auto_design.units.time.Time" class="doc doc-heading">
+        <code>
+Time            (<a title="passive_auto_design.units.physical_dimension.PhysicalDimension" href="physical_dimension/#passive_auto_design.units.physical_dimension.PhysicalDimension">PhysicalDimension</a>)
+        </code>
+
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-pydantic-model"><code>pydantic-model</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Time class inherited from Physical Dimension.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="passive_auto_design.units.time.Time.to_freq" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">to_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert the period to equivalent frequency.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>passive_auto_design\units\time.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the period to equivalent frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="s2">&quot;lin&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Frequency</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Frequency</span><span class="p">(</span><span class="n">value</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 

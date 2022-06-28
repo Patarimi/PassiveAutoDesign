@@ -106,6 +106,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://patarimi.github.io/PassiveAutoDesign/reference/passive_auto_design/units/converters/</loc>
+         <lastmod>2022-06-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://patarimi.github.io/PassiveAutoDesign/reference/passive_auto_design/units/noise/</loc>
+         <lastmod>2022-06-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://patarimi.github.io/PassiveAutoDesign/reference/passive_auto_design/units/physical_dimension/</loc>
          <lastmod>2022-06-28</lastmod>
          <changefreq>daily</changefreq>
