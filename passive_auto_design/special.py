@@ -8,6 +8,9 @@ from passive_auto_design.units.time import Frequency
 
 # Other functions
 def gamma(_z_load: float, _z0: float = 50):
+    """
+    return the reflexion coefficient of an interface between two impedances.
+    """
     return (_z0 - _z_load) / (_z0 + _z_load)
 
 
@@ -56,10 +59,6 @@ def reflexion_coef(_z_steps, _phi_step):
 
 def transmission_coef(_z_steps, _phi_step):
     return np.sqrt(1 - reflexion_coef(_z_steps, _phi_step) ** 2)
-
-
-def frac_bandwidth(f_min, f_max):
-    return 100 * np.abs(f_max - f_min) / np.sqrt(f_max * f_min)
 
 
 def friis(f: Frequency, gain: PhysicalDimension):

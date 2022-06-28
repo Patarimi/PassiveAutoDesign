@@ -10,6 +10,11 @@ def test_frequency():
     assert wl == PhysicalDimension(value=[0.59958492, 0.05995849], unit="m")
 
 
+def test_frac_bw():
+    freq = t.Frequency(value=[1e9, 6e9])
+    assert round(freq.fractionnal_bandwidth()) == 204
+
+
 def test_time():
     period = t.Time(value=[1e-9, 10e-6])
     freq = period.dB().to_freq()

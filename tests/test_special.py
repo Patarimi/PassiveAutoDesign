@@ -27,10 +27,6 @@ def test_sp_calculation():
     assert round(sp.transmission_coef(z_profile, 10), 3) == 1.04 - 0.002 * 1j
 
 
-def test_frac_bw():
-    assert round(sp.frac_bandwidth(1e9, 6e9)) == 204
-
-
 def test_friis():
     noise_factor = PhysicalDimension(value=[3, 6], scale="dB")
     gain = PhysicalDimension(value=15, scale="dB")
