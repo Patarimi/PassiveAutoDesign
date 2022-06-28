@@ -15,10 +15,11 @@ A demo is given [here](https://share.streamlit.io/patarimi/passiveautodesign/app
 
 Package Structure
 ----
-The Package is composed of five modules:
+The Package is composed of 9 modules:
 
 - The _substrate.py_ file which describes the substrate used (or Back End Of Line).
 - The _components_ directory which contains RF-components to be implemented in a susbtrate (Waveguides, Transformers, Coupler...). It also enables rough geometry design/estimation from given rf specifications.
-- The _special.py_ file which contains physical constants and special functions (dB, NmtodBcm, ...)
+- The _devices_ module which contains RF-devices. It helps defining the rf-specification of the devices from the given higher-level specification.
+- The _special.py_ file which contains special functions.
 - The _space_mapping.py_ file which help deploy space mapping algorithm.
-- The _unit.py_ file which contains fonction to help formatting number to string.
+- The _units_ module which contains pydantic models to ease the usage of physical dimension. It also contains physical constants.
