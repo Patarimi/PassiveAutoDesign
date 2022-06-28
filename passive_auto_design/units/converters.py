@@ -1,6 +1,6 @@
 import numpy as np
 from typing import List
-from .noise import PhaseNoise
+from .noise import PhaseNoise, IntegratedPhaseNoise
 from .time import Frequency, Time
 from .physical_dimension import PhysicalDimension
 
@@ -62,16 +62,17 @@ def int_phase_noise(
 
 def __pn_interpol(pn_db: PhaseNoise, freq: Frequency, f_int: Frequency):
     """
-    interpolator for phase noise
+    Interpolator for phase noise.
     """
     a = (pn_db[1] - pn_db[0]) / (freq[1].dB() - freq[0].dB())
     b = pn_db[1] - a * freq[1].dB()
     return b + a * f_int.dB()
 
 
-def to_jitter(ipn, f0):
+def to_jitter(ipn: IntegratedPhaseNoise, f0: Frequency):
     """
-
+    Convert Integrated Phase Noise to equivalent Jitter.
+    
     Parameters
     ----------
     ipn : float
@@ -85,4 +86,4 @@ def to_jitter(ipn, f0):
         equivalent jitter in seconds
 
     """
-    return Time(value=np.sqrt(2 * ipn.value) / (2 * np.pi * f0))
+    return Time(value=np.sqrt(2 * ipn) / (2 * np.pi * f0))

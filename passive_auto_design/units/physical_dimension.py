@@ -32,10 +32,10 @@ class NDArray(np.ndarray):
         raise ValueError(f"cannot coerse input of type {type(v)} to numpy array.")
 
 
-"""
-Pydantic model adding unit and scale to standard ndarray.
-"""
 class PhysicalDimension(BaseModel):
+    """
+    Pydantic model adding unit and scale to standard ndarray.
+    """
     value: NDArray
     unit: str = ""
     scale: Literal["lin", "dB"] = "lin"

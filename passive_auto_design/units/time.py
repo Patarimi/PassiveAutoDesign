@@ -1,6 +1,3 @@
-"""
-
-"""
 from numpy import sqrt
 from .physical_dimension import PhysicalDimension
 from .constants import c0
