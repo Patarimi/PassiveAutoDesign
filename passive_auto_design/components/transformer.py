@@ -89,7 +89,7 @@ class Transformer(lmp.LumpedElement):
                 ]
             )
         eps_r = float(self.const["eps_r"])
-        area = 4 * (d_o ** 2 - d_i ** 2) * (1 + 2 * np.sqrt(2))
+        area = 4 * (d_o**2 - d_i**2) * (1 + 2 * np.sqrt(2))
         cap = lmp.Capacitor(area, dist, eps_r)
         return np.abs(cap.model["cap"])
 

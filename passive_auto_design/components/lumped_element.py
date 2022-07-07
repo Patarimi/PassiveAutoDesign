@@ -129,5 +129,5 @@ class Inductor(LumpedElement):
         self.dim["d_o"] = outer_diam
         rho = (self.dim["d_i"] + outer_diam) / 2
         density = (outer_diam - self.dim["d_i"]) / (outer_diam + self.dim["d_i"])
-        ind = self.const["k_1"] * u0 * n ** 2 * rho / (1 + self.const["k_2"] * density)
+        ind = self.const["k_1"] * u0 * n**2 * rho / (1 + self.const["k_2"] * density)
         return {"ind": ind}

@@ -28,10 +28,10 @@ def klopfenstein_taper(_z_start, _z_stop, _n_step, _rhomax=0.01):
     ln_z = np.zeros((_n_step,))
     for i in range(1, n_mid + 1):
         ln_z[i + n_mid] = z_mid + _rhomax * (
-            1 + a_coeff ** 2 * __phi(a_coeff, i / n_mid)
+            1 + a_coeff**2 * __phi(a_coeff, i / n_mid)
         )
         ln_z[n_mid - i] = z_mid + _rhomax * (
-            1 - a_coeff ** 2 * __phi(a_coeff, i / n_mid)
+            1 - a_coeff**2 * __phi(a_coeff, i / n_mid)
         )
     ln_z[n_mid] = z_mid + _rhomax
     return np.exp(ln_z, dtype=complex)
@@ -44,4 +44,4 @@ def __phi(_a_coeff, _y_pos):
 
 def __phase_equation(x, a):
     a = np.abs(a)
-    return i1(a * np.sqrt(1 - x ** 2)) / (a * np.sqrt(1 - x ** 2))
+    return i1(a * np.sqrt(1 - x**2)) / (a * np.sqrt(1 - x**2))

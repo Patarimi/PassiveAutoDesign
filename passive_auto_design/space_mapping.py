@@ -105,7 +105,7 @@ def cost_calc(perf_list, goal_list, weight_list=None):
             err = err_min + err_max
         else:
             err = (perf - goal) / (goal if goal != 0 else 1)
-        cost += weight_list[itern] * err ** 2
+        cost += weight_list[itern] * err**2
     return cost
 
 

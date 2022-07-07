@@ -30,7 +30,7 @@ class Coupler(HydraHeadApp):
         f_log = np.round(np.log10(f_c), 1)
         freq = np.logspace(f_log - 2, f_log + 2)
 
-        z_eff = coupler.l * (2 * np.pi * freq * np.sqrt(1 - k ** 2))
+        z_eff = coupler.l * (2 * np.pi * freq * np.sqrt(1 - k**2))
 
         fig, ax = plt.subplots()
         ax.semilogx(freq, dB(gamma(z_eff, z_c)), label="Return Loss")

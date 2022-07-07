@@ -82,7 +82,7 @@ class Waveguide:
         k = self.calc_k(_freq)
         tan_d = self.diel.tan_d
         beta = self.calc_beta(_freq)
-        return Nm_to_dBcm * k ** 2 * tan_d / (2 * beta)
+        return Nm_to_dBcm * k**2 * tan_d / (2 * beta)
 
     def calc_a_c(self, _freq):
         """
@@ -97,8 +97,8 @@ class Waveguide:
         return (
             Nm_to_dBcm
             * r_s
-            * (2 * height * np.pi ** 2 + width ** 3 * k ** 2)
-            / ((width ** 3) * height * beta * k * eta)
+            * (2 * height * np.pi**2 + width**3 * k**2)
+            / ((width**3) * height * beta * k * eta)
         )
 
     def calc_ksr(self, _freq):
@@ -135,7 +135,7 @@ Value can be set using set_width() or set_f_c()"
             * np.sqrt(1 - (f_c / _freq) ** 2)
             * width
             * height
-            * _e_0 ** 2
+            * _e_0**2
             / eta0
         )
 
@@ -149,7 +149,7 @@ Value can be set using set_width() or set_f_c()"
         # see page 461 of Heat Transfert, 10th edition (with A2 >> A1)
         sigma = 5.669 * 1e-8  # W/m²K^4 Stefan-Boltzmann constant
         epsilon = 0.65  # emissivity of the copper
-        h_r = sigma * epsilon * (_t_max ** 2 + t_amb ** 2) * (_t_max + t_amb)
+        h_r = sigma * epsilon * (_t_max**2 + t_amb**2) * (_t_max + t_amb)
         return (h_uc + h_dc + 2 * h_r) * a * (_t_max - t_amb) / alpha
 
     def print_info(self):

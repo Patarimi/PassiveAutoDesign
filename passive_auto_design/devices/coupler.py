@@ -15,8 +15,8 @@ class Coupler:
         self.f_c = _fc
         self.z_c = _zc
         self.k = _k
-        self.l = self.z_c / (2 * pi * self.f_c * sqrt(1 - self.k ** 2))
-        self.c = self.l / self.z_c ** 2
+        self.l = self.z_c / (2 * pi * self.f_c * sqrt(1 - self.k**2))
+        self.c = self.l / self.z_c**2
 
     def __str__(self):
         """

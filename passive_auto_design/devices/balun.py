@@ -30,7 +30,7 @@ class Balun:
         return the two ideal transformers solution
         """
         k = self.k
-        alpha = (1 - k ** 2) / k ** 2
+        alpha = (1 - k**2) / k**2
         q_s = -quality_f(self.z_src + 1j * np.array(XS_add))
         q_l = -quality_f(self.z_ld + 1j * np.array(XL_add))
         # assuming perfect inductor for first calculation
@@ -38,15 +38,15 @@ class Balun:
         q_s_prime = q_s * np.real(self.z_src) / (np.real(self.z_src) + r_l1)
         q_l_prime = q_l * np.real(self.z_ld) / (np.real(self.z_ld) + r_l2)
         b_coeff = 2 * alpha * q_s_prime + q_s_prime + q_l_prime
-        discr = b_coeff ** 2 - 4 * alpha * (alpha + 1) * (1 + q_s_prime ** 2)
+        discr = b_coeff**2 - 4 * alpha * (alpha + 1) * (1 + q_s_prime**2)
         z_sol = np.array(
             (
                 (b_coeff[0] + np.sqrt(discr[0])) / (2 * (alpha + 1)),
                 (b_coeff[1] - np.sqrt(discr[1])) / (2 * (alpha + 1)),
             )
         )
-        qxl1 = z_sol / (1 - k ** 2)
-        qxl2 = z_sol * (1 + q_l_prime ** 2) / (alpha * (1 + (q_s_prime - z_sol) ** 2))
+        qxl1 = z_sol / (1 - k**2)
+        qxl2 = z_sol * (1 + q_l_prime**2) / (alpha * (1 + (q_s_prime - z_sol) ** 2))
         l_sol1 = qxl1 * np.real(self.z_src) / (2 * np.pi * self.f_c)
         l_sol2 = qxl2 * np.real(self.z_ld) / (2 * np.pi * self.f_c)
         return l_sol1, l_sol2
