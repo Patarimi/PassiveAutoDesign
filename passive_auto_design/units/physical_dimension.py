@@ -21,9 +21,6 @@ class NDArray(np.ndarray):
             or isinstance(v, int)
             or isinstance(v, np.float32)
             or isinstance(v, np.int32)
-            or isinstance(v, np.float64)
-            or isinstance(v, np.int64)
-            or isinstance(v, np.complex128)
             or isinstance(v, complex)
         ):
             return np.asarray(
