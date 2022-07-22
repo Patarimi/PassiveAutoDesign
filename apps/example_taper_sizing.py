@@ -28,24 +28,29 @@ class Taper(HydraHeadApp):
         GAMMA_KLOPF = PhysicalDimension(
             value=np.zeros(F_SWEEP.shape, dtype=complex), scale="lin", unit=""
         )
+
         for i in range(F_SWEEP.size):
             Phase = -DELAY * 2 * np.pi * F_SWEEP[i]
-            GAMMA_LINEAR[i] = reflexion_coef(Z_LINEAR, Phase)
-            GAMMA_KLOPF[i] = reflexion_coef(Z_KLOPF, Phase)
+            GAMMA_LINEAR[i] = reflexion_coef(Z_LINEAR.value, Phase).value
+            GAMMA_KLOPF[i] = reflexion_coef(Z_KLOPF.value, Phase).value
 
-        plt.figure()
+        tap_prof = plt.figure()
         plt.grid(True)
         X_POS = np.linspace(-TOT_LENGTH / 2, TOT_LENGTH / 2, N_STEP)
-        plt.plot(X_POS, Z_LINEAR)
-        plt.plot(X_POS, Z_KLOPF)
-        plt.xlabel("Frequency (GHz)")
+        plt.plot(X_POS, Z_LINEAR.value)
+        plt.plot(X_POS, Z_KLOPF.value)
+        plt.xlabel("Position (mm)")
         plt.ylabel(r"Impedance ($\Omega$)")
         plt.legend(["linear tapper", "klopfenstein tapper"])
 
-        plt.figure()
+
+        freq_resp = plt.figure()
         plt.grid(True)
-        plt.plot(F_SWEEP * 1e-9, GAMMA_LINEAR.dB())
-        plt.plot(F_SWEEP * 1e-9, GAMMA_KLOPF.dB())
+        plt.plot(F_SWEEP * 1e-9, GAMMA_LINEAR.dB().value)
+        plt.plot(F_SWEEP * 1e-9, GAMMA_KLOPF.dB().value)
         plt.legend(["linear tapper", "klopfenstein tapper"])
         plt.xlabel("Frequency (GHz)")
         plt.ylabel("Return Loss (dB)")
+        col = st.columns(2)
+        col[0].pyplot(tap_prof)
+        col[1].pyplot(freq_resp)

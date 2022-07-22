@@ -23,6 +23,8 @@ class NDArray(np.ndarray):
             or isinstance(v, np.int32)
             or isinstance(v, np.float64)
             or isinstance(v, np.int64)
+            or isinstance(v, np.complex128)
+            or isinstance(v, complex)
         ):
             return np.asarray(
                 [
@@ -71,6 +73,7 @@ class PhysicalDimension(BaseModel):
     def __setitem__(self, key, value):
         self.value[key] = value
 
+    @property
     def shape(self):
         return self.value.shape
 
@@ -116,6 +119,12 @@ class PhysicalDimension(BaseModel):
             value=np.round(self.value, x), scale=self.scale, unit=self.unit
         )
 
+    def rint(self):
+        return np.rint(self.value)
+
+    def sqrt(self):
+        return np.sqrt(self.value)
+
     def __operator(self, l_b, op):
         b = l_b.value if isinstance(l_b, PhysicalDimension) else l_b
         if op == "+":
@@ -128,4 +137,4 @@ class PhysicalDimension(BaseModel):
             res = self.value * b
         if op == "**":
             res = self.value**b
-        return self.__class__(value=res, scale=self.scale, unit=self.unit)
+        return self.__class__(value=np.array(res), scale=self.scale, unit=self.unit)

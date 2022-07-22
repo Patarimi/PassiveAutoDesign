@@ -11,7 +11,7 @@ def gamma(_z_load: PhysicalDimension, _z0: PhysicalDimension = 50):
     return the reflexion coefficient of an interface between two impedances.
     """
     v = np.array((_z0 - _z_load) / (_z0 + _z_load))
-    return PhysicalDimension(value=v, scale="lin", unit=r"\Omega")
+    return PhysicalDimension(value=v, scale="lin", unit="")
 
 
 def std_dev(measured, targeted):
@@ -39,12 +39,12 @@ def quality_f(_z):
     return np.imag(_z) / np.real(_z)
 
 
-def reflexion_coef(_z_steps: PhysicalDimension, _phi_step: PhysicalDimension):
+def reflexion_coef(_z_steps: PhysicalDimension, _phi_step: float):
     """
     return the coefficient reflexion of a given sequence of transmission lines
     with the given_z_steps profile and equal length of _phi_steps degrees
     """
-    n_step = len(_z_steps)
+    n_step = _z_steps.shape[0]
 
     z_tot = _z_steps[-1:]
     for i in range(n_step):
@@ -58,4 +58,5 @@ def reflexion_coef(_z_steps: PhysicalDimension, _phi_step: PhysicalDimension):
 
 
 def transmission_coef(_z_steps, _phi_step):
-    return np.sqrt(1 - reflexion_coef(_z_steps, _phi_step) ** 2)
+    ref_c = reflexion_coef(_z_steps, _phi_step)
+    return PhysicalDimension(value=np.sqrt(1 - ref_c**2), scale="lin", unit="")

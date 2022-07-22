@@ -17,7 +17,7 @@ class RFBloc(BaseModel):
 
     @validator("gain", "noise")
     def check_size(cls, v, values, field):
-        if "freq" in values and v.shape() != values["freq"].shape():
+        if "freq" in values and v.shape != values["freq"].shape:
             raise ValueError(f"freq and {field.name} must be the same length")
         return v
 
@@ -43,7 +43,7 @@ class RFLineUp(BaseModel):
         """
         return the gain of the global line-up.
         """
-        gain = np.zeros(self.chain[0].gain.shape())
+        gain = np.zeros(self.chain[0].gain.shape)
         for l in self.chain:
             gain += l.gain.dB().value
         print(gain)
@@ -68,8 +68,8 @@ def friis(nf: NoiseFigure, gain: PhysicalDimension):
 
     """
 
-    m = gain.shape()[0]
-    n = nf.shape()[0]
+    m = gain.shape[0]
+    n = nf.shape[0]
     if m != n - 1:
         raise ValueError("gain should have 1 item less than noise factor f")
     g_tot = 1.0

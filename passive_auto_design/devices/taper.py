@@ -15,7 +15,7 @@ def linear_taper(_z_start, _z_stop, _n_step):
     _z_start to _z_stop
     """
     return PhysicalDimension(
-        np.linspace(_z_start, _z_stop, _n_step, dtype=complex),
+        value=np.linspace(_z_start, _z_stop, _n_step, dtype=complex),
         scale="lin",
         unit=r"\Omega",
     )
@@ -39,7 +39,9 @@ def klopfenstein_taper(_z_start, _z_stop, _n_step, _rhomax=0.01):
             1 - a_coeff**2 * __phi(a_coeff, i / n_mid)
         )
     ln_z[n_mid] = z_mid + _rhomax
-    return PhysicalDimension(np.exp(ln_z, dtype=complex), scale="lin", unit=r"\Omega")
+    return PhysicalDimension(
+        value=np.exp(ln_z, dtype=complex), scale="lin", unit=r"$\Omega$"
+    )
 
 
 def __phi(_a_coeff, _y_pos):
