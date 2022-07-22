@@ -20,13 +20,10 @@ class NDArray(np.ndarray):
             isinstance(v, float)
             or isinstance(v, np.float32)
             or isinstance(v, np.float64)
-            or isinstance(v, np.float128)
             or isinstance(v, int)
             or isinstance(v, np.int32)
             or isinstance(v, np.int64)
-            or isinstance(v, np.int128)
             or isinstance(v, complex)
-            or isinstance(v, np.complex32)
             or isinstance(v, np.complex64)
             or isinstance(v, np.complex128)
         ):
