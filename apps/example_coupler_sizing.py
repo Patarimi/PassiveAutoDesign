@@ -33,8 +33,8 @@ class Coupler(HydraHeadApp):
         z_eff = coupler.l * (2 * np.pi * freq * np.sqrt(1 - k**2))
 
         fig, ax = plt.subplots()
-        ax.semilogx(freq, gamma(z_eff, z_c).dB(), label="Return Loss")
-        ax.semilogx(freq, (1 - gamma(z_eff, z_c) ** 2).dB(), label="Transmission")
+        ax.semilogx(freq, gamma(z_eff, z_c).dB().value, label="Return Loss")
+        ax.semilogx(freq, (1 - gamma(z_eff, z_c) ** 2).dB().value, label="Transmission")
         ax.grid(True)
         col2.pyplot(fig, dpi=300)
 
