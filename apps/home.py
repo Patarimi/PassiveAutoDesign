@@ -2,6 +2,7 @@ import hydralit as hy
 from example_balun_sizing import Balun
 from example_coupler_sizing import Coupler
 from example_space_mapping import SpaceMap
+from example_taper_sizing import Taper
 
 if __name__ == "__main__":
     hy.set_page_config(
@@ -25,6 +26,7 @@ if __name__ == "__main__":
     app.add_app("Space Mapping", app=SpaceMap())
     app.add_app("Balun", app=Balun())
     app.add_app("Coupler", app=Coupler())
+    app.add_app("Taper", app=Taper())
 
     # Run the whole lot, we get navbar, state management and app isolation, all with this tiny amount of work.
     app.run()

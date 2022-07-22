@@ -27,6 +27,8 @@ pytest-cov = "^3.0.0"
 pydantic = "^1.9.0"
 flake8 = "^4.0.1"
 black = "^22.6.0"
+streamlit = "^1.10.0"
+hydralit = "^1.0.13"
 
 [tool.poetry.dev-dependencies]
 setuptools = "^60.10.0"

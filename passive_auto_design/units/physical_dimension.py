@@ -68,11 +68,17 @@ class PhysicalDimension(BaseModel):
             unit=self.unit,
         )
 
+    def __setitem__(self, key, value):
+        self.value[key] = value
+
     def shape(self):
         return self.value.shape
 
     def __sub__(self, other):
         return self.__operator(other, "-")
+
+    def __rsub__(self, other):
+        return self.__operator(other, "-") * -1
 
     def __add__(self, other):
         return self.__operator(other, "+")
@@ -89,12 +95,18 @@ class PhysicalDimension(BaseModel):
     def __rmul__(self, other):
         return self.__operator(other, "*")
 
+    def __pow__(self, other):
+        return self.__operator(other, "**")
+
     def __eq__(self, other):
-        return (
-            self.unit == other.unit
-            and self.scale == other.scale
-            and np.all(self.value == other.value)
-        )
+        if isinstance(other, PhysicalDimension):
+            return (
+                self.unit == other.unit
+                and self.scale == other.scale
+                and np.all(self.value == other.value)
+            )
+        else:
+            return np.all(self.value == other)
 
     def __lt__(self, other):
         return np.all(self.value < other.value)
@@ -114,4 +126,6 @@ class PhysicalDimension(BaseModel):
             res = self.value / b
         if op == "*":
             res = self.value * b
+        if op == "**":
+            res = self.value**b
         return self.__class__(value=res, scale=self.scale, unit=self.unit)
