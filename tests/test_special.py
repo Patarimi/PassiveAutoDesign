@@ -1,4 +1,4 @@
-from numpy import inf, array, round
+from numpy import inf, array
 import passive_auto_design.special as sp
 from passive_auto_design.units.physical_dimension import PhysicalDimension
 

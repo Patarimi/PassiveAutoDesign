@@ -4,7 +4,7 @@ from hydralit import HydraHeadApp
 import matplotlib.pyplot as plt
 import passive_auto_design.devices.coupler as cpl
 from passive_auto_design.units.unit import SI
-from passive_auto_design.special import dB, gamma
+from passive_auto_design.special import gamma
 from passive_auto_design.components.lumped_element import Inductor
 from passive_auto_design.components.transformer import Transformer
 
@@ -33,8 +33,8 @@ class Coupler(HydraHeadApp):
         z_eff = coupler.l * (2 * np.pi * freq * np.sqrt(1 - k**2))
 
         fig, ax = plt.subplots()
-        ax.semilogx(freq, dB(gamma(z_eff, z_c)), label="Return Loss")
-        ax.semilogx(freq, dB(1 - gamma(z_eff, z_c) ** 2), label="Transmission")
+        ax.semilogx(freq, gamma(z_eff, z_c).dB().value, label="Return Loss")
+        ax.semilogx(freq, (1 - gamma(z_eff, z_c) ** 2).dB().value, label="Transmission")
         ax.grid(True)
         col2.pyplot(fig, dpi=300)
 

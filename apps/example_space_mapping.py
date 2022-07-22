@@ -5,7 +5,7 @@
 import streamlit as st
 from hydralit import HydraHeadApp
 from passive_auto_design.space_mapping import space_map
-from passive_auto_design.special import eps0
+from passive_auto_design.units.constants import eps0
 import passive_auto_design.components.lumped_element as lp
 from passive_auto_design.units.unit import SI
 

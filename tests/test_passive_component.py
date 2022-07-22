@@ -9,6 +9,7 @@ import passive_auto_design.devices.coupler as cpl
 import passive_auto_design.devices.balun as bln
 import passive_auto_design.devices.taper as tpr
 from passive_auto_design.special import reflexion_coef, transmission_coef
+from passive_auto_design.units.physical_dimension import PhysicalDimension
 
 
 def test_coupler():
@@ -54,10 +55,18 @@ def test_taper():
     test function for the taper class
     """
     z_res = tpr.klopfenstein_taper(25, 50, 3)
-    z_ref = [25.84, 35.71, 49.34]
-    assert all(np.round(z_res, 2) == z_ref)
-    assert np.round(np.abs(reflexion_coef(z_res, 45)), 3) == 0.17
-    assert np.round(np.abs(transmission_coef(z_res, 45)), 3) == 0.986
+    z_ref = PhysicalDimension(
+        value=[25.84 + 1j * 0, 35.71 + 1j * 0, 49.34 + 1j * 0],
+        scale="lin",
+        unit=r"$\Omega$",
+    )
+    assert round(z_res, 2) == z_ref
+    assert round(reflexion_coef(z_res, 45), 3) == PhysicalDimension(
+        value=-0.169 - 0.019 * 1j, scale="lin", unit=""
+    )
+    assert round(transmission_coef(z_res, 45), 3) == PhysicalDimension(
+        value=0.986 - 0.003 * 1j, scale="lin", unit=""
+    )
     z_res = tpr.linear_taper(25, 50, 3)
     z_ref = [25, 37.5, 50]
-    assert all(np.round(z_res, 2) == z_ref)
+    assert round(z_res, 2) == z_ref
