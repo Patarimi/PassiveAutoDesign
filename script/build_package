@@ -1,0 +1,3 @@
+# increase version number in setup.py and pyproject.toml
+poetry build
+poetry publish
