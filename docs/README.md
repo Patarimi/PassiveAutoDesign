@@ -1,4 +1,4 @@
-# PassiveAutoDesign [![Build Status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva/branch/master?svg=true)](https://ci.appveyor.com/project/Patarimi/passiveautodesign) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Patarimi/PassiveAutoDesign.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Patarimi/PassiveAutoDesign/context:python) [![Coverage Status](https://coveralls.io/repos/github/Patarimi/PassiveAutoDesign/badge.svg?branch=master)](https://coveralls.io/github/Patarimi/PassiveAutoDesign?branch=master)
+# PassiveAutoDesign [![Build Status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva/branch/master?svg=true)](https://ci.appveyor.com/project/Patarimi/passiveautodesign) [![Coverage Status](https://coveralls.io/repos/github/Patarimi/PassiveAutoDesign/badge.svg?branch=master)](https://coveralls.io/github/Patarimi/PassiveAutoDesign?branch=master)
 Python Script for Fast Design of RF-Passive Components. This script is in an early stage of development. Tested on Windows and Linux.
 
 Getting started
