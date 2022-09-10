@@ -4,31 +4,31 @@ Created on Mon Jun  3 16:47:26 2019
 
 @author: Patarimi
 """
-
+import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from passive_auto_design.substrate import AIR, COPPER, D5880, D6002
 import passive_auto_design.components.waveguide as wg
 
 # Specifications
-F_MIN = 27e9  # Hz
-F_MAX = 31e9  # Hz
-STEP = 0.5e9  # Hz
+F_MIN = st.number_input("f_min", step=1.e6, min_value=0., value=27.e9)  # Hz
+F_MAX = st.number_input("f_min", step=1.e6, min_value=0., value=31e9)  # Hz
+STEP = st.number_input("f_min", step=1.e6, min_value=0., value=0.5e9)  # Hz
 FC10 = F_MIN / 1.25  # Hz
 
 # creation of the guides in SIW
 SIW_5880 = wg.Waveguide(COPPER, D5880, 0.508e-3)
 SIW_5880.first_cut_off = FC10
-SIW_5880.print_info()
+st.write(SIW_5880.print_info())
 
 SIW_6002 = wg.Waveguide(COPPER, D6002, 0.508e-3)
 SIW_6002.first_cut_off = FC10
-SIW_6002.print_info()
+st.write(SIW_6002.print_info())
 
 # determination de la largeur du AF-SIW avec une fréquence de coupure à fc10/1.25
 SIW_AIR = wg.AF_SIW(COPPER, AIR, 1.6e-3, 0.508e-3)
 SIW_AIR.first_cut_off = FC10
-SIW_AIR.print_info()
+st.write(SIW_AIR.print_info())
 
 # %% calcul des pertes dans les guides
 #   Dielectric Loss
@@ -36,14 +36,16 @@ FREQ = np.linspace(F_MIN, F_MAX, int(1 + (F_MAX - F_MIN) / STEP))
 AD_5880 = SIW_5880.calc_a_d(FREQ)
 AD_6002 = SIW_6002.calc_a_d(FREQ)
 
+first = plt.figure()
 plt.subplot(221)
 plt.plot(FREQ * 1e-9, AD_5880, "r--")
 plt.plot(FREQ * 1e-9, AD_6002, "b--")
-plt.grid(b=True)
+plt.grid(visible=True)
 plt.ylabel("Dielectric Loss (dB/cm)")
 plt.xlabel("Frequency (GHz)")
 plt.legend(["Rogers 5880-filled SIW", "Rogers 6002-filled SIW"])
 plt.ylim(bottom=0)
+st.pyplot(first)
 
 # %%   Ohmic Loss
 AC_5880 = SIW_5880.calc_a_c(FREQ)
@@ -54,7 +56,7 @@ plt.subplot(222)
 plt.plot(FREQ * 1e-9, AC_AIR, "g--")
 plt.plot(FREQ * 1e-9, AC_5880, "r--")
 plt.plot(FREQ * 1e-9, AC_6002, "b--")
-plt.grid(b=True)
+plt.grid(visible=True)
 plt.ylabel("Resistive Loss (dB/cm)")
 plt.xlabel("Frequency (GHz)")
 plt.legend(
@@ -70,7 +72,7 @@ plt.subplot(223)
 plt.plot(FREQ * 1e-9, AC_AIR * KSR2, "g--")
 plt.plot(FREQ * 1e-9, AC_5880 * KSR, "r--")
 plt.plot(FREQ * 1e-9, AC_6002 * KSR, "b--")
-plt.grid(b=True)
+plt.grid(visible=True)
 plt.ylabel("Roughness Loss (dB/cm)")
 plt.xlabel("Frequency (GHz)")
 plt.legend(
@@ -83,7 +85,7 @@ plt.subplot(224)
 plt.plot(FREQ * 1e-9, (1 + KSR2) * AC_AIR, "g--")
 plt.plot(FREQ * 1e-9, ((1 + KSR) * AC_5880 + AD_5880), "r--")
 plt.plot(FREQ * 1e-9, ((1 + KSR) * AC_6002 + AD_6002), "b--")
-plt.grid(b=True)
+plt.grid(visible=True)
 plt.ylabel("Total Loss (dB/cm)")
 plt.xlabel("Frequency (GHz)")
 plt.legend(
@@ -103,8 +105,8 @@ plt.figure()
 plt.semilogy(FREQ * 1e-9, APHC_AF_SIW, "g")
 plt.semilogy(FREQ * 1e-9, APHC_5880_SIW, "r")
 plt.semilogy(FREQ * 1e-9, APHC_6002_SIW, "b")
-plt.grid(b=True, which="major")
-plt.grid(b=True, which="minor", linestyle="--")
+plt.grid(visible=True, which="major")
+plt.grid(visible=True, which="minor", linestyle="--")
 plt.ylabel("APHC (W)")
 plt.ylim(1e1, 1e4)
 plt.xlabel("Frequency (GHz)")
@@ -123,8 +125,8 @@ plt.figure()
 plt.semilogy(FREQ * 1e-9, PPHC_AF_SIW * 1e-3, "g")
 plt.semilogy(FREQ * 1e-9, PPHC_5880_SIW * 1e-3, "r")
 plt.semilogy(FREQ * 1e-9, PPHC_6002_SIW * 1e-3, "b")
-plt.grid(b=True, which="major")
-plt.grid(b=True, which="minor", linestyle="--")
+plt.grid(visible=True, which="major")
+plt.grid(visible=True, which="minor", linestyle="--")
 plt.ylabel("PPHC (kW)")
 plt.ylim(1e1, 1e4)
 plt.xlabel("Frequency (GHz)")

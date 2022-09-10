@@ -157,7 +157,7 @@ Value can be set using set_width() or set_f_c()"
         output the size and the upper mode cut-off frequency
         """
         fc_01 = self.f_cut_off(0, 1)
-        print(f"Width: {self.width * 1e3:.2f} mm\tfc01: {fc_01 * 1e-9:.2f} GHz")
+        return f"Width: {self.width * 1e3:.2f} mm\tfc01: {fc_01 * 1e-9:.2f} GHz"
 
     def get_sparam(self, _freq, _length):
         """
