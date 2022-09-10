@@ -28,7 +28,6 @@ pydantic = "^1.9.0"
 flake8 = ">=4.0.1,<6.0.0"
 black = "^22.6.0"
 streamlit = "^1.10.0"
-hydralit = "^1.0.13"
 mkdocstrings-python = "^0.7.1"
 
 [tool.poetry.dev-dependencies]

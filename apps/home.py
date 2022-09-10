@@ -1,12 +1,8 @@
-import hydralit as hy
-from example_balun_sizing import Balun
-from example_coupler_sizing import Coupler
-from example_space_mapping import SpaceMap
-from example_taper_sizing import Taper
+import streamlit as st
 
 if __name__ == "__main__":
-    hy.set_page_config(
-        page_title="Balun Sizer",
+    st.set_page_config(
+        page_title="Passive Auto Design demo",
         page_icon="🧊",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -15,18 +11,8 @@ if __name__ == "__main__":
             "Report a bug": "https://github.com/Patarimi/PassiveAutoDesign/issues",
         },
     )
-
-    app = hy.HydraApp(title="Simple Multi-Page App", allow_url_nav=True)
-
-    @app.addapp(is_home=True)
-    def my_home():
-        hy.info("Welcome to the balun design demo.")
-
-    # deactivated for now
-    app.add_app("Space Mapping", app=SpaceMap())
-    app.add_app("Balun", app=Balun())
-    app.add_app("Coupler", app=Coupler())
-    app.add_app("Taper", app=Taper())
-
-    # Run the whole lot, we get navbar, state management and app isolation, all with this tiny amount of work.
-    app.run()
+    st.title("Welcome")
+    st.write("You can install passive-auto-design using:")
+    st.code("pip install passive-auto-design")
+    st.write("or")
+    st.code("poetry install")
