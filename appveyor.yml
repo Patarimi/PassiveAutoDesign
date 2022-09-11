@@ -1,5 +1,8 @@
 # appveyor.yml
 ---
+image:
+  - Visual Studio 2019
+
 environment:
   matrix:
     - TOXENV: py39
@@ -10,11 +13,11 @@ build: false
 install:
 # install poetry
 - curl -sSL https://install.python-poetry.org | py -
-- "SET PATH=C:\\Users\\appveyor\\AppData\\Roaming\\Python\\Scripts;%PATH%"
+- SET PATH=C:\Users\appveyor\AppData\Roaming\Python\Scripts;%PATH%
 
 # install package
-- "poetry install -v"
+- poetry install -v
 
 
 test_script:
-  - "poetry run pytest -v --terminate tests"
+  - poetry run pytest -v --terminate tests
