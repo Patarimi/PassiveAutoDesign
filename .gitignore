@@ -13,3 +13,4 @@ passive_auto_design.egg-info
 .eggs/
 tests/dump*
 site/
+.tox/*

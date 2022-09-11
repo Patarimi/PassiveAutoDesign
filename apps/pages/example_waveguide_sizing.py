@@ -16,12 +16,20 @@ with conf:
     c1, c2 = st.columns(2)
     with c1:
         st.title("Graph Settings")
-        F_MIN = st.number_input("f_min (Hz)", step=1.e6, min_value=0., value=27.e9)  # Hz
-        F_MAX = st.number_input("f_max (Hz)", step=1.e6, min_value=0., value=31e9)  # Hz
-        STEP = st.number_input("f_step (Hz)", step=1.e6, min_value=0., value=0.5e9)  # Hz
+        F_MIN = st.number_input(
+            "f_min (Hz)", step=1.0e6, min_value=0.0, value=27.0e9
+        )  # Hz
+        F_MAX = st.number_input(
+            "f_max (Hz)", step=1.0e6, min_value=0.0, value=31e9
+        )  # Hz
+        STEP = st.number_input(
+            "f_step (Hz)", step=1.0e6, min_value=0.0, value=0.5e9
+        )  # Hz
     with c2:
         st.title("Waveguide Config")
-        FC10 = st.number_input("fc10 (Hz)", step=1e6, min_value=0., value=F_MIN/1.25)  # Hz
+        FC10 = st.number_input(
+            "fc10 (Hz)", step=1e6, min_value=0.0, value=F_MIN / 1.25
+        )  # Hz
 
 # creation of the guides in SIW
 SIW_5880 = wg.Waveguide(COPPER, D5880, 0.508e-3)

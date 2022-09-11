@@ -44,9 +44,7 @@ for i in (0, 1):
             message = "an inductor of " + SI(x_add[i] / (2 * 3.14 * f_c)) + "H"
         else:
             message = "a capacitor of " + SI(-1 / (x_add[i] * 2 * 3.14 * f_c)) + "F"
-        col[i].write(
-            "Please add " + message + " in series with the " + dir_sym + "."
-        )
+        col[i].write("Please add " + message + " in series with the " + dir_sym + ".")
 
 with geom.form(key="Transformer Parameters"):
     st.header("Transformer Parameters")
@@ -61,7 +59,9 @@ with geom.form(key="Transformer Parameters"):
     for i in (0, 1):
         if i == 1:
             cform[1].subheader("Second Inductor")
-        n_turn = cform[i].number_input(label="Turn number", min_value=1, step=1, key=f"nt{i}")
+        n_turn = cform[i].number_input(
+            label="Turn number", min_value=1, step=1, key=f"nt{i}"
+        )
         width = cform[i].number_input(
             label="Width (µm)",
             value=3.0,

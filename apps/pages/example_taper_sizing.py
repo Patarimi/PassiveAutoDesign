@@ -8,11 +8,13 @@ from passive_auto_design.units.physical_dimension import PhysicalDimension
 
 
 N_STEP = st.number_input("Step Number", min_value=3, step=1, value=61)
-Z_START = st.number_input("Starting Impedance", min_value=0., step=0.1, value=50.)
-Z_STOP = st.number_input("Ending Impedance", min_value=0., step=0.1, value=377.)
+Z_START = st.number_input("Starting Impedance", min_value=0.0, step=0.1, value=50.0)
+Z_STOP = st.number_input("Ending Impedance", min_value=0.0, step=0.1, value=377.0)
 E = 1.77  # USI
 C_0 = 2.988e8  # m/s
-TOT_LENGTH = st.number_input("Total Length (mm)", min_value=0., step=0.1, value=10.)*1e-3
+TOT_LENGTH = (
+    st.number_input("Total Length (mm)", min_value=0.0, step=0.1, value=10.0) * 1e-3
+)
 
 Z_LINEAR = tap.linear_taper(Z_START, Z_STOP, N_STEP)  # Ohm
 Z_KLOPF = tap.klopfenstein_taper(Z_START, Z_STOP, N_STEP)  # Ohm
