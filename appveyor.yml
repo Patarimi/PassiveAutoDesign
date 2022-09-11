@@ -11,13 +11,8 @@ environment:
 build: false
 
 install:
-# install poetry
-- curl -sSL https://install.python-poetry.org | py -
-- SET PATH=C:\Users\appveyor\AppData\Roaming\Python\Scripts;%PATH%
-
-# install package
-- poetry install -v
-
+# install tox
+- py -m pip install tox
 
 test_script:
-  - poetry run pytest -v --terminate tests
+- py -m tox
