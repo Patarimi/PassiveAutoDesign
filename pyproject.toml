@@ -4,29 +4,8 @@ version = "0.1.12"
 description = ""
 authors = ["Patarimi <38954040+Patarimi@users.noreply.github.com>"]
 license = "MIT"
-
-[tool.semantic_release]
-version_variable = [
-    "setup.py:__version__",
-    "pyproject.toml:version"
-]
-branch = "master"
-upload_to_pipy = true
-upload_to_release = true
-build_command = "pip install poetry && poetry build"
-
-
-[tool.poetry.dependencies]
-python = ">=3.9,<3.11"
-numpy = "^1.22.3"
-matplotlib = "^3.5.2"
-scipy = "^1.8.0"
-scikit-rf = ">=0.22.1,<0.24.0"
-PyYAML = "^6.0"
-pydantic = "^1.9.0"
-streamlit = "^1.10.0"
-
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+commitizen = "^2.32.5"
 setuptools = "^60.10.0"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
@@ -40,7 +19,24 @@ mkdocs-gen-files = "^0.3.4"
 mkdocs-section-index = "^0.3.4"
 mkdocs-literate-nav = "^0.4.1"
 mkdocstrings-python = "^0.7.1"
+tox = "^3.26.0"
 
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+numpy = "^1.22.3"
+matplotlib = "^3.5.2"
+scipy = "^1.8.0"
+scikit-rf = ">=0.22.1,<0.24.0"
+PyYAML = "^6.0"
+pydantic = "^1.9.0"
+streamlit = "^1.10.0"
+
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.10"
+tag_format = "v$version"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
