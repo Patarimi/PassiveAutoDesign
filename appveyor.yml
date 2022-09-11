@@ -10,7 +10,7 @@ build: false
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
 # install poetry
-- "curl -sSL https://install.python-poetry.org | python3 -"
+- "curl -sSL https://install.python-poetry.org | %PYTHON%\\python.exe -"
 - "SET PATH=%USERPROFILE%\\.poetry\\bin;%PATH%"
 
 # install package
