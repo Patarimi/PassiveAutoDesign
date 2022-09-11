@@ -1,4 +1,4 @@
-name: CI Pipeline for summarize_df
+name: CI Pipeline for Test
 
 on:
   - push
@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, 3.10]
+        python-version: [3.8, 3.9, "3.10"]
 
     steps:
     - uses: actions/checkout@v3
