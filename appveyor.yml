@@ -1,19 +1,21 @@
 # appveyor.yml
 ---
 environment:
-  global:
-    PYTHON: "C:\\Python38-x64"
-    PYTHON_VERSION: "3.8.x"
-    PYTHON_ARCH: "64"
+  matrix:
+    - PYTHON: "C:/Python39-x64"
+    - PYTHON: "C:/Python310-x64"
 
 build: false
 
 install:
 - set PATH=%PYTHON%\\scripts;%PATH%
-- "%PYTHON%\\python.exe -m pip install --upgrade pip"
-- pip install -qr requirements.txt
-- pip install -q pytest-cov
+# install poetry
+- "curl -sSL https://install.python-poetry.org | python3 -"
+- "SET PATH=%USERPROFILE%\\.poetry\\bin;%PATH%"
+
+# install package
+- "poetry install -v"
+
 
 test_script:
-- cd C:\projects\passiveautodesign
-- "%PYTHON%\\python.exe -m pytest --cov-report term-missing:skip-covered --cov=passive_auto_design"
+  - "poetry run pytest -v --terminate tests"
