@@ -11,14 +11,22 @@ from passive_auto_design.substrate import AIR, COPPER, D5880, D6002
 import passive_auto_design.components.waveguide as wg
 
 # Specifications
-F_MIN = st.number_input("f_min", step=1.e6, min_value=0., value=27.e9)  # Hz
-F_MAX = st.number_input("f_min", step=1.e6, min_value=0., value=31e9)  # Hz
-STEP = st.number_input("f_min", step=1.e6, min_value=0., value=0.5e9)  # Hz
-FC10 = F_MIN / 1.25  # Hz
+conf, graph = st.tabs(["Config", "Graph"])
+with conf:
+    c1, c2 = st.columns(2)
+    with c1:
+        st.title("Graph Settings")
+        F_MIN = st.number_input("f_min (Hz)", step=1.e6, min_value=0., value=27.e9)  # Hz
+        F_MAX = st.number_input("f_max (Hz)", step=1.e6, min_value=0., value=31e9)  # Hz
+        STEP = st.number_input("f_step (Hz)", step=1.e6, min_value=0., value=0.5e9)  # Hz
+    with c2:
+        st.title("Waveguide Config")
+        FC10 = st.number_input("fc10 (Hz)", step=1e6, min_value=0., value=F_MIN/1.25)  # Hz
 
 # creation of the guides in SIW
 SIW_5880 = wg.Waveguide(COPPER, D5880, 0.508e-3)
 SIW_5880.first_cut_off = FC10
+st.title("Size")
 st.write(SIW_5880.print_info())
 
 SIW_6002 = wg.Waveguide(COPPER, D6002, 0.508e-3)
@@ -45,7 +53,6 @@ plt.ylabel("Dielectric Loss (dB/cm)")
 plt.xlabel("Frequency (GHz)")
 plt.legend(["Rogers 5880-filled SIW", "Rogers 6002-filled SIW"])
 plt.ylim(bottom=0)
-st.pyplot(first)
 
 # %%   Ohmic Loss
 AC_5880 = SIW_5880.calc_a_c(FREQ)
@@ -101,7 +108,7 @@ APHC_AF_SIW = SIW_AIR.calc_aphc(FREQ, Tg_Rogers_6002)
 APHC_5880_SIW = SIW_5880.calc_aphc(FREQ, Tg_Rogers_5880)
 APHC_6002_SIW = SIW_6002.calc_aphc(FREQ, Tg_Rogers_6002)
 
-plt.figure()
+sec = plt.figure()
 plt.semilogy(FREQ * 1e-9, APHC_AF_SIW, "g")
 plt.semilogy(FREQ * 1e-9, APHC_5880_SIW, "r")
 plt.semilogy(FREQ * 1e-9, APHC_6002_SIW, "b")
@@ -121,7 +128,7 @@ PPHC_AF_SIW = SIW_AIR.calc_pphc(FREQ, 36e5)
 PPHC_5880_SIW = SIW_5880.calc_pphc(FREQ, 360e5)
 PPHC_6002_SIW = SIW_6002.calc_pphc(FREQ, 239e5)
 
-plt.figure()
+third = plt.figure()
 plt.semilogy(FREQ * 1e-9, PPHC_AF_SIW * 1e-3, "g")
 plt.semilogy(FREQ * 1e-9, PPHC_5880_SIW * 1e-3, "r")
 plt.semilogy(FREQ * 1e-9, PPHC_6002_SIW * 1e-3, "b")
@@ -133,3 +140,9 @@ plt.xlabel("Frequency (GHz)")
 plt.legend(
     ["Rogers 6002-based AF-SIW", "Rogers 5880-filled SIW", "Rogers 6002-filled SIW"]
 )
+
+with graph:
+    st.pyplot(first)
+    c1, c2 = st.columns(2)
+    c1.pyplot(sec)
+    c2.pyplot(third)

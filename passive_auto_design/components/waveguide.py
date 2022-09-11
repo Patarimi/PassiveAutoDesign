@@ -269,4 +269,4 @@ class AF_SIW(Waveguide):
         output the size and the upper mode cut-off frequency
         """
         fc_20 = self.f_cut_off(2, 0)
-        print(f"Width: {self.width * 1e3:.2f} mm\tfc20: {fc_20 * 1e-9:.2f} GHz")
+        return f"Width: {self.width * 1e3:.2f} mm\tfc20: {fc_20 * 1e-9:.2f} GHz"
