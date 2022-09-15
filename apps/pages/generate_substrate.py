@@ -13,6 +13,10 @@ import streamlit as st
 import passive_auto_design.substrate as sub
 
 
+@st.cache
+def export(substrate):
+    return yaml.dump(substrate.sub)
+
 # Definition of the substrate different layers
 substrate = sub.Substrate()
 st.write(substrate.sub)
@@ -29,8 +33,3 @@ if submitted:
     substrate.sub[substrate.get_index_of(layer_name)].set_rules(min_w, max_w, gap)
 
 st.download_button("Get the layer map", export(substrate), file_name="tech.yml")
-
-
-@st.cache
-def export(substrate):
-    return yaml.dump(substrate.sub)
