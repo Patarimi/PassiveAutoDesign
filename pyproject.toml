@@ -4,6 +4,7 @@ version = "0.1.12"
 description = ""
 authors = ["Patarimi <38954040+Patarimi@users.noreply.github.com>"]
 license = "MIT"
+
 [tool.poetry.group.dev.dependencies]
 commitizen = "^2.32.5"
 pytest = "^7.1.2"
@@ -30,6 +31,7 @@ scikit-rf = ">=0.22.1,<0.24.0"
 PyYAML = "^6.0"
 pydantic = "^1.9.0"
 streamlit = "^1.10.0"
+klayout = "^0.27.11"
 
 
 [tool.commitizen]

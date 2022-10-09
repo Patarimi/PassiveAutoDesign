@@ -1,3 +1,4 @@
 # increase version number in setup.py and pyproject.toml
+poetry export -o requirements.txt --without-hashes
 poetry build
 poetry publish
