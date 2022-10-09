@@ -17,12 +17,12 @@ def test_friis():
 
 def test_rf_bloc():
     with raises(ValueError):
-        bloc = lu.RFBloc(
+        lu.RFBloc(
             freq=Frequency(value=2e9),
             gain=PhysicalDimension(value=[1, 2]),
             noise=NoiseFigure(value=[1, 5]),
         )
-    bloc = lu.RFBloc(
+    lu.RFBloc(
         freq=Frequency(value=[2e9, 1e9]),
         gain=PhysicalDimension(value=[1, 2]),
         noise=NoiseFigure(value=[1, 5]),

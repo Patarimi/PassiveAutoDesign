@@ -16,4 +16,4 @@ def test_physical_dimension():
 
     Phy[2] = 4
     with raises(ValueError):
-        Phy = phy.PhysicalDimension(value="ab", unit="Hz", scale="lin")
+        phy.PhysicalDimension(value="ab", unit="Hz", scale="lin")
