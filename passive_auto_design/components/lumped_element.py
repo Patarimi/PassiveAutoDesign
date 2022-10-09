@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Dict
 from scipy.optimize import minimize_scalar
 from matplotlib.ticker import EngFormatter
-from ..units.constants import u0, eps0
+from ..units.constants import eps0
 
 
 class LumpedElement(BaseModel, ABC):
@@ -103,31 +103,3 @@ class Capacitor(LumpedElement):
 
     def get_model(self):
         return {"cap": eps0 * self.const["eps_r"] * self.dim["area"] / self.dim["dist"]}
-
-
-Ind = EngFormatter(unit="H")
-
-
-class Inductor(LumpedElement):
-    """
-    class describing a inductor behavior using wheeler formula for ic
-    """
-
-    def __init__(self, d_i=100e-6, n_turn=1, width=3e-6, gap=1e-6, k_1=2.25, k_2=3.55):
-        param = {"d_i": d_i, "n_turn": n_turn, "width": width, "gap": gap}
-        const = {"k_1": k_1, "k_2": k_2}
-        LumpedElement.__init__(self, dim=param, const=const)
-
-    def __str__(self):
-        return Ind(self.model["ind"])
-
-    def get_model(self):
-        n = self.dim["n_turn"]
-        outer_diam = (
-            self.dim["d_i"] + 2 * n * self.dim["width"] + 2 * (n - 1) * self.dim["gap"]
-        )
-        self.dim["d_o"] = outer_diam
-        rho = (self.dim["d_i"] + outer_diam) / 2
-        density = (outer_diam - self.dim["d_i"]) / (outer_diam + self.dim["d_i"])
-        ind = self.const["k_1"] * u0 * n**2 * rho / (1 + self.const["k_2"] * density)
-        return {"ind": ind}

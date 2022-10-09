@@ -4,6 +4,7 @@
 """
 import numpy as np
 import passive_auto_design.components.lumped_element as lmp
+from passive_auto_design.components.inductor import Inductor
 
 
 class Transformer(lmp.LumpedElement):
@@ -17,7 +18,7 @@ class Transformer(lmp.LumpedElement):
 
     def __init__(
         self,
-        primary: lmp.Inductor,
+        primary: Inductor,
         secondary=None,
         rho=0.0,
         eps_r=0.0,
@@ -39,7 +40,7 @@ class Transformer(lmp.LumpedElement):
         lmp.LumpedElement.__init__(self, dim=dim, const=const, sym=sym)
 
     def get_model(self):
-        primary = lmp.Inductor(
+        primary = Inductor(
             self.dim["lp.d_i"],
             self.dim["lp.n_turn"],
             self.dim["lp.width"],
@@ -49,7 +50,7 @@ class Transformer(lmp.LumpedElement):
         if self.sym:
             self.model["ls"] = primary.model["ind"]
         else:
-            secondary = lmp.Inductor(
+            secondary = Inductor(
                 self.dim["ls.d_i"],
                 self.dim["ls.n_turn"],
                 self.dim["ls.width"],

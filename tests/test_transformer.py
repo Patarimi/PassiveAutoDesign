@@ -1,11 +1,11 @@
 import passive_auto_design.components.transformer as tf
 import passive_auto_design.components.lumped_element as lmp
-from skrf import Frequency
+from passive_auto_design.components.inductor import Inductor
 
 
 def test_transformer():
-    ind1 = lmp.Inductor(d_i=210e-6, n_turn=1, width=10e-6, gap=3e-6)
-    ind2 = lmp.Inductor()
+    ind1 = Inductor(d_i=210e-6, n_turn=1, width=10e-6, gap=3e-6)
+    ind2 = Inductor()
     transfo = tf.Transformer(ind1, ind2)
     assert transfo.model["lp"] == 5.356077338175006e-10
 

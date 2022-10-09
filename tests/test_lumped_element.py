@@ -1,4 +1,5 @@
 import passive_auto_design.components.lumped_element as lmp
+from passive_auto_design.components.inductor import Inductor
 
 
 def test_capacitor():
@@ -32,13 +33,15 @@ def test_inductor():
     unity test for capacitor object
     """
 
-    ind = lmp.Inductor(d_i=210e-6, n_turn=1, width=10e-6, gap=3e-6)
+    ind = Inductor(d_i=210e-6, n_turn=1, width=10e-6, gap=3e-6)
     assert ind.model["ind"] == 5.356077338175006e-10
 
-    ind = lmp.Inductor(d_i=183e-6, n_turn=2, width=10e-6, gap=3e-6)
+    ind = Inductor(d_i=183e-6, n_turn=2, width=10e-6, gap=3e-6)
     assert ind.model["ind"] == 1.6684854964430778e-09
 
     ind.set_model_with_dim({"ind": 1.96e-9}, "k_1")
     assert round(ind.const["k_1"], 6) == 2.643116
     assert round(ind.model["ind"] * 1e9, 6) == 1.96
     assert str(ind) == "1.96 nH"
+
+    ind.draw("./tests/ind.gds")
