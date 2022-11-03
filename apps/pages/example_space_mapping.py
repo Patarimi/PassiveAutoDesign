@@ -14,7 +14,7 @@ st.title("Space mapping example : Optimisation of a capacitor parasitic resistor
 st.header("Definition of the goal (or target)")
 with st.echo():
     goal = {"C": 800e-12, "R": (0, 1)}
-st.write("$C$ must be egal to 800 fF and $R$ between 0 and 1 $\Omega$")
+st.write(r"$C$ must be egal to 800 fF and $R$ between 0 and 1 $\Omega$")
 
 st.header("List of the parameters use by the component model")
 with st.echo():
@@ -60,7 +60,7 @@ for key in dim_f:
 
 col2.subheader("Electrical Parameters")
 col2.write("C: " + SI(goal_f["C"]) + "F")
-col2.write("R: " + SI(goal_f["R"]) + "$\Omega$")
+col2.write("R: " + SI(goal_f["R"]) + r"$\Omega$")
 
 col3.subheader("Model Constants")
 for key in par_f:

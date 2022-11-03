@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This module give function to ease the design of RF-tapper
 """

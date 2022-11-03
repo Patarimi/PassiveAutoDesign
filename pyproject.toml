@@ -20,6 +20,8 @@ mkdocs-section-index = "^0.3.4"
 mkdocs-literate-nav = "^0.4.1"
 mkdocstrings-python = "^0.7.1"
 tox = "^3.26.0"
+pyupgrade = "^3.2.0"
+pre-commit = "^2.20.0"
 
 
 [tool.poetry.dependencies]

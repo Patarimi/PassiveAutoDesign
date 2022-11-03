@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Define all the object use to describe the substrate in which the structures are created.
 """
@@ -93,7 +92,7 @@ class Substrate:
         """
         load a yaml file to configure the substrate
         """
-        with open(_path, "r") as file:
+        with open(_path) as file:
             self.sub = yaml.full_load(file)
 
 

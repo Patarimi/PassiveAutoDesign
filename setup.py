@@ -1,7 +1,7 @@
 import setuptools
 import pathlib
 
-with open("docs/README.md", "r") as fh:
+with open("docs/README.md") as fh:
     long_description = fh.read()
 
 HERE = pathlib.Path(__file__).parent
