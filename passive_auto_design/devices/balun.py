@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     Class to calculate the inductors values of an impedance transformer.
 """

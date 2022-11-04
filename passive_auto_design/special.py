@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Define constants and function dedicated to RF-conception
 """

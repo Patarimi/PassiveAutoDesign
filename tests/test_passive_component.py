@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Fri Jul 12 15:07:03 2019
 
@@ -46,7 +45,7 @@ def test_balun():
 
     assert (
         str(balun)
-        == "target : fc=60 GHz\tzs=50 - j100 $\Omega$\tzl=100 - j300 $\Omega$"
+        == "target : fc=60 GHz\tzs=50 - j100 $\\Omega$\tzl=100 - j300 $\\Omega$"
     )
 
 

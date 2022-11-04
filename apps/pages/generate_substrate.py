@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Thu Apr 25 15:04:53 2019
 
@@ -16,6 +15,7 @@ import passive_auto_design.substrate as sub
 @st.cache
 def export(substrate):
     return yaml.dump(substrate.sub)
+
 
 # Definition of the substrate different layers
 substrate = sub.Substrate()

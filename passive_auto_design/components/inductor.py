@@ -23,12 +23,12 @@ class Inductor(LumpedElement):
     def get_model(self):
         n = self.dim["n_turn"]
         outer_diam = (
-                self.dim["d_i"] + 2 * n * self.dim["width"] + 2 * (n - 1) * self.dim["gap"]
+            self.dim["d_i"] + 2 * n * self.dim["width"] + 2 * (n - 1) * self.dim["gap"]
         )
         self.dim["d_o"] = outer_diam
         rho = (self.dim["d_i"] + outer_diam) / 2
         density = (outer_diam - self.dim["d_i"]) / (outer_diam + self.dim["d_i"])
-        ind = self.const["k_1"] * u0 * n ** 2 * rho / (1 + self.const["k_2"] * density)
+        ind = self.const["k_1"] * u0 * n**2 * rho / (1 + self.const["k_2"] * density)
         return {"ind": ind}
 
     def draw(self, file: FilePath):
@@ -43,11 +43,12 @@ class Inductor(LumpedElement):
         # creates a new layer (layer number 1, datatype 0)
         layer1 = ly.layer(1, 0)
         d_i = 5.0
-        pts = [db.DPoint(0, -d_i/2),
-               db.DPoint(d_i/2, -d_i / 2),
-               db.DPoint(d_i/2, d_i / 2),
-               db.DPoint(0, d_i / 2),
-               ]
+        pts = [
+            db.DPoint(0, -d_i / 2),
+            db.DPoint(d_i / 2, -d_i / 2),
+            db.DPoint(d_i / 2, d_i / 2),
+            db.DPoint(0, d_i / 2),
+        ]
         rect = db.DPath(pts, 2.0)
         top_cell.shapes(layer1).insert(rect)
 
