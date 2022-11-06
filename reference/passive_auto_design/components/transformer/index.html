@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://patarimi.github.io/PassiveAutoDesign/reference/passive_auto_design/components/transformer/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.8">
     
     
       
@@ -19,13 +19,14 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6b80c2a2.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.815d1a91.min.css">
         
       
       
+
     
     
     
@@ -44,6 +45,7 @@
     
       
 
+    
     
     
   </head>
@@ -120,7 +122,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -311,6 +313,20 @@
           components
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inductor/" class="md-nav__link">
+        inductor
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -817,10 +833,11 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
+                  
 
   <a href="https://github.com/Patarimi/PassiveAutoDesign/edit/master/docs/passive_auto_design\components\transformer.py" title="Edit this page" class="md-content__button md-icon">
     
@@ -1004,7 +1021,7 @@ if sym=True, Create a symmetrical transformer (secondary is ignored and assume e
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">primary</span><span class="p">:</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">,</span>
+        <span class="n">primary</span><span class="p">:</span> <span class="n">Inductor</span><span class="p">,</span>
         <span class="n">secondary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">rho</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">eps_r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -1026,7 +1043,7 @@ if sym=True, Create a symmetrical transformer (secondary is ignored and assume e
         <span class="n">lmp</span><span class="o">.</span><span class="n">LumpedElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="n">const</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="n">sym</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">primary</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">(</span>
+        <span class="n">primary</span> <span class="o">=</span> <span class="n">Inductor</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.d_i&quot;</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.n_turn&quot;</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;lp.width&quot;</span><span class="p">],</span>
@@ -1036,7 +1053,7 @@ if sym=True, Create a symmetrical transformer (secondary is ignored and assume e
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sym</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;ind&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">secondary</span> <span class="o">=</span> <span class="n">lmp</span><span class="o">.</span><span class="n">Inductor</span><span class="p">(</span>
+            <span class="n">secondary</span> <span class="o">=</span> <span class="n">Inductor</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.d_i&quot;</span><span class="p">],</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.n_turn&quot;</span><span class="p">],</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;ls.width&quot;</span><span class="p">],</span>
@@ -1341,10 +1358,12 @@ else, return the capacitance to the ground plane</p>
 
 
 
-              
-            </article>
-            
-          </div>
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
       </main>
@@ -1408,10 +1427,10 @@ else, return the capacitance to the ground plane</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.2ab50757.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
     
   </body>

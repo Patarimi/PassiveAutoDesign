@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://patarimi.github.io/PassiveAutoDesign/reference/passive_auto_design/components/waveguide/">
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.8">
     
     
       
@@ -19,13 +19,14 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6b80c2a2.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.815d1a91.min.css">
         
       
       
+
     
     
     
@@ -44,6 +45,7 @@
     
       
 
+    
     
     
   </head>
@@ -120,7 +122,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -311,6 +313,20 @@
           components
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inductor/" class="md-nav__link">
+        inductor
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -969,10 +985,11 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
+                  
 
   <a href="https://github.com/Patarimi/PassiveAutoDesign/edit/master/docs/passive_auto_design\components\waveguide.py" title="Edit this page" class="md-content__button md-icon">
     
@@ -1022,7 +1039,8 @@
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
+<span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
@@ -1120,8 +1138,7 @@
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AF_SIW</span><span class="p">(</span><span class="n">Waveguide</span><span class="p">):</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AF_SIW</span><span class="p">(</span><span class="n">Waveguide</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an AF-SIW object with a given geometry</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1220,7 +1237,7 @@
 <span class="sd">        output the size and the upper mode cut-off frequency</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fc_20</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_cut_off</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> mm</span><span class="se">\t</span><span class="s2">fc20: </span><span class="si">{</span><span class="n">fc_20</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GHz&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> mm</span><span class="se">\t</span><span class="s2">fc20: </span><span class="si">{</span><span class="n">fc_20</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GHz&quot;</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -1252,7 +1269,8 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">222</span>
+<span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
@@ -1264,8 +1282,7 @@
 <span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">f_cut_off</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">_n</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">f_cut_off</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">_n</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the value of the cut-off frequency of the TEM mode _m, _n</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1301,17 +1318,17 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">267</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
+<span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    output the size and the upper mode cut-off frequency</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fc_20</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_cut_off</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> mm</span><span class="se">\t</span><span class="s2">fc20: </span><span class="si">{</span><span class="n">fc_20</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GHz&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Width: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> mm</span><span class="se">\t</span><span class="s2">fc20: </span><span class="si">{</span><span class="n">fc_20</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GHz&quot;</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1345,7 +1362,8 @@
 
         <details class="quote">
           <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 10</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  9</span>
+<span class="normal"> 10</span>
 <span class="normal"> 11</span>
 <span class="normal"> 12</span>
 <span class="normal"> 13</span>
@@ -1504,8 +1522,7 @@
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Waveguide</span><span class="p">:</span>
+<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Waveguide</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an SIW object with a given geometry</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1697,7 +1714,8 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 87</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 86</span>
+<span class="normal"> 87</span>
 <span class="normal"> 88</span>
 <span class="normal"> 89</span>
 <span class="normal"> 90</span>
@@ -1711,8 +1729,7 @@
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_a_c</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_a_c</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the value of the conductor loss in dB/m at the frequency freq (array-like)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1750,14 +1767,14 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
+<span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_a_d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_a_d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the value of the dielectric loss in dB/m at the frequency freq (array-like)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1787,11 +1804,11 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
+<span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_beta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_beta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the value of the velocity (beta)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1818,11 +1835,11 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">59</span>
+<span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    convert the freq in pulsation in the given substrate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1849,7 +1866,8 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
+<span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
@@ -1860,8 +1878,7 @@
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="k">def</span> <span class="nf">calc_ksr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="k">def</span> <span class="nf">calc_ksr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        return the coefficient of the added conductor loss introduce by surface roughness</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1896,11 +1913,11 @@
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_f</span><span class="p">):</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calc_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_f</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the wavelength inside the waveguide at the given frequency _f</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1928,7 +1945,8 @@ at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)</
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
+<span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -1949,8 +1967,7 @@ at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)</
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="k">def</span> <span class="nf">calc_pphc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">,</span> <span class="n">_e_0</span><span class="p">):</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="k">def</span> <span class="nf">calc_pphc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">,</span> <span class="n">_e_0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        return the peak power handling capability in watt</span>
 <span class="sd">        at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)</span>
@@ -1995,7 +2012,8 @@ at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)</
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
+<span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
@@ -2003,8 +2021,7 @@ at the _freq frequency (in GHz) and for a maximum electric field _e_0 (in V/m)</
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">f_cut_off</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">_n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">f_cut_off</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">_n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the value of the cut-off frequency of the TEM mode _m, _n</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2037,15 +2054,15 @@ of the given length for the given frequency</p>
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">161</span>
+<span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_sparam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">,</span> <span class="n">_length</span><span class="p">):</span>
+<span class="normal">169</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_sparam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_freq</span><span class="p">,</span> <span class="n">_length</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return the 4 scattering parameters of a wave-guide section</span>
 <span class="sd">    of the given length for the given frequency</span>
@@ -2076,12 +2093,12 @@ of the given length for the given frequency</p>
 
       <details class="quote">
         <summary>Source code in <code>passive_auto_design\components\waveguide.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+<span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    output the size and the upper mode cut-off frequency</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2113,10 +2130,12 @@ of the given length for the given frequency</p>
 
 
 
-              
-            </article>
-            
-          </div>
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
       </main>
@@ -2180,10 +2199,10 @@ of the given length for the given frequency</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.2ab50757.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
     
   </body>
