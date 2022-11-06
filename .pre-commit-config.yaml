@@ -29,5 +29,5 @@ repos:
     hooks:
       - id: docs
         name: mkdocs
-        entry: bash -c 'mkdocs build'
+        entry: bash -c 'mkdocs gh-deploy'
         language: system
