@@ -329,14 +329,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "et-xmlfile"
-version = "1.1.0"
-description = "An implementation of lxml.xmlfile for the standard library"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "exceptiongroup"
 version = "1.0.1"
 description = "Backport of PEP 654 (exception groups)"
@@ -975,21 +967,6 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
-name = "networkx"
-version = "2.8.8"
-description = "Python package for creating and manipulating graphs and networks"
-category = "main"
-optional = false
-python-versions = ">=3.8"
-
-[package.extras]
-default = ["matplotlib (>=3.4)", "numpy (>=1.19)", "pandas (>=1.3)", "scipy (>=1.8)"]
-developer = ["mypy (>=0.982)", "pre-commit (>=2.20)"]
-doc = ["nb2plots (>=0.6)", "numpydoc (>=1.5)", "pillow (>=9.2)", "pydata-sphinx-theme (>=0.11)", "sphinx (>=5.2)", "sphinx-gallery (>=0.11)", "texext (>=0.6.6)"]
-extra = ["lxml (>=4.6)", "pydot (>=1.4.2)", "pygraphviz (>=1.9)", "sympy (>=1.10)"]
-test = ["codecov (>=2.1)", "pytest (>=7.2)", "pytest-cov (>=4.0)"]
-
-[[package]]
 name = "nodeenv"
 version = "1.7.0"
 description = "Node.js virtual environment builder"
@@ -1007,17 +984,6 @@ description = "NumPy is the fundamental package for array computing with Python.
 category = "main"
 optional = false
 python-versions = ">=3.8"
-
-[[package]]
-name = "openpyxl"
-version = "3.0.10"
-description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-et-xmlfile = "*"
 
 [[package]]
 name = "packaging"
@@ -1448,24 +1414,24 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "scikit-rf"
-version = "0.23.1"
+version = "0.24.0"
 description = "Object Oriented Microwave Engineering"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 
 [package.dependencies]
-matplotlib = "*"
-networkx = "*"
-numpy = "*"
-openpyxl = "*"
-pandas = "*"
-scipy = "*"
-xlwt = "*"
+numpy = ">=1.21,<2.0"
+pandas = ">=1.1,<2.0"
+scipy = ">=1.7,<2.0"
 
 [package.extras]
-docs = ["ipykernel", "ipython", "ipywidgets", "jupyter_client", "python-ivi", "pyvisa"]
-tests = ["coverage", "flake8", "nbval", "pytest", "pytest-cov"]
+docs = ["ipykernel (>=6.15)", "ipython (>=7)", "ipywidgets (>=8.0.2)", "jupyter-client (>=7.3.5)", "nbsphinx (>=0.8.9)", "python-ivi (>=0.14.9)", "sphinx (>=4)", "sphinx-rtd-theme (>=1.0)"]
+netw = ["networkx (>=2.0,<3.0)"]
+plot = ["matplotlib (>=3.5,<4.0)"]
+test = ["coverage (>=6.0,<7.0)", "flake8 (>=5.0,<6.0)", "nbval (>=0.9,<1.0)", "pytest (>=7.0,<8.0)", "pytest-cov (>=3.0,<4.0)"]
+visa = ["PyVISA (>=1.12,<2.0)"]
+xlsx = ["openpyxl (>=3.0,<4.0)"]
 
 [[package]]
 name = "scipy"
@@ -1804,14 +1770,6 @@ python-versions = ">=3.7"
 test = ["pytest (>=3.0.0)"]
 
 [[package]]
-name = "xlwt"
-version = "1.3.0"
-description = "Library to create spreadsheet files compatible with MS Excel 97/2000/XP/2003 XLS files, on any platform, with Python 2.6, 2.7, 3.3+"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "zipp"
 version = "3.10.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -1826,7 +1784,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.9.7 || >3.9.7,<3.11"
-content-hash = "974ce61d9d619a868b8136e0375c871bd53517057c8af41ba80e92bcd3a787a4"
+content-hash = "184c00244e008cd8f513412866592d37221d1492be1dfd1058de1991dc4d4846"
 
 [metadata.files]
 altair = [
@@ -2150,10 +2108,6 @@ docstring-parser = [
 entrypoints = [
     {file = "entrypoints-0.4-py3-none-any.whl", hash = "sha256:f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f"},
     {file = "entrypoints-0.4.tar.gz", hash = "sha256:b706eddaa9218a19ebcd67b56818f05bb27589b1ca9e8d797b74affad4ccacd4"},
-]
-et-xmlfile = [
-    {file = "et_xmlfile-1.1.0-py3-none-any.whl", hash = "sha256:a2ba85d1d6a74ef63837eed693bcb89c3f752169b0e3e7ae5b16ca5e1b3deada"},
-    {file = "et_xmlfile-1.1.0.tar.gz", hash = "sha256:8eb9e2bc2f8c97e37a2dc85a09ecdcdec9d8a396530a6d5a33b30b9a92da0c5c"},
 ]
 exceptiongroup = [
     {file = "exceptiongroup-1.0.1-py3-none-any.whl", hash = "sha256:4d6c0aa6dd825810941c792f53d7b8d71da26f5e5f84f20f9508e8f2d33b140a"},
@@ -2577,10 +2531,6 @@ nest-asyncio = [
     {file = "nest_asyncio-1.5.6-py3-none-any.whl", hash = "sha256:b9a953fb40dceaa587d109609098db21900182b16440652454a146cffb06e8b8"},
     {file = "nest_asyncio-1.5.6.tar.gz", hash = "sha256:d267cc1ff794403f7df692964d1d2a3fa9418ffea2a3f6859a439ff482fef290"},
 ]
-networkx = [
-    {file = "networkx-2.8.8-py3-none-any.whl", hash = "sha256:e435dfa75b1d7195c7b8378c3859f0445cd88c6b0375c181ed66823a9ceb7524"},
-    {file = "networkx-2.8.8.tar.gz", hash = "sha256:230d388117af870fce5647a3c52401fcf753e94720e6ea6b4197a5355648885e"},
-]
 nodeenv = [
     {file = "nodeenv-1.7.0-py2.py3-none-any.whl", hash = "sha256:27083a7b96a25f2f5e1d8cb4b6317ee8aeda3bdd121394e5ac54e498028a042e"},
     {file = "nodeenv-1.7.0.tar.gz", hash = "sha256:e0e7f7dfb85fc5394c6fe1e8fa98131a2473e04311a45afb6508f7cf1836fa2b"},
@@ -2614,10 +2564,6 @@ numpy = [
     {file = "numpy-1.23.4-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:296d17aed51161dbad3c67ed6d164e51fcd18dbcd5dd4f9d0a9c6055dce30810"},
     {file = "numpy-1.23.4-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:4d52914c88b4930dafb6c48ba5115a96cbab40f45740239d9f4159c4ba779962"},
     {file = "numpy-1.23.4.tar.gz", hash = "sha256:ed2cc92af0efad20198638c69bb0fc2870a58dabfba6eb722c933b48556c686c"},
-]
-openpyxl = [
-    {file = "openpyxl-3.0.10-py2.py3-none-any.whl", hash = "sha256:0ab6d25d01799f97a9464630abacbb34aafecdcaa0ef3cba6d6b3499867d0355"},
-    {file = "openpyxl-3.0.10.tar.gz", hash = "sha256:e47805627aebcf860edb4edf7987b1309c1b3632f3750538ed962bbcc3bd7449"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
@@ -3066,7 +3012,8 @@ rich = [
     {file = "rich-12.6.0.tar.gz", hash = "sha256:ba3a3775974105c221d31141f2c116f4fd65c5ceb0698657a11e9f295ec93fd0"},
 ]
 scikit-rf = [
-    {file = "scikit-rf-0.23.1.tar.gz", hash = "sha256:d08a3a36f056581f8e81b96c87d48f888f51e8646d132e69c03fdc670473564b"},
+    {file = "scikit-rf-0.24.0.tar.gz", hash = "sha256:5eb7b5d95791179aec510ec6579b4b5730d8262ef1cf2087597445d2747ba39c"},
+    {file = "scikit_rf-0.24.0-py3-none-any.whl", hash = "sha256:94021b88bd4f4319f0a415ff9d2baac91c29e92e40f749c6c55a042cea20e386"},
 ]
 scipy = [
     {file = "scipy-1.9.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:1884b66a54887e21addf9c16fb588720a8309a57b2e258ae1c7986d4444d3bc0"},
@@ -3229,10 +3176,6 @@ webencodings = [
 wheel = [
     {file = "wheel-0.38.2-py3-none-any.whl", hash = "sha256:7a5a3095dceca97a3cac869b8fef4e89b83fafde21b6688f47b6fda7600eb441"},
     {file = "wheel-0.38.2.tar.gz", hash = "sha256:3d492ef22379a156ec923d2a77051cedfd4df4b667864e9e41ba83f0b70b7149"},
-]
-xlwt = [
-    {file = "xlwt-1.3.0-py2.py3-none-any.whl", hash = "sha256:a082260524678ba48a297d922cc385f58278b8aa68741596a87de01a9c628b2e"},
-    {file = "xlwt-1.3.0.tar.gz", hash = "sha256:c59912717a9b28f1a3c2a98fd60741014b06b043936dcecbc113eaaada156c88"},
 ]
 zipp = [
     {file = "zipp-3.10.0-py3-none-any.whl", hash = "sha256:4fcb6f278987a6605757302a6e40e896257570d11c51628968ccb2a47e80c6c1"},
