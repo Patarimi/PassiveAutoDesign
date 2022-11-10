@@ -1,5 +1,4 @@
 import passive_auto_design.components.transformer as tf
-import passive_auto_design.components.lumped_element as lmp
 from passive_auto_design.components.inductor import Inductor
 
 
