@@ -120,6 +120,11 @@ class PhysicalDimension(BaseModel):
             value=np.round(self.value, x), scale=self.scale, unit=self.unit
         )
 
+    def __ceil__(self):
+        return self.__class__(
+            value=np.ceil(self.value), scale=self.scale, unit=self.unit
+        )
+
     def rint(self):
         return np.rint(self.value)
 

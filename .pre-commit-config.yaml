@@ -24,10 +24,3 @@ repos:
       - id: poetry-lock
       - id: poetry-export
         args: ["-f", "requirements.txt", "-o", "requirements.txt", "--without-hashes"]
-
--   repo: local
-    hooks:
-      - id: docs
-        name: mkdocs
-        entry: bash -c 'mkdocs gh-deploy'
-        language: system
