@@ -23,8 +23,10 @@ class Filter:
         ripple: maximum ripple in the pass band in dB
         atten: minimum attenuation in the stop band in dB
         """
+
+        # tchebychev
         epsilon = sqrt(ripple.lin() - 1)
         a_2 = atten.lin()
         k1 = PhysicalDimension(value=epsilon / sqrt(a_2 - 1))
-        k = f_pass / f_stop
+        k = f_pass.lin() / f_stop.lin()
         self.Order = ceil(k1.dB() / k.dB())
