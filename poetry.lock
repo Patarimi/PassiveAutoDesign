@@ -1098,7 +1098,7 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "scikit-rf"
-version = "0.24.0"
+version = "0.24.1"
 description = "Object Oriented Microwave Engineering"
 category = "main"
 optional = false
@@ -1110,10 +1110,11 @@ pandas = ">=1.1,<2.0"
 scipy = ">=1.7,<2.0"
 
 [package.extras]
-docs = ["ipykernel (>=6.15)", "ipython (>=7)", "ipywidgets (>=8.0.2)", "jupyter-client (>=7.3.5)", "nbsphinx (>=0.8.9)", "python-ivi (>=0.14.9)", "sphinx (>=4)", "sphinx-rtd-theme (>=1.0)"]
+docs = ["ipykernel (>=6.15)", "ipython (>=7)", "ipywidgets (>=8.0.2)", "jupyter-client (>=7.3.5)", "nbsphinx (>=0.8.9)", "openpyxl (>=3)", "python-ivi (>=0.14.9)", "sphinx (>=4)", "sphinx-rtd-theme (>=1.0)"]
 netw = ["networkx (>=2.0,<3.0)"]
 plot = ["matplotlib (>=3.5,<4.0)"]
-test = ["coverage (>=6.0,<7.0)", "flake8 (>=5.0,<6.0)", "nbval (>=0.9,<1.0)", "pytest (>=7.0,<8.0)", "pytest-cov (>=3.0,<4.0)"]
+qtapps = ["pyqt5 (>=5.15,<6.0)", "pyqtgraph (>=0.13,<1.0)", "qtpy (>=2.2,<3.0)"]
+test = ["coverage (>=6.0,<7.0)", "flake8 (>=5.0,<6.0)", "nbval (>=0.9,<1.0)", "pytest (>=7.0,<8.0)", "pytest-cov (>=4.0,<5.0)"]
 visa = ["PyVISA (>=1.12,<2.0)"]
 xlsx = ["openpyxl (>=3.0,<4.0)"]
 
@@ -2039,6 +2040,8 @@ pathspec = [
     {file = "pathspec-0.10.2.tar.gz", hash = "sha256:8f6bf73e5758fd365ef5d58ce09ac7c27d2833a8d7da51712eac6e27e35141b0"},
 ]
 pillow = [
+    {file = "Pillow-9.3.0-1-cp37-cp37m-win32.whl", hash = "sha256:e6ea6b856a74d560d9326c0f5895ef8050126acfdc7ca08ad703eb0081e82b74"},
+    {file = "Pillow-9.3.0-1-cp37-cp37m-win_amd64.whl", hash = "sha256:32a44128c4bdca7f31de5be641187367fe2a450ad83b833ef78910397db491aa"},
     {file = "Pillow-9.3.0-cp310-cp310-macosx_10_10_x86_64.whl", hash = "sha256:0b7257127d646ff8676ec8a15520013a698d1fdc48bc2a79ba4e53df792526f2"},
     {file = "Pillow-9.3.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:b90f7616ea170e92820775ed47e136208e04c967271c9ef615b6fbd08d9af0e3"},
     {file = "Pillow-9.3.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:68943d632f1f9e3dce98908e873b3a090f6cba1cbb1b892a9e8d97c938871fbe"},
@@ -2348,8 +2351,8 @@ rich = [
     {file = "rich-12.6.0.tar.gz", hash = "sha256:ba3a3775974105c221d31141f2c116f4fd65c5ceb0698657a11e9f295ec93fd0"},
 ]
 scikit-rf = [
-    {file = "scikit-rf-0.24.0.tar.gz", hash = "sha256:5eb7b5d95791179aec510ec6579b4b5730d8262ef1cf2087597445d2747ba39c"},
-    {file = "scikit_rf-0.24.0-py3-none-any.whl", hash = "sha256:94021b88bd4f4319f0a415ff9d2baac91c29e92e40f749c6c55a042cea20e386"},
+    {file = "scikit-rf-0.24.1.tar.gz", hash = "sha256:c33d09593ee207eaa866e86a7d88bf8d633acd677e11ce562c4f3caf6cb3069c"},
+    {file = "scikit_rf-0.24.1-py3-none-any.whl", hash = "sha256:f6d9b577227287c91925968276e46b0e37a2e527ac2cad3f55bd3857541ab089"},
 ]
 scipy = [
     {file = "scipy-1.9.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:1884b66a54887e21addf9c16fb588720a8309a57b2e258ae1c7986d4444d3bc0"},
