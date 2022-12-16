@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import passive_auto_design.devices.coupler as cpl
 from passive_auto_design.units.unit import SI
 from passive_auto_design.special import gamma
-from passive_auto_design.components.lumped_element import Inductor
+from passive_auto_design.components.inductor import Inductor
 from passive_auto_design.components.transformer import Transformer
 
 # Design inputs
