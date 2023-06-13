@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "passive_auto_design"
-version = "0.1.12"
+version = "0.1.13"
 description = ""
 authors = ["Patarimi <38954040+Patarimi@users.noreply.github.com>"]
 license = "MIT"
@@ -20,6 +20,7 @@ mkdocstrings-python = "^0.8.2"
 pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
 tox = "^4.0.0"
+pytest-sugar = "^0.9.7"
 
 
 
