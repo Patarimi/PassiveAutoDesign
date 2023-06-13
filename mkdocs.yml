@@ -15,7 +15,6 @@ plugins:
       scripts:
         - docs/gen_ref_pages.py
   - section-index
-  - mkdocs-jupyter
   - literate-nav:
       nav_file: SUMMARY.md
   - mkdocstrings:
