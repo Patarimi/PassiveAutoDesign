@@ -4,6 +4,7 @@ Define constants and function dedicated to RF-conception
 import numpy as np
 from .units.physical_dimension import PhysicalDimension
 
+
 # Other functions
 def gamma(_z_load: PhysicalDimension, _z0: PhysicalDimension = 50):
     """

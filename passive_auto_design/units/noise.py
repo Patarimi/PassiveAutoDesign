@@ -6,7 +6,7 @@ class PhaseNoise(PhysicalDimension):
     Phase Noise PhysicalDimension, use for noise conversion (see ::converters).
     """
 
-    unit = "dBc/Hz"
+    unit: str = "dBc/Hz"
 
     def __init__(self, scale="dB", **data):
         super().__init__(scale=scale, **data)
@@ -17,7 +17,7 @@ class IntegratedPhaseNoise(PhysicalDimension):
     Integrated Phase Noise PhysicalDimension, use for noise conversion (see ::converters).
     """
 
-    unit = "rad"
+    unit: str = "rad"
 
     def __init__(self, scale="lin", **data):
         super().__init__(scale=scale, **data)
@@ -28,7 +28,7 @@ class NoiseFigure(PhysicalDimension):
     Noise Figure, use for RF-line Up and friis formula.
     """
 
-    unit = ""
+    unit: str = ""
 
     def __init__(self, value, scale="dB", **data):
         super().__init__(value=value, scale=scale, **data)
@@ -43,7 +43,7 @@ class NoiseTemperature(PhysicalDimension):
     Noise Temperature, use for RF-line Up.
     """
 
-    unit = "K"
+    unit: str = "K"
 
     def __init__(self, value, scale="lin", **data):
         super().__init__(value=value, scale=scale, **data)

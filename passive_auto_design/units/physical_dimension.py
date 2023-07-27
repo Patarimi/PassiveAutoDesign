@@ -1,38 +1,35 @@
-from typing import Literal, List, Tuple
+from typing import Literal, List, Tuple, Any
 from pydantic import BaseModel
+from typing_extensions import Annotated
+from pydantic.functional_validators import BeforeValidator
 import numpy as np
 
 
-class NDArray(np.ndarray):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
+def validate(v: Any) -> np.ndarray:
+    if isinstance(v, np.ndarray):
+        return v
+    if isinstance(v, List) or isinstance(v, Tuple):
+        return np.asarray(v)
+    if (
+        isinstance(v, float)
+        or isinstance(v, np.float32)
+        or isinstance(v, np.float64)
+        or isinstance(v, int)
+        or isinstance(v, np.int32)
+        or isinstance(v, np.int64)
+        or isinstance(v, complex)
+        or isinstance(v, np.complex64)
+        or isinstance(v, np.complex128)
+    ):
+        return np.asarray(
+            [
+                v,
+            ]
+        )
+    raise ValueError(f"cannot coerse input of type {type(v)} to numpy array.")
 
-    @classmethod
-    def validate(cls, v):
-        if isinstance(v, NDArray):
-            return v
-        if isinstance(v, np.ndarray):
-            return v
-        if isinstance(v, List) or isinstance(v, Tuple):
-            return np.asarray(v)
-        if (
-            isinstance(v, float)
-            or isinstance(v, np.float32)
-            or isinstance(v, np.float64)
-            or isinstance(v, int)
-            or isinstance(v, np.int32)
-            or isinstance(v, np.int64)
-            or isinstance(v, complex)
-            or isinstance(v, np.complex64)
-            or isinstance(v, np.complex128)
-        ):
-            return np.asarray(
-                [
-                    v,
-                ]
-            )
-        raise ValueError(f"cannot coerse input of type {type(v)} to numpy array.")
+
+NDArray = Annotated[np.ndarray, BeforeValidator(validate)]
 
 
 class PhysicalDimension(BaseModel):

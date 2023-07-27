@@ -1,5 +1,5 @@
 import passive_auto_design.units.time as t
-from passive_auto_design.units.physical_dimension import PhysicalDimension
+from passive_auto_design.units.physical_dimension import PhysicalDimension, NDArray
 
 
 def test_frequency():
