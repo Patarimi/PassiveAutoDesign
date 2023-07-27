@@ -1,5 +1,4 @@
-from pytest import raises
-from numpy import inf, array, round
+from numpy import round
 import passive_auto_design.units.converters as cv
 from passive_auto_design.units.noise import PhaseNoise
 from passive_auto_design.units.time import Frequency

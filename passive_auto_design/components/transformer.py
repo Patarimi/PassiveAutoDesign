@@ -21,8 +21,8 @@ class Transformer(lmp.LumpedElement):
         secondary=None,
         rho=0.0,
         eps_r=0.0,
-        h_mut=0.0,
-        h_gnd=0.0,
+        h_mut=1e-6,
+        h_gnd=1e-6,
         sym=False,
     ):
         const = {

@@ -8,7 +8,7 @@ class Frequency(PhysicalDimension):
     Frequency class inherited from Physical Dimension.
     """
 
-    unit = "Hz"
+    unit: str = "Hz"
 
     def __init__(self, value, scale="lin", **data):
         super().__init__(value=value, scale=scale, **data)
@@ -45,7 +45,7 @@ class Time(PhysicalDimension):
     Time class inherited from Physical Dimension.
     """
 
-    unit = "s"
+    unit: str = "s"
 
     def __init__(self, value, scale="lin", **data):
         super().__init__(value=value, scale=scale, **data)

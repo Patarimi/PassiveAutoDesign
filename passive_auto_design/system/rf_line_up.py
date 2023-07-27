@@ -1,5 +1,5 @@
 import numpy as np
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, model_validator, FieldValidationInfo
 from typing import List, Optional
 from ..units.time import Frequency
 from ..units.physical_dimension import PhysicalDimension
@@ -15,11 +15,14 @@ class RFBloc(BaseModel):
     gain: PhysicalDimension
     noise: Optional[NoiseFigure]
 
-    @validator("gain", "noise")
-    def check_size(cls, v, values, field):
-        if "freq" in values and v.shape != values["freq"].shape:
-            raise ValueError(f"freq and {field.name} must be the same length")
-        return v
+    @model_validator(mode="after")
+    def check_size(self) -> "RFBloc":
+        if self.gain.shape != self.freq.shape or self.noise.shape != self.freq.shape:
+            error_s = f"""All parameters must be the same length.
+                        {self.gain.shape=}\t{self.freq.shape=}\t{self.noise.shape=}
+                      """
+            raise ValueError(error_s)
+        return self
 
 
 class RFLineUp(BaseModel):
