@@ -47,7 +47,7 @@ build_command = "pip install poetry && poetry build"
 
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.9.7 || >3.9.7,<3.11"
+python = ">=3.9,<3.9.7 || >3.9.7,<3.12"
 numpy = "^1.25.0"
 matplotlib = "^3.5.2"
 scipy = "^1.11.0"
